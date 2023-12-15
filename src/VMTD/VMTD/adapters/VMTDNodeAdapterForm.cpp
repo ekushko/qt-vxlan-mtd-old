@@ -22,22 +22,22 @@ namespace VMTDLib
         delete ui;
     }
 
-    void VMTDNodeAdapterForm::showDebugSlot(QWebSocket *socket, const QString &debugString)
+    void VMTDNodeAdapterForm::showDebugSlot(QWebSocket *socket, const QString &text)
     {
         if (m_socket == socket)
         {
             ui->pteFlow->appendPlainText("\n--------------------------------\n");
-            ui->pteFlow->appendPlainText(debugString);
+            ui->pteFlow->appendPlainText(text);
             ui->pteFlow->appendPlainText("\n--------------------------------\n");
         }
     }
 
     void VMTDNodeAdapterForm::pbSendClicked()
     {
-        QJsonValue jsonValue(ui->pteNodeParams->toPlainText());
+        QJsonValue jsonValue(ui->pteRequest->toPlainText());
 
-        emit sendNodeParamsSignal(m_socket, jsonValue.toObject());
+        emit sendRequestSignal(m_socket, jsonValue.toObject());
 
-        ui->pteNodeParams->clear();
+        ui->pteRequest->clear();
     }
 }

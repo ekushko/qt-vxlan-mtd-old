@@ -15,6 +15,7 @@ namespace VMTDLib
         Q_OBJECT
 
     public:
+
         VMTDSettings(QObject *parent, const QString &systemName);
         ~VMTDSettings();
 
@@ -32,6 +33,8 @@ namespace VMTDLib
 
         void apply();
 
+        // СИСТЕМНЫЕ
+
         QString systemName() const;
 
         QString debugName() const;
@@ -40,29 +43,44 @@ namespace VMTDLib
         bool    shouldShowDebug() const;
         void setShouldShowDebug(bool shouldShowDebug);
 
+        // ПАРАМЕТРЫ СЕРВЕРА
+
+        int     localPort() const;
+        void setLocalPort(int localPort);
+
+        // ПАРАМЕТРЫ КЛИЕНТА
+
         QString serverIp() const;
         void setServerIp(const QString &serverIp);
 
         int     serverPort() const;
         void setServerPort(int serverPort);
 
-        int     localPort() const;
-        void setLocalPort(int localPort);
+        bool    shouldReconnect() const;
+        void setShouldReconnect(bool shouldReconnect);
+
+        int     reconnectInterval() const;
+        void setReconnectInterval(int reconnectInterval);
+
+        // ПАРАМЕТРЫ АДАПТЕРОВ NX-API
 
         QJsonObject nxApiAdaptersParams() const;
         void     setNxApiAdaptersParams(const QJsonObject &nxApiAdaptersParams);
 
     signals:
+
         void networkChangedSignal();
 
         void saveSignal();
         void loadSignal();
 
     private slots:
+
         void saveSlot();
         void loadSlot();
 
     private:
+
         const QString DIR_NAME = "settings";
         const QString FILE_EXTENSION = ".settings";
 
@@ -74,11 +92,13 @@ namespace VMTDLib
 
         QString m_serverIp;
         int     m_serverPort;
+        bool m_shouldReconnect;
+        int m_reconnectInterval;
 
         int m_localPort;
 
-        bool m_wasNetworkChanged;
-
         QJsonObject m_nxApiAdatersParams;
+
+        bool m_wasNetworkChanged;
     };
 }

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>VMTDNodeServerForm</class>
- <widget class="QWidget" name="VMTDNodeServerForm">
+ <class>VMTDNodeClientForm</class>
+ <widget class="QWidget" name="VMTDNodeClientForm">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>987</width>
-    <height>756</height>
+    <width>930</width>
+    <height>689</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,24 +35,6 @@
       <property name="bottomMargin">
        <number>0</number>
       </property>
-      <item>
-       <widget class="QTabWidget" name="twSockets">
-        <widget class="QWidget" name="tabServer">
-         <attribute name="title">
-          <string>Сервер</string>
-         </attribute>
-         <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
-           <widget class="QPlainTextEdit" name="pteFlow">
-            <property name="plainText">
-             <string/>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>
@@ -103,11 +85,18 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QGroupBox" name="gbServerState">
+       <widget class="QGroupBox" name="gbSocketState">
         <property name="title">
-         <string>Сосотояние сервера</string>
+         <string>Состояние сокета</string>
         </property>
         <layout class="QVBoxLayout" name="_2">
+         <item>
+          <widget class="QLabel" name="lbSocketState">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
          <item>
           <widget class="QWidget" name="wOpenClose" native="true">
            <layout class="QHBoxLayout" name="horizontalLayout">
@@ -127,13 +116,13 @@
              <widget class="QLabel" name="lbOpen">
               <property name="minimumSize">
                <size>
-                <width>110</width>
+                <width>100</width>
                 <height>0</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>110</width>
+                <width>100</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -143,16 +132,16 @@
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pbStart">
+             <widget class="QPushButton" name="pbConnectSocket">
               <property name="text">
-               <string>Запуск</string>
+               <string>Соединить</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pbStop">
+             <widget class="QPushButton" name="pbDisconnectSocket">
               <property name="text">
-               <string>Останов</string>
+               <string>Отключить</string>
               </property>
              </widget>
             </item>
@@ -160,23 +149,16 @@
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="lbServerName">
-           <property name="text">
-            <string>Имя сервера:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
           <widget class="QLabel" name="lbLocalAdress">
            <property name="text">
-            <string>Слушает порт:</string>
+            <string>Локальный адрес:</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QLabel" name="lbClientSockets">
+          <widget class="QLabel" name="lbPeerAdress">
            <property name="text">
-            <string>Подключенные клиенты:</string>
+            <string>Удаленный адрес:</string>
            </property>
           </widget>
          </item>
@@ -184,22 +166,18 @@
        </widget>
       </item>
       <item>
-       <widget class="QGroupBox" name="gbServerError">
+       <widget class="QGroupBox" name="gbSocketError">
         <property name="title">
-         <string>Ошибки сервера</string>
+         <string>Ошибки сокета</string>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QPlainTextEdit" name="pteErrors">
-           <property name="plainText">
-            <string/>
-           </property>
-          </widget>
+          <widget class="QPlainTextEdit" name="pteSocketErrors"/>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="_1">
+          <layout class="QHBoxLayout" name="hl_1">
            <item>
-            <spacer name="_3">
+            <spacer name="_1">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -230,7 +208,7 @@
        </widget>
       </item>
       <item>
-       <spacer name="_4">
+       <spacer name="_3">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -241,6 +219,20 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbSettings">
+        <property name="text">
+         <string>Настройки</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbClose">
+        <property name="text">
+         <string>Закрыть</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

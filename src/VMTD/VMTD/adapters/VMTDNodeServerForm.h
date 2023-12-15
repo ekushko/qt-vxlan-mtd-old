@@ -4,9 +4,6 @@
 
 #include "VMTDNodeAdapterForm.h"
 
-#include <QWidget>
-#include <QPlainTextEdit>
-
 namespace Ui
 {
     class VMTDNodeServerForm;
@@ -23,7 +20,7 @@ namespace VMTDLib
         ~VMTDNodeServerForm();
 
     public slots:
-        void showDebugSlot(QWebSocket *socket, const QString &debugString);
+        void showDebugSlot(QWebSocket *socket, const QString &text);
 
     private slots:
         void uiTimerTickSlot();

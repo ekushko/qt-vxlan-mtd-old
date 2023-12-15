@@ -19,10 +19,10 @@ namespace VMTDLib
         ~VMTDNodeAdapterForm();
 
     signals:
-        void sendNodeParamsSignal(QWebSocket *socket, const QJsonObject &nodeParamsObj);
+        void sendRequestSignal(QWebSocket *socket, const QJsonObject &requestObj);
 
     public slots:
-        void showDebugSlot(QWebSocket *socket, const QString &debugString);
+        void showDebugSlot(QWebSocket *socket, const QString &text);
 
     private slots:
         void pbSendClicked();

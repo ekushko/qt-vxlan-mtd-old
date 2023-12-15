@@ -15,7 +15,7 @@ namespace VMTDLib
          connect(m_wsServer, &QWebSocketServer::newConnection, this, &VMTDNodeServer::newConnectionSlot);
 
          connect(m_settings, &VMTDSettings::networkChangedSignal,
-                 this, &VMTDNodeServer::networkChangedSlot);
+                 this, &VMTDNodeServer::restartListenSlot);
 
          m_settings->debugOut(VN_S(VMTDNodeServer) + " created");
     }
@@ -121,14 +121,13 @@ namespace VMTDLib
 
         emit showDebugSignal(nullptr, debugString);
     }
-
-    void VMTDNodeServer::networkChangedSlot()
+    void VMTDNodeServer::restartListenSlot()
     {
         stopListenSlot();
         startListenSlot();
     }
 
-    void VMTDNodeServer::sendNodeParamsSlot(QWebSocket *socket, const QJsonObject &nodeParamsObj)
+    void VMTDNodeServer::sendRequestSlot(QWebSocket *socket, const QJsonObject &requestObj)
     {
         if (socket == nullptr)
             return;
@@ -140,7 +139,7 @@ namespace VMTDLib
         jsonObj["jsonrpc"] = "2.0";
         jsonObj["method"] = "cli_ascii";
 
-        jsonObj["nodeParams"] = nodeParamsObj;
+        jsonObj["request"] = requestObj;
         jsonObj["id"] = m_commandCounter++;
 
         QJsonDocument jsonDoc;
@@ -207,8 +206,9 @@ namespace VMTDLib
         if (socket == nullptr)
             return;
 
-        const auto debugString = QString("{%1}: ")
+        const auto debugString = QString("{%1} [%2]: %3")
                 .arg(socket->peerAddress().toString(),
+                     QTime::currentTime().toString("hh:mm:ss:zzz"),
                      QVariant::fromValue(error).toString());
 
         if (m_serverErrors.size() > 300)

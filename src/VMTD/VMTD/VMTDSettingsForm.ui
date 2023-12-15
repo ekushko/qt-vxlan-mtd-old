@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>305</width>
-    <height>202</height>
+    <width>364</width>
+    <height>498</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -85,46 +85,165 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>100</height>
+         <height>372</height>
         </size>
        </property>
-       <layout class="QGridLayout" name="gridLayout">
-        <item row="0" column="0">
-         <widget class="QLabel" name="_7">
-          <property name="text">
-           <string>Системное имя:</string>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QGroupBox" name="gbSystem">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>117</height>
+           </size>
           </property>
+          <property name="title">
+           <string>Системные</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_2">
+           <item row="0" column="0">
+            <widget class="QLabel" name="_7">
+             <property name="text">
+              <string>Системное имя:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0" colspan="2">
+            <widget class="QCheckBox" name="chbShouldShowDebug">
+             <property name="text">
+              <string>Выводить отладочную информацию</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="lbSystemName">
+             <property name="text">
+              <string>TextLabel</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="_8">
+             <property name="text">
+              <string>Отладочное имя:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="leDebugName"/>
+           </item>
+          </layout>
          </widget>
         </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="lbSystemName">
-          <property name="text">
-           <string>TextLabel</string>
+        <item>
+         <widget class="QGroupBox" name="gbServer">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>68</height>
+           </size>
           </property>
+          <property name="title">
+           <string>Параметры сервера</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_3">
+           <item row="0" column="1">
+            <widget class="QSpinBox" name="sbLocalPort">
+             <property name="maximum">
+              <number>65535</number>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="_9">
+             <property name="minimumSize">
+              <size>
+               <width>147</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>147</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Локальный порт:</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="_8">
-          <property name="text">
-           <string>Отладочное имя:</string>
+        <item>
+         <widget class="QGroupBox" name="gbClient">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>157</height>
+           </size>
           </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QLineEdit" name="leDebugName"/>
-        </item>
-        <item row="1" column="0" colspan="2">
-         <widget class="QCheckBox" name="chbShouldShowDebug">
-          <property name="text">
-           <string>Выводить отладочную информацию</string>
+          <property name="title">
+           <string>Параметры клиента</string>
           </property>
+          <layout class="QGridLayout" name="gridLayout_4">
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="leServerIp"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="_11">
+             <property name="text">
+              <string>Удаленный порт:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QSpinBox" name="sbServerPort">
+             <property name="maximum">
+              <number>65535</number>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0" colspan="2">
+            <widget class="QCheckBox" name="chbShouldReconnect">
+             <property name="text">
+              <string>Автоматическое переподключение</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="_10">
+             <property name="text">
+              <string>Удаленный адрес:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="_13">
+             <property name="text">
+              <string>Переподключение (мс):</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QSpinBox" name="sbReconnectInterval">
+             <property name="minimum">
+              <number>10</number>
+             </property>
+             <property name="maximum">
+              <number>999999999</number>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>
       </widget>
      </item>
      <item>
-      <spacer name="verticalSpacer">
+      <spacer name="_12">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>

@@ -36,15 +36,14 @@ namespace VMTDLib
         void clientConnectedSignal(QWebSocket *socket);
         void clientDisconnectedSignal(QWebSocket *socket);
 
-        void showDebugSignal(QWebSocket *socket, const QString &debugString);
+        void showDebugSignal(QWebSocket *socket, const QString &text);
 
     public slots:
-        void startListenSlot();
-        void  stopListenSlot();
+        void   startListenSlot();
+        void    stopListenSlot();
+        void restartListenSlot();
 
-        void networkChangedSlot();
-
-        void sendNodeParamsSlot(QWebSocket *socket, const QJsonObject &nodeParamsObj);
+        void sendRequestSlot(QWebSocket *socket, const QJsonObject &requestObj);
 
     private slots:
         void newConnectionSlot();
@@ -66,7 +65,5 @@ namespace VMTDLib
         QString m_serverErrors;
 
         int m_commandCounter = 0;
-
-        QTimer m_checkSocketStateTimer;
     };
 }

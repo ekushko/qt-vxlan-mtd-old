@@ -40,12 +40,12 @@ namespace VMTDLib
         delete ui;
     }
 
-    void VMTDNodeServerForm::showDebugSlot(QWebSocket *socket, const QString &debugString)
+    void VMTDNodeServerForm::showDebugSlot(QWebSocket *socket, const QString &text)
     {
         if (socket == nullptr)
         {
             ui->pteFlow->appendPlainText("\n--------------------------------\n");
-            ui->pteFlow->appendPlainText(debugString);
+            ui->pteFlow->appendPlainText(text);
             ui->pteFlow->appendPlainText("\n--------------------------------\n");
         }
     }
@@ -62,8 +62,8 @@ namespace VMTDLib
         connect(m_server, &VMTDNodeServer::showDebugSignal,
                 form, &VMTDNodeAdapterForm::showDebugSlot);
 
-        connect(form, &VMTDNodeAdapterForm::sendNodeParamsSignal,
-                m_server, &VMTDNodeServer::sendNodeParamsSlot);
+        connect(form, &VMTDNodeAdapterForm::sendRequestSignal,
+                m_server, &VMTDNodeServer::sendRequestSlot);
 
         m_socketToForm.insert(socket, form);
 

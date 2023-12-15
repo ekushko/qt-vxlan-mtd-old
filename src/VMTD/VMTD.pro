@@ -7,7 +7,7 @@
 NAME = VMTD
 
 TEMPLATE  = app
-#TEMPLATE  = lib
+TEMPLATE  = lib
 
 CONFIG += debug_and_release
 CONFIG += build_all
@@ -49,27 +49,27 @@ include( ../../common.pri )
 ##
 #
 
-openssl.path  = $${BIN_PATH}
-
-contains(QT_ARCH, i386) {
-    win32 {
-        INCLUDEPATH += c:/Qt/Tools/OpenSSL/Win_x86/include
-        LIBS        += -Lc:/Qt/Tools/OpenSSL/Win_x86/bin -llibcrypto-1_1
-
-        openssl.files += c:/Qt/Tools/OpenSSL/Win_x86/bin/libcrypto-1_1.dll
-    }
-} else {
-    win32 {
-        INCLUDEPATH += c:/Qt/Tools/OpenSSL/Win_x64/include
-        LIBS        += -Lc:/Qt/Tools/OpenSSL/Win_x64/bin -llibcrypto-1_1-x64
-
-        openssl.files += c:/Qt/Tools/OpenSSL/Win_x64/bin/libcrypto-1_1-x64.dll
-    }
-}
-
-unix:  LIBS += -lcrypto
-
-win32: LIBS += -lDbgHelp
+#openssl.path  = $${BIN_PATH}
+#
+#contains(QT_ARCH, i386) {
+#    win32 {
+#        INCLUDEPATH += c:/Qt/Tools/OpenSSL/Win_x86/include
+#        LIBS        += -Lc:/Qt/Tools/OpenSSL/Win_x86/bin -llibcrypto-1_1
+#
+#        openssl.files += c:/Qt/Tools/OpenSSL/Win_x86/bin/libcrypto-1_1.dll
+#    }
+#} else {
+#    win32 {
+#        INCLUDEPATH += c:/Qt/Tools/OpenSSL/Win_x64/include
+#        LIBS        += -Lc:/Qt/Tools/OpenSSL/Win_x64/bin -llibcrypto-1_1-x64
+#
+#        openssl.files += c:/Qt/Tools/OpenSSL/Win_x64/bin/libcrypto-1_1-x64.dll
+#    }
+#}
+#
+#unix:  LIBS += -lcrypto
+#
+#win32: LIBS += -lDbgHelp
 
 EXTERNAL_LIBNAMELIST  =
 
@@ -92,7 +92,7 @@ for( LIBNAME, EXTERNAL_LIBNAMELIST ) {
 #
 
 CONFIG( release, debug|release ) {
-    INSTALLS += openssl
+#    INSTALLS += openssl
 #    INSTALLS += dll
 #    INSTALLS += extdll
 }
@@ -148,6 +148,7 @@ SOURCES += \
     VMTD/VMTDSettingsForm.cpp \
     VMTD/adapters/VMTDNodeAdapterForm.cpp \
     VMTD/adapters/VMTDNodeClient.cpp \
+    VMTD/adapters/VMTDNodeClientForm.cpp \
     VMTD/adapters/VMTDNodeServer.cpp \
     VMTD/adapters/VMTDNodeServerForm.cpp \
     VMTD/adapters/VMTDNxApiAdapter.cpp \
@@ -165,6 +166,7 @@ HEADERS += \
     VMTD/VMTDSettingsForm.h \
     VMTD/adapters/VMTDNodeAdapterForm.h \
     VMTD/adapters/VMTDNodeClient.h \
+    VMTD/adapters/VMTDNodeClientForm.h \
     VMTD/adapters/VMTDNodeServer.h \
     VMTD/adapters/VMTDNodeServerForm.h \
     VMTD/adapters/VMTDNxApiAdapter.h \
@@ -175,6 +177,7 @@ FORMS += \
     VMTD/VMTDControllerForm.ui \
     VMTD/VMTDSettingsForm.ui \
     VMTD/adapters/VMTDNodeAdapterForm.ui \
+    VMTD/adapters/VMTDNodeClientForm.ui \
     VMTD/adapters/VMTDNodeServerForm.ui \
     VMTD/adapters/VMTDNxApiAdapterForm.ui
 

@@ -5,6 +5,7 @@
 
 #include <QDir>
 #include <QJsonDocument>
+#include <QDebug>
 
 namespace VMTDLib
 {
@@ -16,6 +17,8 @@ namespace VMTDLib
         m_shouldShowDebug = true;
         m_serverIp = "127.0.0.1";
         m_serverPort = 30000;
+        m_shouldReconnect = false;
+        m_reconnectInterval = 1000;
         m_localPort = 30001;
 
         m_wasNetworkChanged = false;
@@ -180,6 +183,34 @@ namespace VMTDLib
         if (m_localPort != localPort)
         {
             m_localPort = localPort;
+
+            m_wasNetworkChanged = true;
+        }
+    }
+
+    bool VMTDSettings::shouldReconnect() const
+    {
+        return m_shouldReconnect;
+    }
+    void VMTDSettings::setShouldReconnect(bool shouldReconnect)
+    {
+        if (m_shouldReconnect != shouldReconnect)
+        {
+            m_shouldReconnect = shouldReconnect;
+
+            m_wasNetworkChanged = true;
+        }
+    }
+
+    int VMTDSettings::reconnectInterval() const
+    {
+        return m_reconnectInterval;
+    }
+    void VMTDSettings::setReconnectInterval(int reconnectInterval)
+    {
+        if (m_reconnectInterval != reconnectInterval)
+        {
+            m_reconnectInterval = reconnectInterval;
 
             m_wasNetworkChanged = true;
         }
