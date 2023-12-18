@@ -173,15 +173,6 @@ namespace VMTDLib
         reply->deleteLater();
     }
 
-    void VMTDNxApiAdapter::ticketTimeoutSlot()
-    {
-        QString message = "No response";
-
-        emit showMessageSignal(message);
-
-        m_isConnected = false;
-    }
-
     void VMTDNxApiAdapter::buildRequest(QNetworkRequest *request)
     {
         auto conf = request->sslConfiguration();
@@ -201,5 +192,14 @@ namespace VMTDLib
             message.append("\n" + jsonDoc->toJson(QJsonDocument::JsonFormat::Indented));
 
         emit showMessageSignal(message);
+    }
+
+    void VMTDNxApiAdapter::ticketTimeoutSlot()
+    {
+        QString message = "No response";
+
+        emit showMessageSignal(message);
+
+        m_isConnected = false;
     }
 }

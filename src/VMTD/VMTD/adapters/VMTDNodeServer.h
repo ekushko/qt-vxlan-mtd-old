@@ -16,6 +16,7 @@ namespace VMTDLib
         Q_OBJECT
 
     public:
+
         VMTDNodeServer(QObject *parent, VMTDSettings *settings);
         ~VMTDNodeServer();
 
@@ -33,29 +34,22 @@ namespace VMTDLib
         QString stateString() const;
 
     signals:
+
         void clientConnectedSignal(QWebSocket *socket);
         void clientDisconnectedSignal(QWebSocket *socket);
 
         void showDebugSignal(QWebSocket *socket, const QString &text);
 
     public slots:
+
         void   startListenSlot();
         void    stopListenSlot();
         void restartListenSlot();
 
         void sendRequestSlot(QWebSocket *socket, const QJsonObject &requestObj);
 
-    private slots:
-        void newConnectionSlot();
-
-        void binaryMessageReceivedSlot(const QByteArray &data);
-
-        void errorSlot(QAbstractSocket::SocketError error);
-
-        void    connectedSlot();
-        void disconnectedSlot();
-
     private:
+
         VMTDSettings *m_settings;
 
         QPointer<VMTDNodeServerForm> m_form;
@@ -65,5 +59,16 @@ namespace VMTDLib
         QString m_serverErrors;
 
         int m_commandCounter = 0;
+
+    private slots:
+
+        void newConnectionSlot();
+
+        void binaryMessageReceivedSlot(const QByteArray &data);
+
+        void errorSlot(QAbstractSocket::SocketError error);
+
+        void    connectedSlot();
+        void disconnectedSlot();
     };
 }

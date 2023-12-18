@@ -18,6 +18,7 @@ namespace VMTDLib
         Q_OBJECT
 
     public:
+
         VMTDNxApiAdapter(QObject *parent,
                          VMTDSettings *settings,
                          QNetworkAccessManager *netManager);
@@ -41,19 +42,19 @@ namespace VMTDLib
         void setTicketTimeoutInterval(int ticketTimeoutInterval);
 
     signals:
+
         void showMessageSignal(const QString &text);
 
     public slots:
+
         void checkConnectionSlot();
 
         void sendCommandSlot(const QStringList &commands);
 
         void replyFinishedSlot(QNetworkReply *reply);
 
-    private slots:
-        void ticketTimeoutSlot();
-
     private:
+
         void buildRequest(QNetworkRequest *request);
         void  showRequest(QNetworkRequest *request, QJsonDocument *jsonDoc = nullptr);
 
@@ -70,5 +71,9 @@ namespace VMTDLib
         bool m_isConnected;
         QTimer m_ticketTimeout;
         int m_ticketTimeoutInterval;
+
+    private slots:
+
+        void ticketTimeoutSlot();
     };
 }

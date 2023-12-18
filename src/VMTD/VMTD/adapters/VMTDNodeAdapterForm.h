@@ -15,21 +15,26 @@ namespace VMTDLib
         Q_OBJECT
 
     public:
+
         VMTDNodeAdapterForm(QWidget *parent, QWebSocket *socket);
         ~VMTDNodeAdapterForm();
 
     signals:
+
         void sendRequestSignal(QWebSocket *socket, const QJsonObject &requestObj);
 
     public slots:
+
         void showDebugSlot(QWebSocket *socket, const QString &text);
 
-    private slots:
-        void pbSendClicked();
-
     private:
+
         Ui::VMTDNodeAdapterForm *ui;
 
         QWebSocket *m_socket;
+
+    private slots:
+
+        void pbSendClicked();
     };
 }

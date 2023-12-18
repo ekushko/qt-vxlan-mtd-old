@@ -50,51 +50,6 @@ namespace VMTDLib
         }
     }
 
-    void VMTDNodeServerForm::uiTimerTickSlot()
-    {
-        updateView();
-    }
-
-    void VMTDNodeServerForm::appendClientSocketSlot(QWebSocket *socket)
-    {
-        auto form = new VMTDNodeAdapterForm(this, socket);
-
-        connect(m_server, &VMTDNodeServer::showDebugSignal,
-                form, &VMTDNodeAdapterForm::showDebugSlot);
-
-        connect(form, &VMTDNodeAdapterForm::sendRequestSignal,
-                m_server, &VMTDNodeServer::sendRequestSlot);
-
-        m_socketToForm.insert(socket, form);
-
-        const QString tabTitle = QString("%1:%2")
-                                 .arg(socket->peerAddress().toString(),
-                                      socket->peerPort());
-
-        ui->twSockets->addTab(form, tabTitle);
-    }
-    void VMTDNodeServerForm::removeClientSocketSlot(QWebSocket *socket)
-    {
-        auto form = m_socketToForm.value(socket);
-
-        if (form != nullptr)
-        {
-            m_socketToForm.remove(socket);
-            delete form;
-        }
-    }
-
-    void VMTDNodeServerForm::pbShowDetailedStateClicked()
-    {
-        ui->wRight->setVisible(!ui->wRight->isVisible());
-        ui->pbShowDetailedState->setText(ui->wRight->isVisible() ? "<" : ">");
-    }
-
-    void VMTDNodeServerForm::pbClearErrorsClicked()
-    {
-        m_server->clearServerErrors();
-    }
-
     void VMTDNodeServerForm::initializeView()
     {
         connect(ui->pbStart, &QPushButton::clicked,
@@ -154,5 +109,50 @@ namespace VMTDLib
 
         if (ui->pteErrors->toPlainText() != m_server->serverErrors())
             ui->pteErrors->appendPlainText(m_server->serverErrors());
+    }
+
+    void VMTDNodeServerForm::uiTimerTickSlot()
+    {
+        updateView();
+    }
+
+    void VMTDNodeServerForm::appendClientSocketSlot(QWebSocket *socket)
+    {
+        auto form = new VMTDNodeAdapterForm(this, socket);
+
+        connect(m_server, &VMTDNodeServer::showDebugSignal,
+                form, &VMTDNodeAdapterForm::showDebugSlot);
+
+        connect(form, &VMTDNodeAdapterForm::sendRequestSignal,
+                m_server, &VMTDNodeServer::sendRequestSlot);
+
+        m_socketToForm.insert(socket, form);
+
+        const QString tabTitle = QString("%1:%2")
+                                 .arg(socket->peerAddress().toString(),
+                                      socket->peerPort());
+
+        ui->twSockets->addTab(form, tabTitle);
+    }
+    void VMTDNodeServerForm::removeClientSocketSlot(QWebSocket *socket)
+    {
+        auto form = m_socketToForm.value(socket);
+
+        if (form != nullptr)
+        {
+            m_socketToForm.remove(socket);
+            delete form;
+        }
+    }
+
+    void VMTDNodeServerForm::pbShowDetailedStateClicked()
+    {
+        ui->wRight->setVisible(!ui->wRight->isVisible());
+        ui->pbShowDetailedState->setText(ui->wRight->isVisible() ? "<" : ">");
+    }
+
+    void VMTDNodeServerForm::pbClearErrorsClicked()
+    {
+        m_server->clearServerErrors();
     }
 }

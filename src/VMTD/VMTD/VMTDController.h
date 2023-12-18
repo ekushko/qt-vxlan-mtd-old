@@ -1,6 +1,7 @@
 #pragma once
 
 #include "VMTDSettings.h"
+
 #include "adapters/VMTDNxApiAdapter.h"
 
 #include <QThread>
@@ -15,6 +16,7 @@ namespace VMTDLib
         Q_OBJECT
 
     public:
+
         VMTDController(QObject *parent, VMTDSettings *settings);
         ~VMTDController();
 
@@ -33,13 +35,11 @@ namespace VMTDLib
         void              deleteNxApiAdapter(int index);
 
     protected:
+
         void run() override;
 
-    private slots:
-        void  startedSlot();
-        void finishedSlot();
-
     private:
+
         QPointer<VMTDControllerForm> m_form;
 
         VMTDSettings *m_settings;
@@ -47,5 +47,10 @@ namespace VMTDLib
         QNetworkAccessManager *m_netManager;
 
         QVector<VMTDNxApiAdapter *> m_nxApiAdapters;
+
+    private slots:
+
+        void  startedSlot();
+        void finishedSlot();
     };
 }

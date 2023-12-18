@@ -34,36 +34,6 @@ namespace VMTDLib
         delete ui;
     }
 
-    void VMTDSettingsForm::pbSaveClicked()
-    {
-        m_settings->save();
-    }
-    void VMTDSettingsForm::pbLoadClicked()
-    {
-        m_settings->load();
-        m_settings->apply();
-    }
-
-    void VMTDSettingsForm::pbChangeClicked()
-    {
-        setEditMode(true);
-    }
-    void VMTDSettingsForm::pbAcceptClicked()
-    {
-        updateData();
-
-        m_settings->apply();
-        m_settings->save();
-
-        setEditMode(false);
-        updateView();
-    }
-    void VMTDSettingsForm::pbCancelClicked()
-    {
-        setEditMode(false);
-        updateView();
-    }
-
     void VMTDSettingsForm::setEditMode(bool isEditMode)
     {
         ui->wFile->setEnabled(!isEditMode);
@@ -93,11 +63,41 @@ namespace VMTDLib
         m_settings->setDebugName(ui->leDebugName->text());
         m_settings->setShouldShowDebug(ui->chbShouldShowDebug->isChecked());
 
-       m_settings->setLocalPort(ui->sbLocalPort->value());
+        m_settings->setLocalPort(ui->sbLocalPort->value());
 
-       m_settings->setServerIp(ui->leServerIp->text());
-       m_settings->setServerPort(ui->sbServerPort->value());
-       m_settings->setShouldReconnect(ui->chbShouldReconnect->isChecked());
-       m_settings->setReconnectInterval(ui->sbReconnectInterval->value());
+        m_settings->setServerIp(ui->leServerIp->text());
+        m_settings->setServerPort(ui->sbServerPort->value());
+        m_settings->setShouldReconnect(ui->chbShouldReconnect->isChecked());
+        m_settings->setReconnectInterval(ui->sbReconnectInterval->value());
+    }
+
+    void VMTDSettingsForm::pbSaveClicked()
+    {
+        m_settings->save();
+    }
+    void VMTDSettingsForm::pbLoadClicked()
+    {
+        m_settings->load();
+        m_settings->apply();
+    }
+
+    void VMTDSettingsForm::pbChangeClicked()
+    {
+        setEditMode(true);
+    }
+    void VMTDSettingsForm::pbAcceptClicked()
+    {
+        updateData();
+
+        m_settings->apply();
+        m_settings->save();
+
+        setEditMode(false);
+        updateView();
+    }
+    void VMTDSettingsForm::pbCancelClicked()
+    {
+        setEditMode(false);
+        updateView();
     }
 }

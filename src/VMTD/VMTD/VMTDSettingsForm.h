@@ -16,18 +16,12 @@ namespace VMTDLib
         Q_OBJECT
 
     public:
+
         VMTDSettingsForm(QWidget *parent, VMTDSettings *settings);
         ~VMTDSettingsForm();
 
-    private slots:
-        void pbSaveClicked();
-        void pbLoadClicked();
-
-        void pbChangeClicked();
-        void pbAcceptClicked();
-        void pbCancelClicked();
-
     private:
+
         void setEditMode(bool isEditMode);
         void updateView();
 
@@ -36,5 +30,14 @@ namespace VMTDLib
         Ui::VMTDSettingsForm *ui;
 
         VMTDSettings *m_settings;
+
+    private slots:
+
+        void pbSaveClicked();
+        void pbLoadClicked();
+
+        void pbChangeClicked();
+        void pbAcceptClicked();
+        void pbCancelClicked();
     };
 }

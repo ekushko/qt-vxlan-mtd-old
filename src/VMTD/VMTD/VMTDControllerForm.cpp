@@ -28,6 +28,32 @@ namespace VMTDLib
         delete ui;
     }
 
+    void VMTDControllerForm::initialize()
+    {
+        connect(ui->pbSettings, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbSettingsClicked);
+        connect(ui->pbRefresh, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbRefreshClicked);
+        connect(ui->pbSave, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbSaveClicked);
+        connect(ui->pbLoad, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbLoadClicked);
+        connect(ui->pbCreateNxApiAdapter, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbCreateNxApiAdapterClicked);
+        connect(ui->pbDeleteNxApiAdapter, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbDeleteNxApiAdapterClicked);
+        connect(ui->lwNxApiAdapters, &QListWidget::itemDoubleClicked,
+                this, &VMTDControllerForm::lwNxApiAdaptersItemDoubleClicked);
+    }
+
+    void VMTDControllerForm::updateNxApiAdaptersList()
+    {
+        ui->lwNxApiAdapters->clear();
+
+        for (auto nxApiAdapter : m_controller->nxApiAdapters())
+            ui->lwNxApiAdapters->addItem(nxApiAdapter->url().toString());
+    }
+
     void VMTDControllerForm::pbSettingsClicked()
     {
         m_controller->settings()->showForm();
@@ -67,35 +93,9 @@ namespace VMTDLib
         updateNxApiAdaptersList();
     }
 
-    void VMTDControllerForm::updateNxApiAdaptersList()
-    {
-        ui->lwNxApiAdapters->clear();
-
-        for (auto nxApiAdapter : m_controller->nxApiAdapters())
-            ui->lwNxApiAdapters->addItem(nxApiAdapter->url().toString());
-    }
-
     void VMTDControllerForm::lwNxApiAdaptersItemDoubleClicked(QListWidgetItem *item)
     {
         const auto row = ui->lwNxApiAdapters->row(item);
         m_controller->nxApiAdapters().at(row)->showForm();
-    }
-
-    void VMTDControllerForm::initialize()
-    {
-        connect(ui->pbSettings, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbSettingsClicked);
-        connect(ui->pbRefresh, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbRefreshClicked);
-        connect(ui->pbSave, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbSaveClicked);
-        connect(ui->pbLoad, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbLoadClicked);
-        connect(ui->pbCreateNxApiAdapter, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbCreateNxApiAdapterClicked);
-        connect(ui->pbDeleteNxApiAdapter, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbDeleteNxApiAdapterClicked);
-        connect(ui->lwNxApiAdapters, &QListWidget::itemDoubleClicked,
-                this, &VMTDControllerForm::lwNxApiAdaptersItemDoubleClicked);
     }
 }

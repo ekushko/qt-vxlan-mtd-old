@@ -17,10 +17,22 @@ namespace VMTDLib
         Q_OBJECT
 
     public:
+
         VMTDControllerForm(QWidget *parent, VMTDController *controller);
         ~VMTDControllerForm();
 
+    private:
+
+        void initialize();
+
+        void updateNxApiAdaptersList();
+
+        Ui::VMTDControllerForm *ui;
+
+        VMTDController *m_controller;
+
     private slots:
+
         void pbSettingsClicked();
 
         void pbRefreshClicked();
@@ -32,14 +44,5 @@ namespace VMTDLib
         void pbDeleteNxApiAdapterClicked();
 
         void lwNxApiAdaptersItemDoubleClicked(QListWidgetItem *item);
-
-    private:
-        void initialize();
-
-        void updateNxApiAdaptersList();
-
-        Ui::VMTDControllerForm *ui;
-
-        VMTDController *m_controller;
     };
 }

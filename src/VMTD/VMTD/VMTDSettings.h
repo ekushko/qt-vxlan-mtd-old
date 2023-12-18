@@ -74,11 +74,6 @@ namespace VMTDLib
         void saveSignal();
         void loadSignal();
 
-    private slots:
-
-        void saveSlot();
-        void loadSlot();
-
     private:
 
         const QString DIR_NAME = "settings";
@@ -100,5 +95,10 @@ namespace VMTDLib
         QJsonObject m_nxApiAdatersParams;
 
         bool m_wasNetworkChanged;
+
+    private slots:
+
+        void saveSlot();
+        void loadSlot();
     };
 }

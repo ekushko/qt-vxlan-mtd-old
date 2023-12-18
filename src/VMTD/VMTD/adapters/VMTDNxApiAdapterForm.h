@@ -17,18 +17,35 @@ namespace VMTDLib
         Q_OBJECT
 
     public:
+
         VMTDNxApiAdapterForm(QWidget *parent, VMTDNxApiAdapter *adapter);
         ~VMTDNxApiAdapterForm();
 
     signals:
+
         void checkConnectionSignal();
 
         void sendCommandsSignal(const QStringList &commands);
 
     public slots:
+
         void showMessageSlot(const QString &text);
 
+    private:
+
+        void initialize();
+
+        void setEditMode(bool isEditMode);
+
+        Ui::VMTDNxApiAdapterForm *ui;
+
+        VMTDNxApiAdapter *m_adapter;
+
+        QTimer m_uiTimer;
+        QTimer m_quickUiTimer;
+
     private slots:
+
         void      uiTimerTickSlot();
         void quickUiTimerTickSlot();
 
@@ -41,17 +58,5 @@ namespace VMTDLib
         void pbChangeClicked();
         void pbAcceptClicked();
         void pbCancelClicked();
-
-    private:
-        void initialize();
-
-        void setEditMode(bool isEditMode);
-
-        Ui::VMTDNxApiAdapterForm *ui;
-
-        VMTDNxApiAdapter *m_adapter;
-
-        QTimer m_uiTimer;
-        QTimer m_quickUiTimer;
     };
 }

@@ -29,7 +29,7 @@ namespace VMTDLib
         QString   socketErrors() const;
         void clearSocketErrors();
 
-        QString state() const;
+        QString stateString() const;
 
     signals:
 
@@ -67,7 +67,7 @@ namespace VMTDLib
         void disconnectedSlot();
 
         void errorSlot(QAbstractSocket::SocketError error);
-        void stateChangedSlot(QAbstractSocket::SocketState state);
+        void stateChangedSlot(QAbstractSocket::SocketState stateString);
 
         void reconnectTimerTickSlot();
     };

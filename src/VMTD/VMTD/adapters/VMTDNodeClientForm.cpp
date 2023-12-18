@@ -138,5 +138,4 @@ namespace VMTDLib
     {
         m_client->clearSocketErrors();
     }
-
 }

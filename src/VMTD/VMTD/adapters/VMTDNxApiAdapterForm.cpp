@@ -54,6 +54,40 @@ namespace VMTDLib
         ui->pteFlow->appendPlainText("\n-------------------------\n");
     }
 
+    void VMTDNxApiAdapterForm::initialize()
+    {
+        connect(ui->pbHideRight, &QPushButton::clicked,
+                this, &VMTDNxApiAdapterForm::pbHideRightClicked);
+        connect(ui->pbCheckConnection, &QPushButton::clicked,
+                this, &VMTDNxApiAdapterForm::pbCheckConnectionClicked);
+        connect(ui->pbSendCommands, &QPushButton::clicked,
+                this, &VMTDNxApiAdapterForm::pbSendCommandsClicked);
+        connect(ui->pbChange, &QPushButton::clicked,
+                this, &VMTDNxApiAdapterForm::pbChangeClicked);
+        connect(ui->pbAccept, &QPushButton::clicked,
+                this, &VMTDNxApiAdapterForm::pbAcceptClicked);
+        connect(ui->pbCancel, &QPushButton::clicked,
+                this, &VMTDNxApiAdapterForm::pbCancelClicked);
+
+        connect(this, &VMTDNxApiAdapterForm::sendCommandsSignal,
+                m_adapter, &VMTDNxApiAdapter::sendCommandSlot,
+                Qt::QueuedConnection);
+        connect(this, &VMTDNxApiAdapterForm::checkConnectionSignal,
+                m_adapter, &VMTDNxApiAdapter::checkConnectionSlot,
+                Qt::QueuedConnection);
+        connect(m_adapter, &VMTDNxApiAdapter::showMessageSignal,
+                this, &VMTDNxApiAdapterForm::showMessageSlot,
+                Qt::QueuedConnection);
+    }
+
+    void VMTDNxApiAdapterForm::setEditMode(bool isEditMode)
+    {
+        ui->leUrl->setEnabled(isEditMode);
+        ui->leUserName->setEnabled(isEditMode);
+        ui->lePassword->setEnabled(isEditMode);
+        ui->sbTicketTimeoutInterval->setEnabled(isEditMode);
+    }
+
     void VMTDNxApiAdapterForm::uiTimerTickSlot()
     {
         ui->leUrl->setText(m_adapter->url().toString());
@@ -111,39 +145,5 @@ namespace VMTDLib
 
         m_uiTimer.start();
         setEditMode(false);
-    }
-
-    void VMTDNxApiAdapterForm::initialize()
-    {
-        connect(ui->pbHideRight, &QPushButton::clicked,
-                this, &VMTDNxApiAdapterForm::pbHideRightClicked);
-        connect(ui->pbCheckConnection, &QPushButton::clicked,
-                this, &VMTDNxApiAdapterForm::pbCheckConnectionClicked);
-        connect(ui->pbSendCommands, &QPushButton::clicked,
-                this, &VMTDNxApiAdapterForm::pbSendCommandsClicked);
-        connect(ui->pbChange, &QPushButton::clicked,
-                this, &VMTDNxApiAdapterForm::pbChangeClicked);
-        connect(ui->pbAccept, &QPushButton::clicked,
-                this, &VMTDNxApiAdapterForm::pbAcceptClicked);
-        connect(ui->pbCancel, &QPushButton::clicked,
-                this, &VMTDNxApiAdapterForm::pbCancelClicked);
-
-        connect(this, &VMTDNxApiAdapterForm::sendCommandsSignal,
-                m_adapter, &VMTDNxApiAdapter::sendCommandSlot,
-                Qt::QueuedConnection);
-        connect(this, &VMTDNxApiAdapterForm::checkConnectionSignal,
-                m_adapter, &VMTDNxApiAdapter::checkConnectionSlot,
-                Qt::QueuedConnection);
-        connect(m_adapter, &VMTDNxApiAdapter::showMessageSignal,
-                this, &VMTDNxApiAdapterForm::showMessageSlot,
-                Qt::QueuedConnection);
-    }
-
-    void VMTDNxApiAdapterForm::setEditMode(bool isEditMode)
-    {
-        ui->leUrl->setEnabled(isEditMode);
-        ui->leUserName->setEnabled(isEditMode);
-        ui->lePassword->setEnabled(isEditMode);
-        ui->sbTicketTimeoutInterval->setEnabled(isEditMode);
     }
 }
