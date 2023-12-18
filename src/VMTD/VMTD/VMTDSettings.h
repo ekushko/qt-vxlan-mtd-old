@@ -8,6 +8,8 @@
 
 namespace VMTDLib
 {
+#define VMTDNodeType VMTDSettings::EnNodeType
+
     class VMTDSettingsForm;
 
     class VMTDSettings : public QObject
@@ -16,10 +18,25 @@ namespace VMTDLib
 
     public:
 
-        VMTDSettings(QObject *parent, const QString &systemName);
+        enum class EnNodeType;
+
+        VMTDSettings(QObject *parent, EnNodeType nodeType, const QString &systemName);
         ~VMTDSettings();
 
         void showForm();
+
+        // КОНСТАНТЫ
+
+        enum class EnNodeType
+        {
+            CLIENT = 0,
+            SERVER
+        };
+        Q_ENUM(EnNodeType)
+        static const QString            &enNodeTypeToS(const EnNodeType &nodeType);
+        static const QMap<int, QString> &enNodeTypeToL();
+
+        // ЛОГИКА
 
         void debugOut(const QString &text);
 
@@ -34,6 +51,8 @@ namespace VMTDLib
         void apply();
 
         // СИСТЕМНЫЕ
+
+        EnNodeType nodeType() const;
 
         QString systemName() const;
 
@@ -81,6 +100,7 @@ namespace VMTDLib
 
         QPointer<VMTDSettingsForm> m_form;
 
+        const EnNodeType m_nodeType;
         const QString m_systemName;
         QString m_debugName;
         bool m_shouldShowDebug;

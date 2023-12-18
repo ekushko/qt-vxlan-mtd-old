@@ -123,8 +123,8 @@ namespace VMTDLib
         connect(m_server, &VMTDNodeServer::showDebugSignal,
                 form, &VMTDNodeAdapterForm::showDebugSlot);
 
-        connect(form, &VMTDNodeAdapterForm::sendRequestSignal,
-                m_server, &VMTDNodeServer::sendRequestSlot);
+        connect(form, &VMTDNodeAdapterForm::sendMessageSignal,
+                m_server, &VMTDNodeServer::sendMessageSlot);
 
         m_socketToForm.insert(socket, form);
 

@@ -20,7 +20,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::pbCreateServerClicked()
 {
-    m_settings = new VMTDSettings(this, "VMTD");
+    m_settings = new VMTDSettings(this, VMTDNodeType::SERVER, "VMTD");
     m_controller = new VMTDController(this, m_settings);
     //m_controller->startController();
 

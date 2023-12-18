@@ -14,8 +14,8 @@ namespace VMTDLib
 
         m_adapterForm = new VMTDNodeAdapterForm(ui->wLeft, m_client->socket());
         m_adapterForm->layout()->setMargin(0);
-        connect(m_adapterForm, &VMTDNodeAdapterForm::sendRequestSignal,
-                this, &VMTDNodeClientForm::sendRequestSignal);
+        connect(m_adapterForm, &VMTDNodeAdapterForm::sendMessageSignal,
+                this, &VMTDNodeClientForm::sendMessageSignal);
         connect(m_client, &VMTDNodeClient::showDebugSignal,
                 m_adapterForm, &VMTDNodeAdapterForm::showDebugSlot);
         ui->wLeft->layout()->addWidget(m_adapterForm);
@@ -27,8 +27,8 @@ namespace VMTDLib
         connect(ui->pbConnectSocket, &QPushButton::clicked,
                 m_client, &VMTDNodeClient::connectSocketSlot);
 
-        connect(this, &VMTDNodeClientForm::sendRequestSignal,
-                m_client, &VMTDNodeClient::sendRequestSlot);
+        connect(this, &VMTDNodeClientForm::sendMessageSignal,
+                m_client, &VMTDNodeClient::sendMessageSlot);
 
         updateView();
 

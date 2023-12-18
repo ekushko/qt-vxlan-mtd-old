@@ -16,7 +16,7 @@ namespace VMTDLib
 
         setWindowTitle(QString("Контроллер %1").arg(m_controller->settings()->systemName()));
 
-        initialize();
+        initializeView();
 
         updateNxApiAdaptersList();
     }
@@ -28,20 +28,20 @@ namespace VMTDLib
         delete ui;
     }
 
-    void VMTDControllerForm::initialize()
+    void VMTDControllerForm::initializeView()
     {
         connect(ui->pbSettings, &QPushButton::clicked,
                 this, &VMTDControllerForm::pbSettingsClicked);
+        connect(ui->pbStartController, &QPushButton::clicked,
+                m_controller, &VMTDController::startController);
+        connect(ui->pbStopController, &QPushButton::clicked,
+                m_controller, &VMTDController::stopController);
         connect(ui->pbRefresh, &QPushButton::clicked,
                 this, &VMTDControllerForm::pbRefreshClicked);
-        connect(ui->pbSave, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbSaveClicked);
-        connect(ui->pbLoad, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbLoadClicked);
-        connect(ui->pbCreateNxApiAdapter, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbCreateNxApiAdapterClicked);
-        connect(ui->pbDeleteNxApiAdapter, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbDeleteNxApiAdapterClicked);
+        connect(ui->pbNodeServer, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbNodeServerClicked);
+        connect(ui->pbNodeClient, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbNodeClientClicked);
         connect(ui->lwNxApiAdapters, &QListWidget::itemDoubleClicked,
                 this, &VMTDControllerForm::lwNxApiAdaptersItemDoubleClicked);
     }
@@ -64,33 +64,16 @@ namespace VMTDLib
         updateNxApiAdaptersList();
     }
 
-    void VMTDControllerForm::pbSaveClicked()
+    void VMTDControllerForm::pbNodeServerClicked()
     {
-        m_controller->saveNxApiAdapters();
-    }
-    void VMTDControllerForm::pbLoadClicked()
-    {
-        m_controller->loadNxApiAdapters();
-
-        updateNxApiAdaptersList();
+        if (m_controller->settings()->nodeType() == VMTDNodeType::SERVER)
+            m_controller->nodeServer()->showForm();
     }
 
-    void VMTDControllerForm::pbCreateNxApiAdapterClicked()
+    void VMTDControllerForm::pbNodeClientClicked()
     {
-        auto adapter = m_controller->createNxApiAdapter();
-        adapter->setUrl(QUrl(ui->leUrl->text()));
-
-        updateNxApiAdaptersList();
-    }
-    void VMTDControllerForm::pbDeleteNxApiAdapterClicked()
-    {
-        for (int i = 0; i < ui->lwNxApiAdapters->selectedItems().size(); ++i)
-        {
-            const auto row = ui->lwNxApiAdapters->row(ui->lwNxApiAdapters->selectedItems().at(i));
-            m_controller->deleteNxApiAdapter(row);
-        }
-
-        updateNxApiAdaptersList();
+        if (m_controller->settings()->nodeType() == VMTDNodeType::CLIENT)
+            m_controller->nodeClient()->showForm();
     }
 
     void VMTDControllerForm::lwNxApiAdaptersItemDoubleClicked(QListWidgetItem *item)

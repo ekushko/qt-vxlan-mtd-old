@@ -9,8 +9,9 @@
 
 namespace VMTDLib
 {
-    VMTDSettings::VMTDSettings(QObject *parent, const QString &systemName)
+    VMTDSettings::VMTDSettings(QObject *parent, EnNodeType nodeType, const QString &systemName)
         : QObject{parent}
+        , m_nodeType{nodeType}
         , m_systemName{systemName}
     {
         m_debugName = "VMTD";
@@ -58,6 +59,21 @@ namespace VMTDLib
         m_form->activateWindow();
     }
 
+    const QString &VMTDSettings::enNodeTypeToS(const EnNodeType &nodeType)
+    {
+        switch(nodeType)
+        {
+        case EnNodeType::CLIENT: RETURN_S("Клиент");
+        case EnNodeType::SERVER: RETURN_S("Сервер");
+        }
+
+        return S_QUESTIONS;
+    }
+    const QMap<int, QString> &VMTDSettings::enNodeTypeToL()
+    {
+        RETURN_MAP(EnNodeType, enNodeTypeToS);
+    }
+
     void VMTDSettings::debugOut(const QString &text)
     {
         if (m_shouldShowDebug)
@@ -68,6 +84,7 @@ namespace VMTDLib
     {
         QJsonObject jsonObj;
 
+        jsonObj[VN_ME(m_nodeType)] = static_cast<int>(m_nodeType);
         jsonObj[VN_ME(m_systemName)] = m_systemName;
         jsonObj[VN_ME(m_debugName)] = m_debugName;
         jsonObj[VN_ME(m_shouldShowDebug)] = m_shouldShowDebug;
@@ -121,6 +138,11 @@ namespace VMTDLib
 
             m_wasNetworkChanged = false;
         }
+    }
+
+    VMTDSettings::EnNodeType VMTDSettings::nodeType() const
+    {
+        return m_nodeType;
     }
 
     QString VMTDSettings::systemName() const

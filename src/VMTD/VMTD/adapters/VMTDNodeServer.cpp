@@ -127,7 +127,7 @@ namespace VMTDLib
         startListenSlot();
     }
 
-    void VMTDNodeServer::sendRequestSlot(QWebSocket *socket, const QJsonObject &requestObj)
+    void VMTDNodeServer::sendMessageSlot(QWebSocket *socket, const QJsonObject &messageObj)
     {
         if (socket == nullptr)
             return;
@@ -139,7 +139,7 @@ namespace VMTDLib
         jsonObj["jsonrpc"] = "2.0";
         jsonObj["method"] = "cli_ascii";
 
-        jsonObj["request"] = requestObj;
+        jsonObj["message"] = messageObj;
         jsonObj["id"] = m_commandCounter++;
 
         QJsonDocument jsonDoc;

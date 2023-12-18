@@ -46,7 +46,7 @@ namespace VMTDLib
         void    stopListenSlot();
         void restartListenSlot();
 
-        void sendRequestSlot(QWebSocket *socket, const QJsonObject &requestObj);
+        void sendMessageSlot(QWebSocket *socket, const QJsonObject &messageObj);
 
     private:
 

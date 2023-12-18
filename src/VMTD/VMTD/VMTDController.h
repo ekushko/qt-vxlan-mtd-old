@@ -3,6 +3,8 @@
 #include "VMTDSettings.h"
 
 #include "adapters/VMTDNxApiAdapter.h"
+#include "adapters/VMTDNodeServer.h"
+#include "adapters/VMTDNodeClient.h"
 
 #include <QThread>
 #include <QNetworkAccessManager>
@@ -24,15 +26,16 @@ namespace VMTDLib
 
         VMTDSettings *settings() const;
 
+        const QVector<VMTDNxApiAdapter *> &nxApiAdapters() const;
+
+        VMTDNodeServer *nodeServer() const;
+
+        VMTDNodeClient *nodeClient() const;
+
+    public slots:
+
         void startController();
         void  stopController();
-
-        const QVector<VMTDNxApiAdapter *> &nxApiAdapters() const;
-        void saveNxApiAdapters();
-        void loadNxApiAdapters();
-
-        VMTDNxApiAdapter *createNxApiAdapter();
-        void              deleteNxApiAdapter(int index);
 
     protected:
 
@@ -47,6 +50,10 @@ namespace VMTDLib
         QNetworkAccessManager *m_netManager;
 
         QVector<VMTDNxApiAdapter *> m_nxApiAdapters;
+
+        VMTDNodeServer *m_nodeServer;
+
+        VMTDNodeClient *m_nodeClient;
 
     private slots:
 

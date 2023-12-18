@@ -15,10 +15,6 @@ namespace VMTDLib
 
         connect(this, &VMTDController::started, this, &VMTDController::startedSlot);
         connect(this, &VMTDController::finished, this, &VMTDController::finishedSlot);
-
-        m_netManager = new QNetworkAccessManager(nullptr);
-
-        loadNxApiAdapters();
     }
 
     VMTDController::~VMTDController()
@@ -27,9 +23,6 @@ namespace VMTDLib
 
         if (m_form != nullptr)
             delete m_form;
-
-        for (int i = m_nxApiAdapters.size() - 1; i >= 0; --i)
-            deleteNxApiAdapter(i);
     }
 
     void VMTDController::showForm()
@@ -47,6 +40,21 @@ namespace VMTDLib
         return m_settings;
     }
 
+    const QVector<VMTDNxApiAdapter *> &VMTDController::nxApiAdapters() const
+    {
+        return m_nxApiAdapters;
+    }
+
+    VMTDNodeServer *VMTDController::nodeServer() const
+    {
+        return m_nodeServer;
+    }
+
+    VMTDNodeClient *VMTDController::nodeClient() const
+    {
+        return m_nodeClient;
+    }
+
     void VMTDController::startController()
     {
         start();
@@ -57,76 +65,47 @@ namespace VMTDLib
         wait();
     }
 
-    const QVector<VMTDNxApiAdapter *> &VMTDController::nxApiAdapters() const
-    {
-        return m_nxApiAdapters;
-    }
-
-    void VMTDController::saveNxApiAdapters()
-    {
-        QJsonObject jsonObj;
-
-        for (int i = 0; i < m_nxApiAdapters.size(); ++i)
-            jsonObj[QString("nxApiAdapter_%1").arg(i)] = m_nxApiAdapters.at(i)->toJson();
-
-        m_settings->setNxApiAdaptersParams(jsonObj);
-        m_settings->save();
-    }
-    void VMTDController::loadNxApiAdapters()
-    {
-        for (int i = m_nxApiAdapters.size() - 1; i >= 0; --i)
-            deleteNxApiAdapter(i);
-
-        auto jsonObj = m_settings->nxApiAdaptersParams();
-
-        for (int i = 0; i < jsonObj.size(); ++i)
-        {
-            auto nxApiAdapter = createNxApiAdapter();
-            nxApiAdapter->fromJson(jsonObj[QString("nxApiAdapter_%1").arg(i)].toObject());
-        }
-    }
-
-    VMTDNxApiAdapter *VMTDController::createNxApiAdapter()
-    {
-        auto nxApiAdapter = new VMTDNxApiAdapter(nullptr, m_settings, m_netManager);
-        m_nxApiAdapters.append(nxApiAdapter);
-
-        if (isRunning())
-            nxApiAdapter->moveToThread(this);
-
-        return nxApiAdapter;
-    }
-    void VMTDController::deleteNxApiAdapter(int index)
-    {
-        if (index < 0 || index >= m_nxApiAdapters.size())
-        {
-            m_settings->debugOut(VN_S(VMTDController) + " | Bad NX-API adapter index");
-            return;
-        }
-
-        auto nxApiAdapter = m_nxApiAdapters.at(index);
-
-        if (isRunning())
-            nxApiAdapter->moveToThread(qApp->thread());
-
-        delete nxApiAdapter;
-
-        m_nxApiAdapters.removeAt(index);
-    }
-
     void VMTDController::run()
     {
-        m_netManager->moveToThread(this);
+        if (m_settings->nodeType() == VMTDNodeType::CLIENT)
+        {
+            m_nodeClient = new VMTDNodeClient(nullptr, m_settings);
+            connect(this, &VMTDController::finished, m_nodeClient, &VMTDNodeClient::deleteLater);
+            m_nodeClient->connectSocketSlot();
+        }
+        else if (m_settings->nodeType() == VMTDNodeType::SERVER)
+        {
+            m_nodeServer = new VMTDNodeServer(nullptr, m_settings);
+            connect(this, &VMTDController::finished, m_nodeServer, &VMTDNodeServer::deleteLater);
+            m_nodeServer->startListenSlot();
 
-        for (auto nxApiAdapter : qAsConst(m_nxApiAdapters))
-            nxApiAdapter->moveToThread(this);
+            m_netManager = new QNetworkAccessManager(nullptr);
+            connect(this, &VMTDController::finished, m_netManager, &QNetworkAccessManager::deleteLater);
+
+            auto jsonObj = m_settings->nxApiAdaptersParams();
+
+            for (int i = 0; i < jsonObj.size(); ++i)
+            {
+                auto nxApiAdapter = new VMTDNxApiAdapter(nullptr, m_settings, m_netManager);
+                connect(this, &VMTDController::finished, nxApiAdapter, &VMTDNxApiAdapter::deleteLater);
+                m_nxApiAdapters.append(nxApiAdapter);
+
+                nxApiAdapter->fromJson(jsonObj[QString("nxApiAdapter_%1").arg(i)].toObject());
+            }
+        }
 
         exec();
 
-        for (auto nxApiAdapter : qAsConst(m_nxApiAdapters))
-            nxApiAdapter->moveToThread(qApp->thread());
+        if (m_settings->nodeType() == VMTDNodeType::CLIENT)
+        {
+            m_nodeClient->disconnectSocketSlot();
+        }
+        else if (m_settings->nodeType() == VMTDNodeType::SERVER)
+        {
+            m_nodeServer->stopListenSlot();
+        }
 
-        m_netManager->moveToThread(qApp->thread());
+        m_nxApiAdapters.clear();
     }
 
     void VMTDController::startedSlot()

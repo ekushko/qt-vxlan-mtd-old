@@ -66,7 +66,7 @@ namespace VMTDLib
         m_socketErrors.clear();
     }
 
-    QString VMTDNodeClient::state() const
+    QString VMTDNodeClient::stateString() const
     {
         QString state;
 
@@ -103,7 +103,7 @@ namespace VMTDLib
         connectSocketSlot();
     }
 
-    void VMTDNodeClient::sendRequestSlot(QWebSocket *socket, const QJsonObject &requestObj)
+    void VMTDNodeClient::sendMessageSlot(QWebSocket *socket, const QJsonObject &messageObj)
     {
         if (m_socket != socket
             || m_socket->state() != QAbstractSocket::ConnectedState)
@@ -114,7 +114,7 @@ namespace VMTDLib
         jsonObj["jsonrpc"] = "2.0";
         jsonObj["method"] = "cli_ascii";
 
-        jsonObj["request"] = requestObj;
+        jsonObj["message"] = messageObj;
         jsonObj["id"] = m_commandCounter++;
 
         QJsonDocument jsonDoc;
@@ -137,6 +137,8 @@ namespace VMTDLib
                 jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
 
         emit showDebugSignal(m_socket, debugString);
+
+        emit receiveMessageSignal(jsonDoc.object());
     }
 
     void VMTDNodeClient::connectedSlot()

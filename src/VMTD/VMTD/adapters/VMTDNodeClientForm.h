@@ -22,7 +22,7 @@ namespace VMTDLib
 
     signals:
 
-        void sendRequestSignal(QWebSocket *socket, const QJsonObject &requestObj);
+        void sendMessageSignal(QWebSocket *socket, const QJsonObject &messageObj);
 
     private:
 

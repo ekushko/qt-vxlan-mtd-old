@@ -23,7 +23,7 @@ namespace VMTDLib
 
     private:
 
-        void initialize();
+        void initializeView();
 
         void updateNxApiAdaptersList();
 
@@ -37,11 +37,9 @@ namespace VMTDLib
 
         void pbRefreshClicked();
 
-        void pbSaveClicked();
-        void pbLoadClicked();
+        void pbNodeServerClicked();
 
-        void pbCreateNxApiAdapterClicked();
-        void pbDeleteNxApiAdapterClicked();
+        void pbNodeClientClicked();
 
         void lwNxApiAdaptersItemDoubleClicked(QListWidgetItem *item);
     };

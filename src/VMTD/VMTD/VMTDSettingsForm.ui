@@ -101,28 +101,7 @@
            <string>Системные</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
-           <item row="0" column="0">
-            <widget class="QLabel" name="_7">
-             <property name="text">
-              <string>Системное имя:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0" colspan="2">
-            <widget class="QCheckBox" name="chbShouldShowDebug">
-             <property name="text">
-              <string>Выводить отладочную информацию</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLabel" name="lbSystemName">
-             <property name="text">
-              <string>TextLabel</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
+           <item row="2" column="0">
             <widget class="QLabel" name="_8">
              <property name="text">
               <string>Отладочное имя:</string>
@@ -130,7 +109,42 @@
             </widget>
            </item>
            <item row="1" column="1">
+            <widget class="QLabel" name="lbSystemName">
+             <property name="text">
+              <string>TextLabel</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0" colspan="2">
+            <widget class="QCheckBox" name="chbShouldShowDebug">
+             <property name="text">
+              <string>Выводить отладочную информацию</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
             <widget class="QLineEdit" name="leDebugName"/>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="_7">
+             <property name="text">
+              <string>Системное имя:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="_14">
+             <property name="text">
+              <string>Тип узла:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="lbNodeType">
+             <property name="text">
+              <string>TextLabel</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>

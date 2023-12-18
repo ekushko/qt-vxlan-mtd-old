@@ -30,8 +30,6 @@ namespace VMTDLib
             return map;
         }
         // *INDENT-ON*
-
-        static QString convertByteMessage(bool isInput, const QTime &time, const QString &data);
     };
 
 #define VN(Variable) (#Variable)

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>425</width>
-    <height>410</height>
+    <width>472</width>
+    <height>372</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,6 +20,20 @@
       <widget class="QPushButton" name="pbSettings">
        <property name="text">
         <string>Настройки</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pbStartController">
+       <property name="text">
+        <string>Старт</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pbStopController">
+       <property name="text">
+        <string>Стоп</string>
        </property>
       </widget>
      </item>
@@ -43,13 +57,6 @@
      <item>
       <layout class="QHBoxLayout" name="_4">
        <item>
-        <widget class="QPushButton" name="pbRefresh">
-         <property name="text">
-          <string>Обновить</string>
-         </property>
-        </widget>
-       </item>
-       <item>
         <spacer name="_5">
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -63,16 +70,9 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="pbSave">
+        <widget class="QPushButton" name="pbRefresh">
          <property name="text">
-          <string>Сохранить</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pbLoad">
-         <property name="text">
-          <string>Загрузить</string>
+          <string>Обновить</string>
          </property>
         </widget>
        </item>
@@ -89,45 +89,25 @@
       <widget class="QListWidget" name="lwNxApiAdapters"/>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="_9">
-       <item>
-        <widget class="QLabel" name="_10">
-         <property name="text">
-          <string>URL:</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="leUrl"/>
-       </item>
-      </layout>
-     </item>
-     <item>
       <layout class="QHBoxLayout" name="_6">
        <item>
-        <spacer name="_7">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pbCreateNxApiAdapter">
+        <widget class="QLabel" name="_7">
          <property name="text">
-          <string>Добавить</string>
+          <string>Управление узлами:</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pbDeleteNxApiAdapter">
+        <widget class="QPushButton" name="pbNodeServer">
          <property name="text">
-          <string>Удалить</string>
+          <string>Сервер</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pbNodeClient">
+         <property name="text">
+          <string>Клиент</string>
          </property>
         </widget>
        </item>

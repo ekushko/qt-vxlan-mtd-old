@@ -34,10 +34,10 @@ namespace VMTDLib
 
     void VMTDNodeAdapterForm::pbSendClicked()
     {
-        QJsonValue jsonValue(ui->pteRequest->toPlainText());
+        QJsonValue jsonValue(ui->pteMessage->toPlainText());
 
-        emit sendRequestSignal(m_socket, jsonValue.toObject());
+        emit sendMessageSignal(m_socket, jsonValue.toObject());
 
-        ui->pteRequest->clear();
+        ui->pteMessage->clear();
     }
 }

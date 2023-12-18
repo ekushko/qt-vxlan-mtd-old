@@ -46,6 +46,7 @@ namespace VMTDLib
 
     void VMTDSettingsForm::updateView()
     {
+        ui->lbNodeType->setText(VMTDSettings::enNodeTypeToS(m_settings->nodeType()));
         ui->lbSystemName->setText(m_settings->systemName());
         ui->leDebugName->setText(m_settings->debugName());
         ui->chbShouldShowDebug->setChecked(m_settings->shouldShowDebug());
