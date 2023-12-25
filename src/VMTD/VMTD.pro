@@ -146,13 +146,16 @@ SOURCES += \
     VMTD/VMTDRepo.cpp \
     VMTD/VMTDSettings.cpp \
     VMTD/VMTDSettingsForm.cpp \
-    VMTD/adapters/VMTDNodeAdapterForm.cpp \
-    VMTD/adapters/VMTDNodeClient.cpp \
-    VMTD/adapters/VMTDNodeClientForm.cpp \
-    VMTD/adapters/VMTDNodeServer.cpp \
-    VMTD/adapters/VMTDNodeServerForm.cpp \
-    VMTD/adapters/VMTDNxApiAdapter.cpp \
-    VMTD/adapters/VMTDNxApiAdapterForm.cpp \
+    VMTD/adapter/VMTDNodeAdapterForm.cpp \
+    VMTD/adapter/VMTDNodeClient.cpp \
+    VMTD/adapter/VMTDNodeClientForm.cpp \
+    VMTD/adapter/VMTDNodeServer.cpp \
+    VMTD/adapter/VMTDNodeServerForm.cpp \
+    VMTD/adapter/VMTDNxApiAdapter.cpp \
+    VMTD/adapter/VMTDNxApiAdapterForm.cpp \
+    VMTD/model/VMTDModel.cpp \
+    VMTD/model/VMTDNode.cpp \
+    VMTD/model/VMTDSwitch.cpp \
     main.cpp \
     MainWindow.cpp
 
@@ -164,22 +167,25 @@ HEADERS += \
     VMTD/VMTDRepo.h \
     VMTD/VMTDSettings.h \
     VMTD/VMTDSettingsForm.h \
-    VMTD/adapters/VMTDNodeAdapterForm.h \
-    VMTD/adapters/VMTDNodeClient.h \
-    VMTD/adapters/VMTDNodeClientForm.h \
-    VMTD/adapters/VMTDNodeServer.h \
-    VMTD/adapters/VMTDNodeServerForm.h \
-    VMTD/adapters/VMTDNxApiAdapter.h \
-    VMTD/adapters/VMTDNxApiAdapterForm.h
+    VMTD/adapter/VMTDNodeAdapterForm.h \
+    VMTD/adapter/VMTDNodeClient.h \
+    VMTD/adapter/VMTDNodeClientForm.h \
+    VMTD/adapter/VMTDNodeServer.h \
+    VMTD/adapter/VMTDNodeServerForm.h \
+    VMTD/adapter/VMTDNxApiAdapter.h \
+    VMTD/adapter/VMTDNxApiAdapterForm.h \
+    VMTD/model/VMTDModel.h \
+    VMTD/model/VMTDNode.h \
+    VMTD/model/VMTDSwitch.h
 
 FORMS += \
     MainWindow.ui \
     VMTD/VMTDControllerForm.ui \
     VMTD/VMTDSettingsForm.ui \
-    VMTD/adapters/VMTDNodeAdapterForm.ui \
-    VMTD/adapters/VMTDNodeClientForm.ui \
-    VMTD/adapters/VMTDNodeServerForm.ui \
-    VMTD/adapters/VMTDNxApiAdapterForm.ui
+    VMTD/adapter/VMTDNodeAdapterForm.ui \
+    VMTD/adapter/VMTDNodeClientForm.ui \
+    VMTD/adapter/VMTDNodeServerForm.ui \
+    VMTD/adapter/VMTDNxApiAdapterForm.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

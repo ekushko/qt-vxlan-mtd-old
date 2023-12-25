@@ -63,8 +63,8 @@ namespace VMTDLib
     {
         switch(nodeType)
         {
-        case EnNodeType::CLIENT: RETURN_S("Клиент");
-        case EnNodeType::SERVER: RETURN_S("Сервер");
+        case EnNodeType::CLIENT: RETURN_S("Client");
+        case EnNodeType::SERVER: RETURN_S("Server");
         }
 
         return S_QUESTIONS;
