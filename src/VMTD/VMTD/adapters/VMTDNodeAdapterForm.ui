@@ -58,7 +58,7 @@
      <item>
       <widget class="QPushButton" name="pbSend">
        <property name="text">
-        <string>Отправить</string>
+        <string>Send</string>
        </property>
       </widget>
      </item>

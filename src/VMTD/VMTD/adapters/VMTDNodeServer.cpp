@@ -11,7 +11,7 @@ namespace VMTDLib
         : QObject{parent}
         , m_settings{settings}
     {
-        m_wsServer = new QWebSocketServer("WebSocketServer", QWebSocketServer::NonSecureMode, this);
+         m_wsServer = new QWebSocketServer("VMTDNodeServer", QWebSocketServer::NonSecureMode, this);
          connect(m_wsServer, &QWebSocketServer::newConnection, this, &VMTDNodeServer::newConnectionSlot);
 
          connect(m_settings, &VMTDSettings::networkChangedSignal,
@@ -52,23 +52,14 @@ namespace VMTDLib
         return m_wsServer;
     }
 
-    QString VMTDNodeServer::serverErrors() const
-    {
-        return m_serverErrors;
-    }
-    void VMTDNodeServer::clearServerErrors()
-    {
-        m_serverErrors.clear();
-    }
-
     QString VMTDNodeServer::stateString() const
     {
         QString state;
 
         if (m_wsServer->isListening())
-            state = QString("Открыт. Клиентов: %1").arg(WsClientSockets.count());
+            state = QString("Opened. Clients: %1").arg(WsClientSockets.count());
         else
-            state = "Закрыт";
+            state = "Closed";
 
         return state;
     }
@@ -80,12 +71,12 @@ namespace VMTDLib
         if (m_wsServer->isListening())
         {
             debugString = VN_S(VMTDNodeServer) + "Server already started";
-            emit showDebugSignal(nullptr, debugString);
+            emit showDebugSignal(nullptr, QTime::currentTime(), debugString);
 
             return;
         }
 
-        const auto result = m_wsServer->listen(QHostAddress::Any, m_settings->localPort());
+        const auto result = m_wsServer->listen(QHostAddress::Any, m_settings->serverPort());
 
         if (result)
         {
@@ -97,7 +88,7 @@ namespace VMTDLib
             debugString = "Some problem when starting server. See errors.";
         }
 
-        emit showDebugSignal(nullptr, debugString);
+        emit showDebugSignal(nullptr, QTime::currentTime(), debugString);
     }
     void VMTDNodeServer::stopListenSlot()
     {
@@ -119,7 +110,7 @@ namespace VMTDLib
             debugString = "Server already stopped";
         }
 
-        emit showDebugSignal(nullptr, debugString);
+        emit showDebugSignal(nullptr, QTime::currentTime(), debugString);
     }
     void VMTDNodeServer::restartListenSlot()
     {
@@ -147,7 +138,12 @@ namespace VMTDLib
 
         socket->sendBinaryMessage(jsonDoc.toJson());
 
-        emit showDebugSignal(socket, jsonDoc.toJson(QJsonDocument::JsonFormat::Indented));
+        auto debugString = QString("Sended to {%1:%2}:\n")
+                .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
+                .arg(socket->peerPort())
+                + jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
+
+        emit showDebugSignal(socket, QTime::currentTime(), debugString);
     }
 
     void VMTDNodeServer::newConnectionSlot()
@@ -159,7 +155,7 @@ namespace VMTDLib
         if (socket == nullptr)
         {
             debugString = "Incorrect client socket in {newConnection} slot-function";
-            emit showDebugSignal(nullptr, debugString);
+            emit showDebugSignal(nullptr, QTime::currentTime(), debugString);
 
             return;
         }
@@ -171,54 +167,46 @@ namespace VMTDLib
 
         connect(socket, &QWebSocket::disconnected, socket, &QWebSocket::deleteLater);
         connect(socket, &QWebSocket::disconnected, this, &VMTDNodeServer::disconnectedSlot);
-
-        connect(socket,
-                static_cast<void (QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error),
+        connect(socket, static_cast<void (QWebSocket::*)(QAbstractSocket::SocketError)>(&QWebSocket::error),
                 this, &VMTDNodeServer::errorSlot);
 
         debugString = QString("Handled {newConnection} from: %1:%2")
-                .arg(socket->peerAddress().toString(),
-                     socket->peerPort());
-        emit showDebugSignal(nullptr, debugString);
+                .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
+                .arg(socket->peerPort());
+        emit showDebugSignal(nullptr, QTime::currentTime(), debugString);
 
         emit clientConnectedSignal(socket);
     }
 
     void VMTDNodeServer::binaryMessageReceivedSlot(const QByteArray &data)
     {
-        QWebSocket *socket = dynamic_cast<QWebSocket *>(sender());
+        auto socket = dynamic_cast<QWebSocket *>(sender());
 
-        QJsonDocument jsonDoc;
-        jsonDoc.fromJson(data);
+        const auto jsonDoc = QJsonDocument::fromJson(data);
 
-        const auto debugString = QString("{%1:%2}:\n")
-                .arg(socket->peerAddress().toString(),
-                     socket->peerPort()) +
-                jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
+        const auto debugString = QString("Received from {%1:%2}:\n")
+                .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
+                .arg(socket->peerPort())
+                + jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
 
-        emit showDebugSignal(socket, debugString);
+        emit showDebugSignal(socket, QTime::currentTime(), debugString);
+
+        emit receiveMessageSignal(jsonDoc.object());
     }
 
     void VMTDNodeServer::errorSlot(QAbstractSocket::SocketError error)
     {
-        QWebSocket *socket = dynamic_cast<QWebSocket *>(sender());
+        auto socket = dynamic_cast<QWebSocket *>(sender());
 
         if (socket == nullptr)
             return;
 
-        const auto debugString = QString("{%1} [%2]: %3")
-                .arg(socket->peerAddress().toString(),
-                     QTime::currentTime().toString("hh:mm:ss:zzz"),
-                     QVariant::fromValue(error).toString());
+        const auto errorString = QString("Error {%1:%2}: %3")
+                .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
+                .arg(socket->peerPort())
+                .arg(QVariant::fromValue(error).toString());
 
-        if (m_serverErrors.size() > 300)
-        {
-            int cropSize = m_serverErrors.size()
-                           - (m_serverErrors.indexOf('\n') + 1);
-            m_serverErrors = m_serverErrors.right(cropSize);
-        }
-
-        m_serverErrors.append(debugString);
+        emit showDebugSignal(socket, QTime::currentTime(), errorString);
     }
 
     void VMTDNodeServer::connectedSlot()
@@ -235,16 +223,16 @@ namespace VMTDLib
         {
             debugString = "Incorrect client socket in {disconnected} slot-function";
 
-            emit showDebugSignal(nullptr, debugString);
+            emit showDebugSignal(nullptr, QTime::currentTime(), debugString);
 
             return;
         }
 
         debugString = QString("Handled {disconnected} from: %1:%2")
-                .arg(socket->peerAddress().toString(),
-                     socket->peerPort());
+                .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
+                .arg(socket->peerPort());
 
-        emit showDebugSignal(nullptr, debugString);
+        emit showDebugSignal(nullptr, QTime::currentTime(), debugString);
 
         emit clientDisconnectedSignal(socket);
 

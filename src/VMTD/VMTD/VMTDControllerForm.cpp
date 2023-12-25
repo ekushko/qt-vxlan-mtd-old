@@ -14,7 +14,7 @@ namespace VMTDLib
 
         ui->setupUi(this);
 
-        setWindowTitle(QString("Контроллер %1").arg(m_controller->settings()->systemName()));
+        setWindowTitle(m_controller->settings()->systemName());
 
         initializeView();
 

@@ -10,7 +10,7 @@ namespace VMTDLib
 {
     class VMTDNodeClientForm;
 
-    class VMTDNodeClient : public QObject
+    class VMTD_SHARED VMTDNodeClient : public QObject
     {
         Q_OBJECT
         Q_DISABLE_COPY(VMTDNodeClient)
@@ -26,16 +26,13 @@ namespace VMTDLib
 
         QWebSocket *socket() const;
 
-        QString   socketErrors() const;
-        void clearSocketErrors();
-
         QString stateString() const;
 
     signals:
 
         void receiveMessageSignal(const QJsonObject &messageObj);
 
-        void showDebugSignal(QWebSocket *socket, const QString &text);
+        void showDebugSignal(QWebSocket *socket, const QTime &time, const QString &text);
 
     public slots:
 
@@ -53,11 +50,9 @@ namespace VMTDLib
 
         QWebSocket *m_socket;
 
-        QString m_socketErrors;
-
         QTimer m_reconnectTimer;
 
-        int m_commandCounter = 0;
+        int m_commandCounter = 1;
 
     private slots:
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>987</width>
-    <height>756</height>
+    <width>836</width>
+    <height>615</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,7 +39,7 @@
        <widget class="QTabWidget" name="twSockets">
         <widget class="QWidget" name="tabServer">
          <attribute name="title">
-          <string>Сервер</string>
+          <string>Server</string>
          </attribute>
          <layout class="QVBoxLayout" name="verticalLayout">
           <item>
@@ -105,9 +105,28 @@
       <item>
        <widget class="QGroupBox" name="gbServerState">
         <property name="title">
-         <string>Сосотояние сервера</string>
+         <string>Server</string>
         </property>
         <layout class="QVBoxLayout" name="_2">
+         <item>
+          <widget class="QLabel" name="lbOpen">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
          <item>
           <widget class="QWidget" name="wOpenClose" native="true">
            <layout class="QHBoxLayout" name="horizontalLayout">
@@ -124,35 +143,16 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QLabel" name="lbOpen">
-              <property name="minimumSize">
-               <size>
-                <width>110</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>110</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>TextLabel</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QPushButton" name="pbStart">
               <property name="text">
-               <string>Запуск</string>
+               <string>Start</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="pbStop">
               <property name="text">
-               <string>Останов</string>
+               <string>Stop</string>
               </property>
              </widget>
             </item>
@@ -161,70 +161,42 @@
          </item>
          <item>
           <widget class="QLabel" name="lbServerName">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>24</height>
+            </size>
+           </property>
            <property name="text">
-            <string>Имя сервера:</string>
+            <string>Server name:</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="lbLocalAdress">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>24</height>
+            </size>
+           </property>
            <property name="text">
-            <string>Слушает порт:</string>
+            <string>Listening port:</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="lbClientSockets">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>24</height>
+            </size>
+           </property>
            <property name="text">
-            <string>Подключенные клиенты:</string>
+            <string>Connected clients:</string>
            </property>
           </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="gbServerError">
-        <property name="title">
-         <string>Ошибки сервера</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QPlainTextEdit" name="pteErrors">
-           <property name="plainText">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="_1">
-           <item>
-            <spacer name="_3">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pbClearErrors">
-             <property name="minimumSize">
-              <size>
-               <width>110</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Очистить ошибки</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
          </item>
         </layout>
        </widget>
@@ -241,6 +213,13 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbClose">
+        <property name="text">
+         <string>Close</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>

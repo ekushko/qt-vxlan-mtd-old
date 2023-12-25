@@ -21,7 +21,17 @@ namespace VMTDLib
         setWindowTitle(QString("NX-API Адаптер (%1)").arg(m_adapter->url().toString()));
         setAttribute(Qt::WA_DeleteOnClose, true);
 
-        initialize();
+        connect(this, &VMTDNxApiAdapterForm::sendCommandsSignal,
+                m_adapter, &VMTDNxApiAdapter::sendCommandSlot,
+                Qt::QueuedConnection);
+        connect(this, &VMTDNxApiAdapterForm::checkConnectionSignal,
+                m_adapter, &VMTDNxApiAdapter::checkConnectionSlot,
+                Qt::QueuedConnection);
+        connect(m_adapter, &VMTDNxApiAdapter::showMessageSignal,
+                this, &VMTDNxApiAdapterForm::showMessageSlot,
+                Qt::QueuedConnection);
+
+        initializeView();
 
         connect(&m_quickUiTimer, &QTimer::timeout,
                 this, &VMTDNxApiAdapterForm::quickUiTimerTickSlot);
@@ -54,7 +64,7 @@ namespace VMTDLib
         ui->pteFlow->appendPlainText("\n-------------------------\n");
     }
 
-    void VMTDNxApiAdapterForm::initialize()
+    void VMTDNxApiAdapterForm::initializeView()
     {
         connect(ui->pbHideRight, &QPushButton::clicked,
                 this, &VMTDNxApiAdapterForm::pbHideRightClicked);
@@ -68,16 +78,8 @@ namespace VMTDLib
                 this, &VMTDNxApiAdapterForm::pbAcceptClicked);
         connect(ui->pbCancel, &QPushButton::clicked,
                 this, &VMTDNxApiAdapterForm::pbCancelClicked);
-
-        connect(this, &VMTDNxApiAdapterForm::sendCommandsSignal,
-                m_adapter, &VMTDNxApiAdapter::sendCommandSlot,
-                Qt::QueuedConnection);
-        connect(this, &VMTDNxApiAdapterForm::checkConnectionSignal,
-                m_adapter, &VMTDNxApiAdapter::checkConnectionSlot,
-                Qt::QueuedConnection);
-        connect(m_adapter, &VMTDNxApiAdapter::showMessageSignal,
-                this, &VMTDNxApiAdapterForm::showMessageSlot,
-                Qt::QueuedConnection);
+        connect(ui->pbClose, &QPushButton::clicked,
+                this, &VMTDNxApiAdapterForm::close);
     }
 
     void VMTDNxApiAdapterForm::setEditMode(bool isEditMode)

@@ -63,13 +63,13 @@
         <item>
          <widget class="QGroupBox" name="gbConnection">
           <property name="title">
-           <string>Подключение</string>
+           <string>Connection</string>
           </property>
           <layout class="QGridLayout" name="gridLayout">
            <item row="4" column="0">
             <widget class="QLabel" name="_10">
              <property name="text">
-              <string>Пароль:</string>
+              <string>Password:</string>
              </property>
             </widget>
            </item>
@@ -86,21 +86,21 @@
            <item row="3" column="0">
             <widget class="QLabel" name="_9">
              <property name="text">
-              <string>Пользователь:</string>
+              <string>Username:</string>
              </property>
             </widget>
            </item>
            <item row="5" column="0">
             <widget class="QLabel" name="_14">
              <property name="text">
-              <string>Ожид. квитанции (мс):</string>
+              <string>Ticket interval (ms):</string>
              </property>
             </widget>
            </item>
            <item row="0" column="0" colspan="2">
             <widget class="QPushButton" name="pbCheckConnection">
              <property name="text">
-              <string>Проверка подключения</string>
+              <string>Check connection</string>
              </property>
             </widget>
            </item>
@@ -113,7 +113,7 @@
            <item row="2" column="0">
             <widget class="QLabel" name="_8">
              <property name="text">
-              <string>Ссылка:</string>
+              <string>URL:</string>
              </property>
             </widget>
            </item>
@@ -138,21 +138,21 @@
              <item>
               <widget class="QPushButton" name="pbChange">
                <property name="text">
-                <string>Изменить</string>
+                <string>Change</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="pbAccept">
                <property name="text">
-                <string>Принять</string>
+                <string>Accept</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="pbCancel">
                <property name="text">
-                <string>Отмена</string>
+                <string>Cancel</string>
                </property>
               </widget>
              </item>
@@ -174,7 +174,7 @@
            <item row="1" column="0">
             <widget class="QLabel" name="_15">
              <property name="text">
-              <string>Подключение:</string>
+              <string>State:</string>
              </property>
             </widget>
            </item>
@@ -191,7 +191,7 @@
         <item>
          <widget class="QGroupBox" name="gbCommands">
           <property name="title">
-           <string>Генератор запросов</string>
+           <string>Request generator</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout">
            <item>
@@ -215,7 +215,7 @@
              <item>
               <widget class="QPushButton" name="pbSendCommands">
                <property name="text">
-                <string>Отправить</string>
+                <string>Send</string>
                </property>
               </widget>
              </item>
@@ -249,6 +249,13 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pbClose">
+          <property name="text">
+           <string>Close</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>

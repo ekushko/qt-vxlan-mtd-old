@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>930</width>
-    <height>689</height>
+    <width>746</width>
+    <height>508</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -87,11 +87,30 @@
       <item>
        <widget class="QGroupBox" name="gbSocketState">
         <property name="title">
-         <string>Состояние сокета</string>
+         <string>Socket</string>
         </property>
         <layout class="QVBoxLayout" name="_2">
          <item>
           <widget class="QLabel" name="lbSocketState">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="lbOpen">
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>150</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>TextLabel</string>
            </property>
@@ -113,35 +132,16 @@
              <number>0</number>
             </property>
             <item>
-             <widget class="QLabel" name="lbOpen">
-              <property name="minimumSize">
-               <size>
-                <width>100</width>
-                <height>0</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>100</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="text">
-               <string>TextLabel</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <widget class="QPushButton" name="pbConnectSocket">
               <property name="text">
-               <string>Соединить</string>
+               <string>Connect</string>
               </property>
              </widget>
             </item>
             <item>
              <widget class="QPushButton" name="pbDisconnectSocket">
               <property name="text">
-               <string>Отключить</string>
+               <string>Disconnect</string>
               </property>
              </widget>
             </item>
@@ -151,58 +151,16 @@
          <item>
           <widget class="QLabel" name="lbLocalAdress">
            <property name="text">
-            <string>Локальный адрес:</string>
+            <string>Local IP:</string>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QLabel" name="lbPeerAdress">
            <property name="text">
-            <string>Удаленный адрес:</string>
+            <string>Remote IP:</string>
            </property>
           </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="gbSocketError">
-        <property name="title">
-         <string>Ошибки сокета</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QPlainTextEdit" name="pteSocketErrors"/>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="hl_1">
-           <item>
-            <spacer name="_1">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pbClearErrors">
-             <property name="minimumSize">
-              <size>
-               <width>110</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Очистить ошибки</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
          </item>
         </layout>
        </widget>
@@ -221,16 +179,9 @@
        </spacer>
       </item>
       <item>
-       <widget class="QPushButton" name="pbSettings">
-        <property name="text">
-         <string>Настройки</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="pbClose">
         <property name="text">
-         <string>Закрыть</string>
+         <string>Close</string>
         </property>
        </widget>
       </item>

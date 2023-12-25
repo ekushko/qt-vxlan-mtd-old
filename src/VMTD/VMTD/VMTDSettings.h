@@ -12,7 +12,7 @@ namespace VMTDLib
 
     class VMTDSettingsForm;
 
-    class VMTDSettings : public QObject
+    class VMTD_SHARED VMTDSettings : public QObject
     {
         Q_OBJECT
 

@@ -11,7 +11,7 @@ namespace VMTDLib
 {
     class VMTDNodeServerForm;
 
-    class VMTDNodeServer : public QObject
+    class VMTD_SHARED VMTDNodeServer : public QObject
     {
         Q_OBJECT
 
@@ -28,9 +28,6 @@ namespace VMTDLib
 
         QList<QWebSocket *> WsClientSockets;
 
-        QString   serverErrors() const;
-        void clearServerErrors();
-
         QString stateString() const;
 
     signals:
@@ -38,7 +35,9 @@ namespace VMTDLib
         void clientConnectedSignal(QWebSocket *socket);
         void clientDisconnectedSignal(QWebSocket *socket);
 
-        void showDebugSignal(QWebSocket *socket, const QString &text);
+        void receiveMessageSignal(const QJsonObject &messageObj);
+
+        void showDebugSignal(QWebSocket *socket, const QTime &time, const QString &text);
 
     public slots:
 
@@ -56,9 +55,7 @@ namespace VMTDLib
 
         QWebSocketServer *m_wsServer;
 
-        QString m_serverErrors;
-
-        int m_commandCounter = 0;
+        int m_commandCounter = 1;
 
     private slots:
 

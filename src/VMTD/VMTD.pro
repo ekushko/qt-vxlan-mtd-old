@@ -7,7 +7,7 @@
 NAME = VMTD
 
 TEMPLATE  = app
-TEMPLATE  = lib
+#TEMPLATE  = lib
 
 CONFIG += debug_and_release
 CONFIG += build_all
@@ -180,11 +180,6 @@ FORMS += \
     VMTD/adapters/VMTDNodeClientForm.ui \
     VMTD/adapters/VMTDNodeServerForm.ui \
     VMTD/adapters/VMTDNxApiAdapterForm.ui
-
-TRANSLATIONS += \
-    VMTD_ru_RU.ts
-CONFIG += lrelease
-CONFIG += embed_translations
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

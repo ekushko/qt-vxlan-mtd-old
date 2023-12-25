@@ -33,7 +33,7 @@ namespace VMTDLib
 
     private:
 
-        void initialize();
+        void initializeView();
 
         void setEditMode(bool isEditMode);
 

@@ -18,10 +18,13 @@ public:
 
 private slots:
     void pbCreateServerClicked();
+    void pbCreateClientClicked();
 
 private:
     Ui::MainWindow *ui;
 
     VMTDLib::VMTDSettings *m_settings;
-    VMTDLib::VMTDController *m_controller;
+
+    VMTDLib::VMTDController *m_server;
+    VMTDLib::VMTDController *m_client;
 };

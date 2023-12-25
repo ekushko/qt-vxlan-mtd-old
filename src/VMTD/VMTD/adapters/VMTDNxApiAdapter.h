@@ -13,9 +13,10 @@ namespace VMTDLib
 {
     class VMTDNxApiAdapterForm;
 
-    class VMTDNxApiAdapter : public QObject
+    class VMTD_SHARED VMTDNxApiAdapter : public QObject
     {
         Q_OBJECT
+        Q_DISABLE_COPY(VMTDNxApiAdapter)
 
     public:
 

@@ -42,7 +42,5 @@ namespace VMTDLib
         void uiTimerTickSlot();
 
         void pbShowDetailedStateClicked();
-
-        void pbClearErrorsClicked();
     };
 }

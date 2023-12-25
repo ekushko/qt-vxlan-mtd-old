@@ -57,23 +57,14 @@ namespace VMTDLib
         return m_socket;
     }
 
-    QString VMTDNodeClient::socketErrors() const
-    {
-        return m_socketErrors;
-    }
-    void VMTDNodeClient::clearSocketErrors()
-    {
-        m_socketErrors.clear();
-    }
-
     QString VMTDNodeClient::stateString() const
     {
         QString state;
 
         if (m_socket->state() != QAbstractSocket::ConnectedState)
-            state = "Есть соединение";
+            state = "Connected";
         else
-            state = "Нет соединения";
+            state = "Disconnected";
 
         return state;
     }
@@ -122,57 +113,56 @@ namespace VMTDLib
 
         m_socket->sendBinaryMessage(jsonDoc.toJson());
 
-        emit showDebugSignal(m_socket, jsonDoc.toJson(QJsonDocument::JsonFormat::Indented));
+        auto debugString = QString("Sended to {%1:%2}:\n")
+                .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
+                .arg(socket->peerPort())
+                + jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
+
+        emit showDebugSignal(socket, QTime::currentTime(), debugString);
     }
 
 
     void VMTDNodeClient::binaryMessageReceivedSlot(const QByteArray &data)
     {
-        QJsonDocument jsonDoc;
-        jsonDoc.fromJson(data);
+        const auto jsonDoc = QJsonDocument::fromJson(data);
 
-        const auto debugString = QString("{%1:%2}:\n")
-                .arg(m_socket->peerAddress().toString(),
-                     m_socket->peerPort()) +
-                jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
+        const auto debugString = QString("Received from {%1:%2}:\n")
+                .arg(QHostAddress(m_socket->peerAddress().toIPv4Address()).toString())
+                .arg(m_socket->peerPort())
+                + jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
 
-        emit showDebugSignal(m_socket, debugString);
+        emit showDebugSignal(m_socket, QTime::currentTime(), debugString);
 
         emit receiveMessageSignal(jsonDoc.object());
     }
 
     void VMTDNodeClient::connectedSlot()
     {
-        emit showDebugSignal(m_socket, "Socket connected!");
+        emit showDebugSignal(m_socket, QTime::currentTime(), "Socket connected!");
     }
     void VMTDNodeClient::disconnectedSlot()
     {
-        emit showDebugSignal(m_socket, "Socket disconnected!");
+        emit showDebugSignal(m_socket, QTime::currentTime(), "Socket disconnected!");
     }
 
     void VMTDNodeClient::errorSlot(QAbstractSocket::SocketError error)
     {
-        const auto errStr = QString("[%1]: %2")
-                .arg(QTime::currentTime().toString("hh:mm:ss:zzz"),
-                     QVariant::fromValue(error).toString());
+        const auto errorString = QString("Error {%1:%2}: %3")
+                .arg(QHostAddress(m_socket->peerAddress().toIPv4Address()).toString())
+                .arg(m_socket->peerPort())
+                .arg(QVariant::fromValue(error).toString());
 
-        if (m_socketErrors.size() > 300)
-        {
-            int cropSize = m_socketErrors.size() - (m_socketErrors.indexOf('\n') + 1);
-            m_socketErrors = m_socketErrors.right(cropSize);
-        }
-
-        m_socketErrors.append(errStr);
+        emit showDebugSignal(m_socket, QTime::currentTime(), errorString);
     }
 
     void VMTDNodeClient::stateChangedSlot(QAbstractSocket::SocketState state)
     {
-        const auto debugString = QString("{%1:%2}:\n")
-                .arg(m_socket->peerAddress().toString(),
-                     m_socket->peerPort()) +
-                QVariant::fromValue(state).toString();
+        const auto debugString = QString("{%1:%2}: ")
+                .arg(QHostAddress(m_socket->peerAddress().toIPv4Address()).toString())
+                .arg(m_socket->peerPort())
+                + QVariant::fromValue(state).toString();
 
-        emit showDebugSignal(m_socket, debugString);
+        emit showDebugSignal(m_socket, QTime::currentTime(), debugString);
     }
 
     void VMTDNodeClient::reconnectTimerTickSlot()
@@ -184,7 +174,8 @@ namespace VMTDLib
             && m_socket->state() != QAbstractSocket::ConnectingState
             && m_socket->state() != QAbstractSocket::HostLookupState)
         {
-            emit showDebugSignal(m_socket, "Socket is not connected. Trying to reconnect");
+            emit showDebugSignal(m_socket, QTime::currentTime(),
+                                 "Socket is not connected. Trying to reconnect");
         }
     }
 }

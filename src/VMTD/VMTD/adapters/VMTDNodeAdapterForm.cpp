@@ -1,8 +1,8 @@
 #include    "VMTDNodeAdapterForm.h"
 #include "ui_VMTDNodeAdapterForm.h"
 
-#include <QJsonValue>
 #include <QJsonObject>
+#include <QJsonDocument>
 
 namespace VMTDLib
 {
@@ -22,21 +22,29 @@ namespace VMTDLib
         delete ui;
     }
 
-    void VMTDNodeAdapterForm::showDebugSlot(QWebSocket *socket, const QString &text)
+    void VMTDNodeAdapterForm::showDebugSlot(QWebSocket *socket, const QTime &time, const QString &text)
     {
         if (m_socket == socket)
         {
-            ui->pteFlow->appendPlainText("\n--------------------------------\n");
-            ui->pteFlow->appendPlainText(text);
-            ui->pteFlow->appendPlainText("\n--------------------------------\n");
+            ui->pteFlow->appendPlainText(QString("\n[%1] %2\n")
+                                         .arg(time.toString("hh:mm:ss:zzz"))
+                                         .arg(text));
         }
     }
 
     void VMTDNodeAdapterForm::pbSendClicked()
     {
-        QJsonValue jsonValue(ui->pteMessage->toPlainText());
+        const auto text = ui->pteMessage->toPlainText();
+        const auto jsonDoc = QJsonDocument::fromJson(text.toUtf8());
 
-        emit sendMessageSignal(m_socket, jsonValue.toObject());
+        if (jsonDoc.isNull() || !jsonDoc.isObject())
+        {
+            showDebugSlot(m_socket, QTime::currentTime(),
+                          "Message not sended! This is not JSON!");
+            return;
+        }
+
+        emit sendMessageSignal(m_socket, jsonDoc.object());
 
         ui->pteMessage->clear();
     }

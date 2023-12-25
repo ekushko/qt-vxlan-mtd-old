@@ -12,6 +12,9 @@ namespace VMTDLib
 
         setAttribute(Qt::WA_DeleteOnClose, true);
 
+        connect(this, &VMTDNodeClientForm::sendMessageSignal,
+                m_client, &VMTDNodeClient::sendMessageSlot);
+
         m_adapterForm = new VMTDNodeAdapterForm(ui->wLeft, m_client->socket());
         m_adapterForm->layout()->setMargin(0);
         connect(m_adapterForm, &VMTDNodeAdapterForm::sendMessageSignal,
@@ -21,14 +24,6 @@ namespace VMTDLib
         ui->wLeft->layout()->addWidget(m_adapterForm);
 
         initializeView();
-
-        connect(ui->pbDisconnectSocket, &QPushButton::clicked,
-                m_client, &VMTDNodeClient::disconnectSocketSlot);
-        connect(ui->pbConnectSocket, &QPushButton::clicked,
-                m_client, &VMTDNodeClient::connectSocketSlot);
-
-        connect(this, &VMTDNodeClientForm::sendMessageSignal,
-                m_client, &VMTDNodeClient::sendMessageSlot);
 
         updateView();
 
@@ -44,82 +39,85 @@ namespace VMTDLib
 
     void VMTDNodeClientForm::initializeView()
     {
-        // do nothing
+        connect(ui->pbDisconnectSocket, &QPushButton::clicked,
+                m_client, &VMTDNodeClient::disconnectSocketSlot);
+        connect(ui->pbConnectSocket, &QPushButton::clicked,
+                m_client, &VMTDNodeClient::connectSocketSlot);
+
+        connect(ui->pbShowDetailedState, &QPushButton::clicked,
+                this, &VMTDNodeClientForm::pbShowDetailedStateClicked);
+
+        connect(ui->pbClose, &QPushButton::clicked,
+                this, &VMTDNodeClientForm::close);
     }
 
     void VMTDNodeClientForm::updateView()
     {
         if (m_client == nullptr)
         {
-            ui->lbSocketState->setText("Состояние сокета: н/д");
-            ui->lbOpen->setText("Сокет открыт: Нет");
-            ui->lbLocalAdress->setText("Локальный адрес: н/д");
-            ui->lbPeerAdress->setText("Удаленный адрес: н/д");
+            ui->lbSocketState->setText("State: None");
+            ui->lbOpen->setText("Opened: No");
+            ui->lbLocalAdress->setText("Local IP: None");
+            ui->lbPeerAdress->setText("Remote IP: None");
 
-            setWindowTitle("WebSocket-клиент: н/д:н/д");
+            setWindowTitle("VMTD Node-client: н/д:н/д");
 
             return;
         }
 
-        const QString title = QString("WebSocket-клиент: %1:%2")
+        const QString title = QString("VMTD Node-client: %1:%2")
                               .arg(m_client->settings()->serverIp())
                               .arg(m_client->settings()->serverPort());
         setWindowTitle(title);
 
         const auto socketState = m_client->socket()->state();
 
-        ui->lbSocketState->setText("Состояние сокета: "
-                                   + QVariant::fromValue(socketState).toString());
+        ui->lbSocketState->setText("State: " + QVariant::fromValue(socketState).toString());
 
         if (socketState == QAbstractSocket::ConnectedState)
         {
             ui->pbConnectSocket->setEnabled(false);
             ui->pbDisconnectSocket->setEnabled(true);
-            ui->lbOpen->setText("Сокет открыт: Да");
+            ui->lbOpen->setText("Opened: Yes");
         }
         else if (socketState == QAbstractSocket::ConnectingState)
         {
             ui->pbConnectSocket->setEnabled(false);
             ui->pbDisconnectSocket->setEnabled(false);
-            ui->lbOpen->setText("Сокет открыт: Нет");
+            ui->lbOpen->setText("Opened: No");
         }
         else
         {
             ui->pbConnectSocket->setEnabled(true);
             ui->pbDisconnectSocket->setEnabled(false);
-            ui->lbOpen->setText("Сокет открыт: Нет");
+            ui->lbOpen->setText("Opened: No");
         }
 
         QString ipAdress;
 
         if (!m_client->socket()->localAddress().isNull())
         {
-            ipAdress = QString("Локальный адрес: %1:%2")
+            ipAdress = QString("Local IP: %1:%2")
                        .arg(m_client->socket()->localAddress().toString())
                        .arg(m_client->socket()->localPort());
-            ui->lbLocalAdress->setText(ipAdress);
+            ui->
+                    lbLocalAdress->setText(ipAdress);
         }
         else
         {
-            ui->lbLocalAdress->setText("Локальный адрес: н/д");
+            ui->lbLocalAdress->setText("Local IP: None");
         }
 
         if (!m_client->socket()->peerAddress().isNull())
         {
-            ipAdress = QString("Удаленный адрес: %1:%2")
+            ipAdress = QString("Remote IP: %1:%2")
                        .arg(m_client->socket()->peerAddress().toString())
                        .arg(m_client->socket()->peerPort());
             ui->lbPeerAdress->setText(ipAdress);
         }
         else
         {
-            ui->lbPeerAdress->setText("Удаленный адрес: н/д");
-        }
-
-        if (ui->pteSocketErrors->toPlainText() != m_client->socketErrors())
-        {
-            ui->pteSocketErrors->clear();
-            ui->pteSocketErrors->appendPlainText(m_client->socketErrors());
+            ui->lbPeerAdress->setText("Remote IP: None");
         }
     }
 
@@ -131,11 +129,6 @@ namespace VMTDLib
     void VMTDNodeClientForm::pbShowDetailedStateClicked()
     {
         ui->wRight->setVisible(!ui->wRight->isVisible());
-        ui->pbShowDetailedState->setText(ui->wRight->isVisible() ? "<" : ">");
-    }
-
-    void VMTDNodeClientForm::pbClearErrorsClicked()
-    {
-        m_client->clearSocketErrors();
+        ui->pbShowDetailedState->setText(ui->wRight->isVisible() ? ">" : "<");
     }
 }

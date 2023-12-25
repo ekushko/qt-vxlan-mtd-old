@@ -25,7 +25,7 @@ namespace VMTDLib
 
     public slots:
 
-        void showDebugSlot(QWebSocket *socket, const QString &text);
+        void showDebugSlot(QWebSocket *socket, const QTime &time, const QString &text);
 
     private:
 
