@@ -4,6 +4,8 @@
 #include <QMetaEnum>
 #include <QTime>
 
+#include <limits>
+
 namespace VMTDLib
 {
     class VMTDRepo
@@ -30,6 +32,11 @@ namespace VMTDLib
             return map;
         }
         // *INDENT-ON*
+
+        static int generateIdentificator()
+        {
+            return 1 + (qrand() % (std::numeric_limits<int>::max() - 1));
+        }
     };
 
 #define VN(Variable) (#Variable)

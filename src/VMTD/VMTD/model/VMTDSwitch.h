@@ -36,7 +36,9 @@ namespace VMTDLib
         int     portCount() const;
         void setPortCount(int portCount);
 
-        QVector<int> CurrentNodes;
+        QVector<int> PortToNode;
+
+        QVector<QString> PortToInterface;
 
     private:
 

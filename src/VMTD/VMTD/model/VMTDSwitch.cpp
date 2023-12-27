@@ -20,8 +20,8 @@ namespace VMTDLib
         jsonObj[VN_ME(m_portCount)] = m_portCount;
 
         QJsonObject portsObj;
-        for (auto portNumber: CurrentNodes)
-            portsObj[QString("port_%1").arg(portNumber)] = CurrentNodes.at(portNumber);
+        for (auto portNumber: PortToNode)
+            portsObj[QString("port_%1").arg(portNumber)] = PortToNode.at(portNumber);
         jsonObj["ports"] = portsObj;
 
         return jsonObj;
@@ -34,12 +34,12 @@ namespace VMTDLib
         m_identificator = jsonObj[VN_ME(m_identificator)].toInt();
         m_url = QUrl(jsonObj[VN_ME(m_url)].toString(m_url.toString()));
         m_portCount = 0;
-        CurrentNodes.clear();
+        PortToNode.clear();
         setPortCount(jsonObj[VN_ME(m_portCount)].toInt());
 
         auto portsObj = jsonObj["ports"].toObject();
         for (int i = 0; i < m_portCount; ++i)
-            CurrentNodes[i] = portsObj[QString("port_%1").arg(i)].toInt(-1);
+            PortToNode[i] = portsObj[QString("port_%1").arg(i)].toInt(-1);
     }
 
     bool VMTDSwitch::isOnline() const
@@ -77,12 +77,12 @@ namespace VMTDLib
     {
         if (m_portCount != portCount)
         {
-            CurrentNodes.resize(portCount);
+            PortToNode.resize(portCount);
 
             if (portCount > m_portCount)
             {
-                for (int i = m_portCount; i < CurrentNodes.size(); ++i)
-                    CurrentNodes[i] = -1;
+                for (int i = m_portCount; i < PortToNode.size(); ++i)
+                    PortToNode[i] = -1;
             }
 
             m_portCount = portCount;

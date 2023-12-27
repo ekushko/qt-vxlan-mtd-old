@@ -138,7 +138,7 @@ equals( TEMPLATE, "app" ) {
 ###-----Files--------------------------------------------------------------------------------
 #
 
-CONFIG += c++11
+CONFIG += c++14
 
 SOURCES += \
     VMTD/VMTDController.cpp \
@@ -154,8 +154,11 @@ SOURCES += \
     VMTD/adapter/VMTDNxApiAdapter.cpp \
     VMTD/adapter/VMTDNxApiAdapterForm.cpp \
     VMTD/model/VMTDModel.cpp \
+    VMTD/model/VMTDModelForm.cpp \
     VMTD/model/VMTDNode.cpp \
+    VMTD/model/VMTDNodeForm.cpp \
     VMTD/model/VMTDSwitch.cpp \
+    VMTD/model/VMTDSwitchForm.cpp \
     main.cpp \
     MainWindow.cpp
 
@@ -175,8 +178,11 @@ HEADERS += \
     VMTD/adapter/VMTDNxApiAdapter.h \
     VMTD/adapter/VMTDNxApiAdapterForm.h \
     VMTD/model/VMTDModel.h \
+    VMTD/model/VMTDModelForm.h \
     VMTD/model/VMTDNode.h \
-    VMTD/model/VMTDSwitch.h
+    VMTD/model/VMTDNodeForm.h \
+    VMTD/model/VMTDSwitch.h \
+    VMTD/model/VMTDSwitchForm.h
 
 FORMS += \
     MainWindow.ui \
@@ -185,7 +191,10 @@ FORMS += \
     VMTD/adapter/VMTDNodeAdapterForm.ui \
     VMTD/adapter/VMTDNodeClientForm.ui \
     VMTD/adapter/VMTDNodeServerForm.ui \
-    VMTD/adapter/VMTDNxApiAdapterForm.ui
+    VMTD/adapter/VMTDNxApiAdapterForm.ui \
+    VMTD/model/VMTDModelForm.ui \
+    VMTD/model/VMTDNodeForm.ui \
+    VMTD/model/VMTDSwitchForm.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
