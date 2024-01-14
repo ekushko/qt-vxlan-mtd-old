@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../VMTDSettings.h"
+#include "../../VMTDSettings.h"
 
 #include <QWebSocket>
 #include <QPointer>

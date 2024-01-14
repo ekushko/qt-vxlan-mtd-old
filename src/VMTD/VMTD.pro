@@ -115,7 +115,11 @@ equals( TEMPLATE, "lib" ) {
     incl.files += $$NAME/*.h
     INSTALLS   += incl
 
-    FOLDERSLIST  =
+    FOLDERSLIST  = \
+        adapter \
+        adapter/node \
+        adapter/nxapi \
+        model
 
     for( FOLDER, FOLDERSLIST ) {
         $${FOLDER}.path   = $${IMPORT_PATH}/$${NAME}/$${FOLDER}
@@ -146,13 +150,13 @@ SOURCES += \
     VMTD/VMTDRepo.cpp \
     VMTD/VMTDSettings.cpp \
     VMTD/VMTDSettingsForm.cpp \
-    VMTD/adapter/VMTDNodeAdapterForm.cpp \
-    VMTD/adapter/VMTDNodeClient.cpp \
-    VMTD/adapter/VMTDNodeClientForm.cpp \
-    VMTD/adapter/VMTDNodeServer.cpp \
-    VMTD/adapter/VMTDNodeServerForm.cpp \
-    VMTD/adapter/VMTDNxApiAdapter.cpp \
-    VMTD/adapter/VMTDNxApiAdapterForm.cpp \
+    VMTD/adapter/node/VMTDNodeAdapterForm.cpp \
+    VMTD/adapter/node/VMTDNodeClient.cpp \
+    VMTD/adapter/node/VMTDNodeClientForm.cpp \
+    VMTD/adapter/node/VMTDNodeServer.cpp \
+    VMTD/adapter/node/VMTDNodeServerForm.cpp \
+    VMTD/adapter/nxapi/VMTDNxApiAdapter.cpp \
+    VMTD/adapter/nxapi/VMTDNxApiAdapterForm.cpp \
     VMTD/model/VMTDModel.cpp \
     VMTD/model/VMTDModelForm.cpp \
     VMTD/model/VMTDNode.cpp \
@@ -170,13 +174,13 @@ HEADERS += \
     VMTD/VMTDRepo.h \
     VMTD/VMTDSettings.h \
     VMTD/VMTDSettingsForm.h \
-    VMTD/adapter/VMTDNodeAdapterForm.h \
-    VMTD/adapter/VMTDNodeClient.h \
-    VMTD/adapter/VMTDNodeClientForm.h \
-    VMTD/adapter/VMTDNodeServer.h \
-    VMTD/adapter/VMTDNodeServerForm.h \
-    VMTD/adapter/VMTDNxApiAdapter.h \
-    VMTD/adapter/VMTDNxApiAdapterForm.h \
+    VMTD/adapter/node/VMTDNodeAdapterForm.h \
+    VMTD/adapter/node/VMTDNodeClient.h \
+    VMTD/adapter/node/VMTDNodeClientForm.h \
+    VMTD/adapter/node/VMTDNodeServer.h \
+    VMTD/adapter/node/VMTDNodeServerForm.h \
+    VMTD/adapter/nxapi/VMTDNxApiAdapter.h \
+    VMTD/adapter/nxapi/VMTDNxApiAdapterForm.h \
     VMTD/model/VMTDModel.h \
     VMTD/model/VMTDModelForm.h \
     VMTD/model/VMTDNode.h \
@@ -188,10 +192,10 @@ FORMS += \
     MainWindow.ui \
     VMTD/VMTDControllerForm.ui \
     VMTD/VMTDSettingsForm.ui \
-    VMTD/adapter/VMTDNodeAdapterForm.ui \
-    VMTD/adapter/VMTDNodeClientForm.ui \
-    VMTD/adapter/VMTDNodeServerForm.ui \
-    VMTD/adapter/VMTDNxApiAdapterForm.ui \
+    VMTD/adapter/node/VMTDNodeAdapterForm.ui \
+    VMTD/adapter/node/VMTDNodeClientForm.ui \
+    VMTD/adapter/node/VMTDNodeServerForm.ui \
+    VMTD/adapter/nxapi/VMTDNxApiAdapterForm.ui \
     VMTD/model/VMTDModelForm.ui \
     VMTD/model/VMTDNodeForm.ui \
     VMTD/model/VMTDSwitchForm.ui

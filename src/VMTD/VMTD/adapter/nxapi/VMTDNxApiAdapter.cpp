@@ -1,7 +1,7 @@
 #include "VMTDNxApiAdapter.h"
 #include "VMTDNxApiAdapterForm.h"
 
-#include "../VMTDRepo.h"
+#include "../../VMTDRepo.h"
 
 #include <QJsonArray>
 #include <QJsonObject>
@@ -67,7 +67,7 @@ namespace VMTDLib
         m_url.setUserName(jsonObj["userName"].toString(m_url.userName()));
         m_url.setPassword(jsonObj["password"].toString(m_url.password()));
         m_ticketTimeoutInterval = jsonObj[VN_ME(m_ticketTimeoutInterval)]
-                .toInt(m_ticketTimeoutInterval);
+                                  .toInt(m_ticketTimeoutInterval);
     }
 
     VMTDSettings *VMTDNxApiAdapter::settings() const
@@ -124,7 +124,7 @@ namespace VMTDLib
 
         QJsonArray jsonArray;
 
-        for (const auto& command : commands)
+        for (const auto &command : commands)
         {
             QJsonObject jsonObj, paramsObj;
 

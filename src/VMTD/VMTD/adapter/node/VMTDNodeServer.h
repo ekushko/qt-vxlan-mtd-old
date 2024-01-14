@@ -5,7 +5,7 @@
 #include <QWebSocket>
 #include <QTimer>
 
-#include "../VMTDSettings.h"
+#include "../../VMTDSettings.h"
 
 namespace VMTDLib
 {

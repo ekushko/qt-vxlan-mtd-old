@@ -2,9 +2,9 @@
 
 #include "VMTDSettings.h"
 
-#include "adapter/VMTDNxApiAdapter.h"
-#include "adapter/VMTDNodeServer.h"
-#include "adapter/VMTDNodeClient.h"
+#include "adapter/nxapi/VMTDNxApiAdapter.h"
+#include "adapter/node/VMTDNodeServer.h"
+#include "adapter/node/VMTDNodeClient.h"
 
 #include <QThread>
 #include <QNetworkAccessManager>

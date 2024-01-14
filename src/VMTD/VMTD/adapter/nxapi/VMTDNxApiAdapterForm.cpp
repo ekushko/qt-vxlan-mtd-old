@@ -1,7 +1,7 @@
 #include    "VMTDNxApiAdapterForm.h"
 #include "ui_VMTDNxApiAdapterForm.h"
 
-#include "../VMTDRepo.h"
+#include "../../VMTDRepo.h"
 
 #include <QJsonValue>
 #include <QJsonObject>

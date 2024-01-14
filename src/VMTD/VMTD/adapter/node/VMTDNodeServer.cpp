@@ -1,7 +1,7 @@
 #include "VMTDNodeServer.h"
 #include "VMTDNodeServerForm.h"
 
-#include "../VMTDRepo.h"
+#include "../../VMTDRepo.h"
 
 #include <QJsonDocument>
 
@@ -11,13 +11,13 @@ namespace VMTDLib
         : QObject{parent}
         , m_settings{settings}
     {
-         m_wsServer = new QWebSocketServer("VMTDNodeServer", QWebSocketServer::NonSecureMode, this);
-         connect(m_wsServer, &QWebSocketServer::newConnection, this, &VMTDNodeServer::newConnectionSlot);
+        m_wsServer = new QWebSocketServer("VMTDNodeServer", QWebSocketServer::NonSecureMode, this);
+        connect(m_wsServer, &QWebSocketServer::newConnection, this, &VMTDNodeServer::newConnectionSlot);
 
-         connect(m_settings, &VMTDSettings::networkChangedSignal,
-                 this, &VMTDNodeServer::restartListenSlot);
+        connect(m_settings, &VMTDSettings::networkChangedSignal,
+                this, &VMTDNodeServer::restartListenSlot);
 
-         m_settings->debugOut(VN_S(VMTDNodeServer) + " created");
+        m_settings->debugOut(VN_S(VMTDNodeServer) + " created");
     }
 
     VMTDNodeServer::~VMTDNodeServer()
@@ -139,9 +139,9 @@ namespace VMTDLib
         socket->sendBinaryMessage(jsonDoc.toJson());
 
         auto debugString = QString("Sended to {%1:%2}:\n")
-                .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
-                .arg(socket->peerPort())
-                + jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
+                           .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
+                           .arg(socket->peerPort())
+                           + jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
 
         emit showDebugSignal(socket, QTime::currentTime(), debugString);
     }
@@ -171,8 +171,8 @@ namespace VMTDLib
                 this, &VMTDNodeServer::errorSlot);
 
         debugString = QString("Handled {newConnection} from: %1:%2")
-                .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
-                .arg(socket->peerPort());
+                      .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
+                      .arg(socket->peerPort());
         emit showDebugSignal(nullptr, QTime::currentTime(), debugString);
 
         emit clientConnectedSignal(socket);
@@ -185,9 +185,9 @@ namespace VMTDLib
         const auto jsonDoc = QJsonDocument::fromJson(data);
 
         const auto debugString = QString("Received from {%1:%2}:\n")
-                .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
-                .arg(socket->peerPort())
-                + jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
+                                 .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
+                                 .arg(socket->peerPort())
+                                 + jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
 
         emit showDebugSignal(socket, QTime::currentTime(), debugString);
 
@@ -202,9 +202,9 @@ namespace VMTDLib
             return;
 
         const auto errorString = QString("Error {%1:%2}: %3")
-                .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
-                .arg(socket->peerPort())
-                .arg(QVariant::fromValue(error).toString());
+                                 .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
+                                 .arg(socket->peerPort())
+                                 .arg(QVariant::fromValue(error).toString());
 
         emit showDebugSignal(socket, QTime::currentTime(), errorString);
     }
@@ -229,8 +229,8 @@ namespace VMTDLib
         }
 
         debugString = QString("Handled {disconnected} from: %1:%2")
-                .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
-                .arg(socket->peerPort());
+                      .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
+                      .arg(socket->peerPort());
 
         emit showDebugSignal(nullptr, QTime::currentTime(), debugString);
 
