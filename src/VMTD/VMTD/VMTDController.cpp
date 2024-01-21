@@ -25,16 +25,6 @@ namespace VMTDLib
             delete m_form;
     }
 
-    void VMTDController::showForm()
-    {
-        if (m_form == nullptr)
-            m_form = new VMTDControllerForm(nullptr, this);
-
-        m_form->show();
-        m_form->raise();
-        m_form->activateWindow();
-    }
-
     VMTDSettings *VMTDController::settings() const
     {
         return m_settings;
@@ -53,6 +43,16 @@ namespace VMTDLib
     VMTDNodeClient *VMTDController::nodeClient() const
     {
         return m_nodeClient;
+    }
+
+    void VMTDController::showFormSlot()
+    {
+        if (m_form == nullptr)
+            m_form = new VMTDControllerForm(nullptr, this);
+
+        m_form->show();
+        m_form->raise();
+        m_form->activateWindow();
     }
 
     void VMTDController::startController()

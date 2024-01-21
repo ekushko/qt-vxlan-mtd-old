@@ -8,7 +8,6 @@
 
 #include <QThread>
 
-
 namespace VMTDLib
 {
     class VMTDControllerForm;
@@ -22,8 +21,6 @@ namespace VMTDLib
         VMTDController(QObject *parent, VMTDSettings *settings);
         ~VMTDController();
 
-        void showForm();
-
         VMTDSettings *settings() const;
 
         VMTDNxApiServer *nxApiServer() const;
@@ -33,6 +30,8 @@ namespace VMTDLib
         VMTDNodeClient *nodeClient() const;
 
     public slots:
+
+        void showFormSlot();
 
         void startController();
         void  stopController();

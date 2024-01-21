@@ -9,8 +9,14 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    connect(ui->pbCreateServer, &QPushButton::clicked, this, &MainWindow::pbCreateServerClicked);
-    connect(ui->pbCreateClient, &QPushButton::clicked, this, &MainWindow::pbCreateClientClicked);
+    m_settings = new VMTDSettings(this, VMTDNodeType::SERVER, "VMTD");
+    connect(ui->pbSettings, &QPushButton::clicked, m_settings.data(), &VMTDSettings::showFormSlot);
+
+    connect(ui->pbQuickStart, &QPushButton::clicked, this, &MainWindow::pbQuickStartClicked);
+
+    connect(ui->pbCreate, &QPushButton::clicked, this, &MainWindow::pbCreateClicked);
+    connect(ui->pbDelete, &QPushButton::clicked, this, &MainWindow::pbDeleteClicked);
+
     connect(ui->pbClose, &QPushButton::clicked, this, &MainWindow::close);
 }
 
@@ -19,21 +25,34 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::pbCreateServerClicked()
+void MainWindow::pbQuickStartClicked()
 {
-    m_settings = new VMTDSettings(this, VMTDNodeType::SERVER, "VMTD_SERVER");
+    if (m_controller != nullptr)
+        return;
 
-    m_server = new VMTDController(this, m_settings);
-    m_server->startController();
-    m_server->showForm();
+    ui->pbCreate->click();
+    ui->pbStart->click();
+    ui->pbShowForm->click();
+
+    close();
 }
 
-void MainWindow::pbCreateClientClicked()
+void MainWindow::pbCreateClicked()
 {
-    m_settings = new VMTDSettings(this, VMTDNodeType::CLIENT, "VMTD_CLIENT");
+    if (m_controller != nullptr)
+        return;
 
-    m_client = new VMTDController(this, m_settings);
-    m_client->startController();
-    m_client->showForm();
+    m_controller = new VMTDController(this, m_settings);
+    connect(ui->pbStart, &QPushButton::clicked, m_controller.data(), &VMTDController::startController);
+    connect(ui->pbStop, &QPushButton::clicked, m_controller.data(), &VMTDController::stopController);
+    connect(ui->pbShowForm, &QPushButton::clicked, m_controller.data(), &VMTDController::showFormSlot);
+
+}
+void MainWindow::pbDeleteClicked()
+{
+    if (m_controller == nullptr)
+        return;
+
+    delete m_controller;
 }
 
