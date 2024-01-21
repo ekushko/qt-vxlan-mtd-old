@@ -32,16 +32,6 @@ namespace VMTDLib
         m_settings->debugOut(VN_S(VMTDNodeServer) + " deleted");
     }
 
-    void VMTDNodeServer::showForm()
-    {
-        if (m_form == nullptr)
-            m_form = new VMTDNodeServerForm(nullptr, this);
-
-        m_form->show();
-        m_form->raise();
-        m_form->activateWindow();
-    }
-
     VMTDSettings *VMTDNodeServer::settings() const
     {
         return m_settings;
@@ -62,6 +52,16 @@ namespace VMTDLib
             state = "Closed";
 
         return state;
+    }
+
+    void VMTDNodeServer::showFormSlot()
+    {
+        if (m_form == nullptr)
+            m_form = new VMTDNodeServerForm(nullptr, this);
+
+        m_form->show();
+        m_form->raise();
+        m_form->activateWindow();
     }
 
     void VMTDNodeServer::startListenSlot()

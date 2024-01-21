@@ -20,8 +20,6 @@ namespace VMTDLib
         VMTDNodeClient(QObject *parent, VMTDSettings *settings);
         ~VMTDNodeClient();
 
-        void showForm();
-
         VMTDSettings *settings() const;
 
         QWebSocket *socket() const;
@@ -35,6 +33,8 @@ namespace VMTDLib
         void showDebugSignal(QWebSocket *socket, const QTime &time, const QString &text);
 
     public slots:
+
+        void showFormSlot();
 
         void    connectSocketSlot();
         void disconnectSocketSlot();

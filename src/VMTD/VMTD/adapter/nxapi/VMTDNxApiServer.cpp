@@ -18,16 +18,6 @@ namespace VMTDLib
             m_form->deleteLater();
     }
 
-    void VMTDNxApiServer::showForm()
-    {
-        if (m_form == nullptr)
-            m_form = new VMTDNxApiServerForm(nullptr, this);
-
-        m_form->show();
-        m_form->raise();
-        m_form->activateWindow();
-    }
-
     bool VMTDNxApiServer::isListening() const
     {
         return m_isListening;
@@ -36,6 +26,16 @@ namespace VMTDLib
     const QVector<VMTDNxApiAdapter *> &VMTDNxApiServer::adapters() const
     {
         return m_adapters;
+    }
+
+    void VMTDNxApiServer::showFormSlot()
+    {
+        if (m_form == nullptr)
+            m_form = new VMTDNxApiServerForm(nullptr, this);
+
+        m_form->show();
+        m_form->raise();
+        m_form->activateWindow();
     }
 
     void VMTDNxApiServer::startListenSlot()

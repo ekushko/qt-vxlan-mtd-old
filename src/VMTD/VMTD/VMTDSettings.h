@@ -23,8 +23,6 @@ namespace VMTDLib
         VMTDSettings(QObject *parent, EnNodeType nodeType, const QString &systemName);
         ~VMTDSettings();
 
-        void showForm();
-
         // КОНСТАНТЫ
 
         enum class EnNodeType
@@ -92,6 +90,10 @@ namespace VMTDLib
 
         void saveSignal();
         void loadSignal();
+
+    public slots:
+
+        void showFormSlot();
 
     private:
 

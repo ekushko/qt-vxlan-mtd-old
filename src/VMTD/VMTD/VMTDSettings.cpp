@@ -49,16 +49,6 @@ namespace VMTDLib
             delete m_form;
     }
 
-    void VMTDSettings::showForm()
-    {
-        if (m_form == nullptr)
-            m_form = new VMTDSettingsForm(nullptr, this);
-
-        m_form->show();
-        m_form->raise();
-        m_form->activateWindow();
-    }
-
     const QString &VMTDSettings::enNodeTypeToS(const EnNodeType &nodeType)
     {
         switch (nodeType)
@@ -248,6 +238,16 @@ namespace VMTDLib
     void VMTDSettings::setModelObj(const QJsonObject &modelObj)
     {
         m_modelObj = modelObj;
+    }
+
+    void VMTDSettings::showFormSlot()
+    {
+        if (m_form == nullptr)
+            m_form = new VMTDSettingsForm(nullptr, this);
+
+        m_form->show();
+        m_form->raise();
+        m_form->activateWindow();
     }
 
     void VMTDSettings::saveSlot()

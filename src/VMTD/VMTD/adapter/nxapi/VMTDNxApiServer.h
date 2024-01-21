@@ -17,13 +17,13 @@ namespace VMTDLib
         VMTDNxApiServer(QObject *parent, VMTDSettings *settings);
         ~VMTDNxApiServer();
 
-        void showForm();
-
         bool isListening() const;
 
         const QVector<VMTDNxApiAdapter *> &adapters() const;
 
     public slots:
+
+        void showFormSlot();
 
         void   startListenSlot();
         void    stopListenSlot();

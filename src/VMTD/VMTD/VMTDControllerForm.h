@@ -25,22 +25,14 @@ namespace VMTDLib
 
         void initializeView();
 
-        void updateNxApiAdaptersList();
-
         Ui::VMTDControllerForm *ui;
 
         VMTDController *m_controller;
 
+        QTimer m_uiTimer;
+
     private slots:
 
-        void pbSettingsClicked();
-
-        void pbRefreshClicked();
-
-        void pbNodeServerClicked();
-
-        void pbNodeClientClicked();
-
-        void lwNxApiAdaptersItemDoubleClicked(QListWidgetItem *item);
+        void uiTimerTickSlot();
     };
 }

@@ -3,6 +3,7 @@
 #include "VMTDNxApiServer.h"
 
 #include <QWidget>
+#include <QListWidgetItem>
 
 namespace Ui
 {
@@ -33,5 +34,7 @@ namespace VMTDLib
         void uiTimerTickSlot();
 
         void updateAdaptersListSlot();
+
+        void lwAdaptersDoubleClicked(QListWidgetItem *item);
     };
 }

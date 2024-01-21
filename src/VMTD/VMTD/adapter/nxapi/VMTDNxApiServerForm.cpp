@@ -23,6 +23,9 @@ namespace VMTDLib
         connect(ui->pbStop, &QPushButton::clicked,
                 m_server, &VMTDNxApiServer::stopListenSlot);
 
+        connect(ui->lwAdapters, &QListWidget::itemDoubleClicked,
+                this, &VMTDNxApiServerForm::lwAdaptersDoubleClicked);
+
         m_uiTimer.setParent(this);
         connect(&m_uiTimer, &QTimer::timeout,
                 this, &VMTDNxApiServerForm::uiTimerTickSlot);
@@ -48,5 +51,13 @@ namespace VMTDLib
 
         for (int i = 0; i < m_server->adapters().size(); ++i)
             ui->lwAdapters->addItem(m_server->adapters().at(i)->url().toString());
+    }
+
+    void VMTDNxApiServerForm::lwAdaptersDoubleClicked(QListWidgetItem *item)
+    {
+        auto index = ui->lwAdapters->row(item);
+
+        if (index >= 0 && index < m_server->adapters().size())
+            m_server->adapters().at(index)->showFormSlot();
     }
 }

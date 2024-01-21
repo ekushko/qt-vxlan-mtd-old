@@ -25,8 +25,6 @@ namespace VMTDLib
                          QNetworkAccessManager *netManager);
         ~VMTDNxApiAdapter();
 
-        void showForm();
-
         QJsonObject toJson() const;
         void      fromJson(const QJsonObject &jsonObj);
 
@@ -47,6 +45,8 @@ namespace VMTDLib
         void showMessageSignal(const QString &text);
 
     public slots:
+
+        void showFormSlot();
 
         void checkConnectionSlot();
 

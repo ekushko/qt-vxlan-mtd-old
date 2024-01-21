@@ -37,16 +37,6 @@ namespace VMTDLib
             m_form->deleteLater();
     }
 
-    void VMTDNxApiAdapter::showForm()
-    {
-        if (m_form == nullptr)
-            m_form = new VMTDNxApiAdapterForm(nullptr, this);
-
-        m_form->show();
-        m_form->raise();
-        m_form->activateWindow();
-    }
-
     QJsonObject VMTDNxApiAdapter::toJson() const
     {
         QJsonObject jsonObj;
@@ -101,6 +91,16 @@ namespace VMTDLib
     void VMTDNxApiAdapter::setTicketTimeoutInterval(int ticketTimeoutInterval)
     {
         m_ticketTimeoutInterval = ticketTimeoutInterval;
+    }
+
+    void VMTDNxApiAdapter::showFormSlot()
+    {
+        if (m_form == nullptr)
+            m_form = new VMTDNxApiAdapterForm(nullptr, this);
+
+        m_form->show();
+        m_form->raise();
+        m_form->activateWindow();
     }
 
     void VMTDNxApiAdapter::checkConnectionSlot()

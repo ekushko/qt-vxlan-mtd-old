@@ -18,7 +18,9 @@ namespace VMTDLib
 
         initializeView();
 
-        updateNxApiAdaptersList();
+        m_uiTimer.setParent(this);
+        connect(&m_uiTimer, &QTimer::timeout, this, &VMTDControllerForm::uiTimerTickSlot);
+        m_uiTimer.start(100);
     }
 
     VMTDControllerForm::~VMTDControllerForm()
@@ -31,54 +33,36 @@ namespace VMTDLib
     void VMTDControllerForm::initializeView()
     {
         connect(ui->pbSettings, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbSettingsClicked);
+                m_controller->settings(), &VMTDSettings::showFormSlot);
+
         connect(ui->pbStartController, &QPushButton::clicked,
                 m_controller, &VMTDController::startController);
         connect(ui->pbStopController, &QPushButton::clicked,
                 m_controller, &VMTDController::stopController);
-        connect(ui->pbRefresh, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbRefreshClicked);
+
+        connect(ui->pbNxApiServer, &QPushButton::clicked,
+                m_controller->nxApiServer(), &VMTDNxApiServer::showFormSlot);
         connect(ui->pbNodeServer, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbNodeServerClicked);
+                m_controller->nodeServer(), &VMTDNodeServer::showFormSlot);
+
         connect(ui->pbNodeClient, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbNodeClientClicked);
-        connect(ui->lwNxApiAdapters, &QListWidget::itemDoubleClicked,
-                this, &VMTDControllerForm::lwNxApiAdaptersItemDoubleClicked);
+                m_controller->nodeClient(), &VMTDNodeClient::showFormSlot);
+
+        const auto nodeType = m_controller->settings()->nodeType();
+        ui->pbNxApiServer->setVisible(nodeType == VMTDNodeType::SERVER);
+        ui->pbNodeServer->setVisible(nodeType == VMTDNodeType::SERVER);
+        ui->pbNodeClient->setVisible(nodeType == VMTDNodeType::CLIENT);
     }
 
-    void VMTDControllerForm::updateNxApiAdaptersList()
+    void VMTDControllerForm::uiTimerTickSlot()
     {
-        ui->lwNxApiAdapters->clear();
+        const auto isRunning = m_controller->isRunning();
 
-        for (auto nxApiAdapter : m_controller->nxApiAdapters())
-            ui->lwNxApiAdapters->addItem(nxApiAdapter->url().toString());
-    }
+        ui->pbStartController->setEnabled(!isRunning);
+        ui->pbStopController->setEnabled(isRunning);
 
-    void VMTDControllerForm::pbSettingsClicked()
-    {
-        m_controller->settings()->showForm();
-    }
-
-    void VMTDControllerForm::pbRefreshClicked()
-    {
-        updateNxApiAdaptersList();
-    }
-
-    void VMTDControllerForm::pbNodeServerClicked()
-    {
-        if (m_controller->settings()->nodeType() == VMTDNodeType::SERVER)
-            m_controller->nodeServer()->showForm();
-    }
-
-    void VMTDControllerForm::pbNodeClientClicked()
-    {
-        if (m_controller->settings()->nodeType() == VMTDNodeType::CLIENT)
-            m_controller->nodeClient()->showForm();
-    }
-
-    void VMTDControllerForm::lwNxApiAdaptersItemDoubleClicked(QListWidgetItem *item)
-    {
-        const auto row = ui->lwNxApiAdapters->row(item);
-        m_controller->nxApiAdapters().at(row)->showForm();
+        ui->pbNxApiServer->setEnabled(isRunning);
+        ui->pbNodeServer->setEnabled(isRunning);
+        ui->pbNodeClient->setEnabled(isRunning);
     }
 }

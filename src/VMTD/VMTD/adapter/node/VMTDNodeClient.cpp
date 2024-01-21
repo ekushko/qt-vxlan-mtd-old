@@ -37,16 +37,6 @@ namespace VMTDLib
         m_socket->deleteLater();
     }
 
-    void VMTDNodeClient::showForm()
-    {
-        if (m_form == nullptr)
-            m_form = new VMTDNodeClientForm(nullptr, this);
-
-        m_form->show();
-        m_form->raise();
-        m_form->activateWindow();
-    }
-
     VMTDSettings *VMTDNodeClient::settings() const
     {
         return m_settings;
@@ -67,6 +57,16 @@ namespace VMTDLib
             state = "Disconnected";
 
         return state;
+    }
+
+    void VMTDNodeClient::showFormSlot()
+    {
+        if (m_form == nullptr)
+            m_form = new VMTDNodeClientForm(nullptr, this);
+
+        m_form->show();
+        m_form->raise();
+        m_form->activateWindow();
     }
 
     void VMTDNodeClient::connectSocketSlot()
@@ -114,9 +114,9 @@ namespace VMTDLib
         m_socket->sendBinaryMessage(jsonDoc.toJson());
 
         auto debugString = QString("Sended to {%1:%2}:\n")
-                .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
-                .arg(socket->peerPort())
-                + jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
+                           .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
+                           .arg(socket->peerPort())
+                           + jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
 
         emit showDebugSignal(socket, QTime::currentTime(), debugString);
     }
@@ -127,9 +127,9 @@ namespace VMTDLib
         const auto jsonDoc = QJsonDocument::fromJson(data);
 
         const auto debugString = QString("Received from {%1:%2}:\n")
-                .arg(QHostAddress(m_socket->peerAddress().toIPv4Address()).toString())
-                .arg(m_socket->peerPort())
-                + jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
+                                 .arg(QHostAddress(m_socket->peerAddress().toIPv4Address()).toString())
+                                 .arg(m_socket->peerPort())
+                                 + jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
 
         emit showDebugSignal(m_socket, QTime::currentTime(), debugString);
 
@@ -148,9 +148,9 @@ namespace VMTDLib
     void VMTDNodeClient::errorSlot(QAbstractSocket::SocketError error)
     {
         const auto errorString = QString("Error {%1:%2}: %3")
-                .arg(QHostAddress(m_socket->peerAddress().toIPv4Address()).toString())
-                .arg(m_socket->peerPort())
-                .arg(QVariant::fromValue(error).toString());
+                                 .arg(QHostAddress(m_socket->peerAddress().toIPv4Address()).toString())
+                                 .arg(m_socket->peerPort())
+                                 .arg(QVariant::fromValue(error).toString());
 
         emit showDebugSignal(m_socket, QTime::currentTime(), errorString);
     }
@@ -158,9 +158,9 @@ namespace VMTDLib
     void VMTDNodeClient::stateChangedSlot(QAbstractSocket::SocketState state)
     {
         const auto debugString = QString("{%1:%2}: ")
-                .arg(QHostAddress(m_socket->peerAddress().toIPv4Address()).toString())
-                .arg(m_socket->peerPort())
-                + QVariant::fromValue(state).toString();
+                                 .arg(QHostAddress(m_socket->peerAddress().toIPv4Address()).toString())
+                                 .arg(m_socket->peerPort())
+                                 + QVariant::fromValue(state).toString();
 
         emit showDebugSignal(m_socket, QTime::currentTime(), debugString);
     }

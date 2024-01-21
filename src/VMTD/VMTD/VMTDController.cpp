@@ -40,6 +40,11 @@ namespace VMTDLib
         return m_settings;
     }
 
+    VMTDNxApiServer *VMTDController::nxApiServer() const
+    {
+        return m_nxApiServer;
+    }
+
     VMTDNodeServer *VMTDController::nodeServer() const
     {
         return m_nodeServer;
