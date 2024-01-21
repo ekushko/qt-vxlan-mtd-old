@@ -61,10 +61,13 @@ namespace VMTDLib
 
     const QString &VMTDSettings::enNodeTypeToS(const EnNodeType &nodeType)
     {
-        switch(nodeType)
+        switch (nodeType)
         {
-        case EnNodeType::CLIENT: RETURN_S("Client");
-        case EnNodeType::SERVER: RETURN_S("Server");
+        case EnNodeType::CLIENT:
+            RETURN_S("Client");
+
+        case EnNodeType::SERVER:
+            RETURN_S("Server");
         }
 
         return S_QUESTIONS;
@@ -92,7 +95,7 @@ namespace VMTDLib
         jsonObj[VN_ME(m_serverPort)] = m_serverPort;
         jsonObj[VN_ME(m_localPort)] = m_localPort;
 
-        jsonObj[VN_ME(m_nxApiAdaptersParams)] = m_nxApiAdatersParams;
+        jsonObj[VN_ME(m_nxApiAdaptersParams)] = m_modelObj;
 
         return jsonObj;
     }
@@ -107,7 +110,7 @@ namespace VMTDLib
         m_serverPort = jsonObj[VN_ME(m_serverPort)].toInt(m_serverPort);
         m_localPort = jsonObj[VN_ME(m_localPort)].toInt(m_localPort);
 
-        m_nxApiAdatersParams = jsonObj[VN_ME(m_nxApiAdaptersParams)].toObject();
+        m_modelObj = jsonObj[VN_ME(m_nxApiAdaptersParams)].toObject();
     }
 
     QString VMTDSettings::filePath() const
@@ -238,13 +241,13 @@ namespace VMTDLib
         }
     }
 
-    QJsonObject VMTDSettings::nxApiAdaptersParams() const
+    QJsonObject VMTDSettings::modelObj() const
     {
-        return m_nxApiAdatersParams;
+        return m_modelObj;
     }
-    void VMTDSettings::setNxApiAdaptersParams(const QJsonObject &nxApiAdaptersParams)
+    void VMTDSettings::setModelObj(const QJsonObject &modelObj)
     {
-        m_nxApiAdatersParams = nxApiAdaptersParams;
+        m_modelObj = modelObj;
     }
 
     void VMTDSettings::saveSlot()

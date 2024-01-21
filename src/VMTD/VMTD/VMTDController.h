@@ -2,12 +2,12 @@
 
 #include "VMTDSettings.h"
 
-#include "adapter/nxapi/VMTDNxApiAdapter.h"
+#include "adapter/nxapi/VMTDNxApiServer.h"
 #include "adapter/node/VMTDNodeServer.h"
 #include "adapter/node/VMTDNodeClient.h"
 
 #include <QThread>
-#include <QNetworkAccessManager>
+
 
 namespace VMTDLib
 {
@@ -26,7 +26,7 @@ namespace VMTDLib
 
         VMTDSettings *settings() const;
 
-        const QVector<VMTDNxApiAdapter *> &nxApiAdapters() const;
+        VMTDNxApiServer *nxApiServer() const;
 
         VMTDNodeServer *nodeServer() const;
 
@@ -47,9 +47,7 @@ namespace VMTDLib
 
         VMTDSettings *m_settings;
 
-        QNetworkAccessManager *m_netManager;
-
-        QVector<VMTDNxApiAdapter *> m_nxApiAdapters;
+        VMTDNxApiServer *m_nxApiServer;
 
         VMTDNodeServer *m_nodeServer;
 

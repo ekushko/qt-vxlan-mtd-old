@@ -81,10 +81,10 @@ namespace VMTDLib
         int     reconnectInterval() const;
         void setReconnectInterval(int reconnectInterval);
 
-        // ПАРАМЕТРЫ АДАПТЕРОВ NX-API
+        // МОДЕЛЬ
 
-        QJsonObject nxApiAdaptersParams() const;
-        void     setNxApiAdaptersParams(const QJsonObject &nxApiAdaptersParams);
+        QJsonObject modelObj() const;
+        void     setModelObj(const QJsonObject &modelObj);
 
     signals:
 
@@ -112,7 +112,7 @@ namespace VMTDLib
 
         int m_localPort;
 
-        QJsonObject m_nxApiAdatersParams;
+        QJsonObject m_modelObj;
 
         bool m_wasNetworkChanged;
 

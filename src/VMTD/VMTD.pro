@@ -157,6 +157,8 @@ SOURCES += \
     VMTD/adapter/node/VMTDNodeServerForm.cpp \
     VMTD/adapter/nxapi/VMTDNxApiAdapter.cpp \
     VMTD/adapter/nxapi/VMTDNxApiAdapterForm.cpp \
+    VMTD/adapter/nxapi/VMTDNxApiServer.cpp \
+    VMTD/adapter/nxapi/VMTDNxApiServerForm.cpp \
     VMTD/model/VMTDModel.cpp \
     VMTD/model/VMTDModelForm.cpp \
     VMTD/model/VMTDNode.cpp \
@@ -181,6 +183,8 @@ HEADERS += \
     VMTD/adapter/node/VMTDNodeServerForm.h \
     VMTD/adapter/nxapi/VMTDNxApiAdapter.h \
     VMTD/adapter/nxapi/VMTDNxApiAdapterForm.h \
+    VMTD/adapter/nxapi/VMTDNxApiServer.h \
+    VMTD/adapter/nxapi/VMTDNxApiServerForm.h \
     VMTD/model/VMTDModel.h \
     VMTD/model/VMTDModelForm.h \
     VMTD/model/VMTDNode.h \
@@ -196,6 +200,7 @@ FORMS += \
     VMTD/adapter/node/VMTDNodeClientForm.ui \
     VMTD/adapter/node/VMTDNodeServerForm.ui \
     VMTD/adapter/nxapi/VMTDNxApiAdapterForm.ui \
+    VMTD/adapter/nxapi/VMTDNxApiServerForm.ui \
     VMTD/model/VMTDModelForm.ui \
     VMTD/model/VMTDNodeForm.ui \
     VMTD/model/VMTDSwitchForm.ui

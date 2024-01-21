@@ -40,11 +40,6 @@ namespace VMTDLib
         return m_settings;
     }
 
-    const QVector<VMTDNxApiAdapter *> &VMTDController::nxApiAdapters() const
-    {
-        return m_nxApiAdapters;
-    }
-
     VMTDNodeServer *VMTDController::nodeServer() const
     {
         return m_nodeServer;
@@ -75,23 +70,13 @@ namespace VMTDLib
         }
         else if (m_settings->nodeType() == VMTDNodeType::SERVER)
         {
+            m_nxApiServer = new VMTDNxApiServer(nullptr, m_settings);
+            connect(this, &VMTDController::finished, m_nxApiServer, &VMTDNxApiServer::deleteLater);
+            m_nxApiServer->startListenSlot();
+
             m_nodeServer = new VMTDNodeServer(nullptr, m_settings);
             connect(this, &VMTDController::finished, m_nodeServer, &VMTDNodeServer::deleteLater);
             m_nodeServer->startListenSlot();
-
-            m_netManager = new QNetworkAccessManager(nullptr);
-            connect(this, &VMTDController::finished, m_netManager, &QNetworkAccessManager::deleteLater);
-
-            auto jsonObj = m_settings->nxApiAdaptersParams();
-
-            for (int i = 0; i < jsonObj.size(); ++i)
-            {
-                auto nxApiAdapter = new VMTDNxApiAdapter(nullptr, m_settings, m_netManager);
-                connect(this, &VMTDController::finished, nxApiAdapter, &VMTDNxApiAdapter::deleteLater);
-                m_nxApiAdapters.append(nxApiAdapter);
-
-                nxApiAdapter->fromJson(jsonObj[QString("nxApiAdapter_%1").arg(i)].toObject());
-            }
         }
 
         exec();
@@ -102,10 +87,10 @@ namespace VMTDLib
         }
         else if (m_settings->nodeType() == VMTDNodeType::SERVER)
         {
+            m_nxApiServer->stopListenSlot();
+
             m_nodeServer->stopListenSlot();
         }
-
-        m_nxApiAdapters.clear();
     }
 
     void VMTDController::startedSlot()
