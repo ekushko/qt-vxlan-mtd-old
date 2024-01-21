@@ -26,10 +26,14 @@ private:
 
     Ui::MainWindow *ui;
 
+    QTimer m_uiTimer;
+
     QPointer<VMTDLib::VMTDSettings> m_settings;
     QPointer<VMTDLib::VMTDController> m_controller;
 
 private slots:
+
+    void uiTimerTickSlot();
 
     void pbQuickStartClicked();
 

@@ -34,5 +34,9 @@ namespace VMTDLib
     private slots:
 
         void uiTimerTickSlot();
+
+        void pbNxApiServerClicked();
+        void pbNodeServerClicked();
+        void pbNodeClientClicked();
     };
 }

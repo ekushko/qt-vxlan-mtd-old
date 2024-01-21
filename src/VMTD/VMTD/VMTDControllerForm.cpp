@@ -15,6 +15,7 @@ namespace VMTDLib
         ui->setupUi(this);
 
         setWindowTitle(m_controller->settings()->systemName());
+        setAttribute(Qt::WA_DeleteOnClose, true);
 
         initializeView();
 
@@ -40,14 +41,6 @@ namespace VMTDLib
         connect(ui->pbStopController, &QPushButton::clicked,
                 m_controller, &VMTDController::stopController);
 
-        connect(ui->pbNxApiServer, &QPushButton::clicked,
-                m_controller->nxApiServer(), &VMTDNxApiServer::showFormSlot);
-        connect(ui->pbNodeServer, &QPushButton::clicked,
-                m_controller->nodeServer(), &VMTDNodeServer::showFormSlot);
-
-        connect(ui->pbNodeClient, &QPushButton::clicked,
-                m_controller->nodeClient(), &VMTDNodeClient::showFormSlot);
-
         const auto nodeType = m_controller->settings()->nodeType();
         ui->pbNxApiServer->setVisible(nodeType == VMTDNodeType::SERVER);
         ui->pbNodeServer->setVisible(nodeType == VMTDNodeType::SERVER);
@@ -64,5 +57,29 @@ namespace VMTDLib
         ui->pbNxApiServer->setEnabled(isRunning);
         ui->pbNodeServer->setEnabled(isRunning);
         ui->pbNodeClient->setEnabled(isRunning);
+    }
+
+    void VMTDControllerForm::pbNxApiServerClicked()
+    {
+        if (!m_controller->isRunning())
+            return;
+
+        m_controller->nxApiServer()->showFormSlot();
+    }
+
+    void VMTDControllerForm::pbNodeServerClicked()
+    {
+        if (!m_controller->isRunning())
+            return;
+
+        m_controller->nodeServer()->showFormSlot();
+    }
+
+    void VMTDControllerForm::pbNodeClientClicked()
+    {
+        if (!m_controller->isRunning())
+            return;
+
+        m_controller->nodeClient()->showFormSlot();
     }
 }

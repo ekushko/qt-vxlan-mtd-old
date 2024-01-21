@@ -24,6 +24,7 @@ namespace VMTDLib
         connect(ui->pbAccept, &QPushButton::clicked, this, &VMTDSettingsForm::pbAcceptClicked);
         connect(ui->pbCancel, &QPushButton::clicked, this, &VMTDSettingsForm::pbCancelClicked);
 
+        setEditMode(false);
         updateView();
     }
 

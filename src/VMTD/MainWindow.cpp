@@ -18,11 +18,31 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->pbDelete, &QPushButton::clicked, this, &MainWindow::pbDeleteClicked);
 
     connect(ui->pbClose, &QPushButton::clicked, this, &MainWindow::close);
+
+    m_uiTimer.setParent(this);
+    connect(&m_uiTimer, &QTimer::timeout, this, &MainWindow::uiTimerTickSlot);
+    m_uiTimer.start(100);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::uiTimerTickSlot()
+{
+    bool isCreated = m_controller != nullptr;
+    bool isRunning = isCreated && m_controller->isRunning();
+
+    ui->pbQuickStart->setEnabled(!isCreated);
+
+    ui->pbCreate->setEnabled(!isCreated);
+    ui->pbDelete->setEnabled(isCreated);
+
+    ui->pbStart->setEnabled(isCreated && !isRunning);
+    ui->pbStop->setEnabled(isRunning);
+
+    ui->pbShowForm->setEnabled(m_controller != nullptr);
 }
 
 void MainWindow::pbQuickStartClicked()
