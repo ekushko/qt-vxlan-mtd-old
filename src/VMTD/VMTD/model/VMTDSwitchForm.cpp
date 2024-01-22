@@ -58,7 +58,10 @@ namespace VMTDLib
     {
         ui->lbOnline->setText(m_sw->isOnline() ? "Yes" : "No");
         ui->leIdentificator->setText(QString::number(m_identificator));
+        ui->leUserName->setText(m_sw->url().userName());
+        ui->lePassword->setText(m_sw->url().password());
         ui->leUrl->setText(m_sw->url().toString());
+        ui->sbTicketTimeoutInterval->setValue(m_sw->ticketTimeoutInterval());
         ui->sbPortCount->setValue(m_sw->portCount());
     }
 
@@ -66,7 +69,11 @@ namespace VMTDLib
     {
         m_identificator = ui->leIdentificator->text().toInt();
         m_sw->setIdentificator(m_identificator);
-        m_sw->setUrl(QUrl(ui->leUrl->text()));
+        auto url = QUrl(ui->leUrl->text());
+        url.setUserName(ui->leUserName->text());
+        url.setPassword(ui->lePassword->text());
+        m_sw->setUrl(url);
+        m_sw->setTicketTimeoutInterval(ui->sbTicketTimeoutInterval->value());
         m_sw->setPortCount(ui->sbPortCount->value());
 
         for (auto i = 0; i < m_sw->portCount(); ++i)
@@ -96,13 +103,15 @@ namespace VMTDLib
 
                 auto cb = new QComboBox(w);
                 cb->addItem("None", -1);
+
                 for (auto node : m_model->nodes().values())
                     cb->addItem(node->ip(), node->identificator());
+
                 m_cbPortNodes.append(cb);
 
-                 auto l = new QHBoxLayout(w);
-                 l->addWidget(lb);
-                 l->addWidget(cb);
+                auto l = new QHBoxLayout(w);
+                l->addWidget(lb);
+                l->addWidget(cb);
             }
         }
 

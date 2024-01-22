@@ -33,6 +33,9 @@ namespace VMTDLib
         QUrl    url() const;
         void setUrl(const QUrl &url);
 
+        int     ticketTimeoutInterval() const;
+        void setTicketTimeoutInterval(int ticketTimeoutInterval);
+
         int     portCount() const;
         void setPortCount(int portCount);
 
@@ -48,6 +51,7 @@ namespace VMTDLib
 
         int m_identificator = -1;
         QUrl m_url = QUrl("http://127.0.0.1/ins");
+        int m_ticketTimeoutInterval = 1000;
         int m_portCount = 10;
     };
 }

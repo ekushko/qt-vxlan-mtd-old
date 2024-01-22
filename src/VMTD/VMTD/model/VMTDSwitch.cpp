@@ -17,11 +17,18 @@ namespace VMTDLib
 
         jsonObj[VN_ME(m_identificator)] = m_identificator;
         jsonObj[VN_ME(m_url)] = m_url.toString();
+        jsonObj[VN_MT_REF(m_url.userName())] = m_url.userName();
+        jsonObj[VN_MT_REF(m_url.password())] = m_url.password();
+        jsonObj[VN_ME(m_ticketTimeoutInterval)] = m_ticketTimeoutInterval;
+
+
         jsonObj[VN_ME(m_portCount)] = m_portCount;
 
         QJsonObject portsObj;
-        for (auto portNumber: PortToNode)
+
+        for (auto portNumber : PortToNode)
             portsObj[QString("port_%1").arg(portNumber)] = PortToNode.at(portNumber);
+
         jsonObj["ports"] = portsObj;
 
         return jsonObj;
@@ -33,11 +40,19 @@ namespace VMTDLib
 
         m_identificator = jsonObj[VN_ME(m_identificator)].toInt();
         m_url = QUrl(jsonObj[VN_ME(m_url)].toString(m_url.toString()));
+        m_url.setUserName(jsonObj["userName"].toString(m_url.userName()));
+        m_url.setPassword(jsonObj["password"].toString(m_url.password()));
+        m_ticketTimeoutInterval = jsonObj[VN_ME(m_ticketTimeoutInterval)]
+                                  .toInt(m_ticketTimeoutInterval);
+
+
         m_portCount = 0;
+
         PortToNode.clear();
         setPortCount(jsonObj[VN_ME(m_portCount)].toInt());
 
         auto portsObj = jsonObj["ports"].toObject();
+
         for (int i = 0; i < m_portCount; ++i)
             PortToNode[i] = portsObj[QString("port_%1").arg(i)].toInt(-1);
     }
@@ -67,6 +82,15 @@ namespace VMTDLib
     void VMTDSwitch::setUrl(const QUrl &url)
     {
         m_url = url;
+    }
+
+    int VMTDSwitch::ticketTimeoutInterval() const
+    {
+        return m_ticketTimeoutInterval;
+    }
+    void VMTDSwitch::setTicketTimeoutInterval(int ticketTimeoutInterval)
+    {
+        m_ticketTimeoutInterval = ticketTimeoutInterval;
     }
 
     int VMTDSwitch::portCount() const
