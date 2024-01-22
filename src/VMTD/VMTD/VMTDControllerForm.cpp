@@ -41,6 +41,9 @@ namespace VMTDLib
         connect(ui->pbStopController, &QPushButton::clicked,
                 m_controller, &VMTDController::stopController);
 
+        connect(ui->pbModel, &QPushButton::clicked,
+                m_controller->model(), &VMTDModel::showFormSlot);
+
         const auto nodeType = m_controller->settings()->nodeType();
         ui->pbNxApiServer->setVisible(nodeType == VMTDNodeType::SERVER);
         ui->pbNodeServer->setVisible(nodeType == VMTDNodeType::SERVER);

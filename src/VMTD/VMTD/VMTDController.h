@@ -6,6 +6,8 @@
 #include "adapter/node/VMTDNodeServer.h"
 #include "adapter/node/VMTDNodeClient.h"
 
+#include "model/VMTDModel.h"
+
 #include <QThread>
 
 namespace VMTDLib
@@ -29,6 +31,8 @@ namespace VMTDLib
 
         VMTDNodeClient *nodeClient() const;
 
+        VMTDModel *model() const;
+
     public slots:
 
         void showFormSlot();
@@ -51,6 +55,8 @@ namespace VMTDLib
         VMTDNodeServer *m_nodeServer;
 
         VMTDNodeClient *m_nodeClient;
+
+        VMTDModel *m_model;
 
     private slots:
 

@@ -7,6 +7,8 @@
 
 namespace VMTDLib
 {
+    class VMTDModelForm;
+
     class VMTD_SHARED VMTDModel : public QObject
     {
         Q_OBJECT
@@ -45,7 +47,13 @@ namespace VMTDLib
         bool addNode(VMTDNode *node);
         void removeNode(int identificator);
 
+    public slots:
+
+        void showFormSlot();
+
     private:
+
+        QPointer<VMTDModelForm> m_form;
 
         VMTDSettings *m_settings;
 

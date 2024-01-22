@@ -15,6 +15,8 @@ namespace VMTDLib
 
         connect(this, &VMTDController::started, this, &VMTDController::startedSlot);
         connect(this, &VMTDController::finished, this, &VMTDController::finishedSlot);
+
+        m_model = new VMTDModel(this, m_settings);
     }
 
     VMTDController::~VMTDController()
@@ -43,6 +45,11 @@ namespace VMTDLib
     VMTDNodeClient *VMTDController::nodeClient() const
     {
         return m_nodeClient;
+    }
+
+    VMTDModel *VMTDController::model() const
+    {
+        return m_model;
     }
 
     void VMTDController::showFormSlot()

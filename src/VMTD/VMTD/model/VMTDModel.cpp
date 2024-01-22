@@ -1,4 +1,5 @@
 #include "VMTDModel.h"
+#include "VMTDModelForm.h"
 
 #include <QJsonArray>
 
@@ -25,10 +26,12 @@ namespace VMTDLib
 
         for (auto sw : m_switches.values())
             switchesArr.append(sw->toJson());
+
         jsonObj["switches"] = switchesArr;
 
         for (auto node : m_nodes.values())
             nodesArr.append(node->toJson());
+
         jsonObj["nodes"] = nodesArr;
 
         return jsonObj;
@@ -45,6 +48,7 @@ namespace VMTDLib
             return;
 
         auto switchesArr = jsonObj["switches"].toArray();
+
         for (int i = 0; i < switchesArr.size(); ++i)
         {
             auto sw = new VMTDSwitch(this, m_settings);
@@ -53,6 +57,7 @@ namespace VMTDLib
         }
 
         auto nodesArr = jsonObj["nodes"].toArray();
+
         for (int i = 0; i < nodesArr.size(); ++i)
         {
             auto node = new VMTDNode(this, m_settings);
@@ -162,5 +167,15 @@ namespace VMTDLib
 
         delete m_nodes[identificator];
         m_nodes.remove(identificator);
+    }
+
+    void VMTDModel::showFormSlot()
+    {
+        if (m_form == nullptr)
+            m_form = new VMTDModelForm(nullptr, this);
+
+        m_form->show();
+        m_form->raise();
+        m_form->activateWindow();
     }
 }
