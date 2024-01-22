@@ -19,7 +19,13 @@ namespace VMTDLib
 
         bool isListening() const;
 
+        QString stateString() const;
+
         const QVector<VMTDNxApiAdapter *> &adapters() const;
+
+    signals:
+
+        void adapterCreatedSignal(VMTDNxApiAdapter *adapter);
 
     public slots:
 

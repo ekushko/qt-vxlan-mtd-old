@@ -33,8 +33,8 @@ namespace VMTDLib
 
         void uiTimerTickSlot();
 
-        void updateAdaptersListSlot();
+        void adapterCreatedSlot(VMTDNxApiAdapter *adapter);
 
-        void lwAdaptersDoubleClicked(QListWidgetItem *item);
+        void pbHideRightClicked();
     };
 }

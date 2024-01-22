@@ -23,6 +23,14 @@ namespace VMTDLib
         return m_isListening;
     }
 
+    QString VMTDNxApiServer::stateString() const
+    {
+        if (m_isListening)
+            return "Запущен";
+
+        return "Остановлен";
+    }
+
     const QVector<VMTDNxApiAdapter *> &VMTDNxApiServer::adapters() const
     {
         return m_adapters;
@@ -54,6 +62,8 @@ namespace VMTDLib
 
             for (int i = 0; i < switchesArr.size(); ++i)
                 adapter->fromJson(switchesArr.at(i).toObject());
+
+            emit adapterCreatedSignal(adapter);
         }
 
         m_isListening = true;

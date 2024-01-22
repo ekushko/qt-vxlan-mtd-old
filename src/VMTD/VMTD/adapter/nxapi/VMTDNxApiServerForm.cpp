@@ -1,6 +1,8 @@
 #include    "VMTDNxApiServerForm.h"
 #include "ui_VMTDNxApiServerForm.h"
 
+#include "VMTDNxApiAdapterForm.h"
+
 namespace VMTDLib
 {
     VMTDNxApiServerForm::VMTDNxApiServerForm(QWidget *parent, VMTDNxApiServer *server) :
@@ -13,18 +15,16 @@ namespace VMTDLib
         setAttribute(Qt::WA_DeleteOnClose, true);
         setWindowTitle("NX-API Adapters");
 
-        connect(ui->pbRefresh, &QPushButton::clicked,
-                this, &VMTDNxApiServerForm::updateAdaptersListSlot);
+        connect(m_server, &VMTDNxApiServer::adapterCreatedSignal,
+                this, &VMTDNxApiServerForm::adapterCreatedSlot);
 
-        updateAdaptersListSlot();
+        for (auto adapter : m_server->adapters())
+            adapterCreatedSlot(adapter);
 
         connect(ui->pbStart, &QPushButton::clicked,
                 m_server, &VMTDNxApiServer::startListenSlot);
         connect(ui->pbStop, &QPushButton::clicked,
                 m_server, &VMTDNxApiServer::stopListenSlot);
-
-        connect(ui->lwAdapters, &QListWidget::itemDoubleClicked,
-                this, &VMTDNxApiServerForm::lwAdaptersDoubleClicked);
 
         m_uiTimer.setParent(this);
         connect(&m_uiTimer, &QTimer::timeout,
@@ -43,21 +43,20 @@ namespace VMTDLib
     {
         ui->pbStart->setEnabled(!m_server->isListening());
         ui->pbStop->setEnabled(m_server->isListening());
+
+        ui->lbState->setText(m_server->stateString());
+        ui->lbAdapters->setText(QString("Adapters: %1").arg(m_server->adapters().size()));
     }
 
-    void VMTDNxApiServerForm::updateAdaptersListSlot()
+    void VMTDNxApiServerForm::adapterCreatedSlot(VMTDNxApiAdapter *adapter)
     {
-        ui->lwAdapters->clear();
-
-        for (int i = 0; i < m_server->adapters().size(); ++i)
-            ui->lwAdapters->addItem(m_server->adapters().at(i)->url().toString());
+        auto form = new VMTDNxApiAdapterForm(ui->twAdapters, adapter);
+        ui->twAdapters->addTab(form, adapter->url().toString());
     }
 
-    void VMTDNxApiServerForm::lwAdaptersDoubleClicked(QListWidgetItem *item)
+    void VMTDNxApiServerForm::pbHideRightClicked()
     {
-        auto index = ui->lwAdapters->row(item);
-
-        if (index >= 0 && index < m_server->adapters().size())
-            m_server->adapters().at(index)->showFormSlot();
+        ui->wRight->setVisible(!ui->wRight->isVisible());
+        ui->pbHideRight->setText(ui->wRight->isVisible() ? "<" : ">");
     }
 }
