@@ -43,10 +43,10 @@ namespace VMTDLib
 
     VMTDSettings::~VMTDSettings()
     {
-        debugOut(VN_S(VMTDSettings) + " was deleted");
-
         if (m_form != nullptr)
             delete m_form;
+
+        debugOut(VN_S(VMTDSettings) + " was deleted");
     }
 
     const QString &VMTDSettings::enNodeTypeToS(const EnNodeType &nodeType)
@@ -85,7 +85,7 @@ namespace VMTDLib
         jsonObj[VN_ME(m_serverPort)] = m_serverPort;
         jsonObj[VN_ME(m_localPort)] = m_localPort;
 
-        jsonObj[VN_ME(m_nxApiAdaptersParams)] = m_modelObj;
+        jsonObj[VN_ME(m_modelObj)] = m_modelObj;
 
         return jsonObj;
     }
@@ -100,7 +100,7 @@ namespace VMTDLib
         m_serverPort = jsonObj[VN_ME(m_serverPort)].toInt(m_serverPort);
         m_localPort = jsonObj[VN_ME(m_localPort)].toInt(m_localPort);
 
-        m_modelObj = jsonObj[VN_ME(m_nxApiAdaptersParams)].toObject();
+        m_modelObj = jsonObj[VN_ME(m_modelObj)].toObject();
     }
 
     QString VMTDSettings::filePath() const

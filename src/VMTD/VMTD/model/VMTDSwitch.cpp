@@ -8,7 +8,9 @@ namespace VMTDLib
         : QObject(parent)
         , m_settings(settings)
     {
+        PortToNode = QVector<int>(m_portCount, -1);
 
+        PortToInterface = QVector<QString>(m_portCount, QString());
     }
 
     QJsonObject VMTDSwitch::toJson() const
@@ -102,11 +104,15 @@ namespace VMTDLib
         if (m_portCount != portCount)
         {
             PortToNode.resize(portCount);
+            PortToInterface.resize(portCount);
 
             if (portCount > m_portCount)
             {
                 for (int i = m_portCount; i < PortToNode.size(); ++i)
                     PortToNode[i] = -1;
+
+                for (int i = m_portCount; i < PortToInterface.size(); ++i)
+                    PortToInterface[i] = QString();
             }
 
             m_portCount = portCount;

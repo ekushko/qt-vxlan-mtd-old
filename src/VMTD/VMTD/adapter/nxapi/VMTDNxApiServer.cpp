@@ -23,14 +23,6 @@ namespace VMTDLib
         return m_isListening;
     }
 
-    QString VMTDNxApiServer::stateString() const
-    {
-        if (m_isListening)
-            return "Запущен";
-
-        return "Остановлен";
-    }
-
     const QVector<VMTDNxApiAdapter *> &VMTDNxApiServer::adapters() const
     {
         return m_adapters;

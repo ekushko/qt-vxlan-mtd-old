@@ -19,8 +19,6 @@ namespace VMTDLib
 
         bool isListening() const;
 
-        QString stateString() const;
-
         const QVector<VMTDNxApiAdapter *> &adapters() const;
 
     signals:

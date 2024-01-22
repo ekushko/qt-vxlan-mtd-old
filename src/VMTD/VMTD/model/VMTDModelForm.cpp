@@ -18,6 +18,16 @@ namespace VMTDLib
         if (parent != nullptr && parent->layout() != nullptr)
             parent->layout()->addWidget(this);
 
+        connect(ui->pbAddSwitch, &QPushButton::clicked,
+                this, &VMTDModelForm::pbAddSwitchClicked);
+        connect(ui->pbRemoveSwitch, &QPushButton::clicked,
+                this, &VMTDModelForm::pbRemoveSwitchClicked);
+
+        connect(ui->pbAddNode, &QPushButton::clicked,
+                this, &VMTDModelForm::pbAddNodeClicked);
+        connect(ui->pbRemoveNode, &QPushButton::clicked,
+                this, &VMTDModelForm::pbRemoveNodeClicked);
+
         updateSwitchesList();
         updateNodesList();
     }
@@ -60,6 +70,7 @@ namespace VMTDLib
     void VMTDModelForm::pbAddSwitchClicked()
     {
         auto sw = new VMTDSwitch(nullptr, m_model->settings());
+
         do
         {
             sw->setIdentificator(VMTDRepo::generateIdentificator());
@@ -98,6 +109,7 @@ namespace VMTDLib
     void VMTDModelForm::pbAddNodeClicked()
     {
         auto node = new VMTDNode(nullptr, m_model->settings());
+
         do
         {
             node->setIdentificator(VMTDRepo::generateIdentificator());

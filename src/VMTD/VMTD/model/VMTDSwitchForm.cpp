@@ -52,6 +52,7 @@ namespace VMTDLib
         ui->pbCancel->setEnabled(m_isEditMode);
 
         ui->wMain->setEnabled(m_isEditMode);
+        ui->wPorts->setEnabled(m_isEditMode);
     }
 
     void VMTDSwitchForm::updateView()
@@ -111,11 +112,12 @@ namespace VMTDLib
 
                 auto l = new QHBoxLayout(w);
                 l->addWidget(lb);
+                l->addWidget(le);
                 l->addWidget(cb);
             }
         }
 
-        for (auto i = 0; i < m_wPorts.size(); ++i)
+        for (auto i = 0; i < m_sw->portCount(); ++i)
         {
             auto identificator = m_sw->PortToNode.at(i);
 

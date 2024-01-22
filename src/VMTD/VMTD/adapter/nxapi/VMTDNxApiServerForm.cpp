@@ -26,6 +26,12 @@ namespace VMTDLib
         connect(ui->pbStop, &QPushButton::clicked,
                 m_server, &VMTDNxApiServer::stopListenSlot);
 
+        connect(ui->pbHideRight, &QPushButton::clicked,
+                this, &VMTDNxApiServerForm::pbHideRightClicked);
+
+        connect(ui->pbClose, &QPushButton::clicked,
+                this, &VMTDNxApiServerForm::close);
+
         m_uiTimer.setParent(this);
         connect(&m_uiTimer, &QTimer::timeout,
                 this, &VMTDNxApiServerForm::uiTimerTickSlot);
@@ -43,8 +49,7 @@ namespace VMTDLib
     {
         ui->pbStart->setEnabled(!m_server->isListening());
         ui->pbStop->setEnabled(m_server->isListening());
-
-        ui->lbState->setText(m_server->stateString());
+        ui->lbListening->setText(QString("Listening: ") + (m_server->isListening() ? "Yes" : "No"));
         ui->lbAdapters->setText(QString("Adapters: %1").arg(m_server->adapters().size()));
     }
 
