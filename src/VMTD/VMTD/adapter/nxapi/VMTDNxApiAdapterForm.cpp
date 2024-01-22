@@ -33,17 +33,10 @@ namespace VMTDLib
 
         initializeView();
 
-        connect(&m_quickUiTimer, &QTimer::timeout,
-                this, &VMTDNxApiAdapterForm::quickUiTimerTickSlot);
-        m_quickUiTimer.start(200);
-
         connect(&m_uiTimer, &QTimer::timeout,
                 this, &VMTDNxApiAdapterForm::uiTimerTickSlot);
-        m_quickUiTimer.start(1000);
+        m_uiTimer.start(200);
 
-        setEditMode(false);
-
-        quickUiTimerTickSlot();
         uiTimerTickSlot();
     }
 
@@ -66,50 +59,18 @@ namespace VMTDLib
 
     void VMTDNxApiAdapterForm::initializeView()
     {
-        connect(ui->pbHideRight, &QPushButton::clicked,
-                this, &VMTDNxApiAdapterForm::pbHideRightClicked);
         connect(ui->pbCheckConnection, &QPushButton::clicked,
                 this, &VMTDNxApiAdapterForm::pbCheckConnectionClicked);
         connect(ui->pbSendCommands, &QPushButton::clicked,
                 this, &VMTDNxApiAdapterForm::pbSendCommandsClicked);
-        connect(ui->pbChange, &QPushButton::clicked,
-                this, &VMTDNxApiAdapterForm::pbChangeClicked);
-        connect(ui->pbAccept, &QPushButton::clicked,
-                this, &VMTDNxApiAdapterForm::pbAcceptClicked);
-        connect(ui->pbCancel, &QPushButton::clicked,
-                this, &VMTDNxApiAdapterForm::pbCancelClicked);
-        connect(ui->pbClose, &QPushButton::clicked,
-                this, &VMTDNxApiAdapterForm::close);
-    }
-
-    void VMTDNxApiAdapterForm::setEditMode(bool isEditMode)
-    {
-        ui->leUrl->setEnabled(isEditMode);
-        ui->leUserName->setEnabled(isEditMode);
-        ui->lePassword->setEnabled(isEditMode);
-        ui->sbTicketTimeoutInterval->setEnabled(isEditMode);
     }
 
     void VMTDNxApiAdapterForm::uiTimerTickSlot()
     {
-        ui->leUrl->setText(m_adapter->url().toString());
-        ui->leUserName->setText(m_adapter->url().userName());
-        ui->lePassword->setText(m_adapter->url().password());
-        ui->sbTicketTimeoutInterval->setValue(m_adapter->ticketTimeoutInterval());
-    }
-
-    void VMTDNxApiAdapterForm::quickUiTimerTickSlot()
-    {
         ui->pbCheckConnection->setEnabled(m_adapter->canSend());
         ui->pbSendCommands->setEnabled(m_adapter->canSend());
-
-        ui->lbIsConnected->setText(m_adapter->isConnected() ? "Есть" : "Нет");
-    }
-
-    void VMTDNxApiAdapterForm::pbHideRightClicked()
-    {
-        ui->wRight->setVisible(!ui->wRight->isVisible());
-        ui->pbHideRight->setText(ui->wRight->isVisible() ? "<" : ">");
+        ui->lbConnected->setText(m_adapter->isConnected() ? "Есть" : "Нет");
+        ui->lbUrl->setText(m_adapter->url().toString());
     }
 
     void VMTDNxApiAdapterForm::pbCheckConnectionClicked()
@@ -122,30 +83,5 @@ namespace VMTDLib
         emit sendCommandsSignal(ui->pteCommands->toPlainText().split('\n'));
 
         ui->pteCommands->clear();
-    }
-
-    void VMTDNxApiAdapterForm::pbChangeClicked()
-    {
-        m_uiTimer.stop();
-        setEditMode(true);
-    }
-    void VMTDNxApiAdapterForm::pbAcceptClicked()
-    {
-        QUrl url(ui->leUrl->text());
-        url.setUserName(ui->leUserName->text());
-        url.setPassword(ui->lePassword->text());
-
-        m_adapter->setUrl(url);
-        m_adapter->setTicketTimeoutInterval(ui->sbTicketTimeoutInterval->value());
-
-        m_uiTimer.start();
-        setEditMode(false);
-    }
-    void VMTDNxApiAdapterForm::pbCancelClicked()
-    {
-        uiTimerTickSlot();
-
-        m_uiTimer.start();
-        setEditMode(false);
     }
 }

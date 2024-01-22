@@ -35,28 +35,18 @@ namespace VMTDLib
 
         void initializeView();
 
-        void setEditMode(bool isEditMode);
-
         Ui::VMTDNxApiAdapterForm *ui;
 
         VMTDNxApiAdapter *m_adapter;
 
         QTimer m_uiTimer;
-        QTimer m_quickUiTimer;
 
     private slots:
 
-        void      uiTimerTickSlot();
-        void quickUiTimerTickSlot();
-
-        void pbHideRightClicked();
+        void uiTimerTickSlot();
 
         void pbCheckConnectionClicked();
 
         void pbSendCommandsClicked();
-
-        void pbChangeClicked();
-        void pbAcceptClicked();
-        void pbCancelClicked();
     };
 }
