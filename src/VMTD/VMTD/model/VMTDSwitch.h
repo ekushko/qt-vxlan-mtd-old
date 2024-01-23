@@ -43,6 +43,10 @@ namespace VMTDLib
 
         QVector<QString> PortToInterface;
 
+    signals:
+
+        void portCountChangedSignal();
+
     private:
 
         VMTDSettings *m_settings;

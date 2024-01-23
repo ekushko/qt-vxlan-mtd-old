@@ -70,9 +70,7 @@ void MainWindow::pbCreateClicked()
 }
 void MainWindow::pbDeleteClicked()
 {
-    if (m_controller == nullptr)
-        return;
-
-    delete m_controller;
+    if (m_controller != nullptr)
+        delete m_controller;
 }
 

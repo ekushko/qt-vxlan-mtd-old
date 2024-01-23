@@ -19,6 +19,10 @@ namespace VMTDLib
 
         initializeView();
 
+        m_uiTimer.setParent(this);
+        connect(&m_uiTimer, &QTimer::timeout, this, &VMTDSwitchForm::uiTimerTickSlot);
+        m_uiTimer.start(1000);
+
         setEditMode(false);
         updateView();
     }
@@ -30,14 +34,13 @@ namespace VMTDLib
 
     void VMTDSwitchForm::initializeView()
     {
-        connect(ui->sbPortCount, qOverload<int>(&QSpinBox::valueChanged),
-                this, &VMTDSwitchForm::sbPortCountValueChanged);
-
-        connect(ui->pbRefresh, &QPushButton::clicked, this, &VMTDSwitchForm::pbRefreshClicked);
+        m_portForm = new VMTDSwitchPortForm(ui->wPort, m_model, m_identificator);
 
         connect(ui->pbChange, &QPushButton::clicked, this, &VMTDSwitchForm::pbChangeClicked);
         connect(ui->pbAccept, &QPushButton::clicked, this, &VMTDSwitchForm::pbAcceptClicked);
         connect(ui->pbCancel, &QPushButton::clicked, this, &VMTDSwitchForm::pbCancelClicked);
+
+        connect(m_sw, &VMTDSwitch::portCountChangedSignal, this, &VMTDSwitchForm::portCountChangedSlot);
     }
 
     void VMTDSwitchForm::setEditMode(bool isEditMode)
@@ -51,91 +54,62 @@ namespace VMTDLib
         ui->pbAccept->setEnabled(m_isEditMode);
         ui->pbCancel->setEnabled(m_isEditMode);
 
-        ui->wMain->setEnabled(m_isEditMode);
-        ui->wPorts->setEnabled(m_isEditMode);
+        ui->tbSwitch->tabBar()->setEnabled(!m_isEditMode);
+        ui->wMain->setEnabled(m_isEditMode && ui->tbSwitch->currentIndex() == 0);
+        ui->wPort->setEnabled(m_isEditMode && ui->tbSwitch->currentIndex() != 0);
     }
 
     void VMTDSwitchForm::updateView()
     {
-        ui->lbOnline->setText(m_sw->isOnline() ? "Yes" : "No");
-        ui->leIdentificator->setText(QString::number(m_identificator));
-        ui->leUserName->setText(m_sw->url().userName());
-        ui->lePassword->setText(m_sw->url().password());
-        ui->leUrl->setText(m_sw->url().toString());
-        ui->sbTicketTimeoutInterval->setValue(m_sw->ticketTimeoutInterval());
-        ui->sbPortCount->setValue(m_sw->portCount());
+        if (ui->tbSwitch->currentIndex() == 0)
+        {
+            ui->lbOnline->setText(m_sw->isOnline() ? "Yes" : "No");
+            ui->leIdentificator->setText(QString::number(m_identificator));
+            ui->leUserName->setText(m_sw->url().userName());
+            ui->lePassword->setText(m_sw->url().password());
+            ui->leUrl->setText(m_sw->url().toString());
+            ui->sbTicketTimeoutInterval->setValue(m_sw->ticketTimeoutInterval());
+            ui->sbPortCount->setValue(m_sw->portCount());
+        }
+        else
+        {
+            m_portForm->updateView();
+        }
     }
 
     void VMTDSwitchForm::updateData()
     {
-        m_identificator = ui->leIdentificator->text().toInt();
-        m_sw->setIdentificator(m_identificator);
-        auto url = QUrl(ui->leUrl->text());
-        url.setUserName(ui->leUserName->text());
-        url.setPassword(ui->lePassword->text());
-        m_sw->setUrl(url);
-        m_sw->setTicketTimeoutInterval(ui->sbTicketTimeoutInterval->value());
-        m_sw->setPortCount(ui->sbPortCount->value());
-
-        for (auto i = 0; i < m_sw->portCount(); ++i)
+        if (ui->tbSwitch->currentIndex() == 0)
         {
-            m_sw->PortToNode[i] = m_cbPortNodes.at(i)->currentData().toInt();
-            m_sw->PortToInterface[i] = m_lePortInterfaces.at(i)->text();
+            m_identificator = ui->leIdentificator->text().toInt();
+            m_sw->setIdentificator(m_identificator);
+            auto url = QUrl(ui->leUrl->text());
+            url.setUserName(ui->leUserName->text());
+            url.setPassword(ui->lePassword->text());
+            m_sw->setUrl(url);
+            m_sw->setTicketTimeoutInterval(ui->sbTicketTimeoutInterval->value());
+            m_sw->setPortCount(ui->sbPortCount->value());
+        }
+        else
+        {
+            m_portForm->updateData();
         }
     }
 
-    void VMTDSwitchForm::sbPortCountValueChanged(int value)
+    void VMTDSwitchForm::portCountChangedSlot()
     {
-        if (m_wPorts.count() != value)
-        {
-            qDeleteAll(m_wPorts);
-            m_wPorts.clear();
-
-            for (auto i = 0; i < value; ++i)
-            {
-                auto w = new QWidget(ui->wPorts);
-                ui->wPorts->layout()->addWidget(w);
-                m_wPorts.append(w);
-
-                auto lb = new QLabel(QString("Port %1:").arg(i + 1), w);
-
-                auto le = new QLineEdit(w);
-                m_lePortInterfaces.append(le);
-
-                auto cb = new QComboBox(w);
-                cb->addItem("None", -1);
-
-                for (auto node : m_model->nodes().values())
-                    cb->addItem(node->ip(), node->identificator());
-
-                m_cbPortNodes.append(cb);
-
-                auto l = new QHBoxLayout(w);
-                l->addWidget(lb);
-                l->addWidget(le);
-                l->addWidget(cb);
-            }
-        }
-
-        for (auto i = 0; i < m_sw->portCount(); ++i)
-        {
-            auto identificator = m_sw->PortToNode.at(i);
-
-            auto cb = m_cbPortNodes.at(i);
-            cb->setCurrentIndex(cb->findData(identificator));
-
-            auto le = m_lePortInterfaces.at(i);
-            le->setText(m_sw->PortToInterface.at(i));
-        }
+        m_portForm->reinitializeView();
     }
 
-    void VMTDSwitchForm::pbRefreshClicked()
+    void VMTDSwitchForm::uiTimerTickSlot()
     {
         updateView();
     }
 
     void VMTDSwitchForm::pbChangeClicked()
     {
+        m_uiTimer.stop();
+
         setEditMode(true);
         updateView();
     }
@@ -145,10 +119,14 @@ namespace VMTDLib
 
         setEditMode(false);
         updateView();
+
+        m_uiTimer.start();
     }
     void VMTDSwitchForm::pbCancelClicked()
     {
         setEditMode(false);
         updateView();
+
+        m_uiTimer.start();
     }
 }

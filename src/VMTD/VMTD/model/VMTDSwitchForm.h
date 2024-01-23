@@ -1,12 +1,8 @@
 #pragma once
 
-#include "VMTDModel.h"
+#include "VMTDSwitchPortForm.h"
 
-#include <QWidget>
-#include <QLayout>
-#include <QLabel>
-#include <QLineEdit>
-#include <QComboBox>
+#include <QTimer>
 
 namespace Ui
 {
@@ -35,8 +31,6 @@ namespace VMTDLib
 
         void updateData();
 
-        void updateViewPorts(int portCount);
-
         Ui::VMTDSwitchForm *ui;
 
         VMTDModel *m_model;
@@ -46,15 +40,15 @@ namespace VMTDLib
 
         bool m_isEditMode;
 
-        QVector<QWidget *> m_wPorts;
-        QVector<QLineEdit *> m_lePortInterfaces;
-        QVector<QComboBox *> m_cbPortNodes;
+        QTimer m_uiTimer;
+
+        VMTDSwitchPortForm *m_portForm;
 
     private slots:
 
-        void sbPortCountValueChanged(int value);
+        void portCountChangedSlot();
 
-        void pbRefreshClicked();
+        void uiTimerTickSlot();
 
         void pbChangeClicked();
         void pbAcceptClicked();

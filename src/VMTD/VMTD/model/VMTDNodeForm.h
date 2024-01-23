@@ -3,6 +3,7 @@
 #include "VMTDModel.h"
 
 #include <QWidget>
+#include <QTimer>
 
 namespace Ui
 {
@@ -40,11 +41,13 @@ namespace VMTDLib
 
         bool m_isEditMode;
 
+        QTimer m_uiTimer;
+
     private slots:
 
-        void cbCurrentSwitchIndexChanged(int index);
+        void uiTimerTickSlot();
 
-        void pbRefreshClicked();
+        void cbCurrentSwitchIndexChanged(int index);
 
         void pbChangeClicked();
         void pbAcceptClicked();

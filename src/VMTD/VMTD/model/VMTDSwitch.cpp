@@ -116,6 +116,8 @@ namespace VMTDLib
             }
 
             m_portCount = portCount;
+
+            emit portCountChangedSignal();
         }
     }
 }

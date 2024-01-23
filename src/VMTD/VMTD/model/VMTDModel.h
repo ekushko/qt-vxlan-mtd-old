@@ -49,7 +49,10 @@ namespace VMTDLib
 
     public slots:
 
-        void showFormSlot();
+        void showFormSlot(QWidget *parent);
+
+        void saveSlot();
+        void loadSlot();
 
     private:
 

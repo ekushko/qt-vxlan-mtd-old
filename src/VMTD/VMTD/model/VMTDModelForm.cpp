@@ -6,6 +6,8 @@
 
 #include "../VMTDRepo.h"
 
+#include <QDebug>
+
 namespace VMTDLib
 {
     VMTDModelForm::VMTDModelForm(QWidget *parent, VMTDModel *model) :
@@ -18,15 +20,28 @@ namespace VMTDLib
         if (parent != nullptr && parent->layout() != nullptr)
             parent->layout()->addWidget(this);
 
+        connect(ui->pbSave, &QPushButton::clicked,
+                m_model, &VMTDModel::saveSlot);
+        connect(ui->pbLoad, &QPushButton::clicked,
+                m_model, &VMTDModel::loadSlot);
+
         connect(ui->pbAddSwitch, &QPushButton::clicked,
                 this, &VMTDModelForm::pbAddSwitchClicked);
         connect(ui->pbRemoveSwitch, &QPushButton::clicked,
                 this, &VMTDModelForm::pbRemoveSwitchClicked);
+        connect(ui->lwSwitches, &QListWidget::itemClicked,
+                this, &VMTDModelForm::lwSwitchesItemClicked);
+        connect(ui->lwSwitches, &QListWidget::itemDoubleClicked,
+                this, &VMTDModelForm::lwSwitchesItemDoubleClicked);
 
         connect(ui->pbAddNode, &QPushButton::clicked,
                 this, &VMTDModelForm::pbAddNodeClicked);
         connect(ui->pbRemoveNode, &QPushButton::clicked,
                 this, &VMTDModelForm::pbRemoveNodeClicked);
+        connect(ui->lwNodes, &QListWidget::itemClicked,
+                this, &VMTDModelForm::lwNodesItemClicked);
+        connect(ui->lwNodes, &QListWidget::itemDoubleClicked,
+                this, &VMTDModelForm::lwNodesItemDoubleClicked);
 
         updateSwitchesList();
         updateNodesList();

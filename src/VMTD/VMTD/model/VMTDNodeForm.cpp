@@ -19,6 +19,10 @@ namespace VMTDLib
 
         initializeView();
 
+        m_uiTimer.setParent(this);
+        connect(&m_uiTimer, &QTimer::timeout, this, &VMTDNodeForm::uiTimerTickSlot);
+        m_uiTimer.start(1000);
+
         setEditMode(false);
         updateView();
     }
@@ -31,13 +35,12 @@ namespace VMTDLib
     void VMTDNodeForm::initializeView()
     {
         ui->cbCurrentSwitch->addItem("None", -1);
+
         for (auto sw : m_model->switches().values())
             ui->cbCurrentSwitch->addItem(sw->url().toString(), sw->identificator());
 
         connect(ui->cbCurrentSwitch, qOverload<int>(&QComboBox::currentIndexChanged),
                 this, &VMTDNodeForm::cbCurrentSwitchIndexChanged);
-
-        connect(ui->pbRefresh, &QPushButton::clicked, this, &VMTDNodeForm::pbRefreshClicked);
 
         connect(ui->pbChange, &QPushButton::clicked, this, &VMTDNodeForm::pbChangeClicked);
         connect(ui->pbAccept, &QPushButton::clicked, this, &VMTDNodeForm::pbAcceptClicked);
@@ -76,6 +79,11 @@ namespace VMTDLib
         m_node->setCurrentSwitch(ui->cbCurrentSwitch->currentData().toInt());
     }
 
+    void VMTDNodeForm::uiTimerTickSlot()
+    {
+        updateView();
+    }
+
     void VMTDNodeForm::cbCurrentSwitchIndexChanged(int index)
     {
         Q_UNUSED(index)
@@ -84,13 +92,10 @@ namespace VMTDLib
         ui->sbPortNumber->setRange(0, sw->portCount() - 1);
     }
 
-    void VMTDNodeForm::pbRefreshClicked()
-    {
-        updateView();
-    }
-
     void VMTDNodeForm::pbChangeClicked()
     {
+        m_uiTimer.stop();
+
         setEditMode(true);
         updateView();
     }
@@ -100,10 +105,14 @@ namespace VMTDLib
 
         setEditMode(false);
         updateView();
+
+        m_uiTimer.start();
     }
     void VMTDNodeForm::pbCancelClicked()
     {
         setEditMode(false);
         updateView();
+
+        m_uiTimer.start();
     }
 }

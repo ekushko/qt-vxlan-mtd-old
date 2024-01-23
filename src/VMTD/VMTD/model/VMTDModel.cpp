@@ -169,13 +169,24 @@ namespace VMTDLib
         m_nodes.remove(identificator);
     }
 
-    void VMTDModel::showFormSlot()
+    void VMTDModel::showFormSlot(QWidget *parent)
     {
         if (m_form == nullptr)
-            m_form = new VMTDModelForm(nullptr, this);
+            m_form = new VMTDModelForm(parent, this);
 
         m_form->show();
         m_form->raise();
         m_form->activateWindow();
+    }
+
+    void VMTDModel::saveSlot()
+    {
+        m_settings->setModelObj(toJson());
+        m_settings->save();
+    }
+    void VMTDModel::loadSlot()
+    {
+        m_settings->load();
+        fromJson(m_settings->modelObj());
     }
 }
