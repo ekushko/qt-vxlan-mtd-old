@@ -1,20 +1,49 @@
 #pragma once
 
+#include "VMTDInterfaces.h"
+#include "VMTDInterfaceForm.h"
+
 #include <QWidget>
 
-namespace Ui {
+namespace Ui
+{
     class VMTDInterfacesForm;
 }
 
-class VMTDInterfacesForm : public QWidget
+namespace VMTDLib
 {
-    Q_OBJECT
+    class VMTDInterfacesForm : public QWidget
+    {
+        Q_OBJECT
 
-public:
-    explicit VMTDInterfacesForm(QWidget *parent = nullptr);
-    ~VMTDInterfacesForm();
+    public:
 
-private:
-    Ui::VMTDInterfacesForm *ui;
-};
+        VMTDInterfacesForm(QWidget *parent, VMTDInterfaces *interfaces);
+        ~VMTDInterfacesForm();
 
+        void setEditMode(bool isEditMode);
+        void updateView();
+
+        void updateData();
+
+    private:
+
+        Ui::VMTDInterfacesForm *ui;
+
+        VMTDInterfaces *m_interfaces;
+
+        QVector<VMTDInterfaceForm *> m_interfaceForms;
+
+    private slots:
+
+        void interfaceCreatedSlot(int id);
+        void interfaceRemovedSlot(int id);
+
+        void pbAddClicked();
+        void pbRemoveClicked();
+
+        void pbChangeClicked();
+        void pbAcceptClicked();
+        void pbCancelClicked();
+    };
+}

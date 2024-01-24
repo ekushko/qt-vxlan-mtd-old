@@ -20,6 +20,8 @@ namespace VMTDLib
         VMTDInterfaceForm(QWidget *parent, VMTDInterface *interface);
         ~VMTDInterfaceForm();
 
+        int id() const;
+
         void updateView();
 
         void updateData();

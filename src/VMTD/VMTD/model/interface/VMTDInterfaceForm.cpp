@@ -19,6 +19,11 @@ namespace VMTDLib
         delete ui;
     }
 
+    int VMTDInterfaceForm::id() const
+    {
+        return m_interface->id();
+    }
+
     void VMTDInterfaceForm::updateView()
     {
         ui->lbId->setText(QString::number(m_interface->id()));

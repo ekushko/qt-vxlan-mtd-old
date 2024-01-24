@@ -16,10 +16,16 @@ namespace VMTDLib
 
         VMTDInterfaces(QObject *parent, VMTDSettings *settings);
 
+        QJsonObject toJson() const;
+        void      fromJson(const QJsonObject &jsonObj);
+
+        bool    onlyOneMode() const;
+        void setOnlyOneMode(bool onlyOneMode);
+
         const QMap<int, VMTDInterface *> &interfaces() const;
         VMTDInterface *interface(int id) const;
-        void        addInterface(VMTDInterface *interface);
-        void     removeInterface(int id);
+        bool        addInterface(int id);
+        bool     removeInterface(int id);
 
     public slots:
 
@@ -31,6 +37,8 @@ namespace VMTDLib
 
         VMTDSettings *m_settings;
 
-        QMap<int, VMTDInterface *> m_interfaces;
+        bool m_onlyOneMode = true;
+
+        QMap<int, VMTDInterface *>      m_interfaces;
     };
 }

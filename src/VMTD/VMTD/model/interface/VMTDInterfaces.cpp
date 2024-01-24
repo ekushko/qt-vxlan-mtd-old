@@ -1,6 +1,8 @@
 #include "VMTDInterfaces.h"
 
-#include <algorithm>
+#include "../../VMTDRepo.h"
+
+#include <QJsonArray>
 
 namespace VMTDLib
 {
@@ -11,6 +13,52 @@ namespace VMTDLib
 
     }
 
+    QJsonObject VMTDInterfaces::toJson() const
+    {
+        QJsonObject jsonObj;
+
+        jsonObj[VN_ME(m_onlyOneMode)] = m_onlyOneMode;
+
+        QJsonArray jsonArr;
+
+        for (auto interface : m_interfaces)
+            jsonArr.append(interface->toJson());
+
+        jsonObj[VN_ME(m_interfaces)] = jsonArr;
+
+        return jsonObj;
+    }
+    void VMTDInterfaces::fromJson(const QJsonObject &jsonObj)
+    {
+        if (jsonObj.isEmpty())
+            return;
+
+        m_onlyOneMode = jsonObj[VN_ME(m_onlyOneMode)].toBool();
+
+        const auto jsonArr = jsonObj[VN_ME(m_interfaces)].toArray();
+
+        qDeleteAll(m_interfaces.values());
+        m_interfaces.clear();
+
+        for (int i = 0; i < jsonArr.size(); ++i)
+        {
+            auto interface = new VMTDInterface(this, m_settings, VMTDRepo::generateId());
+            interface->fromJson(jsonArr.at(i).toObject());
+
+            if (!m_interfaces.contains(interface->id()))
+                m_interfaces[interface->id()] = interface;
+        }
+    }
+
+    bool VMTDInterfaces::onlyOneMode() const
+    {
+        return m_onlyOneMode;
+    }
+    void VMTDInterfaces::setOnlyOneMode(bool onlyOneMode)
+    {
+        m_onlyOneMode = onlyOneMode;
+    }
+
     const QMap<int, VMTDInterface *> &VMTDInterfaces::interfaces() const
     {
         return m_interfaces;
@@ -19,20 +67,24 @@ namespace VMTDLib
     {
         return m_interfaces.value(id, nullptr);
     }
-    void VMTDInterfaces::addInterface(VMTDInterface *interface)
+    bool VMTDInterfaces::addInterface(int id)
     {
-        if (!m_interfaces.contains(interface->id())
-            && m_interfaces.values().contains(interface))
-            m_interfaces[interface->id()] = interface;
-        else
-            delete interface;
+        if (!m_interfaces.contains(id)
+            && (!m_onlyOneMode || m_interfaces.size() == 0))
+        {
+            m_interfaces[id] = new VMTDInterface(this, m_settings, id);
+            return true;
+        }
+
+        return false;
     }
-    void VMTDInterfaces::removeInterface(int id)
+    bool VMTDInterfaces::removeInterface(int id)
     {
         if (!m_interfaces.contains(id))
-            return;
+            return false;
 
         delete m_interfaces[id];
         m_interfaces.remove(id);
+        return true;
     }
 }
