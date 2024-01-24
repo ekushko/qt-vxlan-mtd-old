@@ -159,6 +159,10 @@ SOURCES += \
     VMTD/adapter/nxapi/VMTDNxApiAdapterForm.cpp \
     VMTD/adapter/nxapi/VMTDNxApiServer.cpp \
     VMTD/adapter/nxapi/VMTDNxApiServerForm.cpp \
+    VMTD/model/interface/VMTDInterface.cpp \
+    VMTD/model/interface/VMTDInterfaceForm.cpp \
+    VMTD/model/interface/VMTDInterfaces.cpp \
+    VMTD/model/interface/VMTDInterfacesForm.cpp \
     VMTD/model/VMTDModel.cpp \
     VMTD/model/VMTDModelForm.cpp \
     VMTD/model/VMTDNode.cpp \
@@ -186,13 +190,17 @@ HEADERS += \
     VMTD/adapter/nxapi/VMTDNxApiAdapterForm.h \
     VMTD/adapter/nxapi/VMTDNxApiServer.h \
     VMTD/adapter/nxapi/VMTDNxApiServerForm.h \
+    VMTD/model/interface/VMTDInterface.h \
+    VMTD/model/interface/VMTDInterfaceForm.h \
+    VMTD/model/interface/VMTDInterfaces.h \
+    VMTD/model/interface/VMTDInterfacesForm.h \
     VMTD/model/VMTDModel.h \
     VMTD/model/VMTDModelForm.h \
     VMTD/model/VMTDNode.h \
     VMTD/model/VMTDNodeForm.h \
     VMTD/model/VMTDSwitch.h \
     VMTD/model/VMTDSwitchForm.h \
-    VMTD/model/VMTDSwitchPortForm.h
+    VMTD/model/VMTDSwitchPortForm.h \
 
 FORMS += \
     MainWindow.ui \
@@ -203,10 +211,12 @@ FORMS += \
     VMTD/adapter/node/VMTDNodeServerForm.ui \
     VMTD/adapter/nxapi/VMTDNxApiAdapterForm.ui \
     VMTD/adapter/nxapi/VMTDNxApiServerForm.ui \
+    VMTD/model/interface/VMTDInterfaceForm.ui \
+    VMTD/model/interface/VMTDInterfacesForm.ui \
     VMTD/model/VMTDModelForm.ui \
     VMTD/model/VMTDNodeForm.ui \
     VMTD/model/VMTDSwitchForm.ui \
-    VMTD/model/VMTDSwitchPortForm.ui
+    VMTD/model/VMTDSwitchPortForm.ui \
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
