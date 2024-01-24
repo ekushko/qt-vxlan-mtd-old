@@ -21,6 +21,9 @@ namespace VMTDLib
 
     VMTDController::~VMTDController()
     {
+        if (isRunning())
+            stopController();
+
         m_settings->debugOut(VN_S(VMTDController) + " was deleted");
 
         if (m_form != nullptr)
