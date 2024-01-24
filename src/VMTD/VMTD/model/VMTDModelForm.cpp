@@ -57,7 +57,7 @@ namespace VMTDLib
         ui->lwSwitches->clear();
 
         for (auto sw : m_model->switches().values())
-            ui->lwSwitches->addItem(sw->url().toString());
+            ui->lwSwitches->addItem(sw->url().toString(QUrl::RemoveUserInfo));
     }
 
     void VMTDModelForm::updateNodesList()

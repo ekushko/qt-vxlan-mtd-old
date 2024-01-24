@@ -37,7 +37,7 @@ namespace VMTDLib
         ui->cbCurrentSwitch->addItem("None", -1);
 
         for (auto sw : m_model->switches().values())
-            ui->cbCurrentSwitch->addItem(sw->url().toString(), sw->id());
+            ui->cbCurrentSwitch->addItem(sw->url().toString(QUrl::RemoveUserInfo), sw->id());
 
         connect(ui->cbCurrentSwitch, qOverload<int>(&QComboBox::currentIndexChanged),
                 this, &VMTDNodeForm::cbCurrentSwitchIndexChanged);
@@ -102,6 +102,8 @@ namespace VMTDLib
     void VMTDNodeForm::pbAcceptClicked()
     {
         updateData();
+
+        emit m_node->updatedSignal();
 
         setEditMode(false);
         updateView();

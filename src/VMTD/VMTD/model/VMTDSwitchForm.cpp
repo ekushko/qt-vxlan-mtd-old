@@ -67,7 +67,7 @@ namespace VMTDLib
             ui->leIdentificator->setText(QString::number(m_id));
             ui->leUserName->setText(m_sw->url().userName());
             ui->lePassword->setText(m_sw->url().password());
-            ui->leUrl->setText(m_sw->url().toString());
+            ui->leUrl->setText(m_sw->url().toString(QUrl::RemoveUserInfo));
             ui->sbTicketTimeoutInterval->setValue(m_sw->ticketTimeoutInterval());
             ui->sbPortCount->setValue(m_sw->portCount());
         }
@@ -116,6 +116,8 @@ namespace VMTDLib
     void VMTDSwitchForm::pbAcceptClicked()
     {
         updateData();
+
+        emit m_sw->updatedSignal();
 
         setEditMode(false);
         updateView();

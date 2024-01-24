@@ -10,7 +10,7 @@ namespace VMTDLib
         , m_settings(settings)
         , m_isReadOnly(false)
     {
-
+        loadSlot();
     }
 
     VMTDSettings *VMTDModel::settings() const
@@ -101,7 +101,8 @@ namespace VMTDLib
     {
         for (auto sw_ : m_switches.values())
         {
-            if (sw_->url() == url)
+            if (sw_->url().toString(QUrl::RemoveUserInfo)
+                == url.toString(QUrl::RemoveUserInfo))
                 return sw_;
         }
 
@@ -117,6 +118,7 @@ namespace VMTDLib
             return false;
 
         sw->setParent(this);
+        connect(sw, &VMTDSwitch::updatedSignal, this, &VMTDModel::updatedSwSlot);
         m_switches[sw->id()] = sw;
         return true;
     }
@@ -157,6 +159,7 @@ namespace VMTDLib
             return false;
 
         node->setParent(this);
+        connect(node, &VMTDNode::updatedSignal, this, &VMTDModel::updatedNodeSlot);
         m_nodes[node->id()] = node;
         return true;
     }
@@ -186,7 +189,38 @@ namespace VMTDLib
     }
     void VMTDModel::loadSlot()
     {
-        m_settings->load();
         fromJson(m_settings->modelObj());
+    }
+
+    void VMTDModel::updatedNodeSlot()
+    {
+        auto n = dynamic_cast<VMTDNode *>(sender());
+
+        if (n == nullptr)
+            return;
+
+        auto s = sw(n->currentSwitch());
+
+        if (s == nullptr)
+            return;
+
+        connectNodeToSwitch(n, s, n->portNumber());
+    }
+    void VMTDModel::updatedSwSlot()
+    {
+        auto s = dynamic_cast<VMTDSwitch *>(sender());
+
+        if (s == nullptr)
+            return;
+
+        for (int i = 0; i < s->PortToNode.size(); ++i)
+        {
+            auto n = node(s->PortToNode[i]);
+
+            if (n == nullptr)
+                continue;
+
+            connectNodeToSwitch(n, s, i);
+        }
     }
 }

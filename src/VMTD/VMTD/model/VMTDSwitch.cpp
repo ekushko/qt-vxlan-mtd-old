@@ -8,6 +8,9 @@ namespace VMTDLib
         : QObject(parent)
         , m_settings(settings)
     {
+        m_url.setUserName(QString());
+        m_url.setPassword(QString());
+
         PortToNode = QVector<int>(m_portCount, -1);
 
         PortToInterface = QVector<QString>(m_portCount, QString());
@@ -18,7 +21,7 @@ namespace VMTDLib
         QJsonObject jsonObj;
 
         jsonObj[VN_ME(m_id)] = m_id;
-        jsonObj[VN_ME(m_url)] = m_url.toString();
+        jsonObj[VN_ME(m_url)] = m_url.toString(QUrl::RemoveUserInfo);
         jsonObj[VN_MT_REF(m_url.userName())] = m_url.userName();
         jsonObj[VN_MT_REF(m_url.password())] = m_url.password();
         jsonObj[VN_ME(m_ticketTimeoutInterval)] = m_ticketTimeoutInterval;
@@ -28,10 +31,19 @@ namespace VMTDLib
 
         QJsonObject portsObj;
 
-        for (auto portNumber : PortToNode)
-            portsObj[QString("port_%1").arg(portNumber)] = PortToNode.at(portNumber);
+        for (int i = 0; i < PortToNode.size(); ++i)
+            portsObj[QString("port_%1").arg(i)] = PortToNode.at(i);
 
-        jsonObj["ports"] = portsObj;
+        jsonObj[VN_S(PortToNode)] = portsObj;
+
+
+        QJsonObject interfacesObj;
+
+        for (int i = 0; i < PortToInterface.size(); ++i)
+            interfacesObj[QString("interface_%1").arg(i)] = PortToInterface.at(i);
+
+        jsonObj[VN_S(PortToInterface)] = interfacesObj;
+
 
         return jsonObj;
     }
@@ -53,10 +65,15 @@ namespace VMTDLib
         PortToNode.clear();
         setPortCount(jsonObj[VN_ME(m_portCount)].toInt());
 
-        auto portsObj = jsonObj["ports"].toObject();
+        auto portsObj = jsonObj[VN_S(PortToNode)].toObject();
 
         for (int i = 0; i < m_portCount; ++i)
             PortToNode[i] = portsObj[QString("port_%1").arg(i)].toInt(-1);
+
+        auto interfacesObj = jsonObj[VN_S(PortToInterface)].toObject();
+
+        for (int i = 0; i < m_portCount; ++i)
+            PortToInterface[i] = interfacesObj[QString("interface_%1").arg(i)].toString();
     }
 
     bool VMTDSwitch::isOnline() const

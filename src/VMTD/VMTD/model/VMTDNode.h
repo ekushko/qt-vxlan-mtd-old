@@ -54,6 +54,10 @@ namespace VMTDLib
         int     currentSwitch() const;
         void setCurrentSwitch(int currentSwitch);
 
+    signals:
+
+        void updatedSignal();
+
     private:
 
         VMTDSettings *m_settings;

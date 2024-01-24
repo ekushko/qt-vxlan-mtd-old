@@ -45,6 +45,8 @@ namespace VMTDLib
 
     signals:
 
+        void updatedSignal();
+
         void portCountChangedSignal();
 
     private:

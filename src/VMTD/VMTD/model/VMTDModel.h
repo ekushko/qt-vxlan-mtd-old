@@ -65,5 +65,10 @@ namespace VMTDLib
         QMap<int, VMTDSwitch *> m_switches;
 
         QMap<int, VMTDNode *> m_nodes;
+
+    private slots:
+
+        void updatedNodeSlot();
+        void updatedSwSlot();
     };
 }
