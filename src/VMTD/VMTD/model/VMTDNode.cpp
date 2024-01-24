@@ -13,10 +13,13 @@ namespace VMTDLib
 
     const QString &VMTDNode::enRoleToS(const EnRole &role)
     {
-        switch(role)
+        switch (role)
         {
-        case EnRole::ENDPOINT: RETURN_S("Endpoint");
-        case EnRole::GATEWAY : RETURN_S("Gateway");
+        case EnRole::ENDPOINT:
+            RETURN_S("Endpoint");
+
+        case EnRole::GATEWAY :
+            RETURN_S("Gateway");
         }
 
         return S_QUESTIONS;
@@ -30,7 +33,7 @@ namespace VMTDLib
     {
         QJsonObject jsonObj;
 
-        jsonObj[VN_ME(m_identificator)] = m_identificator;
+        jsonObj[VN_ME(m_id)] = m_id;
         jsonObj[VN_ME(m_ip)] = m_ip;
         jsonObj[VN_ME(m_role)] = (int)m_role;
         jsonObj[VN_ME(m_portNumber)] = m_portNumber;
@@ -43,7 +46,7 @@ namespace VMTDLib
         if (jsonObj.isEmpty())
             return;
 
-        m_identificator = jsonObj[VN_ME(m_identificator)].toInt(-1);
+        m_id = jsonObj[VN_ME(m_id)].toInt(-1);
         m_ip = jsonObj[VN_ME(m_ip)].toString();
         m_role = (EnRole)jsonObj[VN_ME(m_role)].toInt();
         m_portNumber = jsonObj[VN_ME(m_portNumber)].toInt();
@@ -64,13 +67,13 @@ namespace VMTDLib
         return m_currentSwitch >= 0;
     }
 
-    int VMTDNode::identificator() const
+    int VMTDNode::id() const
     {
-        return m_identificator;
+        return m_id;
     }
-    void VMTDNode::setIdentificator(int identificator)
+    void VMTDNode::setId(int id)
     {
-        m_identificator = identificator;
+        m_id = id;
     }
 
     QString VMTDNode::ip() const

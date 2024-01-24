@@ -3,18 +3,18 @@
 
 namespace VMTDLib
 {
-    VMTDNodeForm::VMTDNodeForm(QWidget *parent, VMTDModel *model, int identificator) :
+    VMTDNodeForm::VMTDNodeForm(QWidget *parent, VMTDModel *model, int id) :
         QWidget(parent),
         ui(new Ui::VMTDNodeForm),
         m_model(model),
-        m_node(m_model->node(identificator)),
-        m_identificator(identificator)
+        m_node(m_model->node(id)),
+        m_id(id)
     {
         ui->setupUi(this);
 
         setAttribute(Qt::WA_DeleteOnClose, true);
         setWindowTitle(QString("Node (id: %1) [%2]")
-                       .arg(m_node->identificator())
+                       .arg(m_node->id())
                        .arg(m_node->ip()));
 
         initializeView();
@@ -37,7 +37,7 @@ namespace VMTDLib
         ui->cbCurrentSwitch->addItem("None", -1);
 
         for (auto sw : m_model->switches().values())
-            ui->cbCurrentSwitch->addItem(sw->url().toString(), sw->identificator());
+            ui->cbCurrentSwitch->addItem(sw->url().toString(), sw->id());
 
         connect(ui->cbCurrentSwitch, qOverload<int>(&QComboBox::currentIndexChanged),
                 this, &VMTDNodeForm::cbCurrentSwitchIndexChanged);
@@ -64,7 +64,7 @@ namespace VMTDLib
     void VMTDNodeForm::updateView()
     {
         ui->lbOnline->setText(m_node->isOnline() ? "Yes" : "No");
-        ui->leIdentificator->setText(QString::number(m_identificator));
+        ui->leIdentificator->setText(QString::number(m_id));
         ui->leIp->setText(m_node->ip());
         ui->sbPortNumber->setValue(m_node->portNumber());
         ui->cbCurrentSwitch->setCurrentIndex(ui->cbCurrentSwitch->findData(m_node->currentSwitch()));
@@ -72,8 +72,8 @@ namespace VMTDLib
 
     void VMTDNodeForm::updateData()
     {
-        m_identificator = ui->leIdentificator->text().toInt();
-        m_node->setIdentificator(m_identificator);
+        m_id = ui->leIdentificator->text().toInt();
+        m_node->setId(m_id);
         m_node->setIp(ui->leIp->text());
         m_node->setPortNumber(ui->sbPortNumber->value());
         m_node->setCurrentSwitch(ui->cbCurrentSwitch->currentData().toInt());

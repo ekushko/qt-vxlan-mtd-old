@@ -33,7 +33,7 @@ namespace VMTDLib
         }
         // *INDENT-ON*
 
-        static int generateIdentificator()
+        static int generateId()
         {
             return 1 + (qrand() % (std::numeric_limits<int>::max() - 1));
         }

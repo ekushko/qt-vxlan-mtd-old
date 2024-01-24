@@ -76,7 +76,7 @@ namespace VMTDLib
     {
         auto sw = m_model->sw(QUrl(item->text()));
 
-        auto form = new VMTDSwitchForm(nullptr, m_model, sw->identificator());
+        auto form = new VMTDSwitchForm(nullptr, m_model, sw->id());
 
         form->show();
         form->raise();
@@ -88,11 +88,11 @@ namespace VMTDLib
 
         do
         {
-            sw->setIdentificator(VMTDRepo::generateIdentificator());
+            sw->setId(VMTDRepo::generateId());
         }
         while (!m_model->addSwitch(sw));
 
-        auto form = new VMTDSwitchForm(nullptr, m_model, sw->identificator());
+        auto form = new VMTDSwitchForm(nullptr, m_model, sw->id());
 
         form->show();
         form->raise();
@@ -102,7 +102,7 @@ namespace VMTDLib
     }
     void VMTDModelForm::pbRemoveSwitchClicked()
     {
-        m_model->removeSwitch(m_model->sw(m_currentUrl)->identificator());
+        m_model->removeSwitch(m_model->sw(m_currentUrl)->id());
 
         updateSwitchesList();
     }
@@ -115,7 +115,7 @@ namespace VMTDLib
     {
         auto node = m_model->node(item->text());
 
-        auto form = new VMTDNodeForm(nullptr, m_model, node->identificator());
+        auto form = new VMTDNodeForm(nullptr, m_model, node->id());
 
         form->show();
         form->raise();
@@ -127,11 +127,11 @@ namespace VMTDLib
 
         do
         {
-            node->setIdentificator(VMTDRepo::generateIdentificator());
+            node->setId(VMTDRepo::generateId());
         }
         while (!m_model->addNode(node));
 
-        auto form = new VMTDNodeForm(nullptr, m_model, node->identificator());
+        auto form = new VMTDNodeForm(nullptr, m_model, node->id());
 
         form->show();
         form->raise();
@@ -141,7 +141,7 @@ namespace VMTDLib
     }
     void VMTDModelForm::pbRemoveNodeClicked()
     {
-        m_model->removeNode(m_model->node(m_currentIp)->identificator());
+        m_model->removeNode(m_model->node(m_currentIp)->id());
 
         updateNodesList();
     }

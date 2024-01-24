@@ -20,7 +20,7 @@ namespace VMTDLib
 
         VMTDNodeForm(QWidget *parent,
                      VMTDModel *model,
-                     int identificator);
+                     int id);
         ~VMTDNodeForm();
 
     private:
@@ -37,7 +37,7 @@ namespace VMTDLib
         VMTDModel *m_model;
         VMTDNode *m_node;
 
-        int m_identificator;
+        int m_id;
 
         bool m_isEditMode;
 

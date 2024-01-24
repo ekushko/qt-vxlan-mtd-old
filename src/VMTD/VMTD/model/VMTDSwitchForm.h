@@ -19,7 +19,7 @@ namespace VMTDLib
 
         VMTDSwitchForm(QWidget *parent,
                        VMTDModel *model,
-                       int identificator);
+                       int id);
         ~VMTDSwitchForm();
 
     private:
@@ -36,7 +36,7 @@ namespace VMTDLib
         VMTDModel *m_model;
         VMTDSwitch *m_sw;
 
-        int m_identificator;
+        int m_id;
 
         bool m_isEditMode;
 

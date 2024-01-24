@@ -21,7 +21,7 @@ namespace VMTDLib
 
         VMTDSwitchPortForm(QWidget *parent,
                            VMTDModel *model,
-                           int identificator);
+                           int id);
         ~VMTDSwitchPortForm();
 
         void reinitializeView();
@@ -38,7 +38,7 @@ namespace VMTDLib
         VMTDModel *m_model;
         VMTDSwitch *m_sw;
 
-        int m_identificator;
+        int m_id;
 
         QVector<QWidget *> m_wPorts;
         QVector<QLineEdit *> m_lePortInterfaces;

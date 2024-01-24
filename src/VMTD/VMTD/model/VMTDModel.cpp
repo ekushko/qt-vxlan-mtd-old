@@ -53,7 +53,7 @@ namespace VMTDLib
         {
             auto sw = new VMTDSwitch(this, m_settings);
             sw->fromJson(switchesArr[i].toObject());
-            m_switches[sw->identificator()] = sw;
+            m_switches[sw->id()] = sw;
         }
 
         auto nodesArr = jsonObj["nodes"].toArray();
@@ -62,7 +62,7 @@ namespace VMTDLib
         {
             auto node = new VMTDNode(this, m_settings);
             node->fromJson(nodesArr[i].toObject());
-            m_nodes[node->identificator()] = node;
+            m_nodes[node->id()] = node;
         }
     }
 
@@ -76,8 +76,8 @@ namespace VMTDLib
             oldNode->setCurrentSwitch(-1);
         }
 
-        n->setCurrentSwitch(sw->identificator());
-        sw->PortToNode[portNumber] = n->identificator();
+        n->setCurrentSwitch(sw->id());
+        sw->PortToNode[portNumber] = n->id();
     }
 
     bool VMTDModel::isReadOnly() const
@@ -89,13 +89,13 @@ namespace VMTDLib
         m_isReadOnly = isReadOnly;
     }
 
-    bool VMTDModel::isSwitchExist(int identificator) const
+    bool VMTDModel::isSwitchExist(int id) const
     {
-        return m_switches.contains(identificator);
+        return m_switches.contains(id);
     }
-    VMTDSwitch *VMTDModel::sw(int identificator) const
+    VMTDSwitch *VMTDModel::sw(int id) const
     {
-        return m_switches.value(identificator, nullptr);
+        return m_switches.value(id, nullptr);
     }
     VMTDSwitch *VMTDModel::sw(const QUrl &url) const
     {
@@ -113,29 +113,29 @@ namespace VMTDLib
     }
     bool VMTDModel::addSwitch(VMTDSwitch *sw)
     {
-        if (isSwitchExist(sw->identificator()))
+        if (isSwitchExist(sw->id()))
             return false;
 
         sw->setParent(this);
-        m_switches[sw->identificator()] = sw;
+        m_switches[sw->id()] = sw;
         return true;
     }
-    void VMTDModel::removeSwitch(int identificator)
+    void VMTDModel::removeSwitch(int id)
     {
-        if (!isSwitchExist(identificator))
+        if (!isSwitchExist(id))
             return;
 
-        delete m_switches[identificator];
-        m_switches.remove(identificator);
+        delete m_switches[id];
+        m_switches.remove(id);
     }
 
-    bool VMTDModel::isNodeExist(int identificator) const
+    bool VMTDModel::isNodeExist(int id) const
     {
-        return m_nodes.contains(identificator);
+        return m_nodes.contains(id);
     }
-    VMTDNode *VMTDModel::node(int identificator) const
+    VMTDNode *VMTDModel::node(int id) const
     {
-        return m_nodes.value(identificator, nullptr);
+        return m_nodes.value(id, nullptr);
     }
     VMTDNode *VMTDModel::node(const QString &ip) const
     {
@@ -153,20 +153,20 @@ namespace VMTDLib
     }
     bool VMTDModel::addNode(VMTDNode *node)
     {
-        if (isNodeExist(node->identificator()))
+        if (isNodeExist(node->id()))
             return false;
 
         node->setParent(this);
-        m_nodes[node->identificator()] = node;
+        m_nodes[node->id()] = node;
         return true;
     }
-    void VMTDModel::removeNode(int identificator)
+    void VMTDModel::removeNode(int id)
     {
-        if (!isNodeExist(identificator))
+        if (!isNodeExist(id))
             return;
 
-        delete m_nodes[identificator];
-        m_nodes.remove(identificator);
+        delete m_nodes[id];
+        m_nodes.remove(id);
     }
 
     void VMTDModel::showFormSlot(QWidget *parent)

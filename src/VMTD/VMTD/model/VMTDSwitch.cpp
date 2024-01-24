@@ -17,7 +17,7 @@ namespace VMTDLib
     {
         QJsonObject jsonObj;
 
-        jsonObj[VN_ME(m_identificator)] = m_identificator;
+        jsonObj[VN_ME(m_id)] = m_id;
         jsonObj[VN_ME(m_url)] = m_url.toString();
         jsonObj[VN_MT_REF(m_url.userName())] = m_url.userName();
         jsonObj[VN_MT_REF(m_url.password())] = m_url.password();
@@ -40,7 +40,7 @@ namespace VMTDLib
         if (jsonObj.isEmpty())
             return;
 
-        m_identificator = jsonObj[VN_ME(m_identificator)].toInt();
+        m_id = jsonObj[VN_ME(m_id)].toInt();
         m_url = QUrl(jsonObj[VN_ME(m_url)].toString(m_url.toString()));
         m_url.setUserName(jsonObj["userName"].toString(m_url.userName()));
         m_url.setPassword(jsonObj["password"].toString(m_url.password()));
@@ -68,13 +68,13 @@ namespace VMTDLib
         m_isOnline = isOnline;
     }
 
-    int VMTDSwitch::identificator() const
+    int VMTDSwitch::id() const
     {
-        return m_identificator;
+        return m_id;
     }
-    void VMTDSwitch::setIdentificator(int identificator)
+    void VMTDSwitch::setId(int id)
     {
-        m_identificator = identificator;
+        m_id = id;
     }
 
     QUrl VMTDSwitch::url() const

@@ -3,18 +3,18 @@
 
 namespace VMTDLib
 {
-    VMTDSwitchForm::VMTDSwitchForm(QWidget *parent, VMTDModel *model, int identificator) :
+    VMTDSwitchForm::VMTDSwitchForm(QWidget *parent, VMTDModel *model, int id) :
         QWidget(parent),
         ui(new Ui::VMTDSwitchForm),
         m_model(model),
-        m_sw(m_model->sw(identificator)),
-        m_identificator(identificator)
+        m_sw(m_model->sw(id)),
+        m_id(id)
     {
         ui->setupUi(this);
 
         setAttribute(Qt::WA_DeleteOnClose, true);
         setWindowTitle(QString("Switch (id: %1) [%2]")
-                       .arg(m_sw->identificator())
+                       .arg(m_sw->id())
                        .arg(m_sw->url().toString()));
 
         initializeView();
@@ -34,7 +34,7 @@ namespace VMTDLib
 
     void VMTDSwitchForm::initializeView()
     {
-        m_portForm = new VMTDSwitchPortForm(ui->wPort, m_model, m_identificator);
+        m_portForm = new VMTDSwitchPortForm(ui->wPort, m_model, m_id);
 
         connect(ui->pbChange, &QPushButton::clicked, this, &VMTDSwitchForm::pbChangeClicked);
         connect(ui->pbAccept, &QPushButton::clicked, this, &VMTDSwitchForm::pbAcceptClicked);
@@ -64,7 +64,7 @@ namespace VMTDLib
         if (ui->tbSwitch->currentIndex() == 0)
         {
             ui->lbOnline->setText(m_sw->isOnline() ? "Yes" : "No");
-            ui->leIdentificator->setText(QString::number(m_identificator));
+            ui->leIdentificator->setText(QString::number(m_id));
             ui->leUserName->setText(m_sw->url().userName());
             ui->lePassword->setText(m_sw->url().password());
             ui->leUrl->setText(m_sw->url().toString());
@@ -81,8 +81,8 @@ namespace VMTDLib
     {
         if (ui->tbSwitch->currentIndex() == 0)
         {
-            m_identificator = ui->leIdentificator->text().toInt();
-            m_sw->setIdentificator(m_identificator);
+            m_id = ui->leIdentificator->text().toInt();
+            m_sw->setId(m_id);
             auto url = QUrl(ui->leUrl->text());
             url.setUserName(ui->leUserName->text());
             url.setPassword(ui->lePassword->text());

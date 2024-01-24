@@ -39,8 +39,8 @@ namespace VMTDLib
 
         // ДАННЫЕ
 
-        int     identificator() const;
-        void setIdentificator(int identificator);
+        int     id() const;
+        void setId(int id);
 
         QString ip() const;
         void setIp(const QString &ip);
@@ -60,7 +60,7 @@ namespace VMTDLib
 
         bool m_isOnline = false;
 
-        int m_identificator = -1;
+        int m_id = -1;
         QString m_ip = "127.0.0.1";
         EnRole m_role = EnRole::ENDPOINT;
         int m_portNumber = 0;

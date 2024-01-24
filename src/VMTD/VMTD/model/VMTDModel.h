@@ -33,19 +33,19 @@ namespace VMTDLib
 
         // ДАННЫЕ
 
-        bool isSwitchExist(int identificator) const;
-        VMTDSwitch *sw(int identificator) const;
+        bool isSwitchExist(int id) const;
+        VMTDSwitch *sw(int id) const;
         VMTDSwitch *sw(const QUrl &url) const;
         const QMap<int, VMTDSwitch *> &switches() const;
         bool addSwitch(VMTDSwitch *sw);
-        void removeSwitch(int identificator);
+        void removeSwitch(int id);
 
-        bool isNodeExist(int identificator) const;
-        VMTDNode *node(int identificator) const;
+        bool isNodeExist(int id) const;
+        VMTDNode *node(int id) const;
         VMTDNode *node(const QString &ip) const;
         const QMap<int, VMTDNode *> &nodes() const;
         bool addNode(VMTDNode *node);
-        void removeNode(int identificator);
+        void removeNode(int id);
 
     public slots:
 

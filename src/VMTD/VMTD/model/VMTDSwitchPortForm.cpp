@@ -7,12 +7,12 @@
 
 namespace VMTDLib
 {
-    VMTDSwitchPortForm::VMTDSwitchPortForm(QWidget *parent, VMTDModel *model, int identificator) :
+    VMTDSwitchPortForm::VMTDSwitchPortForm(QWidget *parent, VMTDModel *model, int id) :
         QWidget(parent),
         ui(new Ui::VMTDSwitchPortForm),
         m_model(model),
-        m_sw(m_model->sw(identificator)),
-        m_identificator(identificator)
+        m_sw(m_model->sw(id)),
+        m_id(id)
     {
         ui->setupUi(this);
 
@@ -52,7 +52,7 @@ namespace VMTDLib
             cb->addItem("None", -1);
 
             for (auto node : m_model->nodes().values())
-                cb->addItem(node->ip(), node->identificator());
+                cb->addItem(node->ip(), node->id());
 
             m_cbPortNodes.append(cb);
 
@@ -67,10 +67,10 @@ namespace VMTDLib
     {
         for (auto i = 0; i < m_sw->portCount(); ++i)
         {
-            auto identificator = m_sw->PortToNode.at(i);
+            const auto id = m_sw->PortToNode.at(i);
 
             auto cb = m_cbPortNodes.at(i);
-            cb->setCurrentIndex(cb->findData(identificator));
+            cb->setCurrentIndex(cb->findData(id));
 
             auto le = m_lePortInterfaces.at(i);
             le->setText(m_sw->PortToInterface.at(i));
