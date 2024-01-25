@@ -24,8 +24,13 @@ namespace VMTDLib
 
         const QMap<int, VMTDInterface *> &interfaces() const;
         VMTDInterface *interface(int id) const;
-        bool        addInterface(int id);
+        bool        addInterface();
         bool     removeInterface(int id);
+
+    signals:
+
+        void interfaceCreatedSignal(int id);
+        void interfaceRemovedSignal(int id);
 
     public slots:
 
@@ -39,6 +44,7 @@ namespace VMTDLib
 
         bool m_onlyOneMode = true;
 
-        QMap<int, VMTDInterface *>      m_interfaces;
+        int m_idCounter = 0;
+        QMap<int, VMTDInterface *> m_interfaces;
     };
 }

@@ -28,6 +28,8 @@ namespace VMTDLib
 
     private:
 
+        void initializeView();
+
         Ui::VMTDInterfacesForm *ui;
 
         VMTDInterfaces *m_interfaces;
