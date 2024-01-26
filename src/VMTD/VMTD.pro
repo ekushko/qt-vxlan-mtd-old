@@ -169,11 +169,6 @@ SOURCES += \
     VMTD/model/nxapi/VMTDNxApiDeviceForm.cpp \
     VMTD/model/VMTDModel.cpp \
     VMTD/model/VMTDModelForm.cpp \
-    VMTD/model/VMTDNode.cpp \
-    VMTD/model/VMTDNodeForm.cpp \
-    VMTD/model/VMTDSwitch.cpp \
-    VMTD/model/VMTDSwitchForm.cpp \
-    VMTD/model/VMTDSwitchPortForm.cpp \
     main.cpp \
     MainWindow.cpp
 
@@ -203,12 +198,7 @@ HEADERS += \
     VMTD/model/nxapi/VMTDNxApiDevice.h \
     VMTD/model/nxapi/VMTDNxApiDeviceForm.h \
     VMTD/model/VMTDModel.h \
-    VMTD/model/VMTDModelForm.h \
-    VMTD/model/VMTDNode.h \
-    VMTD/model/VMTDNodeForm.h \
-    VMTD/model/VMTDSwitch.h \
-    VMTD/model/VMTDSwitchForm.h \
-    VMTD/model/VMTDSwitchPortForm.h
+    VMTD/model/VMTDModelForm.h
 
 FORMS += \
     MainWindow.ui \
@@ -223,10 +213,7 @@ FORMS += \
     VMTD/model/interface/VMTDInterfacesForm.ui \
     VMTD/model/node/VMTDNodeDeviceForm.ui \
     VMTD/model/nxapi/VMTDNxApiDeviceForm.ui \
-    VMTD/model/VMTDModelForm.ui \
-    VMTD/model/VMTDNodeForm.ui \
-    VMTD/model/VMTDSwitchForm.ui \
-    VMTD/model/VMTDSwitchPortForm.ui
+    VMTD/model/VMTDModelForm.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

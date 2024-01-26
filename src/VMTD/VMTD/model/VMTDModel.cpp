@@ -1,14 +1,17 @@
 #include "VMTDModel.h"
 #include "VMTDModelForm.h"
 
+#include "../VMTDRepo.h"
+
 #include <QJsonArray>
+
+#include <algorithm>
 
 namespace VMTDLib
 {
     VMTDModel::VMTDModel(QObject *parent, VMTDSettings *settings)
         : QObject(parent)
         , m_settings(settings)
-        , m_isReadOnly(false)
     {
         loadSlot();
     }
@@ -22,154 +25,143 @@ namespace VMTDLib
     {
         QJsonObject jsonObj;
 
-        QJsonArray switchesArr, nodesArr;
+        QJsonArray nodeDevicesArr, nxApiDevicesArr;
 
-        for (auto sw : m_switches.values())
-            switchesArr.append(sw->toJson());
+        for (auto nodeDevice : m_nodeDevices.values())
+            nodeDevicesArr.append(nodeDevice->toJson());
 
-        jsonObj["switches"] = switchesArr;
+        jsonObj[VN_ME(m_nodeDevices)] = nodeDevicesArr;
 
-        for (auto node : m_nodes.values())
-            nodesArr.append(node->toJson());
+        for (auto nxApiDevice : m_nxApiDevices.values())
+            nxApiDevicesArr.append(nxApiDevice->toJson());
 
-        jsonObj["nodes"] = nodesArr;
+        jsonObj[VN_ME(m_nxApiDevices)] = nxApiDevicesArr;
 
         return jsonObj;
     }
     void VMTDModel::fromJson(const QJsonObject &jsonObj)
     {
-        qDeleteAll(m_switches.values());
-        m_switches.clear();
+        qDeleteAll(m_nodeDevices.values());
+        m_nodeDevices.clear();
 
-        qDeleteAll(m_nodes.values());
-        m_nodes.clear();
+        qDeleteAll(m_nxApiDevices.values());
+        m_nxApiDevices.clear();
 
         if (jsonObj.isEmpty())
             return;
 
-        auto switchesArr = jsonObj["switches"].toArray();
+        auto nodeDevicesArr = jsonObj[VN_ME(m_nodeDevices)].toArray();
 
-        for (int i = 0; i < switchesArr.size(); ++i)
+        for (int i = 0; i < nodeDevicesArr.size(); ++i)
         {
-            auto sw = new VMTDSwitch(this, m_settings);
-            sw->fromJson(switchesArr[i].toObject());
-            m_switches[sw->id()] = sw;
+            auto nodeDevice = new VMTDNodeDevice(this, m_settings);
+            nodeDevice->fromJson(nodeDevicesArr[i].toObject());
+            m_nodeDevices[nodeDevice->id()] = nodeDevice;
         }
 
-        auto nodesArr = jsonObj["nodes"].toArray();
+        auto nxApiDevicesArr = jsonObj[VN_ME(m_nxApiDevices)].toArray();
 
-        for (int i = 0; i < nodesArr.size(); ++i)
+        for (int i = 0; i < nxApiDevicesArr.size(); ++i)
         {
-            auto node = new VMTDNode(this, m_settings);
-            node->fromJson(nodesArr[i].toObject());
-            m_nodes[node->id()] = node;
+            auto nxApiDevice = new VMTDNxApiDevice(this, m_settings);
+            nxApiDevice->fromJson(nxApiDevicesArr[i].toObject());
+            m_nxApiDevices[nxApiDevice->id()] = nxApiDevice;
         }
     }
 
-    void VMTDModel::connectNodeToSwitch(VMTDNode *n, VMTDSwitch *sw, int portNumber)
+    const QMap<int, VMTDNodeDevice *> &VMTDModel::nodeDevices() const
     {
-        const auto oldNodeId = sw->PortToNode.at(portNumber);
+        return m_nodeDevices;
+    }
+    VMTDNodeDevice *VMTDModel::nodeDevice(int id) const
+    {
+        return m_nodeDevices.value(id, nullptr);
+    }
+    VMTDNodeDevice *VMTDModel::nodeDevice(const QString &ip) const
+    {
+        const auto nodeDevices_ = m_nodeDevices.values();
 
-        if (oldNodeId >= 0)
+        // *INDENT-OFF*
+        const auto res = std::find_if(nodeDevices_.begin(), nodeDevices_.end(),
+                                      [ip](VMTDNodeDevice *nodeDevice)
         {
-            auto oldNode = node(oldNodeId);
-            oldNode->setCurrentSwitch(-1);
+            return nodeDevice->ip() == ip;
+        });
+        // *INDENT-ON*
+
+        if (res == nodeDevices_.end())
+            return nullptr;
+
+        return *res;
+    }
+    bool VMTDModel::addNodeDevice()
+    {
+        const auto id = m_settings->generateId();
+
+        if (!m_nodeDevices.contains(id))
+        {
+            m_nodeDevices[id] = new VMTDNodeDevice(this, m_settings);
+            return true;
         }
 
-        n->setCurrentSwitch(sw->id());
-        sw->PortToNode[portNumber] = n->id();
+        return false;
     }
-
-    bool VMTDModel::isReadOnly() const
+    bool VMTDModel::removeNodeDevice(int id)
     {
-        return m_isReadOnly;
-    }
-    void VMTDModel::setReadOnly(bool isReadOnly)
-    {
-        m_isReadOnly = isReadOnly;
-    }
-
-    bool VMTDModel::isSwitchExist(int id) const
-    {
-        return m_switches.contains(id);
-    }
-    VMTDSwitch *VMTDModel::sw(int id) const
-    {
-        return m_switches.value(id, nullptr);
-    }
-    VMTDSwitch *VMTDModel::sw(const QUrl &url) const
-    {
-        for (auto sw_ : m_switches.values())
-        {
-            if (sw_->url().toString(QUrl::RemoveUserInfo)
-                == url.toString(QUrl::RemoveUserInfo))
-                return sw_;
-        }
-
-        return nullptr;
-    }
-    const QMap<int, VMTDSwitch *> &VMTDModel::switches() const
-    {
-        return m_switches;
-    }
-    bool VMTDModel::addSwitch(VMTDSwitch *sw)
-    {
-        if (isSwitchExist(sw->id()))
+        if (!m_nodeDevices.contains(id))
             return false;
 
-        sw->setParent(this);
-        connect(sw, &VMTDSwitch::updatedSignal, this, &VMTDModel::updatedSwSlot);
-        m_switches[sw->id()] = sw;
+        delete m_nodeDevices[id];
+        m_nodeDevices.remove(id);
         return true;
     }
-    void VMTDModel::removeSwitch(int id)
-    {
-        if (!isSwitchExist(id))
-            return;
 
-        delete m_switches[id];
-        m_switches.remove(id);
+    const QMap<int, VMTDNxApiDevice *> &VMTDModel::nxApiDevices() const
+    {
+        return m_nxApiDevices;
     }
+    VMTDNxApiDevice *VMTDModel::nxApiDevice(int id) const
+    {
+        return m_nxApiDevices.value(id, nullptr);
+    }
+    VMTDNxApiDevice *VMTDModel::nxApiDevice(const QUrl &url) const
+    {
+        const auto nxApiDevices_ = m_nxApiDevices.values();
 
-    bool VMTDModel::isNodeExist(int id) const
-    {
-        return m_nodes.contains(id);
-    }
-    VMTDNode *VMTDModel::node(int id) const
-    {
-        return m_nodes.value(id, nullptr);
-    }
-    VMTDNode *VMTDModel::node(const QString &ip) const
-    {
-        for (auto node_ : m_nodes.values())
+        // *INDENT-OFF*
+        const auto res = std::find_if(nxApiDevices_.begin(), nxApiDevices_.end(),
+                                      [url](VMTDNxApiDevice *nodeDevice)
         {
-            if (node_->ip() == ip)
-                return node_;
+            return nodeDevice->url().toString(QUrl::RemoveUserInfo)
+                    == url.toString(QUrl::RemoveUserInfo);
+        });
+        // *INDENT-ON*
+
+        if (res == nxApiDevices_.end())
+            return nullptr;
+
+        return *res;
+    }
+    bool VMTDModel::addNxApiDevice()
+    {
+        const auto id = m_settings->generateId();
+
+        if (!m_nxApiDevices.contains(id))
+        {
+            m_nxApiDevices[id] = new VMTDNxApiDevice(this, m_settings);
+            return true;
         }
 
-        return nullptr;
+        return false;
     }
-    const QMap<int, VMTDNode *> &VMTDModel::nodes() const
+    bool VMTDModel::removeNxApiDevice(int id)
     {
-        return m_nodes;
-    }
-    bool VMTDModel::addNode(VMTDNode *node)
-    {
-        if (isNodeExist(node->id()))
+        if (!m_nxApiDevices.contains(id))
             return false;
 
-        node->setParent(this);
-        connect(node, &VMTDNode::updatedSignal, this, &VMTDModel::updatedNodeSlot);
-        m_nodes[node->id()] = node;
+        delete m_nxApiDevices[id];
+        m_nxApiDevices.remove(id);
         return true;
-    }
-    void VMTDModel::removeNode(int id)
-    {
-        if (!isNodeExist(id))
-            return;
-
-        delete m_nodes[id];
-        m_nodes.remove(id);
     }
 
     void VMTDModel::showFormSlot(QWidget *parent)
@@ -190,37 +182,5 @@ namespace VMTDLib
     void VMTDModel::loadSlot()
     {
         fromJson(m_settings->modelObj());
-    }
-
-    void VMTDModel::updatedNodeSlot()
-    {
-        auto n = dynamic_cast<VMTDNode *>(sender());
-
-        if (n == nullptr)
-            return;
-
-        auto s = sw(n->currentSwitch());
-
-        if (s == nullptr)
-            return;
-
-        connectNodeToSwitch(n, s, n->portNumber());
-    }
-    void VMTDModel::updatedSwSlot()
-    {
-        auto s = dynamic_cast<VMTDSwitch *>(sender());
-
-        if (s == nullptr)
-            return;
-
-        for (int i = 0; i < s->PortToNode.size(); ++i)
-        {
-            auto n = node(s->PortToNode[i]);
-
-            if (n == nullptr)
-                continue;
-
-            connectNodeToSwitch(n, s, i);
-        }
     }
 }

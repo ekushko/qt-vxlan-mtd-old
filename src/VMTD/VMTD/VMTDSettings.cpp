@@ -22,6 +22,8 @@ namespace VMTDLib
         m_reconnectInterval = 1000;
         m_localPort = 30001;
 
+        m_idCounter = 0;
+
         m_wasNetworkChanged = false;
 
         debugOut(VN_S(VMTDSettings) + " was created");
@@ -67,6 +69,11 @@ namespace VMTDLib
         RETURN_MAP(EnNodeType, enNodeTypeToS);
     }
 
+    int VMTDSettings::generateId()
+    {
+        return ++m_idCounter;
+    }
+
     void VMTDSettings::debugOut(const QString &text)
     {
         if (m_shouldShowDebug)
@@ -87,6 +94,8 @@ namespace VMTDLib
 
         jsonObj[VN_ME(m_modelObj)] = m_modelObj;
 
+        jsonObj[VN_ME(m_idCounter)] = m_idCounter;
+
         return jsonObj;
     }
     void VMTDSettings::fromJson(const QJsonObject &jsonObj)
@@ -101,6 +110,8 @@ namespace VMTDLib
         m_localPort = jsonObj[VN_ME(m_localPort)].toInt(m_localPort);
 
         m_modelObj = jsonObj[VN_ME(m_modelObj)].toObject();
+
+        m_idCounter = jsonObj[VN_ME(m_idCounter)].toInt(m_idCounter);
     }
 
     QString VMTDSettings::filePath() const

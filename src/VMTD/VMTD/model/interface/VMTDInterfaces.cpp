@@ -1,4 +1,5 @@
 #include "VMTDInterfaces.h"
+#include "VMTDInterfacesForm.h"
 
 #include "../../VMTDRepo.h"
 
@@ -39,7 +40,6 @@ namespace VMTDLib
 
         qDeleteAll(m_interfaces.values());
         m_interfaces.clear();
-        m_idCounter = 0;
 
         for (int i = 0; i < jsonArr.size(); ++i)
         {
@@ -47,10 +47,7 @@ namespace VMTDLib
             interface->fromJson(jsonArr.at(i).toObject());
 
             if (!m_interfaces.contains(interface->id()))
-            {
                 m_interfaces[interface->id()] = interface;
-                m_idCounter = qMax(m_idCounter, interface->id());
-            }
         }
     }
 
@@ -73,12 +70,12 @@ namespace VMTDLib
     }
     bool VMTDInterfaces::addInterface()
     {
-        ++m_idCounter;
+        const auto id = m_settings->generateId();
 
         if (!m_onlyOneMode || m_interfaces.size() == 0)
         {
-            m_interfaces[m_idCounter] = new VMTDInterface(this, m_settings, m_idCounter);
-            emit interfaceCreatedSignal(m_idCounter);
+            m_interfaces[id] = new VMTDInterface(this, m_settings, id);
+            emit interfaceCreatedSignal(id);
             return true;
         }
 
@@ -93,5 +90,15 @@ namespace VMTDLib
         delete m_interfaces[id];
         m_interfaces.remove(id);
         return true;
+    }
+
+    void VMTDInterfaces::showFormSlot()
+    {
+        if (m_form == nullptr)
+            m_form = new VMTDInterfacesForm(nullptr, this);
+
+        m_form->show();
+        m_form->raise();
+        m_form->activateWindow();
     }
 }

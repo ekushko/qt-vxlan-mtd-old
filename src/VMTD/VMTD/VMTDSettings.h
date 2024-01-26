@@ -36,6 +36,8 @@ namespace VMTDLib
 
         // ЛОГИКА
 
+        int generateId();
+
         void debugOut(const QString &text);
 
         QJsonObject toJson() const;
@@ -115,6 +117,8 @@ namespace VMTDLib
         int m_localPort;
 
         QJsonObject m_modelObj;
+
+        int m_idCounter;
 
         bool m_wasNetworkChanged;
 

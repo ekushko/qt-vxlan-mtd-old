@@ -23,8 +23,8 @@ namespace VMTDLib
 
     private:
 
-        void updateSwitchesList();
-        void updateNodesList();
+        void updateNxApiDevicesList();
+        void updateNodeDevicesList();
 
         Ui::VMTDModelForm *ui;
 
@@ -35,14 +35,14 @@ namespace VMTDLib
 
     private slots:
 
-        void lwSwitchesItemClicked(QListWidgetItem *item);
-        void lwSwitchesItemDoubleClicked(QListWidgetItem *item);
-        void pbAddSwitchClicked();
-        void pbRemoveSwitchClicked();
+        void lwNxApiDevicesItemClicked(QListWidgetItem *item);
+        void lwNxApiDevicesItemDoubleClicked(QListWidgetItem *item);
+        void pbAddNxApiDeviceClicked();
+        void pbRemoveNxApiDeviceClicked();
 
-        void lwNodesItemClicked(QListWidgetItem *item);
-        void lwNodesItemDoubleClicked(QListWidgetItem *item);
-        void pbAddNodeClicked();
-        void pbRemoveNodeClicked();
+        void lwNodeDevicesItemClicked(QListWidgetItem *item);
+        void lwNodeDevicesItemDoubleClicked(QListWidgetItem *item);
+        void pbAddNodeDeviceClicked();
+        void pbRemoveNodeDeviceClicked();
     };
 }

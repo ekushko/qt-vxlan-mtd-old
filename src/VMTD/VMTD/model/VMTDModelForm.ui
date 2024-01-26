@@ -66,7 +66,7 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QWidget" name="wSwitches" native="true">
+      <widget class="QWidget" name="wNxApiDevices" native="true">
        <layout class="QVBoxLayout" name="verticalLayout">
         <property name="leftMargin">
          <number>0</number>
@@ -83,12 +83,12 @@
         <item>
          <widget class="QLabel" name="_5">
           <property name="text">
-           <string>Switches:</string>
+           <string>NX-API devices:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="lwSwitches"/>
+         <widget class="QListWidget" name="lwNxApiDevices"/>
         </item>
         <item>
          <layout class="QHBoxLayout" name="_2">
@@ -106,14 +106,14 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pbAddSwitch">
+           <widget class="QPushButton" name="pbAddNxApiDevice">
             <property name="text">
              <string>Add</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pbRemoveSwitch">
+           <widget class="QPushButton" name="pbRemoveNxApiDevice">
             <property name="text">
              <string>Remove</string>
             </property>
@@ -138,7 +138,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QWidget" name="wNodes" native="true">
+      <widget class="QWidget" name="wNodeDevices" native="true">
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <property name="leftMargin">
          <number>3</number>
@@ -155,12 +155,12 @@
         <item>
          <widget class="QLabel" name="_9">
           <property name="text">
-           <string>Nodes:</string>
+           <string>Node devices:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QListWidget" name="lwNodes"/>
+         <widget class="QListWidget" name="lwNodeDevices"/>
         </item>
         <item>
          <layout class="QHBoxLayout" name="_6">
@@ -178,14 +178,14 @@
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pbAddNode">
+           <widget class="QPushButton" name="pbAddNodeDevice">
             <property name="text">
              <string>Add</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="pbRemoveNode">
+           <widget class="QPushButton" name="pbRemoveNodeDevice">
             <property name="text">
              <string>Remove</string>
             </property>

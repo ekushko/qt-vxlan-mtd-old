@@ -44,7 +44,6 @@ namespace VMTDLib
 
         bool m_onlyOneMode = true;
 
-        int m_idCounter = 0;
         QMap<int, VMTDInterface *> m_interfaces;
     };
 }

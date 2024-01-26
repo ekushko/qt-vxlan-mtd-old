@@ -1,12 +1,7 @@
 #include    "VMTDModelForm.h"
 #include "ui_VMTDModelForm.h"
 
-#include "VMTDNodeForm.h"
-#include "VMTDSwitchForm.h"
-
 #include "../VMTDRepo.h"
-
-#include <QDebug>
 
 namespace VMTDLib
 {
@@ -25,26 +20,26 @@ namespace VMTDLib
         connect(ui->pbLoad, &QPushButton::clicked,
                 m_model, &VMTDModel::loadSlot);
 
-        connect(ui->pbAddSwitch, &QPushButton::clicked,
-                this, &VMTDModelForm::pbAddSwitchClicked);
-        connect(ui->pbRemoveSwitch, &QPushButton::clicked,
-                this, &VMTDModelForm::pbRemoveSwitchClicked);
-        connect(ui->lwSwitches, &QListWidget::itemClicked,
-                this, &VMTDModelForm::lwSwitchesItemClicked);
-        connect(ui->lwSwitches, &QListWidget::itemDoubleClicked,
-                this, &VMTDModelForm::lwSwitchesItemDoubleClicked);
+        connect(ui->pbAddNxApiDevice, &QPushButton::clicked,
+                this, &VMTDModelForm::pbAddNxApiDeviceClicked);
+        connect(ui->pbRemoveNxApiDevice, &QPushButton::clicked,
+                this, &VMTDModelForm::pbRemoveNxApiDeviceClicked);
+        connect(ui->lwNxApiDevices, &QListWidget::itemClicked,
+                this, &VMTDModelForm::lwNxApiDevicesItemClicked);
+        connect(ui->lwNxApiDevices, &QListWidget::itemDoubleClicked,
+                this, &VMTDModelForm::lwNxApiDevicesItemDoubleClicked);
 
-        connect(ui->pbAddNode, &QPushButton::clicked,
-                this, &VMTDModelForm::pbAddNodeClicked);
-        connect(ui->pbRemoveNode, &QPushButton::clicked,
-                this, &VMTDModelForm::pbRemoveNodeClicked);
-        connect(ui->lwNodes, &QListWidget::itemClicked,
-                this, &VMTDModelForm::lwNodesItemClicked);
-        connect(ui->lwNodes, &QListWidget::itemDoubleClicked,
-                this, &VMTDModelForm::lwNodesItemDoubleClicked);
+        connect(ui->pbAddNodeDevice, &QPushButton::clicked,
+                this, &VMTDModelForm::pbAddNodeDeviceClicked);
+        connect(ui->pbRemoveNodeDevice, &QPushButton::clicked,
+                this, &VMTDModelForm::pbRemoveNodeDeviceClicked);
+        connect(ui->lwNodeDevices, &QListWidget::itemClicked,
+                this, &VMTDModelForm::lwNodeDevicesItemClicked);
+        connect(ui->lwNodeDevices, &QListWidget::itemDoubleClicked,
+                this, &VMTDModelForm::lwNodeDevicesItemDoubleClicked);
 
-        updateSwitchesList();
-        updateNodesList();
+        updateNxApiDevicesList();
+        updateNodeDevicesList();
     }
 
     VMTDModelForm::~VMTDModelForm()
@@ -52,97 +47,59 @@ namespace VMTDLib
         delete ui;
     }
 
-    void VMTDModelForm::updateSwitchesList()
+    void VMTDModelForm::updateNxApiDevicesList()
     {
-        ui->lwSwitches->clear();
+        ui->lwNxApiDevices->clear();
 
-        for (auto sw : m_model->switches().values())
-            ui->lwSwitches->addItem(sw->url().toString(QUrl::RemoveUserInfo));
+        for (auto sw : m_model->nxApiDevices().values())
+            ui->lwNxApiDevices->addItem(sw->url().toString(QUrl::RemoveUserInfo));
     }
 
-    void VMTDModelForm::updateNodesList()
+    void VMTDModelForm::updateNodeDevicesList()
     {
-        ui->lwNodes->clear();
+        ui->lwNodeDevices->clear();
 
-        for (auto node : m_model->nodes().values())
-            ui->lwNodes->addItem(node->ip());
+        for (auto node : m_model->nodeDevices().values())
+            ui->lwNodeDevices->addItem(node->ip());
     }
 
-    void VMTDModelForm::lwSwitchesItemClicked(QListWidgetItem *item)
+    void VMTDModelForm::lwNxApiDevicesItemClicked(QListWidgetItem *item)
     {
         m_currentUrl = QUrl(item->text());
     }
-    void VMTDModelForm::lwSwitchesItemDoubleClicked(QListWidgetItem *item)
+    void VMTDModelForm::lwNxApiDevicesItemDoubleClicked(QListWidgetItem *item)
     {
-        auto sw = m_model->sw(QUrl(item->text()));
-
-        auto form = new VMTDSwitchForm(nullptr, m_model, sw->id());
-
-        form->show();
-        form->raise();
-        form->activateWindow();
+        auto nxApiDevice = m_model->nxApiDevice(QUrl(item->text()));
+        nxApiDevice->showFormSlot();
     }
-    void VMTDModelForm::pbAddSwitchClicked()
+    void VMTDModelForm::pbAddNxApiDeviceClicked()
     {
-        auto sw = new VMTDSwitch(nullptr, m_model->settings());
-
-        do
-        {
-            sw->setId(VMTDRepo::generateId());
-        }
-        while (!m_model->addSwitch(sw));
-
-        auto form = new VMTDSwitchForm(nullptr, m_model, sw->id());
-
-        form->show();
-        form->raise();
-        form->activateWindow();
-
-        updateSwitchesList();
+        if (m_model->addNxApiDevice())
+            updateNxApiDevicesList();
     }
-    void VMTDModelForm::pbRemoveSwitchClicked()
+    void VMTDModelForm::pbRemoveNxApiDeviceClicked()
     {
-        m_model->removeSwitch(m_model->sw(m_currentUrl)->id());
-
-        updateSwitchesList();
+        if (m_model->removeNxApiDevice(m_model->nxApiDevice(m_currentUrl)->id()))
+            updateNxApiDevicesList();
     }
 
-    void VMTDModelForm::lwNodesItemClicked(QListWidgetItem *item)
+    void VMTDModelForm::lwNodeDevicesItemClicked(QListWidgetItem *item)
     {
         m_currentIp = item->text();
     }
-    void VMTDModelForm::lwNodesItemDoubleClicked(QListWidgetItem *item)
+    void VMTDModelForm::lwNodeDevicesItemDoubleClicked(QListWidgetItem *item)
     {
-        auto node = m_model->node(item->text());
-
-        auto form = new VMTDNodeForm(nullptr, m_model, node->id());
-
-        form->show();
-        form->raise();
-        form->activateWindow();
+        auto node = m_model->nodeDevice(item->text());
+        node->showFormSlot();
     }
-    void VMTDModelForm::pbAddNodeClicked()
+    void VMTDModelForm::pbAddNodeDeviceClicked()
     {
-        auto node = new VMTDNode(nullptr, m_model->settings());
-
-        do
-        {
-            node->setId(VMTDRepo::generateId());
-        }
-        while (!m_model->addNode(node));
-
-        auto form = new VMTDNodeForm(nullptr, m_model, node->id());
-
-        form->show();
-        form->raise();
-        form->activateWindow();
-
-        updateNodesList();
+        if (m_model->addNodeDevice())
+            updateNodeDevicesList();
     }
-    void VMTDModelForm::pbRemoveNodeClicked()
+    void VMTDModelForm::pbRemoveNodeDeviceClicked()
     {
-        m_model->removeNode(m_model->node(m_currentIp)->id());
-
-        updateNodesList();
+        if (m_model->removeNodeDevice(m_model->nodeDevice(m_currentIp)->id()))
+            updateNodeDevicesList();
     }
 }
