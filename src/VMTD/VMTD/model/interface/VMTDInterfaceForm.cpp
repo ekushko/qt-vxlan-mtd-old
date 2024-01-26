@@ -12,6 +12,8 @@ namespace VMTDLib
 
         if (parent != nullptr && parent->layout() != nullptr)
             parent->layout()->addWidget(this);
+
+        updateView();
     }
 
     VMTDInterfaceForm::~VMTDInterfaceForm()

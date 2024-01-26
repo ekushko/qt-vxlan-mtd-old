@@ -15,7 +15,7 @@ namespace VMTDLib
 
     public:
 
-        VMTDNxApiDevice(QObject *parent, VMTDSettings *settings);
+        VMTDNxApiDevice(QObject *parent, VMTDSettings *settings, int id);
         ~VMTDNxApiDevice();
 
         // ЛОГИКА
@@ -30,8 +30,7 @@ namespace VMTDLib
 
         // ДАННЫЕ
 
-        int     id() const;
-        void setId(int id);
+        int id() const;
 
         QUrl    url() const;
         void setUrl(const QUrl &url);
@@ -54,7 +53,7 @@ namespace VMTDLib
 
         bool m_isOnline = false;
 
-        int m_id = -1;
+        int m_id;
         QUrl m_url = QUrl("http://127.0.0.1/ins");
         int m_ticketTimeoutInterval = 1000;
     };

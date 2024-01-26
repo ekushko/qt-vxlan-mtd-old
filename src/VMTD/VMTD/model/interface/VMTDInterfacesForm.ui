@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>691</width>
-    <height>406</height>
+    <width>282</width>
+    <height>120</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,6 +19,18 @@
      <item>
       <widget class="QWidget" name="wEdit" native="true">
        <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
         <item>
          <widget class="QPushButton" name="pbAdd">
           <property name="text">
@@ -54,13 +66,13 @@
        <property name="widgetResizable">
         <bool>true</bool>
        </property>
-       <widget class="QWidget" name="wInterfaces">
+       <widget class="QWidget" name="wMain">
         <property name="geometry">
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>581</width>
-          <height>352</height>
+          <width>174</width>
+          <height>68</height>
          </rect>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -74,8 +86,39 @@
           <number>0</number>
          </property>
          <property name="bottomMargin">
-          <number>0</number>
+          <number>20</number>
          </property>
+         <item>
+          <widget class="QWidget" name="wInterfaces" native="true">
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="leftMargin">
+             <number>3</number>
+            </property>
+            <property name="topMargin">
+             <number>3</number>
+            </property>
+            <property name="rightMargin">
+             <number>3</number>
+            </property>
+            <property name="bottomMargin">
+             <number>3</number>
+            </property>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <spacer name="_4">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
         </layout>
        </widget>
       </widget>
@@ -85,6 +128,18 @@
    <item>
     <widget class="QWidget" name="wManage" native="true">
      <layout class="QHBoxLayout" name="hl_1">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <spacer name="_1">
         <property name="orientation">

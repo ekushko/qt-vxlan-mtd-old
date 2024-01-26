@@ -5,9 +5,10 @@
 
 namespace VMTDLib
 {
-    VMTDNodeDevice::VMTDNodeDevice(QObject *parent, VMTDSettings *settings)
+    VMTDNodeDevice::VMTDNodeDevice(QObject *parent, VMTDSettings *settings, int id)
         : QObject(parent)
         , m_settings(settings)
+        , m_id(id)
     {
         m_interfaces = new VMTDInterfaces(this, m_settings);
         m_interfaces->setOnlyOneMode(true);
@@ -70,10 +71,6 @@ namespace VMTDLib
     int VMTDNodeDevice::id() const
     {
         return m_id;
-    }
-    void VMTDNodeDevice::setId(int id)
-    {
-        m_id = id;
     }
 
     QString VMTDNodeDevice::ip() const

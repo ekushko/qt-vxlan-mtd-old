@@ -51,25 +51,42 @@ namespace VMTDLib
     {
         ui->lwNxApiDevices->clear();
 
-        for (auto sw : m_model->nxApiDevices().values())
-            ui->lwNxApiDevices->addItem(sw->url().toString(QUrl::RemoveUserInfo));
+        for (auto nxApiDevice : m_model->nxApiDevices().values())
+        {
+            const auto label = QString("id: %1 [%2]")
+                               .arg(nxApiDevice->id())
+                               .arg(nxApiDevice->url().toString(QUrl::RemoveUserInfo));
+            ui->lwNxApiDevices->addItem(label);
+        }
     }
 
     void VMTDModelForm::updateNodeDevicesList()
     {
         ui->lwNodeDevices->clear();
 
-        for (auto node : m_model->nodeDevices().values())
-            ui->lwNodeDevices->addItem(node->ip());
+        for (auto nodeDevice : m_model->nodeDevices().values())
+        {
+            const auto label = QString("id: %1 [%2]")
+                               .arg(nodeDevice->id())
+                               .arg(nodeDevice->ip());
+            ui->lwNodeDevices->addItem(label);
+        }
     }
 
     void VMTDModelForm::lwNxApiDevicesItemClicked(QListWidgetItem *item)
     {
-        m_currentUrl = QUrl(item->text());
+        const auto label = item->text();
+
+        int firstSpacePos = label.indexOf(' ');
+        int secondSpacePos = label.indexOf(' ', firstSpacePos + 1);
+
+        m_currentNxApiDeviceId = label.mid(firstSpacePos + 1, secondSpacePos - (firstSpacePos + 1)).toInt();
     }
     void VMTDModelForm::lwNxApiDevicesItemDoubleClicked(QListWidgetItem *item)
     {
-        auto nxApiDevice = m_model->nxApiDevice(QUrl(item->text()));
+        lwNxApiDevicesItemClicked(item);
+
+        auto nxApiDevice = m_model->nxApiDevice(m_currentNxApiDeviceId);
         nxApiDevice->showFormSlot();
     }
     void VMTDModelForm::pbAddNxApiDeviceClicked()
@@ -79,18 +96,25 @@ namespace VMTDLib
     }
     void VMTDModelForm::pbRemoveNxApiDeviceClicked()
     {
-        if (m_model->removeNxApiDevice(m_model->nxApiDevice(m_currentUrl)->id()))
+        if (m_model->removeNxApiDevice(m_currentNxApiDeviceId))
             updateNxApiDevicesList();
     }
 
     void VMTDModelForm::lwNodeDevicesItemClicked(QListWidgetItem *item)
     {
-        m_currentIp = item->text();
+        const auto label = item->text();
+
+        int firstSpacePos = label.indexOf(' ');
+        int secondSpacePos = label.indexOf(' ', firstSpacePos + 1);
+
+        m_currentNodeDeviceId = label.mid(firstSpacePos + 1, secondSpacePos - (firstSpacePos + 1)).toInt();
     }
     void VMTDModelForm::lwNodeDevicesItemDoubleClicked(QListWidgetItem *item)
     {
-        auto node = m_model->nodeDevice(item->text());
-        node->showFormSlot();
+        lwNodeDevicesItemClicked(item);
+
+        auto nodeDevice = m_model->nodeDevice(m_currentNodeDeviceId);
+        nodeDevice->showFormSlot();
     }
     void VMTDModelForm::pbAddNodeDeviceClicked()
     {
@@ -99,7 +123,7 @@ namespace VMTDLib
     }
     void VMTDModelForm::pbRemoveNodeDeviceClicked()
     {
-        if (m_model->removeNodeDevice(m_model->nodeDevice(m_currentIp)->id()))
+        if (m_model->removeNodeDevice(m_currentNodeDeviceId))
             updateNodeDevicesList();
     }
 }

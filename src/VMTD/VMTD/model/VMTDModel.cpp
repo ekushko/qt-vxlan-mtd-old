@@ -54,7 +54,7 @@ namespace VMTDLib
 
         for (int i = 0; i < nodeDevicesArr.size(); ++i)
         {
-            auto nodeDevice = new VMTDNodeDevice(this, m_settings);
+            auto nodeDevice = new VMTDNodeDevice(this, m_settings, -1);
             nodeDevice->fromJson(nodeDevicesArr[i].toObject());
             m_nodeDevices[nodeDevice->id()] = nodeDevice;
         }
@@ -63,7 +63,7 @@ namespace VMTDLib
 
         for (int i = 0; i < nxApiDevicesArr.size(); ++i)
         {
-            auto nxApiDevice = new VMTDNxApiDevice(this, m_settings);
+            auto nxApiDevice = new VMTDNxApiDevice(this, m_settings, -1);
             nxApiDevice->fromJson(nxApiDevicesArr[i].toObject());
             m_nxApiDevices[nxApiDevice->id()] = nxApiDevice;
         }
@@ -77,30 +77,13 @@ namespace VMTDLib
     {
         return m_nodeDevices.value(id, nullptr);
     }
-    VMTDNodeDevice *VMTDModel::nodeDevice(const QString &ip) const
-    {
-        const auto nodeDevices_ = m_nodeDevices.values();
-
-        // *INDENT-OFF*
-        const auto res = std::find_if(nodeDevices_.begin(), nodeDevices_.end(),
-                                      [ip](VMTDNodeDevice *nodeDevice)
-        {
-            return nodeDevice->ip() == ip;
-        });
-        // *INDENT-ON*
-
-        if (res == nodeDevices_.end())
-            return nullptr;
-
-        return *res;
-    }
     bool VMTDModel::addNodeDevice()
     {
         const auto id = m_settings->generateId();
 
         if (!m_nodeDevices.contains(id))
         {
-            m_nodeDevices[id] = new VMTDNodeDevice(this, m_settings);
+            m_nodeDevices[id] = new VMTDNodeDevice(this, m_settings, id);
             return true;
         }
 
@@ -124,31 +107,13 @@ namespace VMTDLib
     {
         return m_nxApiDevices.value(id, nullptr);
     }
-    VMTDNxApiDevice *VMTDModel::nxApiDevice(const QUrl &url) const
-    {
-        const auto nxApiDevices_ = m_nxApiDevices.values();
-
-        // *INDENT-OFF*
-        const auto res = std::find_if(nxApiDevices_.begin(), nxApiDevices_.end(),
-                                      [url](VMTDNxApiDevice *nodeDevice)
-        {
-            return nodeDevice->url().toString(QUrl::RemoveUserInfo)
-                    == url.toString(QUrl::RemoveUserInfo);
-        });
-        // *INDENT-ON*
-
-        if (res == nxApiDevices_.end())
-            return nullptr;
-
-        return *res;
-    }
     bool VMTDModel::addNxApiDevice()
     {
         const auto id = m_settings->generateId();
 
         if (!m_nxApiDevices.contains(id))
         {
-            m_nxApiDevices[id] = new VMTDNxApiDevice(this, m_settings);
+            m_nxApiDevices[id] = new VMTDNxApiDevice(this, m_settings, id);
             return true;
         }
 

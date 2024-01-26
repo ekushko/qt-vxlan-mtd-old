@@ -1,8 +1,6 @@
 #include    "VMTDNxApiServerForm.h"
 #include "ui_VMTDNxApiServerForm.h"
 
-#include "VMTDNxApiAdapterForm.h"
-
 namespace VMTDLib
 {
     VMTDNxApiServerForm::VMTDNxApiServerForm(QWidget *parent, VMTDNxApiServer *server) :
@@ -17,6 +15,8 @@ namespace VMTDLib
 
         connect(m_server, &VMTDNxApiServer::adapterCreatedSignal,
                 this, &VMTDNxApiServerForm::adapterCreatedSlot);
+        connect(m_server, &VMTDNxApiServer::adapterRemovedSignal,
+                this, &VMTDNxApiServerForm::adapterRemovedSlot);
 
         for (auto adapter : m_server->adapters())
             adapterCreatedSlot(adapter);
@@ -51,12 +51,30 @@ namespace VMTDLib
         ui->pbStop->setEnabled(m_server->isListening());
         ui->lbListening->setText(QString("Listening: ") + (m_server->isListening() ? "Yes" : "No"));
         ui->lbAdapters->setText(QString("Adapters: %1").arg(m_server->adapters().size()));
+
+        for (auto form : m_adapterForms.values())
+            form->updateView();
     }
 
     void VMTDNxApiServerForm::adapterCreatedSlot(VMTDNxApiAdapter *adapter)
     {
         auto form = new VMTDNxApiAdapterForm(ui->twAdapters, adapter);
-        ui->twAdapters->addTab(form, adapter->url().toString());
+        ui->twAdapters->addTab(form, adapter->url().toString(QUrl::RemoveUserInfo));
+        m_adapterForms[adapter] = form;
+    }
+    void VMTDNxApiServerForm::adapterRemovedSlot(VMTDNxApiAdapter *adapter)
+    {
+        delete m_adapterForms[adapter];
+        m_adapterForms.remove(adapter);
+
+        for (int i = 0; ui->twAdapters->tabBar()->count(); ++i)
+        {
+            if (ui->twAdapters->tabBar()->tabText(i) == adapter->url().toString(QUrl::RemoveUserInfo))
+            {
+                ui->twAdapters->removeTab(i);
+                break;
+            }
+        }
     }
 
     void VMTDNxApiServerForm::pbHideRightClicked()

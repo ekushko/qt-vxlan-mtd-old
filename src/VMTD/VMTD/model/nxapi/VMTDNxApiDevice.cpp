@@ -5,11 +5,13 @@
 
 namespace VMTDLib
 {
-    VMTDNxApiDevice::VMTDNxApiDevice(QObject *parent, VMTDSettings *settings)
+    VMTDNxApiDevice::VMTDNxApiDevice(QObject *parent, VMTDSettings *settings, int id)
         : QObject(parent)
         , m_settings(settings)
+        , m_id(id)
     {
         m_interfaces = new VMTDInterfaces(this, m_settings);
+        m_interfaces->setOnlyOneMode(false);
 
         m_url.setUserName(QString());
         m_url.setPassword(QString());
@@ -60,10 +62,6 @@ namespace VMTDLib
     int VMTDNxApiDevice::id() const
     {
         return m_id;
-    }
-    void VMTDNxApiDevice::setId(int id)
-    {
-        m_id = id;
     }
 
     QUrl VMTDNxApiDevice::url() const

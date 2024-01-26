@@ -21,6 +21,8 @@ namespace VMTDLib
         VMTDNxApiAdapterForm(QWidget *parent, VMTDNxApiAdapter *adapter);
         ~VMTDNxApiAdapterForm();
 
+        void updateView();
+
     signals:
 
         void checkConnectionSignal();
@@ -39,11 +41,8 @@ namespace VMTDLib
 
         VMTDNxApiAdapter *m_adapter;
 
-        QTimer m_uiTimer;
 
     private slots:
-
-        void uiTimerTickSlot();
 
         void pbCheckConnectionClicked();
 

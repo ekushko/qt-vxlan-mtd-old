@@ -42,7 +42,7 @@ namespace VMTDLib
 
         VMTDSettings *m_settings;
 
-        bool m_onlyOneMode = true;
+        bool m_onlyOneMode = false;
 
         QMap<int, VMTDInterface *> m_interfaces;
     };

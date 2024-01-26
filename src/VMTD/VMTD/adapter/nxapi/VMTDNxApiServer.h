@@ -24,6 +24,7 @@ namespace VMTDLib
     signals:
 
         void adapterCreatedSignal(VMTDNxApiAdapter *adapter);
+        void adapterRemovedSignal(VMTDNxApiAdapter *adapter);
 
     public slots:
 

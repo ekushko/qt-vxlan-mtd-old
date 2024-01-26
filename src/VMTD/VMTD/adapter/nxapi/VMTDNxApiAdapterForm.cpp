@@ -32,12 +32,7 @@ namespace VMTDLib
                 Qt::QueuedConnection);
 
         initializeView();
-
-        connect(&m_uiTimer, &QTimer::timeout,
-                this, &VMTDNxApiAdapterForm::uiTimerTickSlot);
-        m_uiTimer.start(200);
-
-        uiTimerTickSlot();
+        updateView();
     }
 
     VMTDNxApiAdapterForm::~VMTDNxApiAdapterForm()
@@ -45,6 +40,14 @@ namespace VMTDLib
         m_adapter->settings()->debugOut(VN_S(VMTDNxApiAdapterForm) + " was deleted");
 
         delete ui;
+    }
+
+    void VMTDNxApiAdapterForm::updateView()
+    {
+        ui->pbCheckConnection->setEnabled(m_adapter->canSend());
+        ui->pbSendCommands->setEnabled(m_adapter->canSend());
+        ui->lbConnected->setText(m_adapter->isConnected() ? "Connected" : "Disconnected");
+        ui->lbUrl->setText(m_adapter->url().toString());
     }
 
     void VMTDNxApiAdapterForm::showMessageSlot(const QString &text)
@@ -63,14 +66,6 @@ namespace VMTDLib
                 this, &VMTDNxApiAdapterForm::pbCheckConnectionClicked);
         connect(ui->pbSendCommands, &QPushButton::clicked,
                 this, &VMTDNxApiAdapterForm::pbSendCommandsClicked);
-    }
-
-    void VMTDNxApiAdapterForm::uiTimerTickSlot()
-    {
-        ui->pbCheckConnection->setEnabled(m_adapter->canSend());
-        ui->pbSendCommands->setEnabled(m_adapter->canSend());
-        ui->lbConnected->setText(m_adapter->isConnected() ? "Есть" : "Нет");
-        ui->lbUrl->setText(m_adapter->url().toString());
     }
 
     void VMTDNxApiAdapterForm::pbCheckConnectionClicked()

@@ -26,6 +26,9 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    delete m_controller;
+    delete m_settings;
+
     delete ui;
 }
 
@@ -50,11 +53,14 @@ void MainWindow::pbQuickStartClicked()
     if (m_controller != nullptr)
         return;
 
-    ui->pbCreate->click();
-    ui->pbStart->click();
-    ui->pbShowForm->click();
+    pbCreateClicked();
+    m_controller->startController();
+    m_controller->showFormSlot();
 
-    close();
+    QTimer::singleShot(500, [this]()
+    {
+        close();
+    });
 }
 
 void MainWindow::pbCreateClicked()

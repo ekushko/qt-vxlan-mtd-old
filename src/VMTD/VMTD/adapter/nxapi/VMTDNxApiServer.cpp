@@ -3,6 +3,8 @@
 
 #include <QJsonArray>
 
+#include <algorithm>
+
 namespace VMTDLib
 {
     VMTDNxApiServer::VMTDNxApiServer(QObject *parent, VMTDSettings *settings)
@@ -43,19 +45,33 @@ namespace VMTDLib
         if (m_isListening)
             return;
 
-        auto modelObj = m_settings->modelObj();
+        const auto modelObj = m_settings->modelObj();
 
-        for (int i = 0; i < modelObj.size(); ++i)
+        const auto nxApiDevicesArr = modelObj["nxApiDevices"].toArray();
+
+        for (int i = 0; i < nxApiDevicesArr.size(); ++i)
         {
             auto adapter = new VMTDNxApiAdapter(this, m_settings, m_netManager);
-            m_adapters.append(adapter);
+            adapter->fromJson(nxApiDevicesArr.at(i).toObject());
 
-            const auto switchesArr = modelObj["switches"].toArray();
+            // *INDENT-OFF*
+            const auto res = std::find_if(m_adapters.begin(), m_adapters.end(),
+                                          [adapter](VMTDNxApiAdapter *createdAdapter)
+            {
+                return createdAdapter->url().toString(QUrl::RemoveUserInfo)
+                             == adapter->url().toString(QUrl::RemoveUserInfo);
+            });
+            // *INDENT-ON*
 
-            for (int i = 0; i < switchesArr.size(); ++i)
-                adapter->fromJson(switchesArr.at(i).toObject());
-
-            emit adapterCreatedSignal(adapter);
+            if (res == m_adapters.end())
+            {
+                m_adapters.append(adapter);
+                emit adapterCreatedSignal(adapter);
+            }
+            else
+            {
+                delete adapter;
+            }
         }
 
         m_isListening = true;
@@ -64,6 +80,9 @@ namespace VMTDLib
     {
         if (!m_isListening)
             return;
+
+        for (auto adapter : m_adapters)
+            emit adapterRemovedSignal(adapter);
 
         qDeleteAll(m_adapters);
         m_adapters.clear();

@@ -13,7 +13,7 @@ namespace VMTDLib
 
     public:
 
-        VMTDNodeDevice(QObject *parent, VMTDSettings *settings);
+        VMTDNodeDevice(QObject *parent, VMTDSettings *settings, int id);
         ~VMTDNodeDevice();
 
         // КОНСТАНТЫ
@@ -39,8 +39,7 @@ namespace VMTDLib
 
         // ДАННЫЕ
 
-        int     id() const;
-        void setId(int id);
+        int id() const;
 
         QString ip() const;
         void setIp(const QString &ip);
@@ -63,7 +62,7 @@ namespace VMTDLib
 
         bool m_isOnline = false;
 
-        int m_id = -1;
+        int m_id;
         QString m_ip = "127.0.0.1";
         EnRole m_role = EnRole::ENDPOINT;
     };

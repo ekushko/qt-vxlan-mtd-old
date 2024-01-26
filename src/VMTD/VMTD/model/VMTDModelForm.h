@@ -30,8 +30,8 @@ namespace VMTDLib
 
         VMTDModel *m_model;
 
-        QUrl m_currentUrl;
-        QString m_currentIp;
+        int m_currentNxApiDeviceId;
+        int m_currentNodeDeviceId;
 
     private slots:
 

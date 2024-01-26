@@ -17,7 +17,7 @@ namespace VMTDLib
         QJsonObject jsonObj;
 
         jsonObj[VN_ME(m_id)] = m_id;
-        jsonObj[VN_ME(m_name)] = m_ip;
+        jsonObj[VN_ME(m_name)] = m_name;
         jsonObj[VN_ME(m_ip)] = m_ip;
 
         return jsonObj;

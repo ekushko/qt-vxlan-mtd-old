@@ -61,6 +61,18 @@ namespace VMTDLib
             auto form = new VMTDInterfaceForm(ui->wInterfaces, interface);
             m_interfaceForms.append(form);
         }
+
+        connect(m_interfaces, &VMTDInterfaces::interfaceCreatedSignal,
+                this, &VMTDInterfacesForm::interfaceCreatedSlot);
+        connect(m_interfaces, &VMTDInterfaces::interfaceRemovedSignal,
+                this, &VMTDInterfacesForm::interfaceRemovedSlot);
+
+        connect(ui->pbAdd, &QPushButton::clicked, this, &VMTDInterfacesForm::pbAddClicked);
+        connect(ui->pbRemove, &QPushButton::clicked, this, &VMTDInterfacesForm::pbRemoveClicked);
+
+        connect(ui->pbChange, &QPushButton::clicked, this, &VMTDInterfacesForm::pbChangeClicked);
+        connect(ui->pbAccept, &QPushButton::clicked, this, &VMTDInterfacesForm::pbAcceptClicked);
+        connect(ui->pbCancel, &QPushButton::clicked, this, &VMTDInterfacesForm::pbCancelClicked);
     }
 
     void VMTDInterfacesForm::interfaceCreatedSlot(int id)

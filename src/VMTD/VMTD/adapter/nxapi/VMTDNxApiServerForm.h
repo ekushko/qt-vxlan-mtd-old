@@ -1,6 +1,7 @@
 #pragma once
 
 #include "VMTDNxApiServer.h"
+#include "VMTDNxApiAdapterForm.h"
 
 #include <QWidget>
 #include <QListWidgetItem>
@@ -29,11 +30,14 @@ namespace VMTDLib
 
         QTimer m_uiTimer;
 
+        QMap<VMTDNxApiAdapter *, VMTDNxApiAdapterForm *> m_adapterForms;
+
     private slots:
 
         void uiTimerTickSlot();
 
         void adapterCreatedSlot(VMTDNxApiAdapter *adapter);
+        void adapterRemovedSlot(VMTDNxApiAdapter *adapter);
 
         void pbHideRightClicked();
     };
