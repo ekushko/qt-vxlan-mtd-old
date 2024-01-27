@@ -142,7 +142,7 @@ equals( TEMPLATE, "app" ) {
 ###-----Files--------------------------------------------------------------------------------
 #
 
-CONFIG += c++14
+CONFIG += c++11
 
 SOURCES += \
     VMTD/VMTDController.cpp \

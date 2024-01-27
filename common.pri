@@ -17,7 +17,6 @@ win32: EXTERNAL_ROOT_PATH = C:\Libs
 win32:      OS_SUFFIX  = win32
 linux-g++:  OS_SUFFIX  = linux
 
-
 #
 ###-----Директивы общие----------------------------------------------------------------------
 #
