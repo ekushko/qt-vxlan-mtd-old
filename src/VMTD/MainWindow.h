@@ -19,7 +19,7 @@ class MainWindow : public QMainWindow
 
 public:
 
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(QWidget *parent = nullptr, bool quickStart = false);
     ~MainWindow();
 
 private:

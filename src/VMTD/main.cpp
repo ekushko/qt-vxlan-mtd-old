@@ -1,13 +1,11 @@
 #include "MainWindow.h"
 
 #include <QApplication>
-#include <QLocale>
-#include <QTranslator>
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
+    MainWindow w(nullptr, a.arguments().contains("-quickstart"));
     w.show();
     return a.exec();
 }

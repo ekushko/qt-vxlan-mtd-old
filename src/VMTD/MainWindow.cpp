@@ -3,7 +3,7 @@
 
 using namespace VMTDLib;
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(QWidget *parent, bool quickStart)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
@@ -22,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_uiTimer.setParent(this);
     connect(&m_uiTimer, &QTimer::timeout, this, &MainWindow::uiTimerTickSlot);
     m_uiTimer.start(100);
+
+    if (quickStart)
+        pbQuickStartClicked();
 }
 
 MainWindow::~MainWindow()
