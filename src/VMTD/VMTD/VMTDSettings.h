@@ -67,6 +67,12 @@ namespace VMTDLib
         int     localPort() const;
         void setLocalPort(int localPort);
 
+        bool    shouldCheckConnection() const;
+        void setShouldCheckConnection(bool shouldCheckConnection);
+
+        int     checkConnectionInterval() const;
+        void setCheckConnectionInterval(int checkConnectionInterval);
+
         // ПАРАМЕТРЫ КЛИЕНТА
 
         QString serverIp() const;
@@ -89,6 +95,8 @@ namespace VMTDLib
     signals:
 
         void networkChangedSignal();
+
+        void checkConnectionChangedSignal();
 
         void saveSignal();
         void loadSignal();
@@ -115,12 +123,15 @@ namespace VMTDLib
         int m_reconnectInterval;
 
         int m_localPort;
+        bool m_shouldCheckConnection;
+        int m_checkConnectionInterval;
 
         QJsonObject m_modelObj;
 
         int m_idCounter;
 
         bool m_wasNetworkChanged;
+        bool m_wasCheckConnectionChanged;
 
     private slots:
 

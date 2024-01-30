@@ -32,6 +32,9 @@ namespace VMTDLib
 
         void showDebugSignal(QWebSocket *socket, const QTime &time, const QString &text);
 
+        void socketConnectedSignal(QWebSocket *socket);
+        void socketDisconnectedSignal(QWebSocket *socket);
+
     public slots:
 
         void showFormSlot();

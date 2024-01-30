@@ -52,12 +52,14 @@ namespace VMTDLib
         ui->leDebugName->setText(m_settings->debugName());
         ui->chbShouldShowDebug->setChecked(m_settings->shouldShowDebug());
 
-        ui->sbLocalPort->setValue(m_settings->localPort());
-
         ui->leServerIp->setText(m_settings->serverIp());
         ui->sbServerPort->setValue(m_settings->serverPort());
         ui->chbShouldReconnect->setChecked(m_settings->shouldReconnect());
         ui->sbReconnectInterval->setValue(m_settings->reconnectInterval());
+
+        ui->sbLocalPort->setValue(m_settings->localPort());
+        ui->chbShouldCheckConnection->setChecked(m_settings->shouldCheckConnection());
+        ui->sbCheckConnectionInterval->setValue(m_settings->checkConnectionInterval());
     }
 
     void VMTDSettingsForm::updateData()
@@ -65,12 +67,14 @@ namespace VMTDLib
         m_settings->setDebugName(ui->leDebugName->text());
         m_settings->setShouldShowDebug(ui->chbShouldShowDebug->isChecked());
 
-        m_settings->setLocalPort(ui->sbLocalPort->value());
-
         m_settings->setServerIp(ui->leServerIp->text());
         m_settings->setServerPort(ui->sbServerPort->value());
         m_settings->setShouldReconnect(ui->chbShouldReconnect->isChecked());
         m_settings->setReconnectInterval(ui->sbReconnectInterval->value());
+
+        m_settings->setLocalPort(ui->sbLocalPort->value());
+        m_settings->setShouldCheckConnection(ui->chbShouldCheckConnection->isChecked());
+        m_settings->setCheckConnectionInterval(ui->sbCheckConnectionInterval->value());
     }
 
     void VMTDSettingsForm::pbSaveClicked()

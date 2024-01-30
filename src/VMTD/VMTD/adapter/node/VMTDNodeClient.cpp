@@ -80,11 +80,15 @@ namespace VMTDLib
         url.setScheme("ws");
 
         m_socket->open(url);
+
+        emit socketConnectedSignal(m_socket);
     }
     void VMTDNodeClient::disconnectSocketSlot()
     {
         if (m_socket->state() == QAbstractSocket::UnconnectedState)
             return;
+
+        emit socketDisconnectedSignal(m_socket);
 
         m_socket->close();
     }

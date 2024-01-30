@@ -145,6 +145,8 @@ equals( TEMPLATE, "app" ) {
 CONFIG += c++11
 
 SOURCES += \
+    main.cpp \
+    MainWindow.cpp \
     VMTD/VMTDController.cpp \
     VMTD/VMTDControllerForm.cpp \
     VMTD/VMTDRepo.cpp \
@@ -169,8 +171,12 @@ SOURCES += \
     VMTD/model/nxapi/VMTDNxApiDeviceForm.cpp \
     VMTD/model/VMTDModel.cpp \
     VMTD/model/VMTDModelForm.cpp \
-    main.cpp \
-    MainWindow.cpp
+    VMTD/protocol/VMTDProtocol.cpp \
+    VMTD/protocol/VMTDProtocolForm.cpp \
+    VMTD/protocol/VMTDProtocolHandler.cpp \
+    VMTD/protocol/VMTDProtocolHandlerForm.cpp \
+    VMTD/protocol/VMTDProtocolNodeHandler.cpp \
+    VMTD/protocol/VMTDProtocolNxApiHandler.cpp
 
 HEADERS += \
     MainWindow.h \
@@ -198,7 +204,13 @@ HEADERS += \
     VMTD/model/nxapi/VMTDNxApiDevice.h \
     VMTD/model/nxapi/VMTDNxApiDeviceForm.h \
     VMTD/model/VMTDModel.h \
-    VMTD/model/VMTDModelForm.h
+    VMTD/model/VMTDModelForm.h \
+    VMTD/protocol/VMTDProtocol.h \
+    VMTD/protocol/VMTDProtocolForm.h \
+    VMTD/protocol/VMTDProtocolHandler.h \
+    VMTD/protocol/VMTDProtocolHandlerForm.h \
+    VMTD/protocol/VMTDProtocolNodeHandler.h \
+    VMTD/protocol/VMTDProtocolNxApiHandler.h
 
 FORMS += \
     MainWindow.ui \
@@ -213,7 +225,9 @@ FORMS += \
     VMTD/model/interface/VMTDInterfacesForm.ui \
     VMTD/model/node/VMTDNodeDeviceForm.ui \
     VMTD/model/nxapi/VMTDNxApiDeviceForm.ui \
-    VMTD/model/VMTDModelForm.ui
+    VMTD/model/VMTDModelForm.ui \
+    VMTD/protocol/VMTDProtocolForm.ui \
+    VMTD/protocol/VMTDProtocolHandlerForm.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

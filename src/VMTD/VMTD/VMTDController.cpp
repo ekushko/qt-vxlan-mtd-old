@@ -50,6 +50,11 @@ namespace VMTDLib
         return m_nodeClient;
     }
 
+    VMTDProtocol *VMTDController::protocol() const
+    {
+        return m_protocol;
+    }
+
     VMTDModel *VMTDController::model() const
     {
         return m_model;
@@ -77,20 +82,26 @@ namespace VMTDLib
 
     void VMTDController::run()
     {
+        m_protocol = new VMTDProtocol(nullptr, m_model);
+        connect(this, &VMTDController::finished, m_protocol, &VMTDProtocol::deleteLater);
+
         if (m_settings->nodeType() == VMTDNodeType::CLIENT)
         {
             m_nodeClient = new VMTDNodeClient(nullptr, m_settings);
             connect(this, &VMTDController::finished, m_nodeClient, &VMTDNodeClient::deleteLater);
+            m_protocol->setNodeClient(m_nodeClient);
             m_nodeClient->connectSocketSlot();
         }
         else if (m_settings->nodeType() == VMTDNodeType::SERVER)
         {
             m_nxApiServer = new VMTDNxApiServer(nullptr, m_settings);
             connect(this, &VMTDController::finished, m_nxApiServer, &VMTDNxApiServer::deleteLater);
+            m_protocol->setNxApiServer(m_nxApiServer);
             m_nxApiServer->startListenSlot();
 
             m_nodeServer = new VMTDNodeServer(nullptr, m_settings);
             connect(this, &VMTDController::finished, m_nodeServer, &VMTDNodeServer::deleteLater);
+            m_protocol->setNodeServer(m_nodeServer);
             m_nodeServer->startListenSlot();
         }
 

@@ -41,6 +41,9 @@ namespace VMTDLib
         connect(ui->pbStopController, &QPushButton::clicked,
                 m_controller, &VMTDController::stopController);
 
+        connect(ui->pbProtocol, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbProtocolClicked);
+
         connect(ui->pbNxApiServer, &QPushButton::clicked,
                 this, &VMTDControllerForm::pbNxApiServerClicked);
         connect(ui->pbNodeServer, &QPushButton::clicked,
@@ -63,9 +66,18 @@ namespace VMTDLib
         ui->pbStartController->setEnabled(!isRunning);
         ui->pbStopController->setEnabled(isRunning);
 
+        ui->pbProtocol->setEnabled(isRunning);
         ui->pbNxApiServer->setEnabled(isRunning);
         ui->pbNodeServer->setEnabled(isRunning);
         ui->pbNodeClient->setEnabled(isRunning);
+    }
+
+    void VMTDControllerForm::pbProtocolClicked()
+    {
+        if (!m_controller->isRunning())
+            return;
+
+        m_controller->protocol()->showFormSlot();
     }
 
     void VMTDControllerForm::pbNxApiServerClicked()

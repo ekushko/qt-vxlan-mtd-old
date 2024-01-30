@@ -191,7 +191,7 @@ namespace VMTDLib
 
         emit showDebugSignal(socket, QTime::currentTime(), debugString);
 
-        emit receiveMessageSignal(jsonDoc.object());
+        emit receiveMessageSignal(socket, jsonDoc.object());
     }
 
     void VMTDNodeServer::errorSlot(QAbstractSocket::SocketError error)

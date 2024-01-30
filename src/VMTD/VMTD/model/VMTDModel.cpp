@@ -77,6 +77,21 @@ namespace VMTDLib
     {
         return m_nodeDevices.value(id, nullptr);
     }
+    VMTDNodeDevice *VMTDModel::nodeDevice(const QString &ip) const
+    {
+        // *INDENT-OFF*
+        auto res = std::find_if(m_nodeDevices.begin(), m_nodeDevices.end(),
+                                [ip](VMTDNodeDevice *nodeDevice)
+        {
+            return nodeDevice->ip() == ip;
+        });
+        // *INDENT-ON*
+
+        if (res == m_nodeDevices.end())
+            return nullptr;
+
+        return *res;
+    }
     bool VMTDModel::addNodeDevice()
     {
         const auto id = m_settings->generateId();
@@ -106,6 +121,22 @@ namespace VMTDLib
     VMTDNxApiDevice *VMTDModel::nxApiDevice(int id) const
     {
         return m_nxApiDevices.value(id, nullptr);
+    }
+    VMTDNxApiDevice *VMTDModel::nxApiDevice(const QUrl &url) const
+    {
+        // *INDENT-OFF*
+        auto res = std::find_if(m_nxApiDevices.begin(), m_nxApiDevices.end(),
+                                [url](VMTDNxApiDevice *nxApiDevice)
+        {
+            return nxApiDevice->url().toString(QUrl::RemoveUserInfo)
+                   == url.toString(QUrl::RemoveUserInfo);
+        });
+        // *INDENT-ON*
+
+        if (res == m_nxApiDevices.end())
+            return nullptr;
+
+        return *res;
     }
     bool VMTDModel::addNxApiDevice()
     {

@@ -33,7 +33,7 @@ namespace VMTDLib
         void clientConnectedSignal(QWebSocket *socket);
         void clientDisconnectedSignal(QWebSocket *socket);
 
-        void receiveMessageSignal(const QJsonObject &messageObj);
+        void receiveMessageSignal(QWebSocket *socket, const QJsonObject &messageObj);
 
         void showDebugSignal(QWebSocket *socket, const QTime &time, const QString &text);
 

@@ -5,6 +5,7 @@
 #include "adapter/nxapi/VMTDNxApiServer.h"
 #include "adapter/node/VMTDNodeServer.h"
 #include "adapter/node/VMTDNodeClient.h"
+#include "protocol/VMTDProtocol.h"
 
 #include "model/VMTDModel.h"
 
@@ -31,6 +32,8 @@ namespace VMTDLib
 
         VMTDNodeClient *nodeClient() const;
 
+        VMTDProtocol *protocol() const;
+
         VMTDModel *model() const;
 
     public slots:
@@ -55,6 +58,8 @@ namespace VMTDLib
         VMTDNodeServer *m_nodeServer;
 
         VMTDNodeClient *m_nodeClient;
+
+        VMTDProtocol *m_protocol;
 
         VMTDModel *m_model;
 

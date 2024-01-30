@@ -16,15 +16,18 @@ namespace VMTDLib
     {
         m_debugName = "VMTD";
         m_shouldShowDebug = true;
+
         m_serverIp = "127.0.0.1";
         m_serverPort = 30000;
         m_shouldReconnect = false;
         m_reconnectInterval = 1000;
+
         m_localPort = 30001;
 
         m_idCounter = 0;
 
         m_wasNetworkChanged = false;
+        m_wasCheckConnectionChanged = false;
 
         debugOut(VN_S(VMTDSettings) + " was created");
 
@@ -88,9 +91,15 @@ namespace VMTDLib
         jsonObj[VN_ME(m_systemName)] = m_systemName;
         jsonObj[VN_ME(m_debugName)] = m_debugName;
         jsonObj[VN_ME(m_shouldShowDebug)] = m_shouldShowDebug;
+
         jsonObj[VN_ME(m_serverIp)] = m_serverIp;
         jsonObj[VN_ME(m_serverPort)] = m_serverPort;
+        jsonObj[VN_ME(m_shouldReconnect)] = m_shouldReconnect;
+        jsonObj[VN_ME(m_reconnectInterval)] = m_reconnectInterval;
+
         jsonObj[VN_ME(m_localPort)] = m_localPort;
+        jsonObj[VN_ME(m_shouldCheckConnection)] = m_shouldCheckConnection;
+        jsonObj[VN_ME(m_checkConnectionInterval)] = m_checkConnectionInterval;
 
         jsonObj[VN_ME(m_modelObj)] = m_modelObj;
 
@@ -105,9 +114,17 @@ namespace VMTDLib
 
         m_debugName = jsonObj[VN_ME(m_debugName)].toString(m_debugName);
         m_shouldShowDebug = jsonObj[VN_ME(m_shouldShowDebug)].toBool(m_shouldShowDebug);
+
         m_serverIp = jsonObj[VN_ME(m_serverIp)].toString(m_serverIp);
         m_serverPort = jsonObj[VN_ME(m_serverPort)].toInt(m_serverPort);
+        m_shouldReconnect = jsonObj[VN_ME(m_shouldReconnect)].toBool(m_shouldReconnect);
+        m_reconnectInterval = jsonObj[VN_ME(m_reconnectInterval)].toInt(m_reconnectInterval);
+
         m_localPort = jsonObj[VN_ME(m_localPort)].toInt(m_localPort);
+        m_shouldCheckConnection = jsonObj[VN_ME(m_shouldCheckConnection)]
+                                  .toBool(m_shouldCheckConnection);
+        m_checkConnectionInterval = jsonObj[VN_ME(m_checkConnectionInterval)]
+                                    .toInt(m_checkConnectionInterval);
 
         m_modelObj = jsonObj[VN_ME(m_modelObj)].toObject();
 
@@ -141,6 +158,13 @@ namespace VMTDLib
             emit networkChangedSignal();
 
             m_wasNetworkChanged = false;
+        }
+
+        if (m_wasCheckConnectionChanged)
+        {
+            emit checkConnectionChangedSignal();
+
+            m_wasCheckConnectionChanged = false;
         }
     }
 
@@ -211,6 +235,29 @@ namespace VMTDLib
             m_localPort = localPort;
 
             m_wasNetworkChanged = true;
+        }
+    }
+
+    bool VMTDSettings::shouldCheckConnection() const
+    {
+        return m_shouldCheckConnection;
+    }
+    void VMTDSettings::setShouldCheckConnection(bool shouldCheckConnection)
+    {
+        m_shouldCheckConnection = shouldCheckConnection;
+    }
+
+    int VMTDSettings::checkConnectionInterval() const
+    {
+        return m_checkConnectionInterval;
+    }
+    void VMTDSettings::setCheckConnectionInterval(int checkConnectionInterval)
+    {
+        if (m_checkConnectionInterval != checkConnectionInterval)
+        {
+            m_checkConnectionInterval = checkConnectionInterval;
+
+            m_wasCheckConnectionChanged = true;
         }
     }
 

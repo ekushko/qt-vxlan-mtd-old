@@ -35,6 +35,8 @@ namespace VMTDLib
 
         void uiTimerTickSlot();
 
+        void pbProtocolClicked();
+
         void pbNxApiServerClicked();
         void pbNodeServerClicked();
         void pbNodeClientClicked();

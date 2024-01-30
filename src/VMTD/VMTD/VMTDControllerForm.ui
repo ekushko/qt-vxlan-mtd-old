@@ -15,7 +15,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_5">
    <item>
-    <layout class="QVBoxLayout" name="_1">
+    <layout class="QVBoxLayout" name="vl_1">
      <property name="spacing">
       <number>3</number>
      </property>
@@ -27,7 +27,7 @@
       </widget>
      </item>
      <item>
-      <spacer name="_4">
+      <spacer name="_2">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -73,6 +73,29 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="pbProtocol">
+       <property name="text">
+        <string>Protocol</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="_4">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeType">
+        <enum>QSizePolicy::Fixed</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>6</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
       <widget class="QPushButton" name="pbNxApiServer">
        <property name="text">
         <string>NX-API
@@ -89,7 +112,7 @@ Server</string>
       </widget>
      </item>
      <item>
-      <spacer name="_7">
+      <spacer name="_6">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -113,7 +136,7 @@ Client</string>
       </widget>
      </item>
      <item>
-      <spacer name="_2">
+      <spacer name="_1">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
