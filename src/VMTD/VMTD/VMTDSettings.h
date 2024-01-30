@@ -89,8 +89,8 @@ namespace VMTDLib
 
         // МОДЕЛЬ
 
-        QJsonObject modelObj() const;
-        void     setModelObj(const QJsonObject &modelObj);
+        QJsonObject netObj() const;
+        void     setNetObj(const QJsonObject &netObj);
 
     signals:
 
@@ -126,7 +126,7 @@ namespace VMTDLib
         bool m_shouldCheckConnection;
         int m_checkConnectionInterval;
 
-        QJsonObject m_modelObj;
+        QJsonObject m_netObj;
 
         int m_idCounter;
 

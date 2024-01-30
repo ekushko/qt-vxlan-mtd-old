@@ -56,7 +56,7 @@ namespace VMTDLib
         ui->pbNodeServer->setVisible(nodeType == VMTDNodeType::SERVER);
         ui->pbNodeClient->setVisible(nodeType == VMTDNodeType::CLIENT);
 
-        m_controller->model()->showFormSlot(ui->wMain);
+        m_controller->net()->showFormSlot(ui->wMain);
     }
 
     void VMTDControllerForm::uiTimerTickSlot()

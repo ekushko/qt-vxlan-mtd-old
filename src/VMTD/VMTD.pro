@@ -161,16 +161,16 @@ SOURCES += \
     VMTD/adapter/nxapi/VMTDNxApiAdapterForm.cpp \
     VMTD/adapter/nxapi/VMTDNxApiServer.cpp \
     VMTD/adapter/nxapi/VMTDNxApiServerForm.cpp \
-    VMTD/model/interface/VMTDInterface.cpp \
-    VMTD/model/interface/VMTDInterfaceForm.cpp \
-    VMTD/model/interface/VMTDInterfaces.cpp \
-    VMTD/model/interface/VMTDInterfacesForm.cpp \
-    VMTD/model/node/VMTDNodeDevice.cpp \
-    VMTD/model/node/VMTDNodeDeviceForm.cpp \
-    VMTD/model/nxapi/VMTDNxApiDevice.cpp \
-    VMTD/model/nxapi/VMTDNxApiDeviceForm.cpp \
-    VMTD/model/VMTDModel.cpp \
-    VMTD/model/VMTDModelForm.cpp \
+    VMTD/net/VMTDNet.cpp \
+    VMTD/net/VMTDNetForm.cpp \
+    VMTD/net/interface/VMTDInterface.cpp \
+    VMTD/net/interface/VMTDInterfaceForm.cpp \
+    VMTD/net/interface/VMTDInterfaces.cpp \
+    VMTD/net/interface/VMTDInterfacesForm.cpp \
+    VMTD/net/node/VMTDNodeDevice.cpp \
+    VMTD/net/node/VMTDNodeDeviceForm.cpp \
+    VMTD/net/nxapi/VMTDNxApiDevice.cpp \
+    VMTD/net/nxapi/VMTDNxApiDeviceForm.cpp \
     VMTD/protocol/VMTDProtocol.cpp \
     VMTD/protocol/VMTDProtocolForm.cpp \
     VMTD/protocol/VMTDProtocolHandler.cpp \
@@ -195,16 +195,16 @@ HEADERS += \
     VMTD/adapter/nxapi/VMTDNxApiAdapterForm.h \
     VMTD/adapter/nxapi/VMTDNxApiServer.h \
     VMTD/adapter/nxapi/VMTDNxApiServerForm.h \
-    VMTD/model/interface/VMTDInterface.h \
-    VMTD/model/interface/VMTDInterfaceForm.h \
-    VMTD/model/interface/VMTDInterfaces.h \
-    VMTD/model/interface/VMTDInterfacesForm.h \
-    VMTD/model/node/VMTDNodeDevice.h \
-    VMTD/model/node/VMTDNodeDeviceForm.h \
-    VMTD/model/nxapi/VMTDNxApiDevice.h \
-    VMTD/model/nxapi/VMTDNxApiDeviceForm.h \
-    VMTD/model/VMTDModel.h \
-    VMTD/model/VMTDModelForm.h \
+    VMTD/net/VMTDNet.h \
+    VMTD/net/VMTDNetForm.h \
+    VMTD/net/interface/VMTDInterface.h \
+    VMTD/net/interface/VMTDInterfaceForm.h \
+    VMTD/net/interface/VMTDInterfaces.h \
+    VMTD/net/interface/VMTDInterfacesForm.h \
+    VMTD/net/node/VMTDNodeDevice.h \
+    VMTD/net/node/VMTDNodeDeviceForm.h \
+    VMTD/net/nxapi/VMTDNxApiDevice.h \
+    VMTD/net/nxapi/VMTDNxApiDeviceForm.h \
     VMTD/protocol/VMTDProtocol.h \
     VMTD/protocol/VMTDProtocolForm.h \
     VMTD/protocol/VMTDProtocolHandler.h \
@@ -221,11 +221,11 @@ FORMS += \
     VMTD/adapter/node/VMTDNodeServerForm.ui \
     VMTD/adapter/nxapi/VMTDNxApiAdapterForm.ui \
     VMTD/adapter/nxapi/VMTDNxApiServerForm.ui \
-    VMTD/model/interface/VMTDInterfaceForm.ui \
-    VMTD/model/interface/VMTDInterfacesForm.ui \
-    VMTD/model/node/VMTDNodeDeviceForm.ui \
-    VMTD/model/nxapi/VMTDNxApiDeviceForm.ui \
-    VMTD/model/VMTDModelForm.ui \
+    VMTD/net/VMTDNetForm.ui \
+    VMTD/net/interface/VMTDInterfaceForm.ui \
+    VMTD/net/interface/VMTDInterfacesForm.ui \
+    VMTD/net/node/VMTDNodeDeviceForm.ui \
+    VMTD/net/nxapi/VMTDNxApiDeviceForm.ui \
     VMTD/protocol/VMTDProtocolForm.ui \
     VMTD/protocol/VMTDProtocolHandlerForm.ui
 

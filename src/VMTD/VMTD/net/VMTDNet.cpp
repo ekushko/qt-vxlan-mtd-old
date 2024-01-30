@@ -1,5 +1,5 @@
-#include "VMTDModel.h"
-#include "VMTDModelForm.h"
+#include "VMTDNet.h"
+#include "VMTDNetForm.h"
 
 #include "../VMTDRepo.h"
 
@@ -9,19 +9,19 @@
 
 namespace VMTDLib
 {
-    VMTDModel::VMTDModel(QObject *parent, VMTDSettings *settings)
+    VMTDNet::VMTDNet(QObject *parent, VMTDSettings *settings)
         : QObject(parent)
         , m_settings(settings)
     {
         loadSlot();
     }
 
-    VMTDSettings *VMTDModel::settings() const
+    VMTDSettings *VMTDNet::settings() const
     {
         return m_settings;
     }
 
-    QJsonObject VMTDModel::toJson() const
+    QJsonObject VMTDNet::toJson() const
     {
         QJsonObject jsonObj;
 
@@ -39,7 +39,7 @@ namespace VMTDLib
 
         return jsonObj;
     }
-    void VMTDModel::fromJson(const QJsonObject &jsonObj)
+    void VMTDNet::fromJson(const QJsonObject &jsonObj)
     {
         qDeleteAll(m_nodeDevices.values());
         m_nodeDevices.clear();
@@ -69,15 +69,15 @@ namespace VMTDLib
         }
     }
 
-    const QMap<int, VMTDNodeDevice *> &VMTDModel::nodeDevices() const
+    const QMap<int, VMTDNodeDevice *> &VMTDNet::nodeDevices() const
     {
         return m_nodeDevices;
     }
-    VMTDNodeDevice *VMTDModel::nodeDevice(int id) const
+    VMTDNodeDevice *VMTDNet::nodeDevice(int id) const
     {
         return m_nodeDevices.value(id, nullptr);
     }
-    VMTDNodeDevice *VMTDModel::nodeDevice(const QString &ip) const
+    VMTDNodeDevice *VMTDNet::nodeDevice(const QString &ip) const
     {
         // *INDENT-OFF*
         auto res = std::find_if(m_nodeDevices.begin(), m_nodeDevices.end(),
@@ -92,7 +92,7 @@ namespace VMTDLib
 
         return *res;
     }
-    bool VMTDModel::addNodeDevice()
+    bool VMTDNet::addNodeDevice()
     {
         const auto id = m_settings->generateId();
 
@@ -104,7 +104,7 @@ namespace VMTDLib
 
         return false;
     }
-    bool VMTDModel::removeNodeDevice(int id)
+    bool VMTDNet::removeNodeDevice(int id)
     {
         if (!m_nodeDevices.contains(id))
             return false;
@@ -114,15 +114,15 @@ namespace VMTDLib
         return true;
     }
 
-    const QMap<int, VMTDNxApiDevice *> &VMTDModel::nxApiDevices() const
+    const QMap<int, VMTDNxApiDevice *> &VMTDNet::nxApiDevices() const
     {
         return m_nxApiDevices;
     }
-    VMTDNxApiDevice *VMTDModel::nxApiDevice(int id) const
+    VMTDNxApiDevice *VMTDNet::nxApiDevice(int id) const
     {
         return m_nxApiDevices.value(id, nullptr);
     }
-    VMTDNxApiDevice *VMTDModel::nxApiDevice(const QUrl &url) const
+    VMTDNxApiDevice *VMTDNet::nxApiDevice(const QUrl &url) const
     {
         // *INDENT-OFF*
         auto res = std::find_if(m_nxApiDevices.begin(), m_nxApiDevices.end(),
@@ -138,7 +138,7 @@ namespace VMTDLib
 
         return *res;
     }
-    bool VMTDModel::addNxApiDevice()
+    bool VMTDNet::addNxApiDevice()
     {
         const auto id = m_settings->generateId();
 
@@ -150,7 +150,7 @@ namespace VMTDLib
 
         return false;
     }
-    bool VMTDModel::removeNxApiDevice(int id)
+    bool VMTDNet::removeNxApiDevice(int id)
     {
         if (!m_nxApiDevices.contains(id))
             return false;
@@ -160,23 +160,23 @@ namespace VMTDLib
         return true;
     }
 
-    void VMTDModel::showFormSlot(QWidget *parent)
+    void VMTDNet::showFormSlot(QWidget *parent)
     {
         if (m_form == nullptr)
-            m_form = new VMTDModelForm(parent, this);
+            m_form = new VMTDNetForm(parent, this);
 
         m_form->show();
         m_form->raise();
         m_form->activateWindow();
     }
 
-    void VMTDModel::saveSlot()
+    void VMTDNet::saveSlot()
     {
-        m_settings->setModelObj(toJson());
+        m_settings->setNetObj(toJson());
         m_settings->save();
     }
-    void VMTDModel::loadSlot()
+    void VMTDNet::loadSlot()
     {
-        fromJson(m_settings->modelObj());
+        fromJson(m_settings->netObj());
     }
 }

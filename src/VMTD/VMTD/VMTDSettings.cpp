@@ -101,7 +101,7 @@ namespace VMTDLib
         jsonObj[VN_ME(m_shouldCheckConnection)] = m_shouldCheckConnection;
         jsonObj[VN_ME(m_checkConnectionInterval)] = m_checkConnectionInterval;
 
-        jsonObj[VN_ME(m_modelObj)] = m_modelObj;
+        jsonObj[VN_ME(m_netObj)] = m_netObj;
 
         jsonObj[VN_ME(m_idCounter)] = m_idCounter;
 
@@ -126,7 +126,7 @@ namespace VMTDLib
         m_checkConnectionInterval = jsonObj[VN_ME(m_checkConnectionInterval)]
                                     .toInt(m_checkConnectionInterval);
 
-        m_modelObj = jsonObj[VN_ME(m_modelObj)].toObject();
+        m_netObj = jsonObj[VN_ME(m_netObj)].toObject();
 
         m_idCounter = jsonObj[VN_ME(m_idCounter)].toInt(m_idCounter);
     }
@@ -289,13 +289,13 @@ namespace VMTDLib
         }
     }
 
-    QJsonObject VMTDSettings::modelObj() const
+    QJsonObject VMTDSettings::netObj() const
     {
-        return m_modelObj;
+        return m_netObj;
     }
-    void VMTDSettings::setModelObj(const QJsonObject &modelObj)
+    void VMTDSettings::setNetObj(const QJsonObject &netObj)
     {
-        m_modelObj = modelObj;
+        m_netObj = netObj;
     }
 
     void VMTDSettings::showFormSlot()

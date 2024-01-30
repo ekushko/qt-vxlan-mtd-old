@@ -16,7 +16,7 @@ namespace VMTDLib
         connect(this, &VMTDController::started, this, &VMTDController::startedSlot);
         connect(this, &VMTDController::finished, this, &VMTDController::finishedSlot);
 
-        m_model = new VMTDModel(this, m_settings);
+        m_net = new VMTDNet(this, m_settings);
     }
 
     VMTDController::~VMTDController()
@@ -55,9 +55,9 @@ namespace VMTDLib
         return m_protocol;
     }
 
-    VMTDModel *VMTDController::model() const
+    VMTDNet *VMTDController::net() const
     {
-        return m_model;
+        return m_net;
     }
 
     void VMTDController::showFormSlot()
@@ -82,7 +82,7 @@ namespace VMTDLib
 
     void VMTDController::run()
     {
-        m_protocol = new VMTDProtocol(nullptr, m_model);
+        m_protocol = new VMTDProtocol(nullptr, m_net);
         connect(this, &VMTDController::finished, m_protocol, &VMTDProtocol::deleteLater);
 
         if (m_settings->nodeType() == VMTDNodeType::CLIENT)

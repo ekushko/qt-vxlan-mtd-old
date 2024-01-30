@@ -45,7 +45,7 @@ namespace VMTDLib
         if (m_isListening)
             return;
 
-        const auto modelObj = m_settings->modelObj();
+        const auto modelObj = m_settings->netObj();
 
         const auto nxApiDevicesArr = modelObj["nxApiDevices"].toArray();
 

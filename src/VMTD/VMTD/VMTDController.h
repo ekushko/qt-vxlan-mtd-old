@@ -7,7 +7,7 @@
 #include "adapter/node/VMTDNodeClient.h"
 #include "protocol/VMTDProtocol.h"
 
-#include "model/VMTDModel.h"
+#include "net/VMTDNet.h"
 
 #include <QThread>
 
@@ -34,7 +34,7 @@ namespace VMTDLib
 
         VMTDProtocol *protocol() const;
 
-        VMTDModel *model() const;
+        VMTDNet *net() const;
 
     public slots:
 
@@ -61,7 +61,7 @@ namespace VMTDLib
 
         VMTDProtocol *m_protocol;
 
-        VMTDModel *m_model;
+        VMTDNet *m_net;
 
     private slots:
 

@@ -1,13 +1,13 @@
-#include    "VMTDModelForm.h"
-#include "ui_VMTDModelForm.h"
+#include    "VMTDNetForm.h"
+#include "ui_VMTDNetForm.h"
 
 #include "../VMTDRepo.h"
 
 namespace VMTDLib
 {
-    VMTDModelForm::VMTDModelForm(QWidget *parent, VMTDModel *model) :
+    VMTDNetForm::VMTDNetForm(QWidget *parent, VMTDNet *model) :
         QWidget(parent),
-        ui(new Ui::VMTDModelForm),
+        ui(new Ui::VMTDNetForm),
         m_model(model)
     {
         ui->setupUi(this);
@@ -16,38 +16,38 @@ namespace VMTDLib
             parent->layout()->addWidget(this);
 
         connect(ui->pbSave, &QPushButton::clicked,
-                m_model, &VMTDModel::saveSlot);
+                m_model, &VMTDNet::saveSlot);
         connect(ui->pbLoad, &QPushButton::clicked,
-                m_model, &VMTDModel::loadSlot);
+                m_model, &VMTDNet::loadSlot);
 
         connect(ui->pbAddNxApiDevice, &QPushButton::clicked,
-                this, &VMTDModelForm::pbAddNxApiDeviceClicked);
+                this, &VMTDNetForm::pbAddNxApiDeviceClicked);
         connect(ui->pbRemoveNxApiDevice, &QPushButton::clicked,
-                this, &VMTDModelForm::pbRemoveNxApiDeviceClicked);
+                this, &VMTDNetForm::pbRemoveNxApiDeviceClicked);
         connect(ui->lwNxApiDevices, &QListWidget::itemClicked,
-                this, &VMTDModelForm::lwNxApiDevicesItemClicked);
+                this, &VMTDNetForm::lwNxApiDevicesItemClicked);
         connect(ui->lwNxApiDevices, &QListWidget::itemDoubleClicked,
-                this, &VMTDModelForm::lwNxApiDevicesItemDoubleClicked);
+                this, &VMTDNetForm::lwNxApiDevicesItemDoubleClicked);
 
         connect(ui->pbAddNodeDevice, &QPushButton::clicked,
-                this, &VMTDModelForm::pbAddNodeDeviceClicked);
+                this, &VMTDNetForm::pbAddNodeDeviceClicked);
         connect(ui->pbRemoveNodeDevice, &QPushButton::clicked,
-                this, &VMTDModelForm::pbRemoveNodeDeviceClicked);
+                this, &VMTDNetForm::pbRemoveNodeDeviceClicked);
         connect(ui->lwNodeDevices, &QListWidget::itemClicked,
-                this, &VMTDModelForm::lwNodeDevicesItemClicked);
+                this, &VMTDNetForm::lwNodeDevicesItemClicked);
         connect(ui->lwNodeDevices, &QListWidget::itemDoubleClicked,
-                this, &VMTDModelForm::lwNodeDevicesItemDoubleClicked);
+                this, &VMTDNetForm::lwNodeDevicesItemDoubleClicked);
 
         updateNxApiDevicesList();
         updateNodeDevicesList();
     }
 
-    VMTDModelForm::~VMTDModelForm()
+    VMTDNetForm::~VMTDNetForm()
     {
         delete ui;
     }
 
-    void VMTDModelForm::updateNxApiDevicesList()
+    void VMTDNetForm::updateNxApiDevicesList()
     {
         ui->lwNxApiDevices->clear();
 
@@ -60,7 +60,7 @@ namespace VMTDLib
         }
     }
 
-    void VMTDModelForm::updateNodeDevicesList()
+    void VMTDNetForm::updateNodeDevicesList()
     {
         ui->lwNodeDevices->clear();
 
@@ -73,7 +73,7 @@ namespace VMTDLib
         }
     }
 
-    void VMTDModelForm::lwNxApiDevicesItemClicked(QListWidgetItem *item)
+    void VMTDNetForm::lwNxApiDevicesItemClicked(QListWidgetItem *item)
     {
         const auto label = item->text();
 
@@ -82,25 +82,25 @@ namespace VMTDLib
 
         m_currentNxApiDeviceId = label.mid(firstSpacePos + 1, secondSpacePos - (firstSpacePos + 1)).toInt();
     }
-    void VMTDModelForm::lwNxApiDevicesItemDoubleClicked(QListWidgetItem *item)
+    void VMTDNetForm::lwNxApiDevicesItemDoubleClicked(QListWidgetItem *item)
     {
         lwNxApiDevicesItemClicked(item);
 
         auto nxApiDevice = m_model->nxApiDevice(m_currentNxApiDeviceId);
         nxApiDevice->showFormSlot();
     }
-    void VMTDModelForm::pbAddNxApiDeviceClicked()
+    void VMTDNetForm::pbAddNxApiDeviceClicked()
     {
         if (m_model->addNxApiDevice())
             updateNxApiDevicesList();
     }
-    void VMTDModelForm::pbRemoveNxApiDeviceClicked()
+    void VMTDNetForm::pbRemoveNxApiDeviceClicked()
     {
         if (m_model->removeNxApiDevice(m_currentNxApiDeviceId))
             updateNxApiDevicesList();
     }
 
-    void VMTDModelForm::lwNodeDevicesItemClicked(QListWidgetItem *item)
+    void VMTDNetForm::lwNodeDevicesItemClicked(QListWidgetItem *item)
     {
         const auto label = item->text();
 
@@ -109,19 +109,19 @@ namespace VMTDLib
 
         m_currentNodeDeviceId = label.mid(firstSpacePos + 1, secondSpacePos - (firstSpacePos + 1)).toInt();
     }
-    void VMTDModelForm::lwNodeDevicesItemDoubleClicked(QListWidgetItem *item)
+    void VMTDNetForm::lwNodeDevicesItemDoubleClicked(QListWidgetItem *item)
     {
         lwNodeDevicesItemClicked(item);
 
         auto nodeDevice = m_model->nodeDevice(m_currentNodeDeviceId);
         nodeDevice->showFormSlot();
     }
-    void VMTDModelForm::pbAddNodeDeviceClicked()
+    void VMTDNetForm::pbAddNodeDeviceClicked()
     {
         if (m_model->addNodeDevice())
             updateNodeDevicesList();
     }
-    void VMTDModelForm::pbRemoveNodeDeviceClicked()
+    void VMTDNetForm::pbRemoveNodeDeviceClicked()
     {
         if (m_model->removeNodeDevice(m_currentNodeDeviceId))
             updateNodeDevicesList();

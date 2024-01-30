@@ -7,15 +7,15 @@
 
 namespace VMTDLib
 {
-    class VMTDModelForm;
+    class VMTDNetForm;
 
-    class VMTD_SHARED VMTDModel : public QObject
+    class VMTD_SHARED VMTDNet : public QObject
     {
         Q_OBJECT
 
     public:
 
-        VMTDModel(QObject *parent, VMTDSettings *settings);
+        VMTDNet(QObject *parent, VMTDSettings *settings);
 
         VMTDSettings *settings() const;
 
@@ -47,7 +47,7 @@ namespace VMTDLib
 
     private:
 
-        QPointer<VMTDModelForm> m_form;
+        QPointer<VMTDNetForm> m_form;
 
         VMTDSettings *m_settings;
 

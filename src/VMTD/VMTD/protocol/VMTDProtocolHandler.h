@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../VMTDSettings.h"
-#include "../model/VMTDModel.h"
+#include "../net/VMTDNet.h"
 
 namespace VMTDLib
 {

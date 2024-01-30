@@ -3,7 +3,7 @@
 
 namespace VMTDLib
 {
-    VMTDProtocol::VMTDProtocol(QObject *parent, VMTDModel *model)
+    VMTDProtocol::VMTDProtocol(QObject *parent, VMTDNet *model)
         : QObject(parent)
         , m_model(model)
         , m_settings(model->settings())
