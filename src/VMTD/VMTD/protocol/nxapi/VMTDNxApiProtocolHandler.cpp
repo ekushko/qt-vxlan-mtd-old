@@ -9,11 +9,6 @@ namespace VMTDLib
         , m_device(device)
         , m_adapter(adapter)
     {
-        connect(this, &VMTDNxApiProtocolHandler::sendCommandSignal,
-                m_adapter, &VMTDNxApiAdapter::sendCommandSlot);
-        connect(m_adapter, &VMTDNxApiAdapter::commandExecutedSignal,
-                this, &VMTDNxApiProtocolHandler::commandExecutedSlot);
-
         m_ticketTimeoutTimer.setInterval(m_device->ticketTimeoutInterval());
 
         m_checkQueueTimer.setInterval(m_device->checkQueueInterval());

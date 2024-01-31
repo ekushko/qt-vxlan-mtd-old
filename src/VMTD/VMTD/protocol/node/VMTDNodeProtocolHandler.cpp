@@ -9,7 +9,10 @@ namespace VMTDLib
         , m_device(device)
         , m_socket(socket)
     {
+        m_ticketTimeoutTimer.setInterval(m_device->ticketTimeoutInterval());
 
+        m_checkQueueTimer.setInterval(m_device->checkQueueInterval());
+        m_checkQueueTimer.start();
     }
 
     void VMTDNodeProtocolHandler::checkConnection()

@@ -82,6 +82,11 @@ namespace VMTDLib
         m_nxApiHandlers[adapter] = handler;
         m_handlers.append(handler);
 
+        connect(handler, &VMTDNxApiProtocolHandler::sendCommandSignal,
+                adapter, &VMTDNxApiAdapter::sendCommandSlot);
+        connect(adapter, &VMTDNxApiAdapter::commandExecutedSignal,
+                handler, &VMTDNxApiProtocolHandler::commandExecutedSlot);
+
         emit handlerCreatedSignal(handler);
     }
     void VMTDProtocol::adapterRemovedSlot(VMTDNxApiAdapter *adapter)
@@ -112,6 +117,11 @@ namespace VMTDLib
         m_nodeHandlers[socket] = handler;
         m_handlers.append(handler);
 
+        connect(handler, &VMTDNodeProtocolHandler::sendMessageSignal,
+                m_nodeServer, &VMTDNodeServer::sendMessageSlot);
+        connect(m_nodeServer, &VMTDNodeServer::receiveMessageSignal,
+                handler, &VMTDNodeProtocolHandler::receiveMessageSlot);
+
         emit handlerCreatedSignal(handler);
     }
     void VMTDProtocol::clientDisconnectedSlot(QWebSocket *socket)
@@ -139,6 +149,11 @@ namespace VMTDLib
 
         m_nodeHandler = new VMTDNodeProtocolHandler(this, m_settings, nodeDevice, m_socket);
         m_handlers.append(m_nodeHandler);
+
+        connect(m_nodeHandler, &VMTDNodeProtocolHandler::sendMessageSignal,
+                m_nodeClient, &VMTDNodeClient::sendMessageSlot);
+        connect(m_nodeClient, &VMTDNodeClient::receiveMessageSignal,
+                m_nodeHandler, &VMTDNodeProtocolHandler::receiveMessageSlot);
 
         emit handlerCreatedSignal(m_nodeHandler);
     }
