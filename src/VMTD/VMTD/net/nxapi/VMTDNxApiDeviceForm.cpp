@@ -45,6 +45,7 @@ namespace VMTDLib
         ui->lePassword->setText(m_device->url().password());
         ui->leUrl->setText(m_device->url().toString(QUrl::RemoveUserInfo));
         ui->sbTicketTimeoutInterval->setValue(m_device->ticketTimeoutInterval());
+        ui->sbCheckQueueInterval->setValue(m_device->checkQueueInterval());
     }
 
     void VMTDNxApiDeviceForm::updateData()
@@ -54,6 +55,7 @@ namespace VMTDLib
         url.setPassword(ui->lePassword->text());
         m_device->setUrl(url);
         m_device->setTicketTimeoutInterval(ui->sbTicketTimeoutInterval->value());
+        m_device->setCheckQueueInterval(ui->sbCheckQueueInterval->value());
     }
 
     void VMTDNxApiDeviceForm::initializeView()

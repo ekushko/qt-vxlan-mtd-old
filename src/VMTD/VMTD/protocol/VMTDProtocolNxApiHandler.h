@@ -28,9 +28,15 @@ namespace VMTDLib
 
     signals:
 
-        void sendCommandSignal(const QStringList &commands);
+        void sendCommandSignal(const QStringList &command);
+
+        void checkConnectionSignal();
 
     public slots:
+
+        void appendCommandSlot(const QStringList &command);
+
+        void commandExecutedSlot(bool ok);
 
         void clearQueueSlot() override;
 
@@ -40,5 +46,12 @@ namespace VMTDLib
 
         VMTDNxApiAdapter *m_adapter;
 
+        QQueue<QStringList> m_queue;
+
+    private slots:
+
+        void checkQueueTimerSlot() override;
+
+        void ticketTimeoutSlot() override;
     };
 }

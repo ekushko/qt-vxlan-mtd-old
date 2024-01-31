@@ -30,19 +30,14 @@ namespace VMTDLib
 
         VMTDSettings *settings() const;
 
-        bool isConnected() const;
-
-        bool canSend() const;
-
         QUrl    url() const;
         void setUrl(const QUrl &url);
 
-        int     ticketTimeoutInterval() const;
-        void setTicketTimeoutInterval(int ticketTimeoutInterval);
-
     signals:
 
-        void showMessageSignal(const QString &text);
+        void showDebugSignal(const QTime &time, const QString &text);
+
+        void commandExecutedSignal(bool ok);
 
     public slots:
 
@@ -68,13 +63,5 @@ namespace VMTDLib
         QUrl m_url;
 
         int m_commandCounter = 1;
-
-        bool m_isConnected;
-        QTimer m_ticketTimeout;
-        int m_ticketTimeoutInterval;
-
-    private slots:
-
-        void ticketTimeoutSlot();
     };
 }

@@ -13,8 +13,13 @@ namespace VMTDLib
         if (parent != nullptr && parent->layout() != nullptr)
             parent->layout()->addWidget(this);
 
-        connect(ui->pbClearQueue, &QPushButton::clicked, m_handler, &VMTDProtocolHandler::clearQueueSlot);
-        connect(ui->pbClearFlow, &QPushButton::clicked, this, &VMTDProtocolHandlerForm::pbClearFlowClicked);
+        connect(m_handler, &VMTDProtocolHandler::showDebugSignal,
+                this, &VMTDProtocolHandlerForm::showDebugSlot);
+
+        connect(ui->pbClearQueue, &QPushButton::clicked,
+                m_handler, &VMTDProtocolHandler::clearQueueSlot);
+        connect(ui->pbClearFlow, &QPushButton::clicked,
+                this, &VMTDProtocolHandlerForm::pbClearFlowClicked);
     }
 
     VMTDProtocolHandlerForm::~VMTDProtocolHandlerForm()
@@ -29,12 +34,12 @@ namespace VMTDLib
 
     void VMTDProtocolHandlerForm::showDebugSlot(const QTime &time, const QString &text)
     {
-        if (!ui->chbShouldHideNewMessages->isChecked())
-        {
-            ui->pteFlow->appendPlainText(QString("\n[%1] %2\n")
-                                         .arg(time.toString("hh:mm:ss:zzz"))
-                                         .arg(text));
-        }
+        if (!ui->chbShouldUpdate->isChecked())
+            return;
+
+        ui->pteFlow->appendPlainText(QString("\n[%1] %2\n")
+                                     .arg(time.toString("hh:mm:ss:zzz"))
+                                     .arg(text));
     }
 
     void VMTDProtocolHandlerForm::pbClearFlowClicked()

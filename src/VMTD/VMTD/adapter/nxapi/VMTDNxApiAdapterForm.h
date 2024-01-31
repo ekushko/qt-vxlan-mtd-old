@@ -27,11 +27,11 @@ namespace VMTDLib
 
         void checkConnectionSignal();
 
-        void sendCommandsSignal(const QStringList &commands);
+        void sendCommandSignal(const QStringList &commands);
 
     public slots:
 
-        void showMessageSlot(const QString &text);
+        void showDebugSlot(const QTime &time, const QString &text);
 
     private:
 
@@ -44,8 +44,8 @@ namespace VMTDLib
 
     private slots:
 
-        void pbCheckConnectionClicked();
+        void pbSendCommandClicked();
 
-        void pbSendCommandsClicked();
+        void pbClearFlowClicked();
     };
 }

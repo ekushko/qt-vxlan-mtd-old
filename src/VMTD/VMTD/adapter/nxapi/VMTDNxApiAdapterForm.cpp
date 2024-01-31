@@ -21,14 +21,11 @@ namespace VMTDLib
         setWindowTitle(QString("NX-API Адаптер (%1)").arg(m_adapter->url().toString()));
         setAttribute(Qt::WA_DeleteOnClose, true);
 
-        connect(this, &VMTDNxApiAdapterForm::sendCommandsSignal,
+        connect(this, &VMTDNxApiAdapterForm::sendCommandSignal,
                 m_adapter, &VMTDNxApiAdapter::sendCommandSlot,
                 Qt::QueuedConnection);
-        connect(this, &VMTDNxApiAdapterForm::checkConnectionSignal,
-                m_adapter, &VMTDNxApiAdapter::checkConnectionSlot,
-                Qt::QueuedConnection);
-        connect(m_adapter, &VMTDNxApiAdapter::showMessageSignal,
-                this, &VMTDNxApiAdapterForm::showMessageSlot,
+        connect(m_adapter, &VMTDNxApiAdapter::showDebugSignal,
+                this, &VMTDNxApiAdapterForm::showDebugSlot,
                 Qt::QueuedConnection);
 
         initializeView();
@@ -44,39 +41,38 @@ namespace VMTDLib
 
     void VMTDNxApiAdapterForm::updateView()
     {
-        ui->pbCheckConnection->setEnabled(m_adapter->canSend());
-        ui->pbSendCommands->setEnabled(m_adapter->canSend());
-        ui->lbConnected->setText(m_adapter->isConnected() ? "Connected" : "Disconnected");
         ui->lbUrl->setText(m_adapter->url().toString());
     }
 
-    void VMTDNxApiAdapterForm::showMessageSlot(const QString &text)
+    void VMTDNxApiAdapterForm::showDebugSlot(const QTime &time, const QString &text)
     {
-        if (text.isEmpty())
+        if (!ui->chbShouldUpdate->isChecked())
             return;
 
-        ui->pteFlow->appendPlainText("\n-------------------------\n");
-        ui->pteFlow->appendPlainText(text);
-        ui->pteFlow->appendPlainText("\n-------------------------\n");
+        ui->pteFlow->appendPlainText(QString("\n[%1] %2\n")
+                                     .arg(time.toString("hh:mm:ss:zzz"))
+                                     .arg(text));
     }
 
     void VMTDNxApiAdapterForm::initializeView()
     {
         connect(ui->pbCheckConnection, &QPushButton::clicked,
-                this, &VMTDNxApiAdapterForm::pbCheckConnectionClicked);
-        connect(ui->pbSendCommands, &QPushButton::clicked,
-                this, &VMTDNxApiAdapterForm::pbSendCommandsClicked);
+                m_adapter, &VMTDNxApiAdapter::checkConnectionSlot);
+        connect(ui->pbSendCommand, &QPushButton::clicked,
+                this, &VMTDNxApiAdapterForm::pbSendCommandClicked);
+        connect(ui->pbClearFlow, &QPushButton::clicked,
+                this, &VMTDNxApiAdapterForm::pbClearFlowClicked);
     }
 
-    void VMTDNxApiAdapterForm::pbCheckConnectionClicked()
+    void VMTDNxApiAdapterForm::pbSendCommandClicked()
     {
-        emit checkConnectionSignal();
+        emit sendCommandSignal(ui->pteCommand->toPlainText().split('\n'));
+
+        ui->pteCommand->clear();
     }
 
-    void VMTDNxApiAdapterForm::pbSendCommandsClicked()
+    void VMTDNxApiAdapterForm::pbClearFlowClicked()
     {
-        emit sendCommandsSignal(ui->pteCommands->toPlainText().split('\n'));
-
-        ui->pteCommands->clear();
+        ui->pteFlow->clear();
     }
 }

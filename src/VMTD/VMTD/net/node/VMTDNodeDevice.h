@@ -47,6 +47,12 @@ namespace VMTDLib
         EnRole  role() const;
         void setRole(EnRole role);
 
+        int     ticketTimeoutInterval() const;
+        void setTicketTimeoutInterval(int ticketTimeoutInterval);
+
+        int     checkQueueInterval() const;
+        void setCheckQueueInterval(int checkQueueInterval);
+
         VMTDInterfaces *interfaces() const;
 
     public slots:
@@ -65,5 +71,7 @@ namespace VMTDLib
         int m_id;
         QString m_ip = "127.0.0.1";
         EnRole m_role = EnRole::ENDPOINT;
+        int m_ticketTimeoutInterval = 1000;
+        int m_checkQueueInterval = 100;
     };
 }

@@ -41,4 +41,14 @@ namespace VMTDLib
     {
         // do nothing
     }
+
+    void VMTDProtocolNodeHandler::checkQueueTimerSlot()
+    {
+
+    }
+
+    void VMTDProtocolNodeHandler::ticketTimeoutSlot()
+    {
+
+    }
 }

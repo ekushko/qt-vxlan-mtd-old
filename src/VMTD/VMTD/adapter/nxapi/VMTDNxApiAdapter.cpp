@@ -12,21 +12,15 @@ namespace VMTDLib
     VMTDNxApiAdapter::VMTDNxApiAdapter(QObject *parent,
                                        VMTDSettings *settings,
                                        QNetworkAccessManager *netManager)
-        : QObject{parent}
-        , m_settings{settings}
-        , m_netManager{netManager}
-        , m_url{"https://127.0.0.1/ins"}
-        , m_ticketTimeoutInterval{10000}
+        : QObject(parent)
+        , m_settings(settings)
+        , m_netManager(netManager)
+        , m_url("https://127.0.0.1/ins")
     {
         m_settings->debugOut(VN_S(VMTDNxApiAdapter) + " was created");
 
         connect(m_netManager, &QNetworkAccessManager::finished,
                 this, &VMTDNxApiAdapter::replyFinishedSlot);
-
-        m_isConnected = false;
-        m_ticketTimeout.setParent(this);
-        m_ticketTimeout.setSingleShot(true);
-        connect(&m_ticketTimeout, &QTimer::timeout, this, &VMTDNxApiAdapter::ticketTimeoutSlot);
     }
 
     VMTDNxApiAdapter::~VMTDNxApiAdapter()
@@ -44,7 +38,6 @@ namespace VMTDLib
         jsonObj[VN_ME(m_url)] = m_url.toString();
         jsonObj["userName"] = m_url.userName();
         jsonObj["password"] = m_url.password();
-        jsonObj[VN_ME(m_ticketTimeoutInterval)] = m_ticketTimeoutInterval;
 
         return jsonObj;
     }
@@ -56,23 +49,11 @@ namespace VMTDLib
         m_url = QUrl(jsonObj[VN_ME(m_url)].toString(m_url.toString()));
         m_url.setUserName(jsonObj["userName"].toString(m_url.userName()));
         m_url.setPassword(jsonObj["password"].toString(m_url.password()));
-        m_ticketTimeoutInterval = jsonObj[VN_ME(m_ticketTimeoutInterval)]
-                                  .toInt(m_ticketTimeoutInterval);
     }
 
     VMTDSettings *VMTDNxApiAdapter::settings() const
     {
         return m_settings;
-    }
-
-    bool VMTDNxApiAdapter::isConnected() const
-    {
-        return m_isConnected;
-    }
-
-    bool VMTDNxApiAdapter::canSend() const
-    {
-        return !m_ticketTimeout.isActive();
     }
 
     QUrl VMTDNxApiAdapter::url() const
@@ -82,15 +63,6 @@ namespace VMTDLib
     void VMTDNxApiAdapter::setUrl(const QUrl &url)
     {
         m_url = url;
-    }
-
-    int VMTDNxApiAdapter::ticketTimeoutInterval() const
-    {
-        return m_ticketTimeoutInterval;
-    }
-    void VMTDNxApiAdapter::setTicketTimeoutInterval(int ticketTimeoutInterval)
-    {
-        m_ticketTimeoutInterval = ticketTimeoutInterval;
     }
 
     void VMTDNxApiAdapter::showFormSlot()
@@ -105,23 +77,15 @@ namespace VMTDLib
 
     void VMTDNxApiAdapter::checkConnectionSlot()
     {
-        if (!canSend())
-            return;
-
         QNetworkRequest request(m_url);
         buildRequest(&request);
         showRequest(&request);
-
-        m_ticketTimeout.start(m_ticketTimeoutInterval);
 
         m_netManager->get(request);
     }
 
     void VMTDNxApiAdapter::sendCommandSlot(const QStringList &commands)
     {
-        if (!canSend())
-            return;
-
         QJsonArray jsonArray;
 
         for (const auto &command : commands)
@@ -148,8 +112,6 @@ namespace VMTDLib
         buildRequest(&request);
         showRequest(&request, &jsonDoc);
 
-        m_ticketTimeout.start(m_ticketTimeoutInterval);
-
         m_netManager->post(request, jsonDoc.toJson());
     }
 
@@ -165,10 +127,9 @@ namespace VMTDLib
         else
             message.append(reply->errorString());
 
-        emit showMessageSignal(message);
+        emit commandExecutedSignal(reply->error() == QNetworkReply::NoError);
 
-        m_ticketTimeout.stop();
-        m_isConnected = true;
+        emit showDebugSignal(QTime::currentTime(), message);
 
         reply->deleteLater();
     }
@@ -191,15 +152,6 @@ namespace VMTDLib
         if (jsonDoc != nullptr)
             message.append("\n" + jsonDoc->toJson(QJsonDocument::JsonFormat::Indented));
 
-        emit showMessageSignal(message);
-    }
-
-    void VMTDNxApiAdapter::ticketTimeoutSlot()
-    {
-        QString message = "No response";
-
-        emit showMessageSignal(message);
-
-        m_isConnected = false;
+        emit showDebugSignal(QTime::currentTime(), message);
     }
 }

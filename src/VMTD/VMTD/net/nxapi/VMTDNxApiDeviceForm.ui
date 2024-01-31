@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>282</width>
-    <height>253</height>
+    <width>362</width>
+    <height>313</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,20 +29,6 @@
       <property name="bottomMargin">
        <number>0</number>
       </property>
-      <item row="1" column="1">
-       <widget class="QLabel" name="lbId">
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="_3">
-        <property name="text">
-         <string>Online:</string>
-        </property>
-       </widget>
-      </item>
       <item row="4" column="0">
        <widget class="QLabel" name="_8">
         <property name="text">
@@ -50,18 +36,8 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="leUserName"/>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="lePassword"/>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="_4">
-        <property name="text">
-         <string>Username:</string>
-        </property>
-       </widget>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="leUrl"/>
       </item>
       <item row="0" column="1">
        <widget class="QLabel" name="lbOnline">
@@ -76,12 +52,8 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="_7">
-        <property name="text">
-         <string>Ticket timeout (ms):</string>
-        </property>
-       </widget>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="lePassword"/>
       </item>
       <item row="5" column="1">
        <widget class="QSpinBox" name="sbTicketTimeoutInterval">
@@ -93,8 +65,19 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="leUrl"/>
+      <item row="1" column="1">
+       <widget class="QLabel" name="lbId">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="_7">
+        <property name="text">
+         <string>Ticket timeout (ms):</string>
+        </property>
+       </widget>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="_6">
@@ -103,10 +86,44 @@
         </property>
        </widget>
       </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="_4">
+        <property name="text">
+         <string>Username:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="_3">
+        <property name="text">
+         <string>Online:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="leUserName"/>
+      </item>
       <item row="1" column="0">
        <widget class="QLabel" name="_5">
         <property name="text">
          <string>ID:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Check queue (ms):</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QSpinBox" name="sbCheckQueueInterval">
+        <property name="minimum">
+         <number>10</number>
+        </property>
+        <property name="maximum">
+         <number>999999999</number>
         </property>
        </widget>
       </item>

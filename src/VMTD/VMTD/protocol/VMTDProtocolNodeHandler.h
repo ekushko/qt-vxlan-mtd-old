@@ -41,5 +41,11 @@ namespace VMTDLib
         VMTDNodeDevice *m_device;
 
         QWebSocket *m_socket;
+
+    private slots:
+
+        void checkQueueTimerSlot() override;
+
+        void ticketTimeoutSlot() override;
     };
 }

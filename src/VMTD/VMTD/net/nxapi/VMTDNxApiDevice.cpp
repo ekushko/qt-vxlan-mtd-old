@@ -32,6 +32,7 @@ namespace VMTDLib
         jsonObj[VN_MT_REF(m_url.userName())] = m_url.userName();
         jsonObj[VN_MT_REF(m_url.password())] = m_url.password();
         jsonObj[VN_ME(m_ticketTimeoutInterval)] = m_ticketTimeoutInterval;
+        jsonObj[VN_ME(m_checkQueueInterval)] = m_checkQueueInterval;
         jsonObj[VN_ME(m_interfaces)] = m_interfaces->toJson();
 
         return jsonObj;
@@ -47,6 +48,8 @@ namespace VMTDLib
         m_url.setPassword(jsonObj["password"].toString(m_url.password()));
         m_ticketTimeoutInterval = jsonObj[VN_ME(m_ticketTimeoutInterval)]
                                   .toInt(m_ticketTimeoutInterval);
+        m_checkQueueInterval = jsonObj[VN_ME(m_checkQueueInterval)]
+                               .toInt(m_checkQueueInterval);
         m_interfaces->fromJson(jsonObj[VN_ME(m_interfaces)].toObject());
     }
 
@@ -80,6 +83,15 @@ namespace VMTDLib
     void VMTDNxApiDevice::setTicketTimeoutInterval(int ticketTimeoutInterval)
     {
         m_ticketTimeoutInterval = ticketTimeoutInterval;
+    }
+
+    int VMTDNxApiDevice::checkQueueInterval() const
+    {
+        return m_checkQueueInterval;
+    }
+    void VMTDNxApiDevice::setCheckQueueInterval(int checkQueueInterval)
+    {
+        m_checkQueueInterval = checkQueueInterval;
     }
 
     VMTDInterfaces *VMTDNxApiDevice::interfaces() const
