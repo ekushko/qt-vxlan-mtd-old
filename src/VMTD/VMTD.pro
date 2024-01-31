@@ -119,7 +119,13 @@ equals( TEMPLATE, "lib" ) {
         adapter \
         adapter/node \
         adapter/nxapi \
-        model
+        net \
+        net/interface \
+        net/node \
+        net/nxapi \
+        protocol \
+        protocol/node \
+        protocol/nxapi \
 
     for( FOLDER, FOLDERSLIST ) {
         $${FOLDER}.path   = $${IMPORT_PATH}/$${NAME}/$${FOLDER}
@@ -175,8 +181,8 @@ SOURCES += \
     VMTD/protocol/VMTDProtocolForm.cpp \
     VMTD/protocol/VMTDProtocolHandler.cpp \
     VMTD/protocol/VMTDProtocolHandlerForm.cpp \
-    VMTD/protocol/VMTDProtocolNodeHandler.cpp \
-    VMTD/protocol/VMTDProtocolNxApiHandler.cpp
+    VMTD/protocol/node/VMTDNodeProtocolHandler.cpp \
+    VMTD/protocol/nxapi/VMTDNxApiProtocolHandler.cpp
 
 HEADERS += \
     MainWindow.h \
@@ -209,8 +215,8 @@ HEADERS += \
     VMTD/protocol/VMTDProtocolForm.h \
     VMTD/protocol/VMTDProtocolHandler.h \
     VMTD/protocol/VMTDProtocolHandlerForm.h \
-    VMTD/protocol/VMTDProtocolNodeHandler.h \
-    VMTD/protocol/VMTDProtocolNxApiHandler.h
+    VMTD/protocol/node/VMTDNodeProtocolHandler.h \
+    VMTD/protocol/nxapi/VMTDNxApiProtocolHandler.h
 
 FORMS += \
     MainWindow.ui \

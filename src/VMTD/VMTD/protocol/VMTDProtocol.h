@@ -4,10 +4,8 @@
 #include "../adapter/node/VMTDNodeServer.h"
 #include "../adapter/node/VMTDNodeClient.h"
 
-#include "VMTDProtocolNxApiHandler.h"
-#include "VMTDProtocolNodeHandler.h"
-
-#include <QTimer>
+#include "nxapi/VMTDNxApiProtocolHandler.h"
+#include "node/VMTDNodeProtocolHandler.h"
 
 namespace VMTDLib
 {
@@ -48,14 +46,14 @@ namespace VMTDLib
         VMTDSettings *m_settings;
 
         VMTDNxApiServer *m_nxApiServer;
-        QMap<VMTDNxApiAdapter *, VMTDProtocolNxApiHandler *> m_nxApiHandlers;
+        QMap<VMTDNxApiAdapter *, VMTDNxApiProtocolHandler *> m_nxApiHandlers;
 
         VMTDNodeServer *m_nodeServer;
-        QMap<QWebSocket *, VMTDProtocolNodeHandler *> m_nodeHandlers;
+        QMap<QWebSocket *, VMTDNodeProtocolHandler *> m_nodeHandlers;
 
         QWebSocket *m_socket;
         VMTDNodeClient *m_nodeClient;
-        VMTDProtocolNodeHandler *m_nodeHandler;
+        VMTDNodeProtocolHandler *m_nodeHandler;
 
         QVector<VMTDProtocolHandler *> m_handlers;
         QTimer m_checkConnectionTimer;

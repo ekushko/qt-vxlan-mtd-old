@@ -1,8 +1,8 @@
-#include "VMTDProtocolNodeHandler.h"
+#include "VMTDNodeProtocolHandler.h"
 
 namespace VMTDLib
 {
-    VMTDProtocolNodeHandler::VMTDProtocolNodeHandler(QObject *parent, VMTDSettings *settings,
+    VMTDNodeProtocolHandler::VMTDNodeProtocolHandler(QObject *parent, VMTDSettings *settings,
                                                      VMTDNodeDevice *device,
                                                      QWebSocket *socket)
         : VMTDProtocolHandler(parent, settings)
@@ -12,24 +12,24 @@ namespace VMTDLib
 
     }
 
-    void VMTDProtocolNodeHandler::checkConnection()
+    void VMTDNodeProtocolHandler::checkConnection()
     {
         // в разработке
     }
 
-    QString VMTDProtocolNodeHandler::name() const
+    QString VMTDNodeProtocolHandler::name() const
     {
         return QString("id: %1 [%2]")
                .arg(m_device->id())
                .arg(m_device->ip());
     }
 
-    int VMTDProtocolNodeHandler::queueLength() const
+    int VMTDNodeProtocolHandler::queueLength() const
     {
         return 0;
     }
 
-    void VMTDProtocolNodeHandler::receiveMessageSlot(QWebSocket *socket, const QJsonObject &messageObj)
+    void VMTDNodeProtocolHandler::receiveMessageSlot(QWebSocket *socket, const QJsonObject &messageObj)
     {
         Q_UNUSED(socket)
         Q_UNUSED(messageObj)
@@ -37,17 +37,17 @@ namespace VMTDLib
         // в разработке
     }
 
-    void VMTDProtocolNodeHandler::clearQueueSlot()
+    void VMTDNodeProtocolHandler::clearQueueSlot()
     {
         // do nothing
     }
 
-    void VMTDProtocolNodeHandler::checkQueueTimerSlot()
+    void VMTDNodeProtocolHandler::checkQueueTimerSlot()
     {
 
     }
 
-    void VMTDProtocolNodeHandler::ticketTimeoutSlot()
+    void VMTDNodeProtocolHandler::ticketTimeoutSlot()
     {
 
     }

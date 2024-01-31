@@ -1,18 +1,18 @@
 #pragma once
 
-#include "VMTDProtocolHandler.h"
+#include "../VMTDProtocolHandler.h"
 
-#include "../adapter/nxapi/VMTDNxApiAdapter.h"
+#include "../../adapter/nxapi/VMTDNxApiAdapter.h"
 
 namespace VMTDLib
 {
-    class VMTDProtocolNxApiHandler : public VMTDProtocolHandler
+    class VMTDNxApiProtocolHandler : public VMTDProtocolHandler
     {
         Q_OBJECT
 
     public:
 
-        VMTDProtocolNxApiHandler(QObject *parent, VMTDSettings *settings,
+        VMTDNxApiProtocolHandler(QObject *parent, VMTDSettings *settings,
                                  VMTDNxApiDevice *device,
                                  VMTDNxApiAdapter *adapter);
 

@@ -1,18 +1,18 @@
 #pragma once
 
-#include "VMTDProtocolHandler.h"
+#include "../VMTDProtocolHandler.h"
 
 #include <QWebSocket>
 
 namespace VMTDLib
 {
-    class VMTDProtocolNodeHandler : public VMTDProtocolHandler
+    class VMTDNodeProtocolHandler : public VMTDProtocolHandler
     {
         Q_OBJECT
 
     public:
 
-        VMTDProtocolNodeHandler(QObject *parent, VMTDSettings *settings,
+        VMTDNodeProtocolHandler(QObject *parent, VMTDSettings *settings,
                                 VMTDNodeDevice *device,
                                 QWebSocket *socket);
 

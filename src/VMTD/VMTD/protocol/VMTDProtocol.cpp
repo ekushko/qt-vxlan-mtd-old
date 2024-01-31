@@ -78,7 +78,7 @@ namespace VMTDLib
         if (nxApiDevice == nullptr)
             return;
 
-        auto handler = new VMTDProtocolNxApiHandler(this, m_settings, nxApiDevice, adapter);
+        auto handler = new VMTDNxApiProtocolHandler(this, m_settings, nxApiDevice, adapter);
         m_nxApiHandlers[adapter] = handler;
         m_handlers.append(handler);
 
@@ -108,7 +108,7 @@ namespace VMTDLib
         if (nodeDevice == nullptr)
             return;
 
-        auto handler = new VMTDProtocolNodeHandler(this, m_settings, nodeDevice, socket);
+        auto handler = new VMTDNodeProtocolHandler(this, m_settings, nodeDevice, socket);
         m_nodeHandlers[socket] = handler;
         m_handlers.append(handler);
 
@@ -137,7 +137,7 @@ namespace VMTDLib
 
         auto nodeDevice = m_model->nodeDevice(m_socket->peerAddress().toString());
 
-        m_nodeHandler = new VMTDProtocolNodeHandler(this, m_settings, nodeDevice, m_socket);
+        m_nodeHandler = new VMTDNodeProtocolHandler(this, m_settings, nodeDevice, m_socket);
         m_handlers.append(m_nodeHandler);
 
         emit handlerCreatedSignal(m_nodeHandler);

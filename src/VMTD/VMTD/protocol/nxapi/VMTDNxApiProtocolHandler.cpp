@@ -1,18 +1,18 @@
-#include "VMTDProtocolNxApiHandler.h"
+#include "VMTDNxApiProtocolHandler.h"
 
 namespace VMTDLib
 {
-    VMTDProtocolNxApiHandler::VMTDProtocolNxApiHandler(QObject *parent, VMTDSettings *settings,
+    VMTDNxApiProtocolHandler::VMTDNxApiProtocolHandler(QObject *parent, VMTDSettings *settings,
                                                        VMTDNxApiDevice *device,
                                                        VMTDNxApiAdapter *adapter)
         : VMTDProtocolHandler(parent, settings)
         , m_device(device)
         , m_adapter(adapter)
     {
-        connect(this, &VMTDProtocolNxApiHandler::sendCommandSignal,
+        connect(this, &VMTDNxApiProtocolHandler::sendCommandSignal,
                 m_adapter, &VMTDNxApiAdapter::sendCommandSlot);
         connect(m_adapter, &VMTDNxApiAdapter::commandExecutedSignal,
-                this, &VMTDProtocolNxApiHandler::commandExecutedSlot);
+                this, &VMTDNxApiProtocolHandler::commandExecutedSlot);
 
         m_ticketTimeoutTimer.setInterval(m_device->ticketTimeoutInterval());
 
@@ -20,7 +20,7 @@ namespace VMTDLib
         m_checkQueueTimer.start();
     }
 
-    void VMTDProtocolNxApiHandler::checkConnection()
+    void VMTDNxApiProtocolHandler::checkConnection()
     {
         m_queueState = EnQueueState::WAIT_FOR_TICKET;
 
@@ -31,24 +31,24 @@ namespace VMTDLib
         m_ticketTimeoutTimer.start();
     }
 
-    QString VMTDProtocolNxApiHandler::name() const
+    QString VMTDNxApiProtocolHandler::name() const
     {
         return QString("id: %1 [%2]")
                .arg(m_device->id())
                .arg(m_device->url().toString(QUrl::RemoveUserInfo));
     }
 
-    int VMTDProtocolNxApiHandler::queueLength() const
+    int VMTDNxApiProtocolHandler::queueLength() const
     {
         return m_queue.length();
     }
 
-    void VMTDProtocolNxApiHandler::appendCommandSlot(const QStringList &command)
+    void VMTDNxApiProtocolHandler::appendCommandSlot(const QStringList &command)
     {
         m_queue.enqueue(command);
     }
 
-    void VMTDProtocolNxApiHandler::commandExecutedSlot(bool ok)
+    void VMTDNxApiProtocolHandler::commandExecutedSlot(bool ok)
     {
         if (m_queueState == EnQueueState::WAIT_FOR_TICKET)
         {
@@ -68,13 +68,13 @@ namespace VMTDLib
         }
     }
 
-    void VMTDProtocolNxApiHandler::clearQueueSlot()
+    void VMTDNxApiProtocolHandler::clearQueueSlot()
     {
         m_queueState = EnQueueState::READY_TO_SEND;
         m_queue.clear();
     }
 
-    void VMTDProtocolNxApiHandler::checkQueueTimerSlot()
+    void VMTDNxApiProtocolHandler::checkQueueTimerSlot()
     {
         if (m_queueState != EnQueueState::READY_TO_SEND)
             return;
@@ -89,7 +89,7 @@ namespace VMTDLib
         m_ticketTimeoutTimer.start();
     }
 
-    void VMTDProtocolNxApiHandler::ticketTimeoutSlot()
+    void VMTDNxApiProtocolHandler::ticketTimeoutSlot()
     {
         emit showDebugSignal(QTime::currentTime(), "Command not executed!");
 
