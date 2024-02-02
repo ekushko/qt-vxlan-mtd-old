@@ -151,6 +151,9 @@ equals( TEMPLATE, "app" ) {
 CONFIG += c++11
 
 SOURCES += \
+    VMTD/adapter/VMTDAdapterForm.cpp \
+    VMTD/protocol/node/VMTDNodeProtocolHandlerForm.cpp \
+    VMTD/protocol/nxapi/VMTDNxApiProtocolHandlerForm.cpp \
     main.cpp \
     MainWindow.cpp \
     VMTD/VMTDController.cpp \
@@ -192,6 +195,7 @@ HEADERS += \
     VMTD/VMTDRepo.h \
     VMTD/VMTDSettings.h \
     VMTD/VMTDSettingsForm.h \
+    VMTD/adapter/VMTDAdapterForm.h \
     VMTD/adapter/node/VMTDNodeAdapterForm.h \
     VMTD/adapter/node/VMTDNodeClient.h \
     VMTD/adapter/node/VMTDNodeClientForm.h \
@@ -216,12 +220,15 @@ HEADERS += \
     VMTD/protocol/VMTDProtocolHandler.h \
     VMTD/protocol/VMTDProtocolHandlerForm.h \
     VMTD/protocol/node/VMTDNodeProtocolHandler.h \
-    VMTD/protocol/nxapi/VMTDNxApiProtocolHandler.h
+    VMTD/protocol/node/VMTDNodeProtocolHandlerForm.h \
+    VMTD/protocol/nxapi/VMTDNxApiProtocolHandler.h \
+    VMTD/protocol/nxapi/VMTDNxApiProtocolHandlerForm.h
 
 FORMS += \
     MainWindow.ui \
     VMTD/VMTDControllerForm.ui \
     VMTD/VMTDSettingsForm.ui \
+    VMTD/adapter/VMTDAdapterForm.ui \
     VMTD/adapter/node/VMTDNodeAdapterForm.ui \
     VMTD/adapter/node/VMTDNodeClientForm.ui \
     VMTD/adapter/node/VMTDNodeServerForm.ui \
@@ -233,7 +240,9 @@ FORMS += \
     VMTD/net/node/VMTDNodeDeviceForm.ui \
     VMTD/net/nxapi/VMTDNxApiDeviceForm.ui \
     VMTD/protocol/VMTDProtocolForm.ui \
-    VMTD/protocol/VMTDProtocolHandlerForm.ui
+    VMTD/protocol/VMTDProtocolHandlerForm.ui \
+    VMTD/protocol/node/VMTDNodeProtocolHandlerForm.ui \
+    VMTD/protocol/nxapi/VMTDNxApiProtocolHandlerForm.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

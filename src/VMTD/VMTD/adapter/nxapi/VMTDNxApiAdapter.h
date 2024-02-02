@@ -45,7 +45,7 @@ namespace VMTDLib
 
         void checkConnectionSlot();
 
-        void sendCommandSlot(const QStringList &commands);
+        void sendCommandSlot(const QStringList &command);
 
         void replyFinishedSlot(QNetworkReply *reply);
 

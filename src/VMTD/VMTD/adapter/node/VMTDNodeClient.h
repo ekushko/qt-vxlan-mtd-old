@@ -28,7 +28,7 @@ namespace VMTDLib
 
     signals:
 
-        void receiveMessageSignal(const QJsonObject &messageObj);
+        void receiveMessageSignal(QWebSocket *socket, const QByteArray &data);
 
         void showDebugSignal(QWebSocket *socket, const QTime &time, const QString &text);
 
@@ -43,7 +43,7 @@ namespace VMTDLib
         void disconnectSocketSlot();
         void  reconnectSocketSlot();
 
-        void sendMessageSlot(QWebSocket *socket, const QJsonObject &messageObj);
+        void sendDataSlot(QWebSocket *socket, const QByteArray &data);
 
     private:
 

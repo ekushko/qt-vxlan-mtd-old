@@ -12,13 +12,8 @@ namespace VMTDLib
 
         setAttribute(Qt::WA_DeleteOnClose, true);
 
-        connect(this, &VMTDNodeClientForm::sendMessageSignal,
-                m_client, &VMTDNodeClient::sendMessageSlot);
-
         m_adapterForm = new VMTDNodeAdapterForm(ui->wLeft, m_client->socket());
         m_adapterForm->layout()->setMargin(0);
-        connect(m_adapterForm, &VMTDNodeAdapterForm::sendMessageSignal,
-                this, &VMTDNodeClientForm::sendMessageSignal);
         connect(m_client, &VMTDNodeClient::showDebugSignal,
                 m_adapterForm, &VMTDNodeAdapterForm::showDebugSlot);
         ui->wLeft->layout()->addWidget(m_adapterForm);
@@ -101,7 +96,7 @@ namespace VMTDLib
                        .arg(m_client->socket()->localAddress().toString())
                        .arg(m_client->socket()->localPort());
             ui->
-                    lbLocalAdress->setText(ipAdress);
+            lbLocalAdress->setText(ipAdress);
         }
         else
         {

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../VMTDAdapterForm.h"
+
 #include <QWidget>
 #include <QWebSocket>
 
@@ -19,10 +21,6 @@ namespace VMTDLib
         VMTDNodeAdapterForm(QWidget *parent, QWebSocket *socket);
         ~VMTDNodeAdapterForm();
 
-    signals:
-
-        void sendMessageSignal(QWebSocket *socket, const QJsonObject &messageObj);
-
     public slots:
 
         void showDebugSlot(QWebSocket *socket, const QTime &time, const QString &text);
@@ -31,10 +29,8 @@ namespace VMTDLib
 
         Ui::VMTDNodeAdapterForm *ui;
 
+        VMTDAdapterForm *m_adapterForm;
+
         QWebSocket *m_socket;
-
-    private slots:
-
-        void pbSendClicked();
     };
 }

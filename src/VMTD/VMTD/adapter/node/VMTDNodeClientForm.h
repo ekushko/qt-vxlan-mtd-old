@@ -20,10 +20,6 @@ namespace VMTDLib
         VMTDNodeClientForm(QWidget *parent, VMTDNodeClient *client);
         ~VMTDNodeClientForm();
 
-    signals:
-
-        void sendMessageSignal(QWebSocket *socket, const QJsonObject &messageObj);
-
     private:
 
         void initializeView();

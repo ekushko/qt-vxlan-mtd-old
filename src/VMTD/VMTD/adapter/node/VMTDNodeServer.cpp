@@ -118,7 +118,7 @@ namespace VMTDLib
         startListenSlot();
     }
 
-    void VMTDNodeServer::sendMessageSlot(QWebSocket *socket, const QJsonObject &messageObj)
+    void VMTDNodeServer::sendMessageSlot(QWebSocket *socket, const QByteArray &data)
     {
         if (socket == nullptr)
             return;
@@ -126,22 +126,12 @@ namespace VMTDLib
         if (socket->state() != QAbstractSocket::ConnectedState)
             return;
 
-        QJsonObject jsonObj;
-        jsonObj["jsonrpc"] = "2.0";
-        jsonObj["method"] = "cli_ascii";
+        socket->sendBinaryMessage(data);
 
-        jsonObj["message"] = messageObj;
-        jsonObj["id"] = m_commandCounter++;
-
-        QJsonDocument jsonDoc;
-        jsonDoc.setObject(jsonObj);
-
-        socket->sendBinaryMessage(jsonDoc.toJson());
-
-        auto debugString = QString("Sended to {%1:%2}:\n")
+        auto debugString = QString("Sended to {%1:%2}: %3\n")
                            .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
                            .arg(socket->peerPort())
-                           + jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
+                           .arg(QString(data.toHex()));
 
         emit showDebugSignal(socket, QTime::currentTime(), debugString);
     }
@@ -187,11 +177,11 @@ namespace VMTDLib
         const auto debugString = QString("Received from {%1:%2}:\n")
                                  .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
                                  .arg(socket->peerPort())
-                                 + jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
+                                 .arg(QString(data.toHex()));
 
         emit showDebugSignal(socket, QTime::currentTime(), debugString);
 
-        emit receiveMessageSignal(socket, jsonDoc.object());
+        emit receiveMessageSignal(socket, data);
     }
 
     void VMTDNodeServer::errorSlot(QAbstractSocket::SocketError error)

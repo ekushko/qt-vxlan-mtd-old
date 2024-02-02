@@ -4,6 +4,7 @@
 #include "VMTDProtocolHandlerForm.h"
 
 #include <QWidget>
+#include <QListWidgetItem>
 
 namespace Ui
 {
@@ -27,8 +28,6 @@ namespace VMTDLib
 
         VMTDProtocol *m_protocol;
 
-        QTimer m_uiTimer;
-
         QMap<VMTDProtocolHandler *, VMTDProtocolHandlerForm *> m_handlerForms;
 
     private slots:
@@ -36,6 +35,7 @@ namespace VMTDLib
         void handlerCreatedSlot(VMTDProtocolHandler *handler);
         void handlerRemovedSlot(VMTDProtocolHandler *handler);
 
-        void uiTimerTickSlot();
+        void lwNxApiDoubleClicked(QListWidgetItem *item);
+        void lwNodeDoubleClicked(QListWidgetItem *item);
     };
 }

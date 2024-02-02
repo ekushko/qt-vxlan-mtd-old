@@ -2,9 +2,10 @@
 
 namespace VMTDLib
 {
-    VMTDProtocolHandler::VMTDProtocolHandler(QObject *parent, VMTDSettings *settings)
+    VMTDProtocolHandler::VMTDProtocolHandler(QObject *parent, VMTDSettings *settings, EnType type)
         : QObject(parent)
         , m_settings(settings)
+        , m_type(type)
     {
         m_checkQueueTimer.setParent(this);
         connect(&m_checkQueueTimer, &QTimer::timeout,
@@ -19,5 +20,15 @@ namespace VMTDLib
     VMTDProtocolHandler::EnQueueState VMTDProtocolHandler::queueState() const
     {
         return m_queueState;
+    }
+
+    VMTDProtocolHandler::EnType VMTDProtocolHandler::type() const
+    {
+        return m_type;
+    }
+
+    void VMTDProtocolHandler::checkConnectionSlot()
+    {
+        checkConnection();
     }
 }

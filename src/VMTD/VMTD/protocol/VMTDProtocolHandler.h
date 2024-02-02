@@ -14,9 +14,20 @@ namespace VMTDLib
 
     public:
 
-        VMTDProtocolHandler(QObject *parent, VMTDSettings *settings);
+        enum class EnType;
+
+        VMTDProtocolHandler(QObject *parent, VMTDSettings *settings, EnType type);
+
+        virtual void showForm() = 0;
 
         // КОНСТАНТЫ
+
+        enum class EnType
+        {
+            NX_API,
+            NODE
+        };
+        Q_ENUM(EnType)
 
         enum class EnQueueState
         {
@@ -35,6 +46,8 @@ namespace VMTDLib
 
         // ДАННЫЕ
 
+        EnType type() const;
+
         virtual QString name() const = 0;
 
         virtual int queueLength() const = 0;
@@ -45,11 +58,15 @@ namespace VMTDLib
 
     public slots:
 
+        virtual void checkConnectionSlot();
+
         virtual void clearQueueSlot() = 0;
 
     protected:
 
         VMTDSettings *m_settings;
+
+        EnType m_type;
 
         EnQueueState m_queueState;
 

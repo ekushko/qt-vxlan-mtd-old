@@ -53,9 +53,13 @@ namespace VMTDLib
                 this, &VMTDProtocol::socketDisconnectedSlot);
     }
 
-    const QVector<VMTDProtocolHandler *> &VMTDProtocol::handlers() const
+    VMTDProtocolHandler *VMTDProtocol::handler(const QString &name) const
     {
-        return m_handlers;
+        return m_handlers.value(name);
+    }
+    QList<VMTDProtocolHandler *> VMTDProtocol::handlers() const
+    {
+        return m_handlers.values();
     }
 
     void VMTDProtocol::showFormSlot()
@@ -80,7 +84,7 @@ namespace VMTDLib
 
         auto handler = new VMTDNxApiProtocolHandler(this, m_settings, nxApiDevice, adapter);
         m_nxApiHandlers[adapter] = handler;
-        m_handlers.append(handler);
+        m_handlers[handler->name()] = handler;
 
         connect(handler, &VMTDNxApiProtocolHandler::sendCommandSignal,
                 adapter, &VMTDNxApiAdapter::sendCommandSlot);
@@ -99,7 +103,7 @@ namespace VMTDLib
         emit handlerRemovedSignal(handler);
 
         m_nxApiHandlers.remove(adapter);
-        m_handlers.removeOne(handler);
+        m_handlers.remove(handler->name());
         delete handler;
     }
 
@@ -115,7 +119,7 @@ namespace VMTDLib
 
         auto handler = new VMTDNodeProtocolHandler(this, m_settings, nodeDevice, socket);
         m_nodeHandlers[socket] = handler;
-        m_handlers.append(handler);
+        m_handlers[handler->name()] = handler;
 
         connect(handler, &VMTDNodeProtocolHandler::sendMessageSignal,
                 m_nodeServer, &VMTDNodeServer::sendMessageSlot);
@@ -133,7 +137,7 @@ namespace VMTDLib
 
         emit handlerRemovedSignal(handler);
 
-        m_handlers.removeOne(handler);
+        m_handlers.remove(handler->name());
         m_nodeHandlers.remove(socket);
         delete handler;
     }
@@ -148,10 +152,10 @@ namespace VMTDLib
         auto nodeDevice = m_model->nodeDevice(m_socket->peerAddress().toString());
 
         m_nodeHandler = new VMTDNodeProtocolHandler(this, m_settings, nodeDevice, m_socket);
-        m_handlers.append(m_nodeHandler);
+        m_handlers[m_nodeHandler->name()] = m_nodeHandler;
 
         connect(m_nodeHandler, &VMTDNodeProtocolHandler::sendMessageSignal,
-                m_nodeClient, &VMTDNodeClient::sendMessageSlot);
+                m_nodeClient, &VMTDNodeClient::sendDataSlot);
         connect(m_nodeClient, &VMTDNodeClient::receiveMessageSignal,
                 m_nodeHandler, &VMTDNodeProtocolHandler::receiveMessageSlot);
 
@@ -164,7 +168,7 @@ namespace VMTDLib
 
         m_socket = nullptr;
 
-        m_handlers.removeOne(m_nodeHandler);
+        m_handlers.remove(m_nodeHandler->name());
         delete m_nodeHandler;
     }
 

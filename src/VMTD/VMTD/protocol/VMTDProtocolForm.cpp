@@ -22,12 +22,6 @@ namespace VMTDLib
 
         for (auto handler : m_protocol->handlers())
             handlerCreatedSlot(handler);
-
-        m_uiTimer.setParent(this);
-        connect(&m_uiTimer, &QTimer::timeout, this, &VMTDProtocolForm::uiTimerTickSlot);
-        m_uiTimer.start(200);
-
-        uiTimerTickSlot();
     }
 
     VMTDProtocolForm::~VMTDProtocolForm()
@@ -37,28 +31,52 @@ namespace VMTDLib
 
     void VMTDProtocolForm::handlerCreatedSlot(VMTDProtocolHandler *handler)
     {
-        auto form = new VMTDProtocolHandlerForm(ui->tbwHandlers, handler);
-        ui->tbwHandlers->addTab(form, handler->name());
-        m_handlerForms[handler] = form;
+        if (handler == nullptr)
+            return;
+
+        if (handler->type() == VMTDProtocolHandler::EnType::NX_API)
+            ui->lwNxApi->addItem(handler->name());
+        else if (handler->type() == VMTDProtocolHandler::EnType::NODE)
+            ui->lwNode->addItem(handler->name());
     }
     void VMTDProtocolForm::handlerRemovedSlot(VMTDProtocolHandler *handler)
     {
-        delete m_handlerForms[handler];
-        m_handlerForms.remove(handler);
+        if (handler == nullptr)
+            return;
 
-        for (int i = 0; ui->tbwHandlers->tabBar()->count(); ++i)
+        QListWidget *lw = nullptr;
+
+        if (handler->type() == VMTDProtocolHandler::EnType::NX_API)
+            lw = ui->lwNxApi;
+        else if (handler->type() == VMTDProtocolHandler::EnType::NODE)
+            lw = ui->lwNode;
+
+        if (lw == nullptr)
+            return;
+
+        for (int i = 0; i < lw->count(); ++i)
         {
-            if (ui->tbwHandlers->tabBar()->tabText(i) == handler->name())
+            if (lw->item(i)->text() == handler->name())
             {
-                ui->tbwHandlers->removeTab(i);
+                lw->removeItemWidget(lw->item(i));
                 break;
             }
         }
     }
 
-    void VMTDProtocolForm::uiTimerTickSlot()
+    void VMTDProtocolForm::lwNxApiDoubleClicked(QListWidgetItem *item)
     {
-        for (auto form : m_handlerForms.values())
-            form->updateView();
+        auto handler = m_protocol->handler(item->text());
+
+        if (handler != nullptr)
+            handler->showForm();
+    }
+
+    void VMTDProtocolForm::lwNodeDoubleClicked(QListWidgetItem *item)
+    {
+        auto handler = m_protocol->handler(item->text());
+
+        if (handler != nullptr)
+            handler->showForm();
     }
 }

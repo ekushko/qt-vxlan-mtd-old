@@ -84,11 +84,11 @@ namespace VMTDLib
         m_netManager->get(request);
     }
 
-    void VMTDNxApiAdapter::sendCommandSlot(const QStringList &commands)
+    void VMTDNxApiAdapter::sendCommandSlot(const QStringList &command)
     {
         QJsonArray jsonArray;
 
-        for (const auto &command : commands)
+        for (const auto &command : command)
         {
             QJsonObject jsonObj, paramsObj;
 

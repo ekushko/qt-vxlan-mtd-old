@@ -98,29 +98,18 @@ namespace VMTDLib
         connectSocketSlot();
     }
 
-    void VMTDNodeClient::sendMessageSlot(QWebSocket *socket, const QJsonObject &messageObj)
+    void VMTDNodeClient::sendDataSlot(QWebSocket *socket, const QByteArray &data)
     {
         if (m_socket != socket
             || m_socket->state() != QAbstractSocket::ConnectedState)
             return;
 
+        m_socket->sendBinaryMessage(data);
 
-        QJsonObject jsonObj;
-        jsonObj["jsonrpc"] = "2.0";
-        jsonObj["method"] = "cli_ascii";
-
-        jsonObj["message"] = messageObj;
-        jsonObj["id"] = m_commandCounter++;
-
-        QJsonDocument jsonDoc;
-        jsonDoc.setObject(jsonObj);
-
-        m_socket->sendBinaryMessage(jsonDoc.toJson());
-
-        auto debugString = QString("Sended to {%1:%2}:\n")
+        auto debugString = QString("Sended to {%1:%2}: %3")
                            .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
                            .arg(socket->peerPort())
-                           + jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
+                           .arg(QString(data.toHex()));
 
         emit showDebugSignal(socket, QTime::currentTime(), debugString);
     }
@@ -130,14 +119,14 @@ namespace VMTDLib
     {
         const auto jsonDoc = QJsonDocument::fromJson(data);
 
-        const auto debugString = QString("Received from {%1:%2}:\n")
+        const auto debugString = QString("Received from {%1:%2}: %3\n")
                                  .arg(QHostAddress(m_socket->peerAddress().toIPv4Address()).toString())
                                  .arg(m_socket->peerPort())
-                                 + jsonDoc.toJson(QJsonDocument::JsonFormat::Indented);
+                                 .arg(QString(data.toHex()));
 
         emit showDebugSignal(m_socket, QTime::currentTime(), debugString);
 
-        emit receiveMessageSignal(jsonDoc.object());
+        emit receiveMessageSignal(m_socket, data);
     }
 
     void VMTDNodeClient::connectedSlot()

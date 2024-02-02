@@ -13,9 +13,30 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QTabWidget" name="tbwHandlers"/>
+    <widget class="QGroupBox" name="gbNxApi">
+     <property name="title">
+      <string>NX-API</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QListWidget" name="lwNxApi"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="gbNode">
+     <property name="title">
+      <string>Node</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QListWidget" name="lwNode"/>
+      </item>
+     </layout>
+    </widget>
    </item>
   </layout>
  </widget>

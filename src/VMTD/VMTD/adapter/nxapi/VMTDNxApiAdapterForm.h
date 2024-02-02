@@ -4,6 +4,7 @@
 #include <QTimer>
 
 #include "VMTDNxApiAdapter.h"
+#include "../VMTDAdapterForm.h"
 
 namespace Ui
 {
@@ -23,12 +24,6 @@ namespace VMTDLib
 
         void updateView();
 
-    signals:
-
-        void checkConnectionSignal();
-
-        void sendCommandSignal(const QStringList &commands);
-
     public slots:
 
         void showDebugSlot(const QTime &time, const QString &text);
@@ -41,11 +36,6 @@ namespace VMTDLib
 
         VMTDNxApiAdapter *m_adapter;
 
-
-    private slots:
-
-        void pbSendCommandClicked();
-
-        void pbClearFlowClicked();
+        VMTDAdapterForm *m_adapterForm;
     };
 }

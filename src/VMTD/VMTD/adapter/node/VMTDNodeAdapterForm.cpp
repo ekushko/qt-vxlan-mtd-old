@@ -13,8 +13,10 @@ namespace VMTDLib
     {
         ui->setupUi(this);
 
-        connect(ui->pbSend, &QPushButton::clicked,
-                this, &VMTDNodeAdapterForm::pbSendClicked);
+        if (parent != nullptr && parent->layout() != nullptr)
+            parent->layout()->addWidget(this);
+
+        m_adapterForm = new VMTDAdapterForm(ui->wAdapter);
     }
 
     VMTDNodeAdapterForm::~VMTDNodeAdapterForm()
@@ -26,26 +28,9 @@ namespace VMTDLib
     {
         if (m_socket == socket)
         {
-            ui->pteFlow->appendPlainText(QString("\n[%1] %2\n")
-                                         .arg(time.toString("hh:mm:ss:zzz"))
-                                         .arg(text));
+            m_adapterForm->appendText(QString("\n[%1] %2\n")
+                                      .arg(time.toString("hh:mm:ss:zzz"))
+                                      .arg(text));
         }
-    }
-
-    void VMTDNodeAdapterForm::pbSendClicked()
-    {
-        const auto text = ui->pteMessage->toPlainText();
-        const auto jsonDoc = QJsonDocument::fromJson(text.toUtf8());
-
-        if (jsonDoc.isNull() || !jsonDoc.isObject())
-        {
-            showDebugSlot(m_socket, QTime::currentTime(),
-                          "Message not sended! This is not JSON!");
-            return;
-        }
-
-        emit sendMessageSignal(m_socket, jsonDoc.object());
-
-        ui->pteMessage->clear();
     }
 }

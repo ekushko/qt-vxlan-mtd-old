@@ -26,7 +26,8 @@ namespace VMTDLib
 
         void setNodeClient(VMTDNodeClient *nodeClient);
 
-        const QVector<VMTDProtocolHandler *> &handlers() const;
+        VMTDProtocolHandler         *handler(const QString &name) const;
+        QList<VMTDProtocolHandler *> handlers() const;
 
     signals:
 
@@ -55,7 +56,7 @@ namespace VMTDLib
         VMTDNodeClient *m_nodeClient;
         VMTDNodeProtocolHandler *m_nodeHandler;
 
-        QVector<VMTDProtocolHandler *> m_handlers;
+        QMap<QString, VMTDProtocolHandler *> m_handlers;
         QTimer m_checkConnectionTimer;
 
     private slots:

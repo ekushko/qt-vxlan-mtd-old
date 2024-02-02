@@ -80,7 +80,7 @@ namespace VMTDLib
         }
 
         const auto title = QString("VMTD Node-сервер: %1")
-                .arg(m_server->settings()->localPort());
+                           .arg(m_server->settings()->localPort());
         setWindowTitle(title);
 
         if (m_server->wsServer()->isListening())
@@ -117,9 +117,6 @@ namespace VMTDLib
 
         connect(m_server, &VMTDNodeServer::showDebugSignal,
                 form, &VMTDNodeAdapterForm::showDebugSlot);
-
-        connect(form, &VMTDNodeAdapterForm::sendMessageSignal,
-                m_server, &VMTDNodeServer::sendMessageSlot);
 
         m_socketToForm.insert(socket, form);
 

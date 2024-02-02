@@ -1,11 +1,12 @@
 #include "VMTDNxApiProtocolHandler.h"
+#include "VMTDNxApiProtocolHandlerForm.h"
 
 namespace VMTDLib
 {
     VMTDNxApiProtocolHandler::VMTDNxApiProtocolHandler(QObject *parent, VMTDSettings *settings,
                                                        VMTDNxApiDevice *device,
                                                        VMTDNxApiAdapter *adapter)
-        : VMTDProtocolHandler(parent, settings)
+        : VMTDProtocolHandler(parent, settings, EnType::NX_API)
         , m_device(device)
         , m_adapter(adapter)
     {
@@ -13,6 +14,22 @@ namespace VMTDLib
 
         m_checkQueueTimer.setInterval(m_device->checkQueueInterval());
         m_checkQueueTimer.start();
+    }
+
+    VMTDNxApiProtocolHandler::~VMTDNxApiProtocolHandler()
+    {
+        if (m_form != nullptr)
+            m_form->deleteLater();
+    }
+
+    void VMTDNxApiProtocolHandler::showForm()
+    {
+        if (m_form == nullptr)
+            m_form = new VMTDNxApiProtocolHandlerForm(nullptr, this);
+
+        m_form->show();
+        m_form->raise();
+        m_form->activateWindow();
     }
 
     void VMTDNxApiProtocolHandler::checkConnection()

@@ -6,6 +6,8 @@
 
 namespace VMTDLib
 {
+    class VMTDNxApiProtocolHandlerForm;
+
     class VMTDNxApiProtocolHandler : public VMTDProtocolHandler
     {
         Q_OBJECT
@@ -15,6 +17,9 @@ namespace VMTDLib
         VMTDNxApiProtocolHandler(QObject *parent, VMTDSettings *settings,
                                  VMTDNxApiDevice *device,
                                  VMTDNxApiAdapter *adapter);
+        ~VMTDNxApiProtocolHandler();
+
+        void showForm() override;
 
         // ЛОГИКА
 
@@ -41,6 +46,8 @@ namespace VMTDLib
         void clearQueueSlot() override;
 
     private:
+
+        QPointer<VMTDNxApiProtocolHandlerForm> m_form;
 
         VMTDNxApiDevice *m_device;
 
