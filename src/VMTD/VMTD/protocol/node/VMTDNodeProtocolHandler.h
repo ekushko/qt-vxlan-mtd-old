@@ -53,7 +53,7 @@ namespace VMTDLib
 
     public slots:
 
-        void showFormSlot() override;
+        void showFormSlot(QWidget *parent = nullptr) override;
 
         void appendRequestSlot(const QString &method, const QJsonObject &params);
 

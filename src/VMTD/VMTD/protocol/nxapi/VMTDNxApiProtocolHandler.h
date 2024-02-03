@@ -37,7 +37,7 @@ namespace VMTDLib
 
     public slots:
 
-        void showFormSlot() override;
+        void showFormSlot(QWidget *parent = nullptr) override;
 
         void appendCommandSlot(const QStringList &command);
 

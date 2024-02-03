@@ -56,7 +56,7 @@ namespace VMTDLib
 
     public slots:
 
-        virtual void showFormSlot() = 0;
+        virtual void showFormSlot(QWidget *parent = nullptr) = 0;
 
         virtual void checkConnectionSlot();
 

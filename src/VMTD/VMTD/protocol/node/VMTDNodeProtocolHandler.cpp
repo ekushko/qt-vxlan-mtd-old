@@ -61,10 +61,12 @@ namespace VMTDLib
         return m_messages.length();
     }
 
-    void VMTDNodeProtocolHandler::showFormSlot()
+    void VMTDNodeProtocolHandler::showFormSlot(QWidget *parent)
     {
         if (m_form == nullptr)
-            m_form = new VMTDNodeProtocolHandlerForm(nullptr, this);
+            m_form = new VMTDNodeProtocolHandlerForm(parent, this);
+        else
+            m_form->setParent(parent);
 
         m_form->show();
         m_form->raise();

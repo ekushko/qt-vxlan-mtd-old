@@ -54,10 +54,12 @@ namespace VMTDLib
         return state;
     }
 
-    void VMTDNodeServer::showFormSlot()
+    void VMTDNodeServer::showFormSlot(QWidget *parent)
     {
         if (m_form == nullptr)
-            m_form = new VMTDNodeServerForm(nullptr, this);
+            m_form = new VMTDNodeServerForm(parent, this);
+        else
+            m_form->setParent(parent);
 
         m_form->show();
         m_form->raise();

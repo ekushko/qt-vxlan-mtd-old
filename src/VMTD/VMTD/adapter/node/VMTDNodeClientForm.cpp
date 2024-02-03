@@ -10,6 +10,9 @@ namespace VMTDLib
     {
         ui->setupUi(this);
 
+        if (parent != nullptr && parent->layout() != nullptr)
+            parent->layout()->addWidget(this);
+
         setAttribute(Qt::WA_DeleteOnClose, true);
 
         m_adapterForm = new VMTDNodeAdapterForm(ui->wLeft, m_client->socket());

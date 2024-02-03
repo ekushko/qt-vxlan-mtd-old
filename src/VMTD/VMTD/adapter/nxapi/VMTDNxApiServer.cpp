@@ -30,10 +30,12 @@ namespace VMTDLib
         return m_adapters;
     }
 
-    void VMTDNxApiServer::showFormSlot()
+    void VMTDNxApiServer::showFormSlot(QWidget *parent)
     {
         if (m_form == nullptr)
-            m_form = new VMTDNxApiServerForm(nullptr, this);
+            m_form = new VMTDNxApiServerForm(parent, this);
+        else
+            m_form->setParent(parent);
 
         m_form->show();
         m_form->raise();

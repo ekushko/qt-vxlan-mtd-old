@@ -62,22 +62,16 @@ namespace VMTDLib
         return m_handlers.values();
     }
 
-    void VMTDProtocol::showFormSlot()
+    void VMTDProtocol::showFormSlot(QWidget *parent)
     {
-        if (m_settings->nodeType() == VMTDNodeType::SERVER)
-        {
-            if (m_form == nullptr)
-                m_form = new VMTDProtocolForm(nullptr, this);
+        if (m_form == nullptr)
+            m_form = new VMTDProtocolForm(nullptr, this);
+        else
+            m_form->setParent(parent);
 
-            m_form->show();
-            m_form->raise();
-            m_form->activateWindow();
-        }
-        else if (m_settings->nodeType() == VMTDNodeType::CLIENT)
-        {
-            if (m_nodeHandler != nullptr)
-                m_nodeHandler->showFormSlot();
-        }
+        m_form->show();
+        m_form->raise();
+        m_form->activateWindow();
     }
 
     void VMTDProtocol::adapterCreatedSlot(VMTDNxApiAdapter *adapter)

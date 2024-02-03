@@ -18,6 +18,9 @@ namespace VMTDLib
 
         ui->setupUi(this);
 
+        if (parent != nullptr && parent->layout() != nullptr)
+            parent->layout()->addWidget(this);
+
         setWindowTitle(QString("NX-API Адаптер (%1)").arg(m_adapter->url().toString()));
         setAttribute(Qt::WA_DeleteOnClose, true);
 

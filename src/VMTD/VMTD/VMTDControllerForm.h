@@ -31,14 +31,21 @@ namespace VMTDLib
 
         QTimer m_uiTimer;
 
+        enum class EnTab
+        {
+            NET          = 0,
+            PROTOCOL     = 1,
+            NODE_CLIENT  = 2,
+            NODE_SERVER  = 3,
+            NXAPI_SERVER = 4
+        };
+
+        QMap<EnTab, QWidget *> m_tabWidgets;
+
     private slots:
 
         void uiTimerTickSlot();
 
-        void pbProtocolClicked();
-
-        void pbNxApiServerClicked();
-        void pbNodeServerClicked();
-        void pbNodeClientClicked();
+        void tbwPartitionCurrentChangedSlot(int index);
     };
 }

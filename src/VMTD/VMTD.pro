@@ -7,7 +7,7 @@
 NAME = VMTD
 
 TEMPLATE  = app
-#TEMPLATE  = lib
+TEMPLATE  = lib
 
 CONFIG += debug_and_release
 CONFIG += build_all

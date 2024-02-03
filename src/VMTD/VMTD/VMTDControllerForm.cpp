@@ -10,7 +10,7 @@ namespace VMTDLib
         ui(new Ui::VMTDControllerForm),
         m_controller(controller)
     {
-        m_controller->settings()->debugOut(VN_S(VMTDControllerForm) + " was created");
+        m_controller->settings()->debugOut(VN_S(VMTDControllerForm) + " is creating...");
 
         ui->setupUi(this);
 
@@ -19,16 +19,24 @@ namespace VMTDLib
 
         initializeView();
 
+        tbwPartitionCurrentChangedSlot((int)EnTab::NET);
+
         m_uiTimer.setParent(this);
         connect(&m_uiTimer, &QTimer::timeout, this, &VMTDControllerForm::uiTimerTickSlot);
         m_uiTimer.start(100);
+
+        uiTimerTickSlot();
+
+        m_controller->settings()->debugOut(VN_S(VMTDControllerForm) + " was created");
     }
 
     VMTDControllerForm::~VMTDControllerForm()
     {
-        m_controller->settings()->debugOut(VN_S(VMTDControllerForm) + " was deleted");
+        m_controller->settings()->debugOut(VN_S(VMTDControllerForm) + " is deleting...");
 
         delete ui;
+
+        m_controller->settings()->debugOut(VN_S(VMTDControllerForm) + " was deleted");
     }
 
     void VMTDControllerForm::initializeView()
@@ -41,22 +49,14 @@ namespace VMTDLib
         connect(ui->pbStopController, &QPushButton::clicked,
                 m_controller, &VMTDController::stopController);
 
-        connect(ui->pbProtocol, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbProtocolClicked);
+        m_tabWidgets[EnTab::NET] = ui->tbwPartition->widget((int)EnTab::NET);
+        m_tabWidgets[EnTab::PROTOCOL] = ui->tbwPartition->widget((int)EnTab::PROTOCOL);
+        m_tabWidgets[EnTab::NODE_CLIENT] = ui->tbwPartition->widget((int)EnTab::NODE_CLIENT);
+        m_tabWidgets[EnTab::NODE_SERVER] = ui->tbwPartition->widget((int)EnTab::NODE_SERVER);
+        m_tabWidgets[EnTab::NXAPI_SERVER] = ui->tbwPartition->widget((int)EnTab::NXAPI_SERVER);
 
-        connect(ui->pbNxApiServer, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbNxApiServerClicked);
-        connect(ui->pbNodeServer, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbNodeServerClicked);
-        connect(ui->pbNodeClient, &QPushButton::clicked,
-                this, &VMTDControllerForm::pbNodeClientClicked);
-
-        const auto nodeType = m_controller->settings()->nodeType();
-        ui->pbNxApiServer->setVisible(nodeType == VMTDNodeType::SERVER);
-        ui->pbNodeServer->setVisible(nodeType == VMTDNodeType::SERVER);
-        ui->pbNodeClient->setVisible(nodeType == VMTDNodeType::CLIENT);
-
-        m_controller->net()->showFormSlot(ui->wMain);
+        connect(ui->tbwPartition, &QTabWidget::currentChanged,
+                this, &VMTDControllerForm::tbwPartitionCurrentChangedSlot);
     }
 
     void VMTDControllerForm::uiTimerTickSlot()
@@ -66,41 +66,47 @@ namespace VMTDLib
         ui->pbStartController->setEnabled(!isRunning);
         ui->pbStopController->setEnabled(isRunning);
 
-        ui->pbProtocol->setEnabled(isRunning);
-        ui->pbNxApiServer->setEnabled(isRunning);
-        ui->pbNodeServer->setEnabled(isRunning);
-        ui->pbNodeClient->setEnabled(isRunning);
+        const auto nodeType = m_controller->settings()->nodeType();
+
+        ui->tbwPartition->setTabEnabled((int)EnTab::PROTOCOL,
+                                        isRunning);
+        ui->tbwPartition->setTabEnabled((int)EnTab::NODE_CLIENT,
+                                        isRunning && nodeType == VMTDNodeType::CLIENT);
+        ui->tbwPartition->setTabEnabled((int)EnTab::NODE_SERVER,
+                                        isRunning && nodeType == VMTDNodeType::SERVER);
+        ui->tbwPartition->setTabEnabled((int)EnTab::NXAPI_SERVER,
+                                        isRunning && nodeType == VMTDNodeType::SERVER);
     }
 
-    void VMTDControllerForm::pbProtocolClicked()
+    void VMTDControllerForm::tbwPartitionCurrentChangedSlot(int index)
     {
-        if (!m_controller->isRunning())
-            return;
+        const auto isRunning = m_controller->isRunning();
+        const auto nodeType = m_controller->settings()->nodeType();
 
-        m_controller->protocol()->showFormSlot();
-    }
+        if (index == (int)EnTab::NET)
+        {
+            m_controller->net()->showFormSlot(ui->wNet);
+        }
+        else if (index == (int)EnTab::PROTOCOL && isRunning)
+        {
+            const auto nodeType = m_controller->settings()->nodeType();
 
-    void VMTDControllerForm::pbNxApiServerClicked()
-    {
-        if (!m_controller->isRunning())
-            return;
-
-        m_controller->nxApiServer()->showFormSlot();
-    }
-
-    void VMTDControllerForm::pbNodeServerClicked()
-    {
-        if (!m_controller->isRunning())
-            return;
-
-        m_controller->nodeServer()->showFormSlot();
-    }
-
-    void VMTDControllerForm::pbNodeClientClicked()
-    {
-        if (!m_controller->isRunning())
-            return;
-
-        m_controller->nodeClient()->showFormSlot();
+            if (nodeType == VMTDNodeType::SERVER)
+                m_controller->protocol()->showFormSlot(ui->wProtocol);
+            else if (nodeType == VMTDNodeType::CLIENT)
+                m_controller->protocol()->handlers().at(0)->showFormSlot(ui->wProtocol);
+        }
+        else if (index == (int)EnTab::NODE_CLIENT && isRunning && nodeType == VMTDNodeType::CLIENT)
+        {
+            m_controller->nodeClient()->showFormSlot(ui->wNodeClient);
+        }
+        else if (index == (int)EnTab::NODE_SERVER && isRunning && nodeType == VMTDNodeType::SERVER)
+        {
+            m_controller->nodeServer()->showFormSlot(ui->wNodeServer);
+        }
+        else if (index == (int)EnTab::NXAPI_SERVER && isRunning && nodeType == VMTDNodeType::SERVER)
+        {
+            m_controller->nxApiServer()->showFormSlot(ui->wNxApiServer);
+        }
     }
 }
