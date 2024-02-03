@@ -22,8 +22,6 @@ namespace VMTDLib
                                 QWebSocket *socket);
         ~VMTDNodeProtocolHandler();
 
-        void showForm() override;
-
         // КОНСТАНТЫ
 
         enum class EnError
@@ -54,6 +52,8 @@ namespace VMTDLib
         void sendMessageSignal(QWebSocket *socket, const QByteArray &data);
 
     public slots:
+
+        void showFormSlot() override;
 
         void appendRequestSlot(const QString &method, const QJsonObject &params);
 

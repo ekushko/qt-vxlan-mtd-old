@@ -37,7 +37,7 @@ namespace VMTDLib
 
         void showDebugSignal(const QTime &time, const QString &text);
 
-        void commandExecutedSignal(bool ok);
+        void commandExecutedSignal(bool isOnline, bool hasError);
 
     public slots:
 

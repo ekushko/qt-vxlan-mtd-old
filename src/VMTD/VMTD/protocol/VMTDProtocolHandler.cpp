@@ -7,6 +7,8 @@ namespace VMTDLib
         , m_settings(settings)
         , m_type(type)
     {
+        m_queueState = EnQueueState::READY_TO_SEND;
+
         m_checkQueueTimer.setParent(this);
         connect(&m_checkQueueTimer, &QTimer::timeout,
                 this, &VMTDProtocolHandler::checkQueueTimerSlot);

@@ -17,7 +17,7 @@ namespace VMTDLib
 
     public:
 
-        VMTDProtocol(QObject *parent, VMTDNet *model);
+        VMTDProtocol(QObject *parent, VMTDNet *net);
         ~VMTDProtocol();
 
         void setNxApiServer(VMTDNxApiServer *nxApiServer);
@@ -42,7 +42,7 @@ namespace VMTDLib
 
         QPointer<VMTDProtocolForm> m_form;
 
-        VMTDNet *m_model;
+        VMTDNet *m_net;
 
         VMTDSettings *m_settings;
 

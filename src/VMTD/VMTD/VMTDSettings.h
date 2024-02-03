@@ -18,9 +18,7 @@ namespace VMTDLib
 
     public:
 
-        enum class EnNodeType;
-
-        VMTDSettings(QObject *parent, EnNodeType nodeType, const QString &systemName);
+        VMTDSettings(QObject *parent, const QString &systemName);
         ~VMTDSettings();
 
         // КОНСТАНТЫ
@@ -53,6 +51,7 @@ namespace VMTDLib
         // СИСТЕМНЫЕ
 
         EnNodeType nodeType() const;
+        void    setNodeType(const EnNodeType &nodeType);
 
         QString systemName() const;
 
@@ -94,8 +93,8 @@ namespace VMTDLib
 
     signals:
 
-        void networkChangedSignal();
-
+        void        nodeTypeChangedSignal();
+        void         networkChangedSignal();
         void checkConnectionChangedSignal();
 
         void saveSignal();
@@ -112,7 +111,8 @@ namespace VMTDLib
 
         QPointer<VMTDSettingsForm> m_form;
 
-        const EnNodeType m_nodeType;
+        EnNodeType m_nodeType;
+
         const QString m_systemName;
         QString m_debugName;
         bool m_shouldShowDebug;
@@ -130,6 +130,7 @@ namespace VMTDLib
 
         int m_idCounter;
 
+        bool m_wasNodeTypeChanged;
         bool m_wasNetworkChanged;
         bool m_wasCheckConnectionChanged;
 

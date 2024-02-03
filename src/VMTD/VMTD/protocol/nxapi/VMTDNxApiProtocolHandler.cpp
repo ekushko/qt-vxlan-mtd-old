@@ -22,16 +22,6 @@ namespace VMTDLib
             m_form->deleteLater();
     }
 
-    void VMTDNxApiProtocolHandler::showForm()
-    {
-        if (m_form == nullptr)
-            m_form = new VMTDNxApiProtocolHandlerForm(nullptr, this);
-
-        m_form->show();
-        m_form->raise();
-        m_form->activateWindow();
-    }
-
     void VMTDNxApiProtocolHandler::checkConnection()
     {
         m_queueState = EnQueueState::WAIT_FOR_TICKET;
@@ -55,22 +45,39 @@ namespace VMTDLib
         return m_queue.length();
     }
 
+    void VMTDNxApiProtocolHandler::showFormSlot()
+    {
+        if (m_form == nullptr)
+            m_form = new VMTDNxApiProtocolHandlerForm(nullptr, this);
+
+        m_form->show();
+        m_form->raise();
+        m_form->activateWindow();
+    }
+
     void VMTDNxApiProtocolHandler::appendCommandSlot(const QStringList &command)
     {
         m_queue.enqueue(command);
     }
 
-    void VMTDNxApiProtocolHandler::commandExecutedSlot(bool ok)
+    void VMTDNxApiProtocolHandler::commandExecutedSlot(bool isOnline, bool hasError)
     {
         if (m_queueState == EnQueueState::WAIT_FOR_TICKET)
         {
             if (m_ticketTimeoutTimer.isActive())
                 m_ticketTimeoutTimer.stop();
 
-            emit showDebugSignal(QTime::currentTime(), QString("Command %1")
-                                 .arg((ok ? "executed!" : "failed!")));
+            m_device->setOnline(isOnline);
 
-            m_device->setOnline(true);
+            if (isOnline)
+            {
+                emit showDebugSignal(QTime::currentTime(), QString("Command %1")
+                                     .arg((!hasError ? "executed!" : "failed!")));
+            }
+            else
+            {
+                emit showDebugSignal(QTime::currentTime(), "Response not received!");
+            }
 
             m_queueState = EnQueueState::READY_TO_SEND;
         }
@@ -88,7 +95,8 @@ namespace VMTDLib
 
     void VMTDNxApiProtocolHandler::checkQueueTimerSlot()
     {
-        if (m_queueState != EnQueueState::READY_TO_SEND)
+        if (m_queue.isEmpty()
+            || m_queueState != EnQueueState::READY_TO_SEND)
             return;
 
         m_queueState = EnQueueState::WAIT_FOR_TICKET;

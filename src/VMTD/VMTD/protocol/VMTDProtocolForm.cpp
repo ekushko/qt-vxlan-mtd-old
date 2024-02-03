@@ -15,6 +15,11 @@ namespace VMTDLib
         setAttribute(Qt::WA_DeleteOnClose, true);
         setWindowTitle("Protocol");
 
+        connect(ui->lwNxApi, &QListWidget::itemDoubleClicked,
+                this, &VMTDProtocolForm::lwNxApiDoubleClicked);
+        connect(ui->lwNode, &QListWidget::itemDoubleClicked,
+                this, &VMTDProtocolForm::lwNodeDoubleClicked);
+
         connect(m_protocol, &VMTDProtocol::handlerCreatedSignal,
                 this, &VMTDProtocolForm::handlerCreatedSlot);
         connect(m_protocol, &VMTDProtocol::handlerRemovedSignal,
@@ -69,7 +74,7 @@ namespace VMTDLib
         auto handler = m_protocol->handler(item->text());
 
         if (handler != nullptr)
-            handler->showForm();
+            handler->showFormSlot();
     }
 
     void VMTDProtocolForm::lwNodeDoubleClicked(QListWidgetItem *item)
@@ -77,6 +82,6 @@ namespace VMTDLib
         auto handler = m_protocol->handler(item->text());
 
         if (handler != nullptr)
-            handler->showForm();
+            handler->showFormSlot();
     }
 }

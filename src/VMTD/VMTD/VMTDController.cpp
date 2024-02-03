@@ -7,16 +7,17 @@
 
 namespace VMTDLib
 {
-    VMTDController::VMTDController(QObject *parent, VMTDSettings *settings)
-        : QThread{parent}
-        , m_settings(settings)
+    VMTDController::VMTDController(QObject *parent, const QString &systemName)
+        : QThread(parent)
     {
-        m_settings->debugOut(VN_S(VMTDController) + " was created");
+        m_settings = new VMTDSettings(this, systemName);
 
         connect(this, &VMTDController::started, this, &VMTDController::startedSlot);
         connect(this, &VMTDController::finished, this, &VMTDController::finishedSlot);
 
         m_net = new VMTDNet(this, m_settings);
+
+        m_settings->debugOut(VN_S(VMTDController) + " was created");
     }
 
     VMTDController::~VMTDController()
@@ -24,10 +25,10 @@ namespace VMTDLib
         if (isRunning())
             stopController();
 
-        m_settings->debugOut(VN_S(VMTDController) + " was deleted");
-
         if (m_form != nullptr)
             delete m_form;
+
+        m_settings->debugOut(VN_S(VMTDController) + " was deleted");
     }
 
     VMTDSettings *VMTDController::settings() const
@@ -126,5 +127,11 @@ namespace VMTDLib
     void VMTDController::finishedSlot()
     {
         m_settings->debugOut(VN_S(VMTDController) + " finished");
+    }
+
+    void VMTDController::netApplySlot()
+    {
+        stopController();
+        startController();
     }
 }

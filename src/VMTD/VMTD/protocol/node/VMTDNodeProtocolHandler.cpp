@@ -24,16 +24,6 @@ namespace VMTDLib
             m_form->deleteLater();
     }
 
-    void VMTDNodeProtocolHandler::showForm()
-    {
-        if (m_form == nullptr)
-            m_form = new VMTDNodeProtocolHandlerForm(nullptr, this);
-
-        m_form->show();
-        m_form->raise();
-        m_form->activateWindow();
-    }
-
     const QString &VMTDNodeProtocolHandler::enErrorToS(const EnError &error)
     {
         switch (error)
@@ -71,6 +61,16 @@ namespace VMTDLib
         return m_messages.length();
     }
 
+    void VMTDNodeProtocolHandler::showFormSlot()
+    {
+        if (m_form == nullptr)
+            m_form = new VMTDNodeProtocolHandlerForm(nullptr, this);
+
+        m_form->show();
+        m_form->raise();
+        m_form->activateWindow();
+    }
+
     void VMTDNodeProtocolHandler::appendRequestSlot(const QString &method, const QJsonObject &params)
     {
         m_messages.append(buildRequest(method, params));
@@ -83,7 +83,7 @@ namespace VMTDLib
 
         inputDoc = QJsonDocument::fromJson(data, &parseError);
 
-        emit showDebugSignal(QTime::currentTime(), QString("Message received:\n%1")
+        emit showDebugSignal(QTime::currentTime(), QString("Message received:\n")
                              + inputDoc.toJson(QJsonDocument::JsonFormat::Indented));
 
         if (parseError.error != QJsonParseError::NoError
@@ -123,7 +123,7 @@ namespace VMTDLib
         {
             emit sendMessageSignal(socket, outputDoc.toBinaryData());
 
-            emit showDebugSignal(QTime::currentTime(), QString("Message sent:\n%1")
+            emit showDebugSignal(QTime::currentTime(), QString("Message sent:\n")
                                  + outputDoc.toJson(QJsonDocument::JsonFormat::Indented));
         }
     }
@@ -261,7 +261,7 @@ namespace VMTDLib
         QJsonDocument outputDoc;
         outputDoc.setObject(m_currentMessage);
 
-        emit showDebugSignal(QTime::currentTime(), QString("Message sent:\n%1")
+        emit showDebugSignal(QTime::currentTime(), QString("Message sent:\n")
                              + outputDoc.toJson(QJsonDocument::JsonFormat::Indented));
         emit sendMessageSignal(m_socket, outputDoc.toBinaryData());
 

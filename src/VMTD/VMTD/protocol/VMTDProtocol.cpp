@@ -3,10 +3,10 @@
 
 namespace VMTDLib
 {
-    VMTDProtocol::VMTDProtocol(QObject *parent, VMTDNet *model)
+    VMTDProtocol::VMTDProtocol(QObject *parent, VMTDNet *net)
         : QObject(parent)
-        , m_model(model)
-        , m_settings(model->settings())
+        , m_net(net)
+        , m_settings(net->settings())
     {
         connect(m_settings, &VMTDSettings::checkConnectionChangedSignal,
                 this, &VMTDProtocol::checkConnectionChangedSlot);
@@ -64,12 +64,20 @@ namespace VMTDLib
 
     void VMTDProtocol::showFormSlot()
     {
-        if (m_form == nullptr)
-            m_form = new VMTDProtocolForm(nullptr, this);
+        if (m_settings->nodeType() == VMTDNodeType::SERVER)
+        {
+            if (m_form == nullptr)
+                m_form = new VMTDProtocolForm(nullptr, this);
 
-        m_form->show();
-        m_form->raise();
-        m_form->activateWindow();
+            m_form->show();
+            m_form->raise();
+            m_form->activateWindow();
+        }
+        else if (m_settings->nodeType() == VMTDNodeType::CLIENT)
+        {
+            if (m_nodeHandler != nullptr)
+                m_nodeHandler->showFormSlot();
+        }
     }
 
     void VMTDProtocol::adapterCreatedSlot(VMTDNxApiAdapter *adapter)
@@ -77,7 +85,7 @@ namespace VMTDLib
         if (m_nxApiHandlers.contains(adapter))
             return;
 
-        auto nxApiDevice = m_model->nxApiDevice(adapter->url());
+        auto nxApiDevice = m_net->nxApiDevice(adapter->url());
 
         if (nxApiDevice == nullptr)
             return;
@@ -112,7 +120,7 @@ namespace VMTDLib
         if (m_nodeHandlers.contains(socket))
             return;
 
-        auto nodeDevice = m_model->nodeDevice(socket->peerAddress().toString());
+        auto nodeDevice = m_net->nodeDevice(socket->peerAddress().toString());
 
         if (nodeDevice == nullptr)
             return;
@@ -149,7 +157,7 @@ namespace VMTDLib
 
         m_socket = socket;
 
-        auto nodeDevice = m_model->nodeDevice(m_socket->peerAddress().toString());
+        auto nodeDevice = m_net->nodeDevice(m_settings->serverIp());
 
         m_nodeHandler = new VMTDNodeProtocolHandler(this, m_settings, nodeDevice, m_socket);
         m_handlers[m_nodeHandler->name()] = m_nodeHandler;

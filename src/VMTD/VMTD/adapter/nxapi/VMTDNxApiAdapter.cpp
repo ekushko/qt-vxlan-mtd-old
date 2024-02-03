@@ -127,7 +127,8 @@ namespace VMTDLib
         else
             message.append(reply->errorString());
 
-        emit commandExecutedSignal(reply->error() == QNetworkReply::NoError);
+        emit commandExecutedSignal(reply->error() != QNetworkReply::ConnectionRefusedError,
+                                   reply->error() != QNetworkReply::NoError);
 
         emit showDebugSignal(QTime::currentTime(), message);
 

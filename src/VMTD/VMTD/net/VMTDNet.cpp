@@ -13,7 +13,18 @@ namespace VMTDLib
         : QObject(parent)
         , m_settings(settings)
     {
-        loadSlot();
+        if (m_settings->nodeType() == VMTDNodeType::SERVER)
+        {
+            loadSlot();
+        }
+        else if (m_settings->nodeType() == VMTDNodeType::CLIENT)
+        {
+            const auto id = 1;
+
+            auto nodeDevice = new VMTDNodeDevice(this, m_settings, id);
+            nodeDevice->setIp(m_settings->serverIp());
+            m_nodeDevices[id] = nodeDevice;
+        }
     }
 
     VMTDSettings *VMTDNet::settings() const

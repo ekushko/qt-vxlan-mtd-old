@@ -9,11 +9,12 @@
 
 namespace VMTDLib
 {
-    VMTDSettings::VMTDSettings(QObject *parent, EnNodeType nodeType, const QString &systemName)
-        : QObject{parent}
-        , m_nodeType{nodeType}
-        , m_systemName{systemName}
+    VMTDSettings::VMTDSettings(QObject *parent, const QString &systemName)
+        : QObject(parent)
+        , m_systemName(systemName)
     {
+        m_nodeType = EnNodeType::CLIENT;
+
         m_debugName = "VMTD";
         m_shouldShowDebug = true;
 
@@ -23,13 +24,16 @@ namespace VMTDLib
         m_reconnectInterval = 1000;
 
         m_localPort = 30001;
+        m_shouldCheckConnection = false;
+        m_checkConnectionInterval = 100;
 
         m_idCounter = 0;
 
+        m_wasNodeTypeChanged = false;
         m_wasNetworkChanged = false;
         m_wasCheckConnectionChanged = false;
 
-        debugOut(VN_S(VMTDSettings) + " was created");
+        debugOut(VN_S(VMTDSettings) + " is creating...");
 
         connect(this, &VMTDSettings::saveSignal, this, &VMTDSettings::saveSlot);
         connect(this, &VMTDSettings::loadSignal, this, &VMTDSettings::loadSlot);
@@ -38,12 +42,14 @@ namespace VMTDLib
         {
             if (!QDir().mkdir(DIR_NAME))
             {
-                debugOut(VN_S(VMTDSettings) + " | Dir creating: could not create directory " + DIR_NAME);
+                debugOut(VN_S(VMTDSettings) + " | DIR creating: could not create directory " + DIR_NAME);
                 return;
             }
         }
 
         load();
+
+        debugOut(VN_S(VMTDSettings) + " was created");
     }
 
     VMTDSettings::~VMTDSettings()
@@ -152,6 +158,13 @@ namespace VMTDLib
 
     void VMTDSettings::apply()
     {
+        if (m_wasNodeTypeChanged)
+        {
+            emit nodeTypeChangedSignal();
+
+            m_wasNodeTypeChanged = false;
+        }
+
         if (m_wasNetworkChanged)
         {
             emit networkChangedSignal();
@@ -170,6 +183,15 @@ namespace VMTDLib
     VMTDSettings::EnNodeType VMTDSettings::nodeType() const
     {
         return m_nodeType;
+    }
+    void VMTDSettings::setNodeType(const VMTDSettings::EnNodeType &nodeType)
+    {
+        if (m_nodeType != nodeType)
+        {
+            m_nodeType = nodeType;
+
+            m_wasNodeTypeChanged = true;
+        }
     }
 
     QString VMTDSettings::systemName() const
@@ -322,7 +344,7 @@ namespace VMTDLib
             settingsFile.write(jsonDoc.toJson());
             settingsFile.close();
 
-            debugOut(VN_S(VMTDSettings) + " | Settings was saved successfully.");
+            debugOut(VN_S(VMTDSettings) + " | Settings were saved successfully.");
         }
     }
     void VMTDSettings::loadSlot()
@@ -347,7 +369,7 @@ namespace VMTDLib
             QJsonDocument jsonDoc = QJsonDocument::fromJson(settingsData);
             fromJson(jsonDoc.object());
 
-            debugOut(VN_S(VMTDSettings) + " | Settings was loaded successfully.");
+            debugOut(VN_S(VMTDSettings) + " | Settings were loaded successfully.");
         }
     }
 }

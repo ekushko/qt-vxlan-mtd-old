@@ -37,7 +37,7 @@ namespace VMTDLib
         if (!ui->chbShouldUpdate->isChecked())
             return;
 
-        ui->pteFlow->appendPlainText(QString("\n[%1] %2\n")
+        ui->pteFlow->appendPlainText(QString("[%1] %2\n")
                                      .arg(time.toString("hh:mm:ss:zzz"))
                                      .arg(text));
     }

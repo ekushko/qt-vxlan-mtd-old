@@ -151,9 +151,6 @@ equals( TEMPLATE, "app" ) {
 CONFIG += c++11
 
 SOURCES += \
-    VMTD/adapter/VMTDAdapterForm.cpp \
-    VMTD/protocol/node/VMTDNodeProtocolHandlerForm.cpp \
-    VMTD/protocol/nxapi/VMTDNxApiProtocolHandlerForm.cpp \
     main.cpp \
     MainWindow.cpp \
     VMTD/VMTDController.cpp \
@@ -161,6 +158,7 @@ SOURCES += \
     VMTD/VMTDRepo.cpp \
     VMTD/VMTDSettings.cpp \
     VMTD/VMTDSettingsForm.cpp \
+    VMTD/adapter/VMTDAdapterForm.cpp \
     VMTD/adapter/node/VMTDNodeAdapterForm.cpp \
     VMTD/adapter/node/VMTDNodeClient.cpp \
     VMTD/adapter/node/VMTDNodeClientForm.cpp \
@@ -185,7 +183,9 @@ SOURCES += \
     VMTD/protocol/VMTDProtocolHandler.cpp \
     VMTD/protocol/VMTDProtocolHandlerForm.cpp \
     VMTD/protocol/node/VMTDNodeProtocolHandler.cpp \
-    VMTD/protocol/nxapi/VMTDNxApiProtocolHandler.cpp
+    VMTD/protocol/node/VMTDNodeProtocolHandlerForm.cpp \
+    VMTD/protocol/nxapi/VMTDNxApiProtocolHandler.cpp \
+    VMTD/protocol/nxapi/VMTDNxApiProtocolHandlerForm.cpp
 
 HEADERS += \
     MainWindow.h \

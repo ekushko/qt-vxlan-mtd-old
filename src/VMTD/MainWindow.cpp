@@ -9,15 +9,16 @@ MainWindow::MainWindow(QWidget *parent, bool quickStart)
 {
     ui->setupUi(this);
 
-    m_settings = new VMTDSettings(this, VMTDNodeType::SERVER, "VMTD");
-    connect(ui->pbSettings, &QPushButton::clicked, m_settings.data(), &VMTDSettings::showFormSlot);
+    connect(ui->pbQuickStart, &QPushButton::clicked,
+            this, &MainWindow::pbQuickStartClicked);
 
-    connect(ui->pbQuickStart, &QPushButton::clicked, this, &MainWindow::pbQuickStartClicked);
+    connect(ui->pbCreate, &QPushButton::clicked,
+            this, &MainWindow::pbCreateClicked);
+    connect(ui->pbDelete, &QPushButton::clicked,
+            this, &MainWindow::pbDeleteClicked);
 
-    connect(ui->pbCreate, &QPushButton::clicked, this, &MainWindow::pbCreateClicked);
-    connect(ui->pbDelete, &QPushButton::clicked, this, &MainWindow::pbDeleteClicked);
-
-    connect(ui->pbClose, &QPushButton::clicked, this, &MainWindow::close);
+    connect(ui->pbClose, &QPushButton::clicked,
+            this, &MainWindow::close);
 
     m_uiTimer.setParent(this);
     connect(&m_uiTimer, &QTimer::timeout, this, &MainWindow::uiTimerTickSlot);
@@ -30,7 +31,6 @@ MainWindow::MainWindow(QWidget *parent, bool quickStart)
 MainWindow::~MainWindow()
 {
     delete m_controller;
-    delete m_settings;
 
     delete ui;
 }
@@ -48,7 +48,9 @@ void MainWindow::uiTimerTickSlot()
     ui->pbStart->setEnabled(isCreated && !isRunning);
     ui->pbStop->setEnabled(isRunning);
 
-    ui->pbShowForm->setEnabled(m_controller != nullptr);
+    ui->pbShowForm->setEnabled(isCreated);
+
+    ui->pbSettings->setEnabled(isCreated);
 }
 
 void MainWindow::pbQuickStartClicked()
@@ -71,10 +73,15 @@ void MainWindow::pbCreateClicked()
     if (m_controller != nullptr)
         return;
 
-    m_controller = new VMTDController(this, m_settings);
-    connect(ui->pbStart, &QPushButton::clicked, m_controller.data(), &VMTDController::startController);
-    connect(ui->pbStop, &QPushButton::clicked, m_controller.data(), &VMTDController::stopController);
-    connect(ui->pbShowForm, &QPushButton::clicked, m_controller.data(), &VMTDController::showFormSlot);
+    m_controller = new VMTDController(this, m_systemName);
+    connect(ui->pbStart, &QPushButton::clicked,
+            m_controller.data(), &VMTDController::startController);
+    connect(ui->pbStop, &QPushButton::clicked,
+            m_controller.data(), &VMTDController::stopController);
+    connect(ui->pbShowForm, &QPushButton::clicked,
+            m_controller.data(), &VMTDController::showFormSlot);
+    connect(ui->pbSettings, &QPushButton::clicked,
+            m_controller->settings(), &VMTDSettings::showFormSlot);
 
 }
 void MainWindow::pbDeleteClicked()

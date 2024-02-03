@@ -10,12 +10,14 @@ namespace VMTDLib
         ui(new Ui::VMTDSettingsForm),
         m_settings(settings)
     {
-        m_settings->debugOut(VN_S(VMTDSettingsForm) + " was created");
+        m_settings->debugOut(VN_S(VMTDSettingsForm) + " is creating...");
 
         ui->setupUi(this);
 
-        setWindowTitle(QString("Настройки %1").arg(m_settings->systemName()));
+        setWindowTitle(QString("Settings %1").arg(m_settings->systemName()));
         setAttribute(Qt::WA_DeleteOnClose, true);
+
+        CB_FILL_MAP(ui->cbNodeType, VMTDSettings::enNodeTypeToL());
 
         connect(ui->pbSave, &QPushButton::clicked, this, &VMTDSettingsForm::pbSaveClicked);
         connect(ui->pbLoad, &QPushButton::clicked, this, &VMTDSettingsForm::pbLoadClicked);
@@ -26,13 +28,17 @@ namespace VMTDLib
 
         setEditMode(false);
         updateView();
+
+        m_settings->debugOut(VN_S(VMTDSettingsForm) + " was created");
     }
 
     VMTDSettingsForm::~VMTDSettingsForm()
     {
-        m_settings->debugOut(VN_S(VMTDSettingsForm) + " was deleted");
+        m_settings->debugOut(VN_S(VMTDSettingsForm) + " is deleting...");
 
         delete ui;
+
+        m_settings->debugOut(VN_S(VMTDSettingsForm) + " was deleted");
     }
 
     void VMTDSettingsForm::setEditMode(bool isEditMode)
@@ -47,7 +53,7 @@ namespace VMTDLib
 
     void VMTDSettingsForm::updateView()
     {
-        ui->lbNodeType->setText(VMTDSettings::enNodeTypeToS(m_settings->nodeType()));
+        CB_SELECT(ui->cbNodeType, m_settings->nodeType());
         ui->lbSystemName->setText(m_settings->systemName());
         ui->leDebugName->setText(m_settings->debugName());
         ui->chbShouldShowDebug->setChecked(m_settings->shouldShowDebug());
@@ -64,6 +70,7 @@ namespace VMTDLib
 
     void VMTDSettingsForm::updateData()
     {
+        m_settings->setNodeType(CB_DATA_TOE(ui->cbNodeType, VMTDNodeType));
         m_settings->setDebugName(ui->leDebugName->text());
         m_settings->setShouldShowDebug(ui->chbShouldShowDebug->isChecked());
 

@@ -21,7 +21,7 @@ namespace VMTDLib
 
     public:
 
-        VMTDController(QObject *parent, VMTDSettings *settings);
+        VMTDController(QObject *parent, const QString &systemName);
         ~VMTDController();
 
         VMTDSettings *settings() const;
@@ -67,5 +67,7 @@ namespace VMTDLib
 
         void  startedSlot();
         void finishedSlot();
+
+        void netApplySlot();
     };
 }

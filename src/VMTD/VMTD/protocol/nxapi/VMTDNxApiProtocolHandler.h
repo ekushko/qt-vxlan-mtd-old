@@ -19,8 +19,6 @@ namespace VMTDLib
                                  VMTDNxApiAdapter *adapter);
         ~VMTDNxApiProtocolHandler();
 
-        void showForm() override;
-
         // ЛОГИКА
 
         void checkConnection() override;
@@ -39,9 +37,11 @@ namespace VMTDLib
 
     public slots:
 
+        void showFormSlot() override;
+
         void appendCommandSlot(const QStringList &command);
 
-        void commandExecutedSlot(bool ok);
+        void commandExecutedSlot(bool isOnline, bool hasError);
 
         void clearQueueSlot() override;
 

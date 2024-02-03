@@ -21,6 +21,8 @@ namespace VMTDLib
 
         connect(ui->pbCheckConnection, &QPushButton::clicked,
                 m_handler, &VMTDNxApiProtocolHandler::checkConnectionSlot);
+        connect(this, &VMTDNxApiProtocolHandlerForm::appendCommandSignal,
+                m_handler, &VMTDNxApiProtocolHandler::appendCommandSlot);
         connect(ui->pbSend, &QPushButton::clicked,
                 this, &VMTDNxApiProtocolHandlerForm::pbSendClicked);
 

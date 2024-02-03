@@ -19,7 +19,7 @@ class MainWindow : public QMainWindow
 
 public:
 
-    MainWindow(QWidget *parent = nullptr, bool quickStart = false);
+    explicit MainWindow(QWidget *parent = nullptr, bool quickStart = false);
     ~MainWindow();
 
 private:
@@ -28,7 +28,7 @@ private:
 
     QTimer m_uiTimer;
 
-    QPointer<VMTDLib::VMTDSettings> m_settings;
+    const QString m_systemName = "_vmtd";
     QPointer<VMTDLib::VMTDController> m_controller;
 
 private slots:

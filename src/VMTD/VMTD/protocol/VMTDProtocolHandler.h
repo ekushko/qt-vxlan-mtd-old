@@ -18,8 +18,6 @@ namespace VMTDLib
 
         VMTDProtocolHandler(QObject *parent, VMTDSettings *settings, EnType type);
 
-        virtual void showForm() = 0;
-
         // КОНСТАНТЫ
 
         enum class EnType
@@ -57,6 +55,8 @@ namespace VMTDLib
         void showDebugSignal(const QTime &time, const QString &text);
 
     public slots:
+
+        virtual void showFormSlot() = 0;
 
         virtual void checkConnectionSlot();
 

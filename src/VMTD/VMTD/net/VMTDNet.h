@@ -38,6 +38,10 @@ namespace VMTDLib
         bool          addNxApiDevice();
         bool       removeNxApiDevice(int id);
 
+    signals:
+
+        void applySignal();
+
     public slots:
 
         void showFormSlot(QWidget *parent);
