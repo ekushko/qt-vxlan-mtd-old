@@ -11,6 +11,7 @@ namespace VMTDLib
         : QThread(parent)
     {
         m_settings = new VMTDSettings(this, systemName);
+        connect(m_settings, &VMTDSettings::restartSignal, this, &VMTDController::restartSlot);
 
         connect(this, &VMTDController::started, this, &VMTDController::startedSlot);
         connect(this, &VMTDController::finished, this, &VMTDController::finishedSlot);
@@ -83,17 +84,19 @@ namespace VMTDLib
 
     void VMTDController::run()
     {
+        m_nodeType = m_settings->nodeType();
+
         m_protocol = new VMTDProtocol(nullptr, m_net);
         connect(this, &VMTDController::finished, m_protocol, &VMTDProtocol::deleteLater);
 
-        if (m_settings->nodeType() == VMTDNodeType::CLIENT)
+        if (m_nodeType == VMTDNodeType::CLIENT)
         {
             m_nodeClient = new VMTDNodeClient(nullptr, m_settings);
             connect(this, &VMTDController::finished, m_nodeClient, &VMTDNodeClient::deleteLater);
             m_protocol->setNodeClient(m_nodeClient);
             m_nodeClient->connectSocketSlot();
         }
-        else if (m_settings->nodeType() == VMTDNodeType::SERVER)
+        else if (m_nodeType == VMTDNodeType::SERVER)
         {
             m_nxApiServer = new VMTDNxApiServer(nullptr, m_settings);
             connect(this, &VMTDController::finished, m_nxApiServer, &VMTDNxApiServer::deleteLater);
@@ -108,16 +111,27 @@ namespace VMTDLib
 
         exec();
 
-        if (m_settings->nodeType() == VMTDNodeType::CLIENT)
+        if (m_nodeType == VMTDNodeType::CLIENT)
         {
             m_nodeClient->disconnectSocketSlot();
         }
-        else if (m_settings->nodeType() == VMTDNodeType::SERVER)
+        else if (m_nodeType == VMTDNodeType::SERVER)
         {
             m_nxApiServer->stopListenSlot();
 
             m_nodeServer->stopListenSlot();
         }
+    }
+
+    void VMTDController::restartSlot()
+    {
+        const auto shouldBeStarted = isRunning();
+
+        if (shouldBeStarted)
+            stopController();
+
+        if (shouldBeStarted)
+            startController();
     }
 
     void VMTDController::startedSlot()
@@ -127,11 +141,5 @@ namespace VMTDLib
     void VMTDController::finishedSlot()
     {
         m_settings->debugOut(VN_S(VMTDController) + " finished");
-    }
-
-    void VMTDController::netApplySlot()
-    {
-        stopController();
-        startController();
     }
 }

@@ -76,7 +76,7 @@ namespace VMTDLib
 
         QPointer<VMTDNodeProtocolHandlerForm> m_form;
 
-        VMTDNodeDevice *m_device;
+        QPointer<VMTDNodeDevice> m_device;
 
         QWebSocket *m_socket;
 

@@ -52,12 +52,7 @@ namespace VMTDLib
         ui->lwNxApiDevices->clear();
 
         for (auto nxApiDevice : m_model->nxApiDevices().values())
-        {
-            const auto label = QString("id: %1 [%2]")
-                               .arg(nxApiDevice->id())
-                               .arg(nxApiDevice->url().toString(QUrl::RemoveUserInfo));
-            ui->lwNxApiDevices->addItem(label);
-        }
+            ui->lwNxApiDevices->addItem(nxApiDevice->name());
     }
 
     void VMTDNetForm::updateNodeDevicesList()

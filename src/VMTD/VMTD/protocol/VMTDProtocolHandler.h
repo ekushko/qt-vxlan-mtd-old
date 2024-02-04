@@ -44,6 +44,8 @@ namespace VMTDLib
 
         // ДАННЫЕ
 
+        int id() const;
+
         EnType type() const;
 
         virtual QString name() const = 0;
@@ -65,6 +67,8 @@ namespace VMTDLib
     protected:
 
         VMTDSettings *m_settings;
+
+        int m_id;
 
         EnType m_type;
 

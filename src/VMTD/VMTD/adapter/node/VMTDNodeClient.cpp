@@ -10,9 +10,6 @@ namespace VMTDLib
         : QObject{parent}
         , m_settings{settings}
     {
-        connect(m_settings, &VMTDSettings::networkChangedSignal,
-                this, &VMTDNodeClient::reconnectSocketSlot);
-
         m_socket = new QWebSocket(m_settings->debugName(), QWebSocketProtocol::VersionLatest, this);
         connect(m_socket, &QWebSocket::binaryMessageReceived,
                 this, &VMTDNodeClient::binaryMessageReceivedSlot);

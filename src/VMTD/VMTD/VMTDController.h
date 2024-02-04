@@ -53,6 +53,8 @@ namespace VMTDLib
 
         VMTDSettings *m_settings;
 
+        VMTDNodeType m_nodeType;
+
         VMTDNxApiServer *m_nxApiServer;
 
         VMTDNodeServer *m_nodeServer;
@@ -65,9 +67,9 @@ namespace VMTDLib
 
     private slots:
 
+        void restartSlot();
+
         void  startedSlot();
         void finishedSlot();
-
-        void netApplySlot();
     };
 }

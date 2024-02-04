@@ -12,10 +12,7 @@ namespace VMTDLib
         , m_device(device)
         , m_socket(socket)
     {
-        m_ticketTimeoutTimer.setInterval(m_device->ticketTimeoutInterval());
 
-        m_checkQueueTimer.setInterval(m_device->checkQueueInterval());
-        m_checkQueueTimer.start();
     }
 
     VMTDNodeProtocolHandler::~VMTDNodeProtocolHandler()
@@ -52,8 +49,8 @@ namespace VMTDLib
     QString VMTDNodeProtocolHandler::name() const
     {
         return QString("id: %1 [%2]")
-               .arg(m_device->id())
-               .arg(m_device->ip());
+               .arg(id())
+               .arg(m_socket->peerAddress().toString());
     }
 
     int VMTDNodeProtocolHandler::queueLength() const
@@ -223,7 +220,8 @@ namespace VMTDLib
                 if (m_ticketTimeoutTimer.isActive())
                     m_ticketTimeoutTimer.stop();
 
-                m_device->setOnline(true);
+                if (m_device != nullptr)
+                    m_device->setOnline(true);
 
                 if (message.contains("error"))
                 {
@@ -275,7 +273,8 @@ namespace VMTDLib
         m_currentMessage = QJsonObject();
         m_queueState = EnQueueState::READY_TO_SEND;
 
-        m_device->setOnline(false);
+        if (m_device != nullptr)
+            m_device->setOnline(false);
 
         emit showDebugSignal(QTime::currentTime(), "Response not received");
     }

@@ -49,7 +49,7 @@ namespace VMTDLib
 
         QPointer<VMTDNxApiProtocolHandlerForm> m_form;
 
-        VMTDNxApiDevice *m_device;
+        QPointer<VMTDNxApiDevice> m_device;
 
         VMTDNxApiAdapter *m_adapter;
 

@@ -10,10 +10,7 @@ namespace VMTDLib
         , m_device(device)
         , m_adapter(adapter)
     {
-        m_ticketTimeoutTimer.setInterval(m_device->ticketTimeoutInterval());
 
-        m_checkQueueTimer.setInterval(m_device->checkQueueInterval());
-        m_checkQueueTimer.start();
     }
 
     VMTDNxApiProtocolHandler::~VMTDNxApiProtocolHandler()
@@ -36,8 +33,8 @@ namespace VMTDLib
     QString VMTDNxApiProtocolHandler::name() const
     {
         return QString("id: %1 [%2]")
-               .arg(m_device->id())
-               .arg(m_device->url().toString(QUrl::RemoveUserInfo));
+               .arg(id())
+               .arg(m_adapter->url().toString(QUrl::RemoveUserInfo));
     }
 
     int VMTDNxApiProtocolHandler::queueLength() const
@@ -69,7 +66,8 @@ namespace VMTDLib
             if (m_ticketTimeoutTimer.isActive())
                 m_ticketTimeoutTimer.stop();
 
-            m_device->setOnline(isOnline);
+            if (m_device != nullptr)
+                m_device->setOnline(isOnline);
 
             if (isOnline)
             {
@@ -117,6 +115,7 @@ namespace VMTDLib
 
         m_queueState = EnQueueState::READY_TO_SEND;
 
-        m_device->setOnline(false);
+        if (m_device != nullptr)
+            m_device->setOnline(false);
     }
 }

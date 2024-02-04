@@ -13,9 +13,8 @@ namespace VMTDLib
         ui->setupUi(this);
 
         setAttribute(Qt::WA_DeleteOnClose, true);
-        setWindowTitle(QString("Node Device (id: %1) [%2]")
-                       .arg(m_device->id())
-                       .arg(m_device->ip()));
+        setWindowTitle(QString("Node Device (%1)")
+                       .arg(m_device->name()));
 
         initializeView();
 

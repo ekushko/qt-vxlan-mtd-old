@@ -8,13 +8,13 @@ namespace VMTDLib
         , m_net(net)
         , m_settings(net->settings())
     {
-        connect(m_settings, &VMTDSettings::checkConnectionChangedSignal,
-                this, &VMTDProtocol::checkConnectionChangedSlot);
-
         m_checkConnectionTimer.setParent(this);
+        m_checkConnectionTimer.setInterval(m_settings->checkConnectionInterval());
         connect(&m_checkConnectionTimer, &QTimer::timeout,
                 this, &VMTDProtocol::checkConnectionTimerTickSlot);
-        checkConnectionChangedSlot();
+
+        if (m_settings->shouldCheckConnection())
+            m_checkConnectionTimer.start();
     }
 
     VMTDProtocol::~VMTDProtocol()
@@ -65,7 +65,7 @@ namespace VMTDLib
     void VMTDProtocol::showFormSlot(QWidget *parent)
     {
         if (m_form == nullptr)
-            m_form = new VMTDProtocolForm(nullptr, this);
+            m_form = new VMTDProtocolForm(parent, this);
         else
             m_form->setParent(parent);
 
@@ -79,12 +79,9 @@ namespace VMTDLib
         if (m_nxApiHandlers.contains(adapter))
             return;
 
-        auto nxApiDevice = m_net->nxApiDevice(adapter->url());
-
-        if (nxApiDevice == nullptr)
-            return;
-
-        auto handler = new VMTDNxApiProtocolHandler(this, m_settings, nxApiDevice, adapter);
+        auto handler = new VMTDNxApiProtocolHandler(this, m_settings,
+                                                    m_net->nxApiDevice(adapter->url()),
+                                                    adapter);
         m_nxApiHandlers[adapter] = handler;
         m_handlers[handler->name()] = handler;
 
@@ -114,12 +111,9 @@ namespace VMTDLib
         if (m_nodeHandlers.contains(socket))
             return;
 
-        auto nodeDevice = m_net->nodeDevice(socket->peerAddress().toString());
-
-        if (nodeDevice == nullptr)
-            return;
-
-        auto handler = new VMTDNodeProtocolHandler(this, m_settings, nodeDevice, socket);
+        auto handler = new VMTDNodeProtocolHandler(this, m_settings,
+                                                   m_net->nodeDevice(socket->peerAddress().toString()),
+                                                   socket);
         m_nodeHandlers[socket] = handler;
         m_handlers[handler->name()] = handler;
 
@@ -151,9 +145,9 @@ namespace VMTDLib
 
         m_socket = socket;
 
-        auto nodeDevice = m_net->nodeDevice(m_settings->serverIp());
-
-        m_nodeHandler = new VMTDNodeProtocolHandler(this, m_settings, nodeDevice, m_socket);
+        m_nodeHandler = new VMTDNodeProtocolHandler(this, m_settings,
+                                                    m_net->nodeDevice(m_settings->serverIp()),
+                                                    m_socket);
         m_handlers[m_nodeHandler->name()] = m_nodeHandler;
 
         connect(m_nodeHandler, &VMTDNodeProtocolHandler::sendMessageSignal,
@@ -172,17 +166,6 @@ namespace VMTDLib
 
         m_handlers.remove(m_nodeHandler->name());
         delete m_nodeHandler;
-    }
-
-    void VMTDProtocol::checkConnectionChangedSlot()
-    {
-        if (m_checkConnectionTimer.isActive())
-            m_checkConnectionTimer.stop();
-
-        m_checkConnectionTimer.setInterval(m_settings->checkConnectionInterval());
-
-        if (m_settings->shouldCheckConnection())
-            m_checkConnectionTimer.start();
     }
 
     void VMTDProtocol::checkConnectionTimerTickSlot()

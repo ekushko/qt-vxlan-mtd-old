@@ -44,8 +44,6 @@ namespace VMTDLib
         jsonObj[VN_ME(m_id)] = m_id;
         jsonObj[VN_ME(m_ip)] = m_ip;
         jsonObj[VN_ME(m_role)] = (int)m_role;
-        jsonObj[VN_ME(m_ticketTimeoutInterval)] = m_ticketTimeoutInterval;
-        jsonObj[VN_ME(m_checkQueueInterval)] = m_checkQueueInterval;
         jsonObj[VN_ME(m_interfaces)] = m_interfaces->toJson();
 
         return jsonObj;
@@ -58,10 +56,6 @@ namespace VMTDLib
         m_id = jsonObj[VN_ME(m_id)].toInt(m_id);
         m_ip = jsonObj[VN_ME(m_ip)].toString();
         m_role = (EnRole)jsonObj[VN_ME(m_role)].toInt();
-        m_ticketTimeoutInterval = jsonObj[VN_ME(m_ticketTimeoutInterval)]
-                                  .toInt(m_ticketTimeoutInterval);
-        m_checkQueueInterval = jsonObj[VN_ME(m_checkQueueInterval)]
-                               .toInt(m_checkQueueInterval);
         m_interfaces->fromJson(jsonObj[VN_ME(m_interfaces)].toObject());
     }
 
@@ -77,6 +71,13 @@ namespace VMTDLib
     int VMTDNodeDevice::id() const
     {
         return m_id;
+    }
+
+    QString VMTDNodeDevice::name() const
+    {
+        return QString("id: %1 [%2]")
+               .arg(id())
+               .arg(ip());
     }
 
     QString VMTDNodeDevice::ip() const
@@ -95,24 +96,6 @@ namespace VMTDLib
     void VMTDNodeDevice::setRole(EnRole role)
     {
         m_role = role;
-    }
-
-    int VMTDNodeDevice::ticketTimeoutInterval() const
-    {
-        return m_ticketTimeoutInterval;
-    }
-    void VMTDNodeDevice::setTicketTimeoutInterval(int ticketTimeoutInterval)
-    {
-        m_ticketTimeoutInterval = ticketTimeoutInterval;
-    }
-
-    int VMTDNodeDevice::checkQueueInterval() const
-    {
-        return m_checkQueueInterval;
-    }
-    void VMTDNodeDevice::setCheckQueueInterval(int checkQueueInterval)
-    {
-        m_checkQueueInterval = checkQueueInterval;
     }
 
     VMTDInterfaces *VMTDNodeDevice::interfaces() const

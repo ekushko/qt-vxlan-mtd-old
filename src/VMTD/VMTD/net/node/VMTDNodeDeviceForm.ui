@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>362</width>
-    <height>294</height>
+    <height>232</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,6 +29,44 @@
       <property name="bottomMargin">
        <number>0</number>
       </property>
+      <item row="2" column="0">
+       <widget class="QLabel" name="_7">
+        <property name="text">
+         <string>Role:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="lbId">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="_6">
+        <property name="text">
+         <string>IP:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="_3">
+        <property name="text">
+         <string>Online:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="_5">
+        <property name="text">
+         <string>ID:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="leIp"/>
+      </item>
       <item row="0" column="1">
        <widget class="QLabel" name="lbOnline">
         <property name="minimumSize">
@@ -42,80 +80,8 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
-       <widget class="QSpinBox" name="sbTicketTimeoutInterval">
-        <property name="minimum">
-         <number>10</number>
-        </property>
-        <property name="maximum">
-         <number>999999999</number>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="_7">
-        <property name="text">
-         <string>Role:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="_10">
-        <property name="text">
-         <string>Ticket timeout (ms):</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="leIp"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="_3">
-        <property name="text">
-         <string>Online:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLabel" name="lbId">
-        <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="_5">
-        <property name="text">
-         <string>ID:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="_6">
-        <property name="text">
-         <string>IP:</string>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="1">
        <widget class="QComboBox" name="cbRole"/>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="_11">
-        <property name="text">
-         <string>Check queue (ms):</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QSpinBox" name="sbCheckQueueInterval">
-        <property name="minimum">
-         <number>10</number>
-        </property>
-        <property name="maximum">
-         <number>999999999</number>
-        </property>
-       </widget>
       </item>
      </layout>
     </widget>

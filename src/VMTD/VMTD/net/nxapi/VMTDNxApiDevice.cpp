@@ -31,8 +31,6 @@ namespace VMTDLib
         jsonObj[VN_ME(m_url)] = m_url.toString(QUrl::RemoveUserInfo);
         jsonObj[VN_MT_REF(m_url.userName())] = m_url.userName();
         jsonObj[VN_MT_REF(m_url.password())] = m_url.password();
-        jsonObj[VN_ME(m_ticketTimeoutInterval)] = m_ticketTimeoutInterval;
-        jsonObj[VN_ME(m_checkQueueInterval)] = m_checkQueueInterval;
         jsonObj[VN_ME(m_interfaces)] = m_interfaces->toJson();
 
         return jsonObj;
@@ -46,10 +44,6 @@ namespace VMTDLib
         m_url = QUrl(jsonObj[VN_ME(m_url)].toString(m_url.toString()));
         m_url.setUserName(jsonObj["userName"].toString(m_url.userName()));
         m_url.setPassword(jsonObj["password"].toString(m_url.password()));
-        m_ticketTimeoutInterval = jsonObj[VN_ME(m_ticketTimeoutInterval)]
-                                  .toInt(m_ticketTimeoutInterval);
-        m_checkQueueInterval = jsonObj[VN_ME(m_checkQueueInterval)]
-                               .toInt(m_checkQueueInterval);
         m_interfaces->fromJson(jsonObj[VN_ME(m_interfaces)].toObject());
     }
 
@@ -67,6 +61,13 @@ namespace VMTDLib
         return m_id;
     }
 
+    QString VMTDNxApiDevice::name() const
+    {
+        return QString("id: %1 [%2]")
+               .arg(id())
+               .arg(url().toString(QUrl::RemoveUserInfo));
+    }
+
     QUrl VMTDNxApiDevice::url() const
     {
         return m_url;
@@ -74,24 +75,6 @@ namespace VMTDLib
     void VMTDNxApiDevice::setUrl(const QUrl &url)
     {
         m_url = url;
-    }
-
-    int VMTDNxApiDevice::ticketTimeoutInterval() const
-    {
-        return m_ticketTimeoutInterval;
-    }
-    void VMTDNxApiDevice::setTicketTimeoutInterval(int ticketTimeoutInterval)
-    {
-        m_ticketTimeoutInterval = ticketTimeoutInterval;
-    }
-
-    int VMTDNxApiDevice::checkQueueInterval() const
-    {
-        return m_checkQueueInterval;
-    }
-    void VMTDNxApiDevice::setCheckQueueInterval(int checkQueueInterval)
-    {
-        m_checkQueueInterval = checkQueueInterval;
     }
 
     VMTDInterfaces *VMTDNxApiDevice::interfaces() const

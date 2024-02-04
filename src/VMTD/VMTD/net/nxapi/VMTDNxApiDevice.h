@@ -32,14 +32,10 @@ namespace VMTDLib
 
         int id() const;
 
+        QString name() const;
+
         QUrl    url() const;
         void setUrl(const QUrl &url);
-
-        int     ticketTimeoutInterval() const;
-        void setTicketTimeoutInterval(int ticketTimeoutInterval);
-
-        int     checkQueueInterval() const;
-        void setCheckQueueInterval(int checkQueueInterval);
 
         VMTDInterfaces *interfaces() const;
 
@@ -58,7 +54,5 @@ namespace VMTDLib
 
         int m_id;
         QUrl m_url = QUrl("http://127.0.0.1/ins");
-        int m_ticketTimeoutInterval = 1000;
-        int m_checkQueueInterval = 100;
     };
 }

@@ -11,9 +11,8 @@ namespace VMTDLib
         ui->setupUi(this);
 
         setAttribute(Qt::WA_DeleteOnClose, true);
-        setWindowTitle(QString("NX-API Device (id: %1) [%2]")
-                       .arg(m_device->id())
-                       .arg(m_device->url().toString()));
+        setWindowTitle(QString("NX-API Device (%1)")
+                       .arg(m_device->name()));
 
         initializeView();
 
@@ -44,8 +43,6 @@ namespace VMTDLib
         ui->leUserName->setText(m_device->url().userName());
         ui->lePassword->setText(m_device->url().password());
         ui->leUrl->setText(m_device->url().toString(QUrl::RemoveUserInfo));
-        ui->sbTicketTimeoutInterval->setValue(m_device->ticketTimeoutInterval());
-        ui->sbCheckQueueInterval->setValue(m_device->checkQueueInterval());
     }
 
     void VMTDNxApiDeviceForm::updateData()
@@ -54,8 +51,6 @@ namespace VMTDLib
         url.setUserName(ui->leUserName->text());
         url.setPassword(ui->lePassword->text());
         m_device->setUrl(url);
-        m_device->setTicketTimeoutInterval(ui->sbTicketTimeoutInterval->value());
-        m_device->setCheckQueueInterval(ui->sbCheckQueueInterval->value());
     }
 
     void VMTDNxApiDeviceForm::initializeView()

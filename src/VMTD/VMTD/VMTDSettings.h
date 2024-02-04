@@ -5,6 +5,7 @@
 #include <QObject>
 #include <QJsonObject>
 #include <QPointer>
+#include <QMutex>
 
 namespace VMTDLib
 {
@@ -66,12 +67,6 @@ namespace VMTDLib
         int     localPort() const;
         void setLocalPort(int localPort);
 
-        bool    shouldCheckConnection() const;
-        void setShouldCheckConnection(bool shouldCheckConnection);
-
-        int     checkConnectionInterval() const;
-        void setCheckConnectionInterval(int checkConnectionInterval);
-
         // ПАРАМЕТРЫ КЛИЕНТА
 
         QString serverIp() const;
@@ -83,19 +78,31 @@ namespace VMTDLib
         bool    shouldReconnect() const;
         void setShouldReconnect(bool shouldReconnect);
 
+        // ПАРАМЕТРЫ ПРОТОКОЛА
+
+        bool    shouldCheckConnection() const;
+        void setShouldCheckConnection(bool shouldCheckConnection);
+
+        int     checkConnectionInterval() const;
+        void setCheckConnectionInterval(int checkConnectionInterval);
+
         int     reconnectInterval() const;
         void setReconnectInterval(int reconnectInterval);
 
-        // МОДЕЛЬ
+        int     ticketTimeoutInterval() const;
+        void setTicketTimeoutInterval(int ticketTimeoutInterval);
+
+        int     checkQueueInterval() const;
+        void setCheckQueueInterval(int checkQueueInterval);
+
+        // МОДЕЛЬ СЕТИ
 
         QJsonObject netObj() const;
         void     setNetObj(const QJsonObject &netObj);
 
     signals:
 
-        void        nodeTypeChangedSignal();
-        void         networkChangedSignal();
-        void checkConnectionChangedSignal();
+        void restartSignal();
 
         void saveSignal();
         void loadSignal();
@@ -112,7 +119,6 @@ namespace VMTDLib
         QPointer<VMTDSettingsForm> m_form;
 
         EnNodeType m_nodeType;
-
         const QString m_systemName;
         QString m_debugName;
         bool m_shouldShowDebug;
@@ -126,13 +132,16 @@ namespace VMTDLib
         bool m_shouldCheckConnection;
         int m_checkConnectionInterval;
 
+        int m_ticketTimeoutInterval;
+        int m_checkQueueInterval;
+
         QJsonObject m_netObj;
 
         int m_idCounter;
 
-        bool m_wasNodeTypeChanged;
-        bool m_wasNetworkChanged;
-        bool m_wasCheckConnectionChanged;
+        bool m_shouldBeRestarted;
+
+        QMutex m_locker;
 
     private slots:
 

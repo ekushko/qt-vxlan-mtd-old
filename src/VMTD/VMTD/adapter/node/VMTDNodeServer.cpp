@@ -14,9 +14,6 @@ namespace VMTDLib
         m_wsServer = new QWebSocketServer("VMTDNodeServer", QWebSocketServer::NonSecureMode, this);
         connect(m_wsServer, &QWebSocketServer::newConnection, this, &VMTDNodeServer::newConnectionSlot);
 
-        connect(m_settings, &VMTDSettings::networkChangedSignal,
-                this, &VMTDNodeServer::restartListenSlot);
-
         m_settings->debugOut(VN_S(VMTDNodeServer) + " created");
     }
 

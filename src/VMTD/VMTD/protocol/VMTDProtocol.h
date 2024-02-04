@@ -70,7 +70,6 @@ namespace VMTDLib
         void socketConnectedSlot(QWebSocket *socket);
         void socketDisconnectedSlot(QWebSocket *socket);
 
-        void checkConnectionChangedSlot();
         void checkConnectionTimerTickSlot();
     };
 }
