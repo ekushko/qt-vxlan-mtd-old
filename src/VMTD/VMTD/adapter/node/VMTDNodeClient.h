@@ -28,7 +28,7 @@ namespace VMTDLib
 
     signals:
 
-        void receiveMessageSignal(QWebSocket *socket, const QByteArray &data);
+        void receiveMessageSignal(QWebSocket *socket, const QString &data);
 
         void showDebugSignal(QWebSocket *socket, const QTime &time, const QString &text);
 
@@ -43,7 +43,7 @@ namespace VMTDLib
         void disconnectSocketSlot();
         void  reconnectSocketSlot();
 
-        void sendDataSlot(QWebSocket *socket, const QByteArray &data);
+        void sendDataSlot(QWebSocket *socket, const QString &data);
 
     private:
 
@@ -59,7 +59,7 @@ namespace VMTDLib
 
     private slots:
 
-        void binaryMessageReceivedSlot(const QByteArray &data);
+        void textMessageReceivedSlot(const QString &data);
 
         void    connectedSlot();
         void disconnectedSlot();

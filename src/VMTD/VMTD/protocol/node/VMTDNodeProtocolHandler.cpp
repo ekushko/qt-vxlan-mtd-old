@@ -76,7 +76,7 @@ namespace VMTDLib
             m_messages.append(buildRequest(method, params));
     }
 
-    void VMTDNodeProtocolHandler::receiveMessageSlot(QWebSocket *socket, const QByteArray &data)
+    void VMTDNodeProtocolHandler::receiveMessageSlot(QWebSocket *socket, const QString &data)
     {
         if (data.isEmpty())
             return;
@@ -84,13 +84,14 @@ namespace VMTDLib
         QJsonParseError parseError;
         QJsonDocument inputDoc, outputDoc;
 
-        inputDoc = QJsonDocument::fromBinaryData(data, QJsonDocument::BypassValidation);
+        inputDoc = QJsonDocument::fromJson(data.toUtf8(), &parseError);
 
-        if (inputDoc.isEmpty()/*parseError.error != QJsonParseError::NoError*/)
+        if (parseError.error != QJsonParseError::NoError)
         {
             if (m_settings->nodeType() == VMTDNodeType::CLIENT)
             {
-                emit showDebugSignal(QTime::currentTime(), QString("Parsing request error: %1\n")
+                emit showDebugSignal(QTime::currentTime(), QString("Parsing request error (%1): %2\n")
+                                     .arg(parseError.error)
                                      .arg(parseError.errorString()));
 
                 outputDoc.setObject(buildError(QJsonValue(),
@@ -161,7 +162,7 @@ namespace VMTDLib
 
         if (m_settings->nodeType() == VMTDNodeType::CLIENT && !outputDoc.isEmpty())
         {
-            emit sendMessageSignal(socket, outputDoc.toBinaryData());
+            emit sendMessageSignal(socket, outputDoc.toJson(QJsonDocument::JsonFormat::Indented));
 
             emit showDebugSignal(QTime::currentTime(), QString("Response sent:\n")
                                  + outputDoc.toJson(QJsonDocument::JsonFormat::Indented));
@@ -290,7 +291,7 @@ namespace VMTDLib
 
         emit showDebugSignal(QTime::currentTime(), QString("Message sent:\n")
                              + outputDoc.toJson(QJsonDocument::JsonFormat::Indented));
-        emit sendMessageSignal(m_socket, outputDoc.toBinaryData());
+        emit sendMessageSignal(m_socket, outputDoc.toJson(QJsonDocument::JsonFormat::Indented));
 
         m_ticketTimeoutTimer.start();
     }

@@ -11,8 +11,8 @@ namespace VMTDLib
         , m_settings{settings}
     {
         m_socket = new QWebSocket(m_settings->debugName(), QWebSocketProtocol::VersionLatest, this);
-        connect(m_socket, &QWebSocket::binaryMessageReceived,
-                this, &VMTDNodeClient::binaryMessageReceivedSlot);
+        connect(m_socket, &QWebSocket::textMessageReceived,
+                this, &VMTDNodeClient::textMessageReceivedSlot);
         connect(m_socket, &QWebSocket::connected, this, &VMTDNodeClient::connectedSlot);
         connect(m_socket, &QWebSocket::disconnected, this, &VMTDNodeClient::disconnectedSlot);
         connect(m_socket, static_cast<void (QWebSocket::*)(QAbstractSocket::SocketError)>
@@ -97,31 +97,29 @@ namespace VMTDLib
         connectSocketSlot();
     }
 
-    void VMTDNodeClient::sendDataSlot(QWebSocket *socket, const QByteArray &data)
+    void VMTDNodeClient::sendDataSlot(QWebSocket *socket, const QString &data)
     {
         if (m_socket != socket
             || m_socket->state() != QAbstractSocket::ConnectedState)
             return;
 
-        m_socket->sendBinaryMessage(data);
+        m_socket->sendTextMessage(data);
 
         auto debugString = QString("Sended to {%1:%2}: %3")
                            .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
                            .arg(socket->peerPort())
-                           .arg(QString(data.toHex()));
+                           .arg(data);
 
         emit showDebugSignal(socket, QTime::currentTime(), debugString);
     }
 
 
-    void VMTDNodeClient::binaryMessageReceivedSlot(const QByteArray &data)
+    void VMTDNodeClient::textMessageReceivedSlot(const QString &data)
     {
-        const auto jsonDoc = QJsonDocument::fromJson(data);
-
         const auto debugString = QString("Received from {%1:%2}: %3\n")
                                  .arg(QHostAddress(m_socket->peerAddress().toIPv4Address()).toString())
                                  .arg(m_socket->peerPort())
-                                 .arg(QString(data.toHex()));
+                                 .arg(data);
 
         emit showDebugSignal(m_socket, QTime::currentTime(), debugString);
 

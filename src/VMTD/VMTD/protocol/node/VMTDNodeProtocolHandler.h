@@ -49,7 +49,7 @@ namespace VMTDLib
 
     signals:
 
-        void sendMessageSignal(QWebSocket *socket, const QByteArray &data);
+        void sendMessageSignal(QWebSocket *socket, const QString &data);
 
     public slots:
 
@@ -57,7 +57,7 @@ namespace VMTDLib
 
         void appendRequestSlot(const QString &method, const QJsonObject &params);
 
-        void receiveMessageSlot(QWebSocket *socket, const QByteArray &data);
+        void receiveMessageSlot(QWebSocket *socket, const QString &data);
 
         void clearQueueSlot() override;
 
