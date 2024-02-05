@@ -15,13 +15,20 @@ namespace VMTDLib
         m_checkQueueTimer.setInterval(m_settings->checkQueueInterval());
         connect(&m_checkQueueTimer, &QTimer::timeout,
                 this, &VMTDProtocolHandler::checkQueueTimerSlot);
-        m_checkQueueTimer.start();
+
+        if (m_settings->nodeType() == VMTDNodeType::SERVER)
+            m_checkQueueTimer.start();
 
         m_ticketTimeoutTimer.setParent(this);
         m_ticketTimeoutTimer.setInterval(m_settings->ticketTimeoutInterval());
         connect(&m_ticketTimeoutTimer, &QTimer::timeout,
                 this, &VMTDProtocolHandler::ticketTimeoutSlot);
         m_ticketTimeoutTimer.setSingleShot(true);
+    }
+
+    VMTDSettings *VMTDProtocolHandler::settings() const
+    {
+        return m_settings;
     }
 
     VMTDProtocolHandler::EnQueueState VMTDProtocolHandler::queueState() const

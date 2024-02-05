@@ -40,6 +40,8 @@ namespace VMTDLib
 
         // МЕТАДАННЫЕ
 
+        VMTDSettings *settings() const;
+
         EnQueueState queueState() const;
 
         // ДАННЫЕ

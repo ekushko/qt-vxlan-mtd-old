@@ -26,6 +26,9 @@ namespace VMTDLib
         connect(ui->pbSend, &QPushButton::clicked,
                 this, &VMTDNodeProtocolHandlerForm::pbSendClicked);
 
+        if (m_handler->settings()->nodeType() == VMTDNodeType::CLIENT)
+            ui->gbRequest->hide();
+
         m_uiTimer.setParent(this);
         connect(&m_uiTimer, &QTimer::timeout, this, &VMTDNodeProtocolHandlerForm::uiTimerTickSlot);
         m_uiTimer.start(200);

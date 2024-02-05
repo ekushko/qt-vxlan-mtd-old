@@ -20,6 +20,9 @@ namespace VMTDLib
                 m_handler, &VMTDProtocolHandler::clearQueueSlot);
         connect(ui->pbClearFlow, &QPushButton::clicked,
                 this, &VMTDProtocolHandlerForm::pbClearFlowClicked);
+
+        if (m_handler->settings()->nodeType() == VMTDNodeType::CLIENT)
+            ui->lbQueueLength->hide();
     }
 
     VMTDProtocolHandlerForm::~VMTDProtocolHandlerForm()

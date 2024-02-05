@@ -13,7 +13,8 @@ namespace VMTDLib
         connect(&m_checkConnectionTimer, &QTimer::timeout,
                 this, &VMTDProtocol::checkConnectionTimerTickSlot);
 
-        if (m_settings->shouldCheckConnection())
+        if (m_settings->nodeType() == VMTDNodeType::SERVER
+            && m_settings->shouldCheckConnection())
             m_checkConnectionTimer.start();
     }
 

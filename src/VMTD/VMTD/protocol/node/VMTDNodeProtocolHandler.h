@@ -70,9 +70,8 @@ namespace VMTDLib
         QJsonObject buildResponse(const QJsonValue &id, const QJsonValue &result);
         QJsonObject buildError(const QJsonValue &id, int code, const QString &message);
 
-        bool isMethodExist(const QString &method, const QJsonValue &params);
-
-        QJsonObject handleMessage(const QJsonObject &message);
+        void handleServer(const QJsonObject &response);
+        void handleClient(const QJsonObject &request, QJsonObject &response);
 
         QPointer<VMTDNodeProtocolHandlerForm> m_form;
 

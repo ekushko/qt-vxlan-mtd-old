@@ -171,9 +171,7 @@ namespace VMTDLib
     {
         auto socket = dynamic_cast<QWebSocket *>(sender());
 
-        const auto jsonDoc = QJsonDocument::fromJson(data);
-
-        const auto debugString = QString("Received from {%1:%2}:\n")
+        const auto debugString = QString("Received from {%1:%2}: %3\n")
                                  .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
                                  .arg(socket->peerPort())
                                  .arg(QString(data.toHex()));
