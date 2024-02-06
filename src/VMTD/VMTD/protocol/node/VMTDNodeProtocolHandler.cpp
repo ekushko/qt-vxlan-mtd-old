@@ -234,6 +234,7 @@ namespace VMTDLib
     {
         QJsonObject jsonObj;
 
+        jsonObj["jsonrpc"] = "2.0";
         jsonObj["result"] = result;
         jsonObj["id"] = id;
 
@@ -247,6 +248,7 @@ namespace VMTDLib
         errorObj["code"] = code;
         errorObj["message"] = message;
 
+        jsonObj["jsonrpc"] = "2.0";
         jsonObj["error"] = errorObj;
         jsonObj["id"] = id;
 
