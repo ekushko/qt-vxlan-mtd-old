@@ -32,6 +32,7 @@ namespace VMTDLib
         Ui::VMTDNodeServerForm *ui;
 
         VMTDNodeServer *m_server;
+        VMTDSettings *m_settings;
 
         QTimer m_uiTimer;
 

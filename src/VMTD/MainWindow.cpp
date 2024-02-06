@@ -1,6 +1,7 @@
 #include    "MainWindow.h"
 #include "ui_MainWindow.h"
 
+#include "VMTD/VMTDBuildInfo.h"
 using namespace VMTDLib;
 
 MainWindow::MainWindow(QWidget *parent, bool quickStart)
@@ -8,6 +9,12 @@ MainWindow::MainWindow(QWidget *parent, bool quickStart)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    qDebug() << QString("Library %1: %2 from %3")
+             .arg(VMTDBuildInfo::filename())
+             .arg(VMTDBuildInfo::version())
+             .arg(VMTDBuildInfo::dateTime()
+                  .toString("dd-MM-yyyy hh:mm:ss"));
 
     connect(ui->pbQuickStart, &QPushButton::clicked,
             this, &MainWindow::pbQuickStartClicked);

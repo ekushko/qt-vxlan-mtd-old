@@ -9,9 +9,10 @@ namespace VMTDLib
                                                                VMTDNxApiProtocolHandler *handler) :
         QWidget(parent),
         ui(new Ui::VMTDNxApiProtocolHandlerForm),
-        m_handler(handler)
+        m_handler(handler),
+        m_settings(handler->settings())
     {
-        m_handler->settings()->debugOut(VN_S(VMTDNxApiProtocolHandlerForm) + " | Constructor called");
+        m_settings->debugOut(VN_S(VMTDNxApiProtocolHandlerForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -34,16 +35,16 @@ namespace VMTDLib
         connect(&m_uiTimer, &QTimer::timeout, this, &VMTDNxApiProtocolHandlerForm::uiTimerTickSlot);
         m_uiTimer.start(200);
 
-        m_handler->settings()->debugOut(VN_S(VMTDNxApiProtocolHandlerForm) + " | Constructor finished");
+        m_settings->debugOut(VN_S(VMTDNxApiProtocolHandlerForm) + " | Constructor finished");
     }
 
     VMTDNxApiProtocolHandlerForm::~VMTDNxApiProtocolHandlerForm()
     {
-        m_handler->settings()->debugOut(VN_S(VMTDNxApiProtocolHandlerForm) + " | Destructor called");
+        m_settings->debugOut(VN_S(VMTDNxApiProtocolHandlerForm) + " | Destructor called");
 
         delete ui;
 
-        m_handler->settings()->debugOut(VN_S(VMTDNxApiProtocolHandlerForm) + " | Destructor finished");
+        m_settings->debugOut(VN_S(VMTDNxApiProtocolHandlerForm) + " | Destructor finished");
     }
 
     void VMTDNxApiProtocolHandlerForm::uiTimerTickSlot()

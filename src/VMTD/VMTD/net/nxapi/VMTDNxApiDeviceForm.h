@@ -32,6 +32,7 @@ namespace VMTDLib
         Ui::VMTDNxApiDeviceForm *ui;
 
         VMTDNxApiDevice *m_device;
+        VMTDSettings *m_settings;
 
     private slots:
 

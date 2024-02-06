@@ -28,6 +28,7 @@ namespace VMTDLib
         Ui::VMTDNodeClientForm *ui;
 
         VMTDNodeClient *m_client;
+        VMTDSettings *m_settings;
 
         QTimer m_uiTimer;
 

@@ -30,6 +30,7 @@ namespace VMTDLib
         Ui::VMTDNxApiProtocolHandlerForm *ui;
 
         VMTDNxApiProtocolHandler *m_handler;
+        VMTDSettings *m_settings;
 
         VMTDProtocolHandlerForm *m_handlerForm;
 

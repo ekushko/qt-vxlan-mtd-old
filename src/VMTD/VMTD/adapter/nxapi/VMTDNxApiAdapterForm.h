@@ -35,6 +35,7 @@ namespace VMTDLib
         Ui::VMTDNxApiAdapterForm *ui;
 
         VMTDNxApiAdapter *m_adapter;
+        VMTDSettings *m_settings;
 
         VMTDAdapterForm *m_adapterForm;
     };

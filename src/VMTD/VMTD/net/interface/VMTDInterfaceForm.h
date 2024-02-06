@@ -31,5 +31,6 @@ namespace VMTDLib
         Ui::VMTDInterfaceForm *ui;
 
         VMTDInterface *m_interface;
+        VMTDSettings *m_settings;
     };
 }

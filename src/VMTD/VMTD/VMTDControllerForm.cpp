@@ -1,6 +1,7 @@
 #include    "VMTDControllerForm.h"
 #include "ui_VMTDControllerForm.h"
 
+#include "VMTDBuildInfo.h"
 #include "VMTDRepo.h"
 
 namespace VMTDLib
@@ -8,13 +9,14 @@ namespace VMTDLib
     VMTDControllerForm::VMTDControllerForm(QWidget *parent, VMTDController *controller) :
         QWidget(parent),
         ui(new Ui::VMTDControllerForm),
-        m_controller(controller)
+        m_controller(controller),
+        m_settings(controller->settings())
     {
-        m_controller->settings()->debugOut(VN_S(VMTDControllerForm) + " | Constructor called");
+        m_settings->debugOut(VN_S(VMTDControllerForm) + " | Constructor called");
 
         ui->setupUi(this);
 
-        setWindowTitle(m_controller->settings()->systemName());
+        setWindowTitle(m_settings->systemName());
         setAttribute(Qt::WA_DeleteOnClose, true);
 
         initializeView();
@@ -27,20 +29,26 @@ namespace VMTDLib
 
         uiTimerTickSlot();
 
-        m_controller->settings()->debugOut(VN_S(VMTDControllerForm) + " | Constructor finished");
+        m_settings->debugOut(VN_S(VMTDControllerForm) + " | Constructor finished");
     }
 
     VMTDControllerForm::~VMTDControllerForm()
     {
-        m_controller->settings()->debugOut(VN_S(VMTDControllerForm) + " | Destructor called");
+        m_settings->debugOut(VN_S(VMTDControllerForm) + " | Destructor called");
 
         delete ui;
 
-        m_controller->settings()->debugOut(VN_S(VMTDControllerForm) + " | Destructor finished");
+        m_settings->debugOut(VN_S(VMTDControllerForm) + " | Destructor finished");
     }
 
     void VMTDControllerForm::initializeView()
     {
+        ui->lbVersion->setText(QString("Library %1: %2 from %3")
+                               .arg(VMTDBuildInfo::filename())
+                               .arg(VMTDBuildInfo::version())
+                               .arg(VMTDBuildInfo::dateTime()
+                                    .toString("dd-MM-yyyy hh:mm:ss")));
+
         connect(ui->pbSettings, &QPushButton::clicked,
                 m_controller->settings(), &VMTDSettings::showFormSlot);
 
@@ -66,7 +74,7 @@ namespace VMTDLib
         ui->pbStartController->setEnabled(!isRunning);
         ui->pbStopController->setEnabled(isRunning);
 
-        const auto nodeType = m_controller->settings()->nodeType();
+        const auto nodeType = m_settings->nodeType();
 
         ui->tbwPartition->setTabEnabled((int)EnTab::PROTOCOL,
                                         isRunning);
@@ -81,7 +89,7 @@ namespace VMTDLib
     void VMTDControllerForm::tbwPartitionCurrentChangedSlot(int index)
     {
         const auto isRunning = m_controller->isRunning();
-        const auto nodeType = m_controller->settings()->nodeType();
+        const auto nodeType = m_settings->nodeType();
 
         if (index == (int)EnTab::NET)
         {
@@ -89,8 +97,6 @@ namespace VMTDLib
         }
         else if (index == (int)EnTab::PROTOCOL && isRunning)
         {
-            const auto nodeType = m_controller->settings()->nodeType();
-
             if (nodeType == VMTDNodeType::SERVER)
                 m_controller->protocol()->showFormSlot(ui->wProtocol);
             else if (nodeType == VMTDNodeType::CLIENT)

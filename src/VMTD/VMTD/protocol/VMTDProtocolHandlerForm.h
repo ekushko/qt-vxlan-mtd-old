@@ -33,6 +33,7 @@ namespace VMTDLib
         Ui::VMTDProtocolHandlerForm *ui;
 
         VMTDProtocolHandler *m_handler;
+        VMTDSettings *m_settings;
 
     private slots:
 

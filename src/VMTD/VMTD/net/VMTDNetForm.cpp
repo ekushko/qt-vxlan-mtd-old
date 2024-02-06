@@ -8,9 +8,10 @@ namespace VMTDLib
     VMTDNetForm::VMTDNetForm(QWidget *parent, VMTDNet *net) :
         QWidget(parent),
         ui(new Ui::VMTDNetForm),
-        m_net(net)
+        m_net(net),
+        m_settings(net->settings())
     {
-        m_net->settings()->debugOut(VN_S(VMTDNetForm) + " | Constructor called");
+        m_settings->debugOut(VN_S(VMTDNetForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -43,16 +44,16 @@ namespace VMTDLib
         updateNxApiDevicesList();
         updateNodeDevicesList();
 
-        m_net->settings()->debugOut(VN_S(VMTDNetForm) + " | Constructor finished");
+        m_settings->debugOut(VN_S(VMTDNetForm) + " | Constructor finished");
     }
 
     VMTDNetForm::~VMTDNetForm()
     {
-        m_net->settings()->debugOut(VN_S(VMTDNetForm) + " | Destructor called");
+        m_settings->debugOut(VN_S(VMTDNetForm) + " | Destructor called");
 
         delete ui;
 
-        m_net->settings()->debugOut(VN_S(VMTDNetForm) + " | Destructor finished");
+        m_settings->debugOut(VN_S(VMTDNetForm) + " | Destructor finished");
     }
 
     void VMTDNetForm::updateNxApiDevicesList()

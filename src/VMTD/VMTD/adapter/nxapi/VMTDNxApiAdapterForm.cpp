@@ -12,9 +12,10 @@ namespace VMTDLib
     VMTDNxApiAdapterForm::VMTDNxApiAdapterForm(QWidget *parent, VMTDNxApiAdapter *adapter) :
         QWidget(parent),
         ui(new Ui::VMTDNxApiAdapterForm),
-        m_adapter(adapter)
+        m_adapter(adapter),
+        m_settings(adapter->settings())
     {
-        m_adapter->settings()->debugOut(VN_S(VMTDNxApiAdapterForm) + " | Constructor called");
+        m_settings->debugOut(VN_S(VMTDNxApiAdapterForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -31,16 +32,16 @@ namespace VMTDLib
         initializeView();
         updateView();
 
-        m_adapter->settings()->debugOut(VN_S(VMTDNxApiAdapterForm) + " | Constructor finished");
+        m_settings->debugOut(VN_S(VMTDNxApiAdapterForm) + " | Constructor finished");
     }
 
     VMTDNxApiAdapterForm::~VMTDNxApiAdapterForm()
     {
-        m_adapter->settings()->debugOut(VN_S(VMTDNxApiAdapterForm) + " | Destructor called");
+        m_settings->debugOut(VN_S(VMTDNxApiAdapterForm) + " | Destructor called");
 
         delete ui;
 
-        m_adapter->settings()->debugOut(VN_S(VMTDNxApiAdapterForm) + " | Destructor finished");
+        m_settings->debugOut(VN_S(VMTDNxApiAdapterForm) + " | Destructor finished");
     }
 
     void VMTDNxApiAdapterForm::updateView()

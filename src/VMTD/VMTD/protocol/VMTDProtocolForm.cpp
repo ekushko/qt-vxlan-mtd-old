@@ -10,9 +10,10 @@ namespace VMTDLib
     VMTDProtocolForm::VMTDProtocolForm(QWidget *parent, VMTDProtocol *protocol) :
         QWidget(parent),
         ui(new Ui::VMTDProtocolForm),
-        m_protocol(protocol)
+        m_protocol(protocol),
+        m_settings(protocol->settings())
     {
-        m_protocol->settings()->debugOut(VN_S(VMTDProtocolForm) + " | Constructor called");
+        m_settings->debugOut(VN_S(VMTDProtocolForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -35,16 +36,16 @@ namespace VMTDLib
         for (auto handler : m_protocol->handlers())
             handlerCreatedSlot(handler);
 
-        m_protocol->settings()->debugOut(VN_S(VMTDProtocolForm) + " | Constructor finished");
+        m_settings->debugOut(VN_S(VMTDProtocolForm) + " | Constructor finished");
     }
 
     VMTDProtocolForm::~VMTDProtocolForm()
     {
-        m_protocol->settings()->debugOut(VN_S(VMTDProtocolForm) + " | Destructor called");
+        m_settings->debugOut(VN_S(VMTDProtocolForm) + " | Destructor called");
 
         delete ui;
 
-        m_protocol->settings()->debugOut(VN_S(VMTDProtocolForm) + " | Destructor finished");
+        m_settings->debugOut(VN_S(VMTDProtocolForm) + " | Destructor finished");
     }
 
     void VMTDProtocolForm::handlerCreatedSlot(VMTDProtocolHandler *handler)

@@ -153,6 +153,7 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     MainWindow.cpp \
+    VMTD/VMTDBuildInfo.cpp \
     VMTD/VMTDController.cpp \
     VMTD/VMTDControllerForm.cpp \
     VMTD/VMTDRepo.cpp \
@@ -189,6 +190,7 @@ SOURCES += \
 
 HEADERS += \
     MainWindow.h \
+    VMTD/VMTDBuildInfo.h \
     VMTD/VMTDController.h \
     VMTD/VMTDControllerForm.h \
     VMTD/VMTDDeclareShared.h \

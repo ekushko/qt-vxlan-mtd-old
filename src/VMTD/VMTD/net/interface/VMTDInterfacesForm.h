@@ -33,6 +33,7 @@ namespace VMTDLib
         Ui::VMTDInterfacesForm *ui;
 
         VMTDInterfaces *m_interfaces;
+        VMTDSettings *m_settings;
 
         QVector<VMTDInterfaceForm *> m_interfaceForms;
 

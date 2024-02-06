@@ -29,6 +29,7 @@ namespace VMTDLib
         Ui::VMTDNetForm *ui;
 
         VMTDNet *m_net;
+        VMTDSettings *m_settings;
 
         int m_currentNxApiDeviceId;
         int m_currentNodeDeviceId;

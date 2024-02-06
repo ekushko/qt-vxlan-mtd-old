@@ -8,14 +8,18 @@ namespace VMTDLib
     VMTDNxApiServerForm::VMTDNxApiServerForm(QWidget *parent, VMTDNxApiServer *server) :
         QWidget(parent),
         ui(new Ui::VMTDNxApiServerForm),
-        m_server(server)
+        m_server(server),
+        m_settings(server->settings())
     {
-        m_server->settings()->debugOut(VN_S(VMTDNxApiServerForm) + " | Constructor called");
+        m_settings->debugOut(VN_S(VMTDNxApiServerForm) + " | Constructor called");
 
         ui->setupUi(this);
 
         if (parent != nullptr && parent->layout() != nullptr)
             parent->layout()->addWidget(this);
+
+        if (parent != nullptr)
+            ui->pbClose->hide();
 
         setAttribute(Qt::WA_DeleteOnClose, true);
         setWindowTitle("NX-API Adapters");
@@ -46,16 +50,16 @@ namespace VMTDLib
 
         uiTimerTickSlot();
 
-        m_server->settings()->debugOut(VN_S(VMTDNxApiServerForm) + " | Constructor finished");
+        m_settings->debugOut(VN_S(VMTDNxApiServerForm) + " | Constructor finished");
     }
 
     VMTDNxApiServerForm::~VMTDNxApiServerForm()
     {
-        m_server->settings()->debugOut(VN_S(VMTDNxApiServerForm) + " | Destructor called");
+        m_settings->debugOut(VN_S(VMTDNxApiServerForm) + " | Destructor called");
 
         delete ui;
 
-        m_server->settings()->debugOut(VN_S(VMTDNxApiServerForm) + " | Destructor finished");
+        m_settings->debugOut(VN_S(VMTDNxApiServerForm) + " | Destructor finished");
     }
 
     void VMTDNxApiServerForm::uiTimerTickSlot()
@@ -93,6 +97,6 @@ namespace VMTDLib
     void VMTDNxApiServerForm::pbHideRightClicked()
     {
         ui->wRight->setVisible(!ui->wRight->isVisible());
-        ui->pbHideRight->setText(ui->wRight->isVisible() ? "<" : ">");
+        ui->pbHideRight->setText(ui->wRight->isVisible() ? ">" : "<");
     }
 }

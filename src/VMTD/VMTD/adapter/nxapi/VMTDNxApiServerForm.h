@@ -27,6 +27,7 @@ namespace VMTDLib
         Ui::VMTDNxApiServerForm *ui;
 
         VMTDNxApiServer *m_server;
+        VMTDSettings *m_settings;
 
         QTimer m_uiTimer;
 

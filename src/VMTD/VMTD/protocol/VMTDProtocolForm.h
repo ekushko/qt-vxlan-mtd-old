@@ -27,6 +27,7 @@ namespace VMTDLib
         Ui::VMTDProtocolForm *ui;
 
         VMTDProtocol *m_protocol;
+        VMTDSettings *m_settings;
 
         QMap<VMTDProtocolHandler *, VMTDProtocolHandlerForm *> m_handlerForms;
 

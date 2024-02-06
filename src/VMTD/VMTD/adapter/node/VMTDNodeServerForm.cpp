@@ -8,14 +8,18 @@ namespace VMTDLib
     VMTDNodeServerForm::VMTDNodeServerForm(QWidget *parent, VMTDNodeServer *server) :
         QWidget(parent),
         ui(new Ui::VMTDNodeServerForm),
-        m_server(server)
+        m_server(server),
+        m_settings(server->settings())
     {
-        m_server->settings()->debugOut(VN_S(VMTDNodeServerForm) + " | Constructor called");
+        m_settings->debugOut(VN_S(VMTDNodeServerForm) + " | Constructor called");
 
         ui->setupUi(this);
 
         if (parent != nullptr && parent->layout() != nullptr)
             parent->layout()->addWidget(this);
+
+        if (parent != nullptr)
+            ui->pbClose->hide();
 
         setAttribute(Qt::WA_DeleteOnClose, true);
 
@@ -39,16 +43,16 @@ namespace VMTDLib
                 this, &VMTDNodeServerForm::uiTimerTickSlot);
         m_uiTimer.start(500);
 
-        m_server->settings()->debugOut(VN_S(VMTDNodeServerForm) + " | Constructor finished");
+        m_settings->debugOut(VN_S(VMTDNodeServerForm) + " | Constructor finished");
     }
 
     VMTDNodeServerForm::~VMTDNodeServerForm()
     {
-        m_server->settings()->debugOut(VN_S(VMTDNodeServerForm) + " | Destructor called");
+        m_settings->debugOut(VN_S(VMTDNodeServerForm) + " | Destructor called");
 
         delete ui;
 
-        m_server->settings()->debugOut(VN_S(VMTDNodeServerForm) + " | Destructor finished");
+        m_settings->debugOut(VN_S(VMTDNodeServerForm) + " | Destructor finished");
     }
 
     void VMTDNodeServerForm::showDebugSlot(QWebSocket *socket, const QTime &time, const QString &text)
@@ -93,7 +97,7 @@ namespace VMTDLib
         }
 
         const auto title = QString("VMTD Node-сервер: %1")
-                           .arg(m_server->settings()->localPort());
+                           .arg(m_settings->localPort());
         setWindowTitle(title);
 
         if (m_server->wsServer()->isListening())
@@ -102,7 +106,7 @@ namespace VMTDLib
             ui->pbStop->setEnabled(true);
             ui->lbOpen->setText("Running: Yes");
             ui->lbLocalAdress->setText("Listening: "
-                                       + QString::number(m_server->settings()->serverPort()));
+                                       + QString::number(m_settings->serverPort()));
             ui->lbClientSockets->setText("Connected clients: "
                                          + QString::number(m_server->WsClientSockets.size()));
             ui->lbServerName->setText("Server name: "

@@ -9,9 +9,10 @@ namespace VMTDLib
                                                              VMTDNodeProtocolHandler *handler) :
         QWidget(parent),
         ui(new Ui::VMTDNodeProtocolHandlerForm),
-        m_handler(handler)
+        m_handler(handler),
+        m_settings(handler->settings())
     {
-        m_handler->settings()->debugOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Constructor called");
+        m_settings->debugOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -30,23 +31,23 @@ namespace VMTDLib
         connect(ui->pbSend, &QPushButton::clicked,
                 this, &VMTDNodeProtocolHandlerForm::pbSendClicked);
 
-        if (m_handler->settings()->nodeType() == VMTDNodeType::CLIENT)
+        if (m_settings->nodeType() == VMTDNodeType::CLIENT)
             ui->gbRequest->hide();
 
         m_uiTimer.setParent(this);
         connect(&m_uiTimer, &QTimer::timeout, this, &VMTDNodeProtocolHandlerForm::uiTimerTickSlot);
         m_uiTimer.start(200);
 
-        m_handler->settings()->debugOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Constructor finished");
+        m_settings->debugOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Constructor finished");
     }
 
     VMTDNodeProtocolHandlerForm::~VMTDNodeProtocolHandlerForm()
     {
-        m_handler->settings()->debugOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Destructor called");
+        m_settings->debugOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Destructor called");
 
         delete ui;
 
-        m_handler->settings()->debugOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Destructor finished");
+        m_settings->debugOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Destructor finished");
     }
 
     void VMTDNodeProtocolHandlerForm::uiTimerTickSlot()

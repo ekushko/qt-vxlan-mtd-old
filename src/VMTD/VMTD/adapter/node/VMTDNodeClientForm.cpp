@@ -8,14 +8,18 @@ namespace VMTDLib
     VMTDNodeClientForm::VMTDNodeClientForm(QWidget *parent, VMTDNodeClient *client) :
         QWidget(parent),
         ui(new Ui::VMTDNodeClientForm),
-        m_client(client)
+        m_client(client),
+        m_settings(client->settings())
     {
-        m_client->settings()->debugOut(VN_S(VMTDNodeClientForm) + " | Constructor called");
+        m_settings->debugOut(VN_S(VMTDNodeClientForm) + " | Constructor called");
 
         ui->setupUi(this);
 
         if (parent != nullptr && parent->layout() != nullptr)
             parent->layout()->addWidget(this);
+
+        if (parent != nullptr)
+            ui->pbClose->hide();
 
         setAttribute(Qt::WA_DeleteOnClose, true);
 
@@ -33,16 +37,16 @@ namespace VMTDLib
         connect(&m_uiTimer, &QTimer::timeout, this, &VMTDNodeClientForm::uiTimerTickSlot);
         m_uiTimer.start(500);
 
-        m_client->settings()->debugOut(VN_S(VMTDNodeClientForm) + " | Constructor finished");
+        m_settings->debugOut(VN_S(VMTDNodeClientForm) + " | Constructor finished");
     }
 
     VMTDNodeClientForm::~VMTDNodeClientForm()
     {
-        m_client->settings()->debugOut(VN_S(VMTDNodeClientForm) + " | Destructor called");
+        m_settings->debugOut(VN_S(VMTDNodeClientForm) + " | Destructor called");
 
         delete ui;
 
-        m_client->settings()->debugOut(VN_S(VMTDNodeClientForm) + " | Destructor finished");
+        m_settings->debugOut(VN_S(VMTDNodeClientForm) + " | Destructor finished");
     }
 
     void VMTDNodeClientForm::initializeView()
@@ -74,8 +78,8 @@ namespace VMTDLib
         }
 
         const QString title = QString("VMTD Node-client: %1:%2")
-                              .arg(m_client->settings()->serverIp())
-                              .arg(m_client->settings()->serverPort());
+                              .arg(m_settings->serverIp())
+                              .arg(m_settings->serverPort());
         setWindowTitle(title);
 
         const auto socketState = m_client->socket()->state();

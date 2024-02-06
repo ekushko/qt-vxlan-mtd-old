@@ -28,6 +28,7 @@ namespace VMTDLib
         Ui::VMTDControllerForm *ui;
 
         VMTDController *m_controller;
+        VMTDSettings *m_settings;
 
         QTimer m_uiTimer;
 
