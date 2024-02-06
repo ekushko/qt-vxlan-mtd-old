@@ -12,6 +12,8 @@ namespace VMTDLib
         ui(new Ui::VMTDInterfacesForm),
         m_interfaces(interfaces)
     {
+        m_interfaces->settings()->debugOut(VN_S(VMTDInterfacesForm) + " | Constructor called");
+
         ui->setupUi(this);
 
         if (parent != nullptr && parent->layout() != nullptr)
@@ -24,11 +26,17 @@ namespace VMTDLib
 
         setEditMode(false);
         updateView();
+
+        m_interfaces->settings()->debugOut(VN_S(VMTDInterfacesForm) + " | Constructor finished");
     }
 
     VMTDInterfacesForm::~VMTDInterfacesForm()
     {
+        m_interfaces->settings()->debugOut(VN_S(VMTDInterfacesForm) + " | Destructor called");
+
         delete ui;
+
+        m_interfaces->settings()->debugOut(VN_S(VMTDInterfacesForm) + " | Destructor finished");
     }
 
     void VMTDInterfacesForm::setEditMode(bool isEditMode)

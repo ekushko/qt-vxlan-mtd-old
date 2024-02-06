@@ -15,6 +15,9 @@ namespace VMTDLib
     public:
 
         VMTDInterfaces(QObject *parent, VMTDSettings *settings);
+        ~VMTDInterfaces();
+
+        VMTDSettings *settings() const;
 
         QJsonObject toJson() const;
         void      fromJson(const QJsonObject &jsonObj);

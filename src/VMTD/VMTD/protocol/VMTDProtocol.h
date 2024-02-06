@@ -20,6 +20,8 @@ namespace VMTDLib
         VMTDProtocol(QObject *parent, VMTDNet *net);
         ~VMTDProtocol();
 
+        VMTDSettings *settings() const;
+
         void setNxApiServer(VMTDNxApiServer *nxApiServer);
 
         void setNodeServer(VMTDNodeServer *nodeServer);

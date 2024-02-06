@@ -10,14 +10,27 @@ namespace VMTDLib
         , m_settings(settings)
         , m_id(id)
     {
+        m_settings->debugOut(VN_S(VMTDNodeDevice) + " | Constructor called");
+
         m_interfaces = new VMTDInterfaces(this, m_settings);
         m_interfaces->setOnlyOneMode(true);
+
+        m_settings->debugOut(VN_S(VMTDNodeDevice) + " | Constructor finished");
     }
 
     VMTDNodeDevice::~VMTDNodeDevice()
     {
+        m_settings->debugOut(VN_S(VMTDNodeDevice) + " | Destructor called");
+
         if (m_form != nullptr)
             m_form->deleteLater();
+
+        m_settings->debugOut(VN_S(VMTDNodeDevice) + " | Destructor finished");
+    }
+
+    VMTDSettings *VMTDNodeDevice::settings() const
+    {
+        return m_settings;
     }
 
     const QString &VMTDNodeDevice::enRoleToS(const EnRole &role)

@@ -18,6 +18,8 @@ namespace VMTDLib
         VMTDNxApiDevice(QObject *parent, VMTDSettings *settings, int id);
         ~VMTDNxApiDevice();
 
+        VMTDSettings *settings() const;
+
         // ЛОГИКА
 
         QJsonObject toJson() const;

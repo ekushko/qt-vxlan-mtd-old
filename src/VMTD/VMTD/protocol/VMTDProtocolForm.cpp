@@ -1,6 +1,8 @@
 #include    "VMTDProtocolForm.h"
 #include "ui_VMTDProtocolForm.h"
 
+#include "../VMTDRepo.h"
+
 #include <QTabBar>
 
 namespace VMTDLib
@@ -10,6 +12,8 @@ namespace VMTDLib
         ui(new Ui::VMTDProtocolForm),
         m_protocol(protocol)
     {
+        m_protocol->settings()->debugOut(VN_S(VMTDProtocolForm) + " | Constructor called");
+
         ui->setupUi(this);
 
         if (parent != nullptr && parent->layout() != nullptr)
@@ -30,11 +34,17 @@ namespace VMTDLib
 
         for (auto handler : m_protocol->handlers())
             handlerCreatedSlot(handler);
+
+        m_protocol->settings()->debugOut(VN_S(VMTDProtocolForm) + " | Constructor finished");
     }
 
     VMTDProtocolForm::~VMTDProtocolForm()
     {
+        m_protocol->settings()->debugOut(VN_S(VMTDProtocolForm) + " | Destructor called");
+
         delete ui;
+
+        m_protocol->settings()->debugOut(VN_S(VMTDProtocolForm) + " | Destructor finished");
     }
 
     void VMTDProtocolForm::handlerCreatedSlot(VMTDProtocolHandler *handler)

@@ -14,6 +14,7 @@ namespace VMTDLib
         Q_OBJECT
 
     public:
+
         explicit VMTDAdapterForm(QWidget *parent = nullptr);
         ~VMTDAdapterForm();
 

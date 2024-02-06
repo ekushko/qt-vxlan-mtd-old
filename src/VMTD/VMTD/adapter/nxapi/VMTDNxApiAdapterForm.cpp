@@ -14,7 +14,7 @@ namespace VMTDLib
         ui(new Ui::VMTDNxApiAdapterForm),
         m_adapter(adapter)
     {
-        m_adapter->settings()->debugOut(VN_S(VMTDNxApiAdapterForm) + " was created");
+        m_adapter->settings()->debugOut(VN_S(VMTDNxApiAdapterForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -30,13 +30,17 @@ namespace VMTDLib
 
         initializeView();
         updateView();
+
+        m_adapter->settings()->debugOut(VN_S(VMTDNxApiAdapterForm) + " | Constructor finished");
     }
 
     VMTDNxApiAdapterForm::~VMTDNxApiAdapterForm()
     {
-        m_adapter->settings()->debugOut(VN_S(VMTDNxApiAdapterForm) + " was deleted");
+        m_adapter->settings()->debugOut(VN_S(VMTDNxApiAdapterForm) + " | Destructor called");
 
         delete ui;
+
+        m_adapter->settings()->debugOut(VN_S(VMTDNxApiAdapterForm) + " | Destructor finished");
     }
 
     void VMTDNxApiAdapterForm::updateView()

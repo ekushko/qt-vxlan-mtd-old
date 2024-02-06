@@ -8,17 +8,21 @@
 namespace VMTDLib
 {
     VMTDNodeServer::VMTDNodeServer(QObject *parent, VMTDSettings *settings)
-        : QObject{parent}
-        , m_settings{settings}
+        : QObject(parent)
+        , m_settings(settings)
     {
+        m_settings->debugOut(VN_S(VMTDNodeServer) + " | Constructor called");
+
         m_wsServer = new QWebSocketServer("VMTDNodeServer", QWebSocketServer::NonSecureMode, this);
         connect(m_wsServer, &QWebSocketServer::newConnection, this, &VMTDNodeServer::newConnectionSlot);
 
-        m_settings->debugOut(VN_S(VMTDNodeServer) + " created");
+        m_settings->debugOut(VN_S(VMTDNodeServer) + " | Constructor finished");
     }
 
     VMTDNodeServer::~VMTDNodeServer()
     {
+        m_settings->debugOut(VN_S(VMTDNodeServer) + " | Destructor called");
+
         if (m_form != nullptr)
             m_form->deleteLater();
 
@@ -26,7 +30,7 @@ namespace VMTDLib
 
         delete m_wsServer;
 
-        m_settings->debugOut(VN_S(VMTDNodeServer) + " deleted");
+        m_settings->debugOut(VN_S(VMTDNodeServer) + " | Destructor finished");
     }
 
     VMTDSettings *VMTDNodeServer::settings() const
@@ -69,8 +73,9 @@ namespace VMTDLib
 
         if (m_wsServer->isListening())
         {
-            debugString = VN_S(VMTDNodeServer) + "Server already started";
+            debugString = "Server already started";
             emit showDebugSignal(nullptr, QTime::currentTime(), debugString);
+            m_settings->debugOut(VN_S(VMTDNodeServer) + " | " + debugString);
 
             return;
         }
@@ -88,6 +93,7 @@ namespace VMTDLib
         }
 
         emit showDebugSignal(nullptr, QTime::currentTime(), debugString);
+        m_settings->debugOut(VN_S(VMTDNodeServer) + " | " + debugString);
     }
     void VMTDNodeServer::stopListenSlot()
     {
@@ -110,6 +116,7 @@ namespace VMTDLib
         }
 
         emit showDebugSignal(nullptr, QTime::currentTime(), debugString);
+        m_settings->debugOut(VN_S(VMTDNodeServer) + " | " + debugString);
     }
     void VMTDNodeServer::restartListenSlot()
     {
@@ -133,6 +140,7 @@ namespace VMTDLib
                            .arg(data);
 
         emit showDebugSignal(socket, QTime::currentTime(), debugString);
+        m_settings->debugOut(VN_S(VMTDNodeServer) + " | " + debugString);
     }
 
     void VMTDNodeServer::newConnectionSlot()
@@ -145,6 +153,7 @@ namespace VMTDLib
         {
             debugString = "Incorrect client socket in {newConnection} slot-function";
             emit showDebugSignal(nullptr, QTime::currentTime(), debugString);
+            m_settings->debugOut(VN_S(VMTDNodeServer) + " | " + debugString);
 
             return;
         }
@@ -163,6 +172,7 @@ namespace VMTDLib
                       .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
                       .arg(socket->peerPort());
         emit showDebugSignal(nullptr, QTime::currentTime(), debugString);
+        m_settings->debugOut(VN_S(VMTDNodeServer) + " | " + debugString);
 
         emit clientConnectedSignal(socket);
     }
@@ -177,6 +187,7 @@ namespace VMTDLib
                                  .arg(data);
 
         emit showDebugSignal(socket, QTime::currentTime(), debugString);
+        m_settings->debugOut(VN_S(VMTDNodeServer) + " | " + debugString);
 
         emit receiveMessageSignal(socket, data);
     }
@@ -194,6 +205,7 @@ namespace VMTDLib
                                  .arg(QVariant::fromValue(error).toString());
 
         emit showDebugSignal(socket, QTime::currentTime(), errorString);
+        m_settings->debugOut(VN_S(VMTDNodeServer) + " | " + errorString);
     }
 
     void VMTDNodeServer::connectedSlot()
@@ -211,6 +223,7 @@ namespace VMTDLib
             debugString = "Incorrect client socket in {disconnected} slot-function";
 
             emit showDebugSignal(nullptr, QTime::currentTime(), debugString);
+            m_settings->debugOut(VN_S(VMTDNodeServer) + " | " + debugString);
 
             return;
         }
@@ -220,6 +233,7 @@ namespace VMTDLib
                       .arg(socket->peerPort());
 
         emit showDebugSignal(nullptr, QTime::currentTime(), debugString);
+        m_settings->debugOut(VN_S(VMTDNodeServer) + " | " + debugString);
 
         emit clientDisconnectedSignal(socket);
 

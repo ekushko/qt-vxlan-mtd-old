@@ -12,13 +12,21 @@ namespace VMTDLib
         , m_device(device)
         , m_socket(socket)
     {
+        m_settings->debugOut(VN_S(VMTDNodeProtocolHandler) + " | Constructor called");
 
+        // do nothing
+
+        m_settings->debugOut(VN_S(VMTDNodeProtocolHandler) + " | Constructor finished");
     }
 
     VMTDNodeProtocolHandler::~VMTDNodeProtocolHandler()
     {
+        m_settings->debugOut(VN_S(VMTDNodeProtocolHandler) + " | Destructor called");
+
         if (m_form != nullptr)
             m_form->deleteLater();
+
+        m_settings->debugOut(VN_S(VMTDNodeProtocolHandler) + " | Destructor finished");
     }
 
     const QString &VMTDNodeProtocolHandler::enErrorToS(const EnError &error)
@@ -204,6 +212,21 @@ namespace VMTDLib
         isValid &= response.contains("jsonrpc") && response["jsonrpc"].toString() == "2.0";
         isValid &= response.contains("result") || response.contains("error");
 
+        if (isValid && response.contains("error") && response["error"].isObject())
+        {
+            const auto errorObj = response["error"].toObject();
+
+            isValid &= errorObj.contains("code");
+            isValid &= !errorObj["code"].isNull();
+
+            isValid &= errorObj.contains("message");
+            isValid &= errorObj["message"].isString();
+        }
+        else
+        {
+            return false;
+        }
+
         return isValid;
     }
     QJsonObject VMTDNodeProtocolHandler::buildResponse(const QJsonValue &id,
@@ -243,8 +266,10 @@ namespace VMTDLib
         {
             if (response.contains("error"))
             {
+                const auto errorObj = response["error"].toObject();
+
                 emit showDebugSignal(QTime::currentTime(), QString("Response error: %1\n")
-                                     .arg(response["error"].toString()));
+                                     .arg(errorObj["message"].toString()));
             }
             else if (response.contains("result"))
             {

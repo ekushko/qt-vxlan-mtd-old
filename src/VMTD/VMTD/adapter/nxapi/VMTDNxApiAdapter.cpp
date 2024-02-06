@@ -17,18 +17,24 @@ namespace VMTDLib
         , m_netManager(netManager)
         , m_url("https://127.0.0.1/ins")
     {
-        m_settings->debugOut(VN_S(VMTDNxApiAdapter) + " was created");
+        m_settings->debugOut(VN_S(VMTDNxApiAdapter) + " | Constructor called");
 
         connect(m_netManager, &QNetworkAccessManager::finished,
                 this, &VMTDNxApiAdapter::replyFinishedSlot);
+
+        m_settings->debugOut(VN_S(VMTDNxApiAdapter) + " | Constructor finished");
     }
 
     VMTDNxApiAdapter::~VMTDNxApiAdapter()
     {
-        m_settings->debugOut(VN_S(VMTDNxApiAdapter) + QString("(%1) was deleted").arg(m_url.toString()));
+        m_settings->debugOut(VN_S(VMTDNxApiAdapter) + QString("(%1) | Destructor called")
+                             .arg(m_url.toString(QUrl::RemoveUserInfo)));
 
         if (m_form != nullptr)
             m_form->deleteLater();
+
+        m_settings->debugOut(VN_S(VMTDNxApiAdapter) + QString("(%1) | Destructor finished")
+                             .arg(m_url.toString(QUrl::RemoveUserInfo)));
     }
 
     QJsonObject VMTDNxApiAdapter::toJson() const
@@ -120,17 +126,20 @@ namespace VMTDLib
         if (!reply->isFinished())
             return;
 
-        QString message = "Response:";
+        QString debugString = "Response received:\n";
 
         if (reply->error() == QNetworkReply::NoError)
-            message.append(reply->readAll());
+            debugString.append(reply->readAll());
         else
-            message.append(reply->errorString());
+            debugString.append(reply->errorString());
 
         emit commandExecutedSignal(reply->error() != QNetworkReply::ConnectionRefusedError,
                                    reply->error() != QNetworkReply::NoError);
 
-        emit showDebugSignal(QTime::currentTime(), message);
+        emit showDebugSignal(QTime::currentTime(), debugString);
+        m_settings->debugOut(VN_S(VMTDNxApiAdapter) + QString("(%1) | %2")
+                             .arg(m_url.toString(QUrl::RemoveUserInfo))
+                             .arg(debugString));
 
         reply->deleteLater();
     }
@@ -143,16 +152,19 @@ namespace VMTDLib
     }
     void VMTDNxApiAdapter::showRequest(QNetworkRequest *request, QJsonDocument *jsonDoc)
     {
-        QString message = "Request:\n" + request->url().toString();
+        QString debugString = "Request sent:\n" + request->url().toString();
 
         const QList<QByteArray> &rawHeaderList(request->rawHeaderList());
 
         foreach (QByteArray rawHeader, rawHeaderList)
-            message.append("\n" + request->rawHeader(rawHeader));
+            debugString.append("\n" + request->rawHeader(rawHeader));
 
         if (jsonDoc != nullptr)
-            message.append("\n" + jsonDoc->toJson(QJsonDocument::JsonFormat::Indented));
+            debugString.append("\n" + jsonDoc->toJson(QJsonDocument::JsonFormat::Indented));
 
-        emit showDebugSignal(QTime::currentTime(), message);
+        emit showDebugSignal(QTime::currentTime(), debugString);
+        m_settings->debugOut(VN_S(VMTDNxApiAdapter) + QString("(%1) | %2")
+                             .arg(m_url.toString(QUrl::RemoveUserInfo))
+                             .arg(debugString));
     }
 }

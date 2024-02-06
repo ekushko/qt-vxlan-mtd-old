@@ -1,15 +1,19 @@
 #include "VMTDNodeClient.h"
 #include "VMTDNodeClientForm.h"
 
+#include "../../VMTDRepo.h"
+
 #include <QJsonDocument>
 #include <QJsonObject>
 
 namespace VMTDLib
 {
     VMTDNodeClient::VMTDNodeClient(QObject *parent, VMTDSettings *settings)
-        : QObject{parent}
-        , m_settings{settings}
+        : QObject(parent)
+        , m_settings(settings)
     {
+        m_settings->debugOut(VN_S(VMTDNodeClient) + " | Constructor called");
+
         m_socket = new QWebSocket(m_settings->debugName(), QWebSocketProtocol::VersionLatest, this);
         connect(m_socket, &QWebSocket::textMessageReceived,
                 this, &VMTDNodeClient::textMessageReceivedSlot);
@@ -21,17 +25,25 @@ namespace VMTDLib
 
         m_reconnectTimer.setParent(this);
         connect(&m_reconnectTimer, &QTimer::timeout, this, &VMTDNodeClient::reconnectTimerTickSlot);
-        m_reconnectTimer.start(m_settings->reconnectInterval());
+
+        if (m_settings->shouldReconnect())
+            m_reconnectTimer.start(m_settings->reconnectInterval());
+
+        m_settings->debugOut(VN_S(VMTDNodeClient) + " | Constructor finished");
     }
 
     VMTDNodeClient::~VMTDNodeClient()
     {
+        m_settings->debugOut(VN_S(VMTDNodeClient) + " | Destructor called");
+
         if (m_form != nullptr)
             m_form->deleteLater();
 
         disconnectSocketSlot();
 
         m_socket->deleteLater();
+
+        m_settings->debugOut(VN_S(VMTDNodeClient) + " | Destructor finished");
     }
 
     VMTDSettings *VMTDNodeClient::settings() const
@@ -111,6 +123,7 @@ namespace VMTDLib
                            .arg(data);
 
         emit showDebugSignal(socket, QTime::currentTime(), debugString);
+        m_settings->debugOut(VN_S(VMTDNodeClient) + " | " + debugString);
     }
 
 
@@ -122,37 +135,46 @@ namespace VMTDLib
                                  .arg(data);
 
         emit showDebugSignal(m_socket, QTime::currentTime(), debugString);
+        m_settings->debugOut(VN_S(VMTDNodeClient) + " | " + debugString);
 
         emit receiveMessageSignal(m_socket, data);
     }
 
     void VMTDNodeClient::connectedSlot()
     {
-        emit showDebugSignal(m_socket, QTime::currentTime(), "Socket connected!");
+        const auto debugString = QString("Socket connected!");
+
+        emit showDebugSignal(m_socket, QTime::currentTime(), debugString);
+        m_settings->debugOut(VN_S(VMTDNodeClient) + " | " + debugString);
     }
     void VMTDNodeClient::disconnectedSlot()
     {
-        emit showDebugSignal(m_socket, QTime::currentTime(), "Socket disconnected!");
+        const auto debugString = QString("Socket disconnected!");
+
+        emit showDebugSignal(m_socket, QTime::currentTime(), debugString);
+        m_settings->debugOut(VN_S(VMTDNodeClient) + " | " + debugString);
     }
 
     void VMTDNodeClient::errorSlot(QAbstractSocket::SocketError error)
     {
         const auto errorString = QString("Error {%1:%2}: %3")
-                                 .arg(QHostAddress(m_socket->peerAddress().toIPv4Address()).toString())
-                                 .arg(m_socket->peerPort())
+                                 .arg(m_settings->serverIp())
+                                 .arg(m_settings->serverPort())
                                  .arg(QVariant::fromValue(error).toString());
 
         emit showDebugSignal(m_socket, QTime::currentTime(), errorString);
+        m_settings->debugOut(VN_S(VMTDNodeClient) + " | " + errorString);
     }
 
     void VMTDNodeClient::stateChangedSlot(QAbstractSocket::SocketState state)
     {
         const auto debugString = QString("{%1:%2}: ")
-                                 .arg(QHostAddress(m_socket->peerAddress().toIPv4Address()).toString())
-                                 .arg(m_socket->peerPort())
+                                 .arg(m_settings->serverIp())
+                                 .arg(m_settings->serverPort())
                                  + QVariant::fromValue(state).toString();
 
         emit showDebugSignal(m_socket, QTime::currentTime(), debugString);
+        m_settings->debugOut(VN_S(VMTDNodeClient) + " | " + debugString);
     }
 
     void VMTDNodeClient::reconnectTimerTickSlot()
@@ -164,8 +186,12 @@ namespace VMTDLib
             && m_socket->state() != QAbstractSocket::ConnectingState
             && m_socket->state() != QAbstractSocket::HostLookupState)
         {
-            emit showDebugSignal(m_socket, QTime::currentTime(),
-                                 "Socket is not connected. Trying to reconnect");
+            const auto debugString = QString("Socket is not connected. Trying to reconnect");
+
+            connectSocketSlot();
+
+            emit showDebugSignal(m_socket, QTime::currentTime(), debugString);
+            m_settings->debugOut(VN_S(VMTDNodeClient) + " | " + debugString);
         }
     }
 }

@@ -17,6 +17,8 @@ namespace VMTDLib
         VMTDNxApiServer(QObject *parent, VMTDSettings *settings);
         ~VMTDNxApiServer();
 
+        VMTDSettings *settings() const;
+
         bool isListening() const;
 
         const QVector<VMTDNxApiAdapter *> &adapters() const;

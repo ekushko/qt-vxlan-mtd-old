@@ -42,7 +42,7 @@ namespace VMTDLib
         m_idCounter = 0;
         m_shouldBeRestarted = false;
 
-        debugOut(VN_S(VMTDSettings) + " is creating...");
+        debugOut(VN_S(VMTDSettings) + " | Constructor called");
 
         connect(this, &VMTDSettings::saveSignal, this, &VMTDSettings::saveSlot);
         connect(this, &VMTDSettings::loadSignal, this, &VMTDSettings::loadSlot);
@@ -58,15 +58,17 @@ namespace VMTDLib
 
         load();
 
-        debugOut(VN_S(VMTDSettings) + " was created");
+        debugOut(VN_S(VMTDSettings) + " | Constructor finished");
     }
 
     VMTDSettings::~VMTDSettings()
     {
+        debugOut(VN_S(VMTDSettings) + " | Destructor called");
+
         if (m_form != nullptr)
             delete m_form;
 
-        debugOut(VN_S(VMTDSettings) + " was deleted");
+        debugOut(VN_S(VMTDSettings) + " | Destructor finished");
     }
 
     const QString &VMTDSettings::enNodeTypeToS(const EnNodeType &nodeType)

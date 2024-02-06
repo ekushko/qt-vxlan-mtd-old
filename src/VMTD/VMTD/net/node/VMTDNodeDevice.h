@@ -16,6 +16,8 @@ namespace VMTDLib
         VMTDNodeDevice(QObject *parent, VMTDSettings *settings, int id);
         ~VMTDNodeDevice();
 
+        VMTDSettings *settings() const;
+
         // КОНСТАНТЫ
 
         enum class EnRole

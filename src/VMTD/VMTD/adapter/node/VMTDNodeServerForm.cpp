@@ -1,6 +1,8 @@
 #include    "VMTDNodeServerForm.h"
 #include "ui_VMTDNodeServerForm.h"
 
+#include "../../VMTDRepo.h"
+
 namespace VMTDLib
 {
     VMTDNodeServerForm::VMTDNodeServerForm(QWidget *parent, VMTDNodeServer *server) :
@@ -8,6 +10,8 @@ namespace VMTDLib
         ui(new Ui::VMTDNodeServerForm),
         m_server(server)
     {
+        m_server->settings()->debugOut(VN_S(VMTDNodeServerForm) + " | Constructor called");
+
         ui->setupUi(this);
 
         if (parent != nullptr && parent->layout() != nullptr)
@@ -34,11 +38,17 @@ namespace VMTDLib
         connect(&m_uiTimer, &QTimer::timeout,
                 this, &VMTDNodeServerForm::uiTimerTickSlot);
         m_uiTimer.start(500);
+
+        m_server->settings()->debugOut(VN_S(VMTDNodeServerForm) + " | Constructor finished");
     }
 
     VMTDNodeServerForm::~VMTDNodeServerForm()
     {
+        m_server->settings()->debugOut(VN_S(VMTDNodeServerForm) + " | Destructor called");
+
         delete ui;
+
+        m_server->settings()->debugOut(VN_S(VMTDNodeServerForm) + " | Destructor finished");
     }
 
     void VMTDNodeServerForm::showDebugSlot(QWebSocket *socket, const QTime &time, const QString &text)

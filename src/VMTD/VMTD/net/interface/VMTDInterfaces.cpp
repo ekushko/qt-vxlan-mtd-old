@@ -11,7 +11,25 @@ namespace VMTDLib
         : QObject(parent)
         , m_settings(settings)
     {
+        m_settings->debugOut(VN_S(VMTDInterfaces) + " | Constructor called");
 
+        // do nothing
+
+        m_settings->debugOut(VN_S(VMTDInterfaces) + " | Constructor finished");
+    }
+
+    VMTDInterfaces::~VMTDInterfaces()
+    {
+        m_settings->debugOut(VN_S(VMTDInterfaces) + " | Destructor called");
+
+        // do nothing
+
+        m_settings->debugOut(VN_S(VMTDInterfaces) + " | Destructor finished");
+    }
+
+    VMTDSettings *VMTDInterfaces::settings() const
+    {
+        return m_settings;
     }
 
     QJsonObject VMTDInterfaces::toJson() const

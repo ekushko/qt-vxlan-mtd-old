@@ -1,6 +1,8 @@
 #include    "VMTDNxApiDeviceForm.h"
 #include "ui_VMTDNxApiDeviceForm.h"
 
+#include "../../VMTDRepo.h"
+
 namespace VMTDLib
 {
     VMTDNxApiDeviceForm::VMTDNxApiDeviceForm(QWidget *parent, VMTDNxApiDevice *device) :
@@ -8,6 +10,8 @@ namespace VMTDLib
         ui(new Ui::VMTDNxApiDeviceForm),
         m_device(device)
     {
+        m_device->settings()->debugOut(VN_S(VMTDNxApiDeviceForm) + " | Constructor called");
+
         ui->setupUi(this);
 
         setAttribute(Qt::WA_DeleteOnClose, true);
@@ -18,11 +22,17 @@ namespace VMTDLib
 
         setEditMode(false);
         updateView();
+
+        m_device->settings()->debugOut(VN_S(VMTDNxApiDeviceForm) + " | Constructor finished");
     }
 
     VMTDNxApiDeviceForm::~VMTDNxApiDeviceForm()
     {
+        m_device->settings()->debugOut(VN_S(VMTDNxApiDeviceForm) + " | Destructor called");
+
         delete ui;
+
+        m_device->settings()->debugOut(VN_S(VMTDNxApiDeviceForm) + " | Destructor finished");
     }
 
     void VMTDNxApiDeviceForm::setEditMode(bool isEditMode)

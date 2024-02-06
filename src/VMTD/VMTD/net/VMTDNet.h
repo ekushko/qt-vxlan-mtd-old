@@ -16,6 +16,7 @@ namespace VMTDLib
     public:
 
         VMTDNet(QObject *parent, VMTDSettings *settings);
+        ~VMTDNet();
 
         VMTDSettings *settings() const;
 

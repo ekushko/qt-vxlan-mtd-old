@@ -1,6 +1,8 @@
 #include    "VMTDNodeProtocolHandlerForm.h"
 #include "ui_VMTDNodeProtocolHandlerForm.h"
 
+#include "../../VMTDRepo.h"
+
 namespace VMTDLib
 {
     VMTDNodeProtocolHandlerForm::VMTDNodeProtocolHandlerForm(QWidget *parent,
@@ -9,6 +11,8 @@ namespace VMTDLib
         ui(new Ui::VMTDNodeProtocolHandlerForm),
         m_handler(handler)
     {
+        m_handler->settings()->debugOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Constructor called");
+
         ui->setupUi(this);
 
         if (parent != nullptr && parent->layout() != nullptr)
@@ -32,11 +36,17 @@ namespace VMTDLib
         m_uiTimer.setParent(this);
         connect(&m_uiTimer, &QTimer::timeout, this, &VMTDNodeProtocolHandlerForm::uiTimerTickSlot);
         m_uiTimer.start(200);
+
+        m_handler->settings()->debugOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Constructor finished");
     }
 
     VMTDNodeProtocolHandlerForm::~VMTDNodeProtocolHandlerForm()
     {
+        m_handler->settings()->debugOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Destructor called");
+
         delete ui;
+
+        m_handler->settings()->debugOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Destructor finished");
     }
 
     void VMTDNodeProtocolHandlerForm::uiTimerTickSlot()

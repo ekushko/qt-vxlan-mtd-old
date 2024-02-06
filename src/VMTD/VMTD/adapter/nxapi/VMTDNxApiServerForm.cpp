@@ -1,6 +1,8 @@
 #include    "VMTDNxApiServerForm.h"
 #include "ui_VMTDNxApiServerForm.h"
 
+#include "../../VMTDRepo.h"
+
 namespace VMTDLib
 {
     VMTDNxApiServerForm::VMTDNxApiServerForm(QWidget *parent, VMTDNxApiServer *server) :
@@ -8,6 +10,8 @@ namespace VMTDLib
         ui(new Ui::VMTDNxApiServerForm),
         m_server(server)
     {
+        m_server->settings()->debugOut(VN_S(VMTDNxApiServerForm) + " | Constructor called");
+
         ui->setupUi(this);
 
         if (parent != nullptr && parent->layout() != nullptr)
@@ -41,11 +45,17 @@ namespace VMTDLib
         m_uiTimer.start(500);
 
         uiTimerTickSlot();
+
+        m_server->settings()->debugOut(VN_S(VMTDNxApiServerForm) + " | Constructor finished");
     }
 
     VMTDNxApiServerForm::~VMTDNxApiServerForm()
     {
+        m_server->settings()->debugOut(VN_S(VMTDNxApiServerForm) + " | Destructor called");
+
         delete ui;
+
+        m_server->settings()->debugOut(VN_S(VMTDNxApiServerForm) + " | Destructor finished");
     }
 
     void VMTDNxApiServerForm::uiTimerTickSlot()

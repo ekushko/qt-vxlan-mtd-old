@@ -5,20 +5,22 @@
 
 namespace VMTDLib
 {
-    VMTDNetForm::VMTDNetForm(QWidget *parent, VMTDNet *model) :
+    VMTDNetForm::VMTDNetForm(QWidget *parent, VMTDNet *net) :
         QWidget(parent),
         ui(new Ui::VMTDNetForm),
-        m_model(model)
+        m_net(net)
     {
+        m_net->settings()->debugOut(VN_S(VMTDNetForm) + " | Constructor called");
+
         ui->setupUi(this);
 
         if (parent != nullptr && parent->layout() != nullptr)
             parent->layout()->addWidget(this);
 
         connect(ui->pbSave, &QPushButton::clicked,
-                m_model, &VMTDNet::saveSlot);
+                m_net, &VMTDNet::saveSlot);
         connect(ui->pbLoad, &QPushButton::clicked,
-                m_model, &VMTDNet::loadSlot);
+                m_net, &VMTDNet::loadSlot);
 
         connect(ui->pbAddNxApiDevice, &QPushButton::clicked,
                 this, &VMTDNetForm::pbAddNxApiDeviceClicked);
@@ -40,18 +42,24 @@ namespace VMTDLib
 
         updateNxApiDevicesList();
         updateNodeDevicesList();
+
+        m_net->settings()->debugOut(VN_S(VMTDNetForm) + " | Constructor finished");
     }
 
     VMTDNetForm::~VMTDNetForm()
     {
+        m_net->settings()->debugOut(VN_S(VMTDNetForm) + " | Destructor called");
+
         delete ui;
+
+        m_net->settings()->debugOut(VN_S(VMTDNetForm) + " | Destructor finished");
     }
 
     void VMTDNetForm::updateNxApiDevicesList()
     {
         ui->lwNxApiDevices->clear();
 
-        for (auto nxApiDevice : m_model->nxApiDevices().values())
+        for (auto nxApiDevice : m_net->nxApiDevices().values())
             ui->lwNxApiDevices->addItem(nxApiDevice->name());
     }
 
@@ -59,7 +67,7 @@ namespace VMTDLib
     {
         ui->lwNodeDevices->clear();
 
-        for (auto nodeDevice : m_model->nodeDevices().values())
+        for (auto nodeDevice : m_net->nodeDevices().values())
         {
             const auto label = QString("id: %1 [%2]")
                                .arg(nodeDevice->id())
@@ -81,17 +89,17 @@ namespace VMTDLib
     {
         lwNxApiDevicesItemClicked(item);
 
-        auto nxApiDevice = m_model->nxApiDevice(m_currentNxApiDeviceId);
+        auto nxApiDevice = m_net->nxApiDevice(m_currentNxApiDeviceId);
         nxApiDevice->showFormSlot();
     }
     void VMTDNetForm::pbAddNxApiDeviceClicked()
     {
-        if (m_model->addNxApiDevice())
+        if (m_net->addNxApiDevice())
             updateNxApiDevicesList();
     }
     void VMTDNetForm::pbRemoveNxApiDeviceClicked()
     {
-        if (m_model->removeNxApiDevice(m_currentNxApiDeviceId))
+        if (m_net->removeNxApiDevice(m_currentNxApiDeviceId))
             updateNxApiDevicesList();
     }
 
@@ -108,17 +116,17 @@ namespace VMTDLib
     {
         lwNodeDevicesItemClicked(item);
 
-        auto nodeDevice = m_model->nodeDevice(m_currentNodeDeviceId);
+        auto nodeDevice = m_net->nodeDevice(m_currentNodeDeviceId);
         nodeDevice->showFormSlot();
     }
     void VMTDNetForm::pbAddNodeDeviceClicked()
     {
-        if (m_model->addNodeDevice())
+        if (m_net->addNodeDevice())
             updateNodeDevicesList();
     }
     void VMTDNetForm::pbRemoveNodeDeviceClicked()
     {
-        if (m_model->removeNodeDevice(m_currentNodeDeviceId))
+        if (m_net->removeNodeDevice(m_currentNodeDeviceId))
             updateNodeDevicesList();
     }
 }

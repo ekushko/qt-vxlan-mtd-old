@@ -1,6 +1,8 @@
 #include    "VMTDNodeClientForm.h"
 #include "ui_VMTDNodeClientForm.h"
 
+#include "../../VMTDRepo.h"
+
 namespace VMTDLib
 {
     VMTDNodeClientForm::VMTDNodeClientForm(QWidget *parent, VMTDNodeClient *client) :
@@ -8,6 +10,8 @@ namespace VMTDLib
         ui(new Ui::VMTDNodeClientForm),
         m_client(client)
     {
+        m_client->settings()->debugOut(VN_S(VMTDNodeClientForm) + " | Constructor called");
+
         ui->setupUi(this);
 
         if (parent != nullptr && parent->layout() != nullptr)
@@ -28,11 +32,17 @@ namespace VMTDLib
         m_uiTimer.setParent(this);
         connect(&m_uiTimer, &QTimer::timeout, this, &VMTDNodeClientForm::uiTimerTickSlot);
         m_uiTimer.start(500);
+
+        m_client->settings()->debugOut(VN_S(VMTDNodeClientForm) + " | Constructor finished");
     }
 
     VMTDNodeClientForm::~VMTDNodeClientForm()
     {
+        m_client->settings()->debugOut(VN_S(VMTDNodeClientForm) + " | Destructor called");
+
         delete ui;
+
+        m_client->settings()->debugOut(VN_S(VMTDNodeClientForm) + " | Destructor finished");
     }
 
     void VMTDNodeClientForm::initializeView()

@@ -13,6 +13,8 @@ namespace VMTDLib
         : QObject(parent)
         , m_settings(settings)
     {
+        m_settings->debugOut(VN_S(VMTDNet) + " | Constructor called");
+
         if (m_settings->nodeType() == VMTDNodeType::SERVER)
         {
             loadSlot();
@@ -25,6 +27,17 @@ namespace VMTDLib
             nodeDevice->setIp(m_settings->serverIp());
             m_nodeDevices[id] = nodeDevice;
         }
+
+        m_settings->debugOut(VN_S(VMTDNet) + " | Constructor finished");
+    }
+
+    VMTDNet::~VMTDNet()
+    {
+        m_settings->debugOut(VN_S(VMTDNet) + " | Destructor called");
+
+        // do nothing
+
+        m_settings->debugOut(VN_S(VMTDNet) + " | Destructor finished");
     }
 
     VMTDSettings *VMTDNet::settings() const

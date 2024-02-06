@@ -13,23 +13,31 @@ namespace VMTDLib
         m_settings = new VMTDSettings(this, systemName);
         connect(m_settings, &VMTDSettings::restartSignal, this, &VMTDController::restartSlot);
 
+        m_settings->debugOut(VN_S(VMTDController) + " | Constructor called");
+
         connect(this, &VMTDController::started, this, &VMTDController::startedSlot);
         connect(this, &VMTDController::finished, this, &VMTDController::finishedSlot);
 
         m_net = new VMTDNet(this, m_settings);
 
-        m_settings->debugOut(VN_S(VMTDController) + " was created");
+        m_settings->debugOut(VN_S(VMTDController) + " | Constructor finished");
     }
 
     VMTDController::~VMTDController()
     {
+        m_settings->debugOut(VN_S(VMTDController) + " | Destructor called");
+
         if (isRunning())
             stopController();
 
         if (m_form != nullptr)
             delete m_form;
 
-        m_settings->debugOut(VN_S(VMTDController) + " was deleted");
+        delete m_net;
+
+        m_settings->debugOut(VN_S(VMTDController) + " | Destructor finished");
+
+        delete m_settings;
     }
 
     VMTDSettings *VMTDController::settings() const
@@ -74,10 +82,14 @@ namespace VMTDLib
 
     void VMTDController::startController()
     {
+        m_settings->debugOut(VN_S(VMTDController) + " | Starting...");
+
         start();
     }
     void VMTDController::stopController()
     {
+        m_settings->debugOut(VN_S(VMTDController) + " | Stopping...");
+
         quit();
         wait();
     }
@@ -136,10 +148,10 @@ namespace VMTDLib
 
     void VMTDController::startedSlot()
     {
-        m_settings->debugOut(VN_S(VMTDController) + " started");
+        m_settings->debugOut(VN_S(VMTDController) + " | Started");
     }
     void VMTDController::finishedSlot()
     {
-        m_settings->debugOut(VN_S(VMTDController) + " finished");
+        m_settings->debugOut(VN_S(VMTDController) + " | Stopped");
     }
 }

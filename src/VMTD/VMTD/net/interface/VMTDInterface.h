@@ -13,6 +13,9 @@ namespace VMTDLib
     public:
 
         VMTDInterface(QObject *parent, VMTDSettings *settings, int id);
+        ~VMTDInterface();
+
+        VMTDSettings *settings() const;
 
         // ЛОГИКА
 

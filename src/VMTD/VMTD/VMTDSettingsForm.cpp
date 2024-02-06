@@ -10,7 +10,7 @@ namespace VMTDLib
         ui(new Ui::VMTDSettingsForm),
         m_settings(settings)
     {
-        m_settings->debugOut(VN_S(VMTDSettingsForm) + " is creating...");
+        m_settings->debugOut(VN_S(VMTDSettingsForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -29,16 +29,16 @@ namespace VMTDLib
         setEditMode(false);
         updateView();
 
-        m_settings->debugOut(VN_S(VMTDSettingsForm) + " was created");
+        m_settings->debugOut(VN_S(VMTDSettingsForm) + " | Constructor finished");
     }
 
     VMTDSettingsForm::~VMTDSettingsForm()
     {
-        m_settings->debugOut(VN_S(VMTDSettingsForm) + " is deleting...");
+        m_settings->debugOut(VN_S(VMTDSettingsForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDSettingsForm) + " was deleted");
+        m_settings->debugOut(VN_S(VMTDSettingsForm) + " | Destructor finished");
     }
 
     void VMTDSettingsForm::setEditMode(bool isEditMode)

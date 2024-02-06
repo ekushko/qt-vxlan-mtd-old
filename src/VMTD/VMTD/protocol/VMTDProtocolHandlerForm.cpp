@@ -1,6 +1,8 @@
 #include    "VMTDProtocolHandlerForm.h"
 #include "ui_VMTDProtocolHandlerForm.h"
 
+#include "../VMTDRepo.h"
+
 namespace VMTDLib
 {
     VMTDProtocolHandlerForm::VMTDProtocolHandlerForm(QWidget *parent, VMTDProtocolHandler *handler) :
@@ -8,6 +10,8 @@ namespace VMTDLib
         ui(new Ui::VMTDProtocolHandlerForm),
         m_handler(handler)
     {
+        m_handler->settings()->debugOut(VN_S(VMTDProtocolHandlerForm) + " | Constructor called");
+
         ui->setupUi(this);
 
         if (parent != nullptr && parent->layout() != nullptr)
@@ -22,12 +26,21 @@ namespace VMTDLib
                 this, &VMTDProtocolHandlerForm::pbClearFlowClicked);
 
         if (m_handler->settings()->nodeType() == VMTDNodeType::CLIENT)
+        {
+            ui->pbClearQueue->hide();
             ui->lbQueueLength->hide();
+        }
+
+        m_handler->settings()->debugOut(VN_S(VMTDProtocolHandlerForm) + " | Constructor finished");
     }
 
     VMTDProtocolHandlerForm::~VMTDProtocolHandlerForm()
     {
+        m_handler->settings()->debugOut(VN_S(VMTDProtocolHandlerForm) + " | Destructor called");
+
         delete ui;
+
+        m_handler->settings()->debugOut(VN_S(VMTDProtocolHandlerForm) + " | Destructor finished");
     }
 
     void VMTDProtocolHandlerForm::updateView()

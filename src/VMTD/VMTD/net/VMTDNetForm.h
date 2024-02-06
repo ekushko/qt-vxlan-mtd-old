@@ -18,7 +18,7 @@ namespace VMTDLib
 
     public:
 
-        VMTDNetForm(QWidget *parent, VMTDNet *model);
+        VMTDNetForm(QWidget *parent, VMTDNet *net);
         ~VMTDNetForm();
 
     private:
@@ -28,7 +28,7 @@ namespace VMTDLib
 
         Ui::VMTDNetForm *ui;
 
-        VMTDNet *m_model;
+        VMTDNet *m_net;
 
         int m_currentNxApiDeviceId;
         int m_currentNodeDeviceId;

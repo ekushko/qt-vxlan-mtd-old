@@ -1,6 +1,8 @@
 #include    "VMTDNxApiProtocolHandlerForm.h"
 #include "ui_VMTDNxApiProtocolHandlerForm.h"
 
+#include "../../VMTDRepo.h"
+
 namespace VMTDLib
 {
     VMTDNxApiProtocolHandlerForm::VMTDNxApiProtocolHandlerForm(QWidget *parent,
@@ -9,6 +11,8 @@ namespace VMTDLib
         ui(new Ui::VMTDNxApiProtocolHandlerForm),
         m_handler(handler)
     {
+        m_handler->settings()->debugOut(VN_S(VMTDNxApiProtocolHandlerForm) + " | Constructor called");
+
         ui->setupUi(this);
 
         if (parent != nullptr && parent->layout() != nullptr)
@@ -29,11 +33,17 @@ namespace VMTDLib
         m_uiTimer.setParent(this);
         connect(&m_uiTimer, &QTimer::timeout, this, &VMTDNxApiProtocolHandlerForm::uiTimerTickSlot);
         m_uiTimer.start(200);
+
+        m_handler->settings()->debugOut(VN_S(VMTDNxApiProtocolHandlerForm) + " | Constructor finished");
     }
 
     VMTDNxApiProtocolHandlerForm::~VMTDNxApiProtocolHandlerForm()
     {
+        m_handler->settings()->debugOut(VN_S(VMTDNxApiProtocolHandlerForm) + " | Destructor called");
+
         delete ui;
+
+        m_handler->settings()->debugOut(VN_S(VMTDNxApiProtocolHandlerForm) + " | Destructor finished");
     }
 
     void VMTDNxApiProtocolHandlerForm::uiTimerTickSlot()

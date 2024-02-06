@@ -1,6 +1,8 @@
 #include    "VMTDInterfaceForm.h"
 #include "ui_VMTDInterfaceForm.h"
 
+#include "../../VMTDRepo.h"
+
 namespace VMTDLib
 {
     VMTDInterfaceForm::VMTDInterfaceForm(QWidget *parent, VMTDInterface *interface) :
@@ -8,17 +10,25 @@ namespace VMTDLib
         ui(new Ui::VMTDInterfaceForm),
         m_interface(interface)
     {
+        m_interface->settings()->debugOut(VN_S(VMTDInterfaceForm) + " | Constructor called");
+
         ui->setupUi(this);
 
         if (parent != nullptr && parent->layout() != nullptr)
             parent->layout()->addWidget(this);
 
         updateView();
+
+        m_interface->settings()->debugOut(VN_S(VMTDInterfaceForm) + " | Constructor finished");
     }
 
     VMTDInterfaceForm::~VMTDInterfaceForm()
     {
+        m_interface->settings()->debugOut(VN_S(VMTDInterfaceForm) + " | Destructor called");
+
         delete ui;
+
+        m_interface->settings()->debugOut(VN_S(VMTDInterfaceForm) + " | Destructor finished");
     }
 
     int VMTDInterfaceForm::id() const

@@ -1,6 +1,8 @@
 #include "VMTDNxApiServer.h"
 #include "VMTDNxApiServerForm.h"
 
+#include "../../VMTDRepo.h"
+
 #include <QJsonArray>
 
 #include <algorithm>
@@ -11,13 +13,26 @@ namespace VMTDLib
         : QObject(parent)
         , m_settings(settings)
     {
+        m_settings->debugOut(VN_S(VMTDNxApiServer) + " | Constructor called");
+
         m_netManager = new QNetworkAccessManager(this);
+
+        m_settings->debugOut(VN_S(VMTDNxApiServer) + " | Constructor finished");
     }
 
     VMTDNxApiServer::~VMTDNxApiServer()
     {
+        m_settings->debugOut(VN_S(VMTDNxApiServer) + " | Destructor called");
+
         if (m_form != nullptr)
             m_form->deleteLater();
+
+        m_settings->debugOut(VN_S(VMTDNxApiServer) + " | Destructor finished");
+    }
+
+    VMTDSettings *VMTDNxApiServer::settings() const
+    {
+        return m_settings;
     }
 
     bool VMTDNxApiServer::isListening() const
@@ -45,7 +60,10 @@ namespace VMTDLib
     void VMTDNxApiServer::startListenSlot()
     {
         if (m_isListening)
+        {
+            m_settings->debugOut(VN_S(VMTDNxApiServer) + " | Server already listen!");
             return;
+        }
 
         const auto modelObj = m_settings->netObj();
 
@@ -77,11 +95,16 @@ namespace VMTDLib
         }
 
         m_isListening = true;
+
+        m_settings->debugOut(VN_S(VMTDNxApiServer) + " | Start listening...");
     }
     void VMTDNxApiServer::stopListenSlot()
     {
         if (!m_isListening)
+        {
+            m_settings->debugOut(VN_S(VMTDNxApiServer) + " | Server is not listening!");
             return;
+        }
 
         for (auto adapter : m_adapters)
             emit adapterRemovedSignal(adapter);
@@ -90,6 +113,8 @@ namespace VMTDLib
         m_adapters.clear();
 
         m_isListening = false;
+
+        m_settings->debugOut(VN_S(VMTDNxApiServer) + " | Listening finished!");
     }
     void VMTDNxApiServer::restartListenSlot()
     {

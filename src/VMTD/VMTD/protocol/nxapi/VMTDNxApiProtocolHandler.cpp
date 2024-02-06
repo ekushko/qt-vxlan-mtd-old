@@ -1,6 +1,8 @@
 #include "VMTDNxApiProtocolHandler.h"
 #include "VMTDNxApiProtocolHandlerForm.h"
 
+#include "../../VMTDRepo.h"
+
 namespace VMTDLib
 {
     VMTDNxApiProtocolHandler::VMTDNxApiProtocolHandler(QObject *parent, VMTDSettings *settings,
@@ -10,13 +12,21 @@ namespace VMTDLib
         , m_device(device)
         , m_adapter(adapter)
     {
+        m_settings->debugOut(VN_S(VMTDNxApiProtocolHandler) + " | Constructor called");
 
+        // do nothing
+
+        m_settings->debugOut(VN_S(VMTDNxApiProtocolHandler) + " | Constructor finished");
     }
 
     VMTDNxApiProtocolHandler::~VMTDNxApiProtocolHandler()
     {
+        m_settings->debugOut(VN_S(VMTDNxApiProtocolHandler) + " | Destructor called");
+
         if (m_form != nullptr)
             m_form->deleteLater();
+
+        m_settings->debugOut(VN_S(VMTDNxApiProtocolHandler) + " | Destructor finished");
     }
 
     void VMTDNxApiProtocolHandler::checkConnection()
