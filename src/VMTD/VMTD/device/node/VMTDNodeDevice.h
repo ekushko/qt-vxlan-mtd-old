@@ -1,13 +1,12 @@
 #pragma once
 
-#include "../../VMTDSettings.h"
-#include "../interface/VMTDInterfaces.h"
+#include "../VMTDDevice.h"
 
 namespace VMTDLib
 {
     class VMTDNodeDeviceForm;
 
-    class VMTD_SHARED VMTDNodeDevice : public QObject
+    class VMTD_SHARED VMTDNodeDevice : public VMTDDevice
     {
         Q_OBJECT
 
@@ -15,8 +14,6 @@ namespace VMTDLib
 
         VMTDNodeDevice(QObject *parent, VMTDSettings *settings, int id);
         ~VMTDNodeDevice();
-
-        VMTDSettings *settings() const;
 
         // КОНСТАНТЫ
 
@@ -31,19 +28,12 @@ namespace VMTDLib
 
         // ЛОГИКА
 
-        QJsonObject toJson() const;
-        void      fromJson(const QJsonObject &jsonObj);
-
-        // МЕТАДАННЫЕ
-
-        bool  isOnline() const;
-        void setOnline(bool isOnline);
+        QJsonObject toJson() const override;
+        void      fromJson(const QJsonObject &jsonObj) override;
 
         // ДАННЫЕ
 
-        int id() const;
-
-        QString name() const;
+        QString name() const override;
 
         QString ip() const;
         void setIp(const QString &ip);
@@ -51,22 +41,14 @@ namespace VMTDLib
         EnRole  role() const;
         void setRole(EnRole role);
 
-        VMTDInterfaces *interfaces() const;
-
     public slots:
 
-        void showFormSlot();
+        void showFormSlot() override;
 
     private:
 
         QPointer<VMTDNodeDeviceForm> m_form;
 
-        VMTDSettings *m_settings;
-        VMTDInterfaces *m_interfaces;
-
-        bool m_isOnline = false;
-
-        int m_id;
         QString m_ip = "127.0.0.1";
         EnRole m_role = EnRole::ENDPOINT;
     };

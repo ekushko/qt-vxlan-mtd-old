@@ -1,5 +1,5 @@
-#include "VMTDNet.h"
-#include "VMTDNetForm.h"
+#include "VMTDDeviceManager.h"
+#include "VMTDDeviceManagerForm.h"
 
 #include "../VMTDRepo.h"
 
@@ -9,43 +9,35 @@
 
 namespace VMTDLib
 {
-    VMTDNet::VMTDNet(QObject *parent, VMTDSettings *settings)
+    VMTDDeviceManager::VMTDDeviceManager(QObject *parent, VMTDSettings *settings)
         : QObject(parent)
         , m_settings(settings)
     {
-        m_settings->debugOut(VN_S(VMTDNet) + " | Constructor called");
+        m_settings->debugOut(VN_S(VMTDDeviceManager) + " | Constructor called");
 
         if (m_settings->nodeType() == VMTDNodeType::SERVER)
         {
             loadSlot();
         }
-        else if (m_settings->nodeType() == VMTDNodeType::CLIENT)
-        {
-            const auto id = 1;
 
-            auto nodeDevice = new VMTDNodeDevice(this, m_settings, id);
-            nodeDevice->setIp(m_settings->serverIp());
-            m_nodeDevices[id] = nodeDevice;
-        }
-
-        m_settings->debugOut(VN_S(VMTDNet) + " | Constructor finished");
+        m_settings->debugOut(VN_S(VMTDDeviceManager) + " | Constructor finished");
     }
 
-    VMTDNet::~VMTDNet()
+    VMTDDeviceManager::~VMTDDeviceManager()
     {
-        m_settings->debugOut(VN_S(VMTDNet) + " | Destructor called");
+        m_settings->debugOut(VN_S(VMTDDeviceManager) + " | Destructor called");
 
         // do nothing
 
-        m_settings->debugOut(VN_S(VMTDNet) + " | Destructor finished");
+        m_settings->debugOut(VN_S(VMTDDeviceManager) + " | Destructor finished");
     }
 
-    VMTDSettings *VMTDNet::settings() const
+    VMTDSettings *VMTDDeviceManager::settings() const
     {
         return m_settings;
     }
 
-    QJsonObject VMTDNet::toJson() const
+    QJsonObject VMTDDeviceManager::toJson() const
     {
         QJsonObject jsonObj;
 
@@ -63,7 +55,7 @@ namespace VMTDLib
 
         return jsonObj;
     }
-    void VMTDNet::fromJson(const QJsonObject &jsonObj)
+    void VMTDDeviceManager::fromJson(const QJsonObject &jsonObj)
     {
         qDeleteAll(m_nodeDevices.values());
         m_nodeDevices.clear();
@@ -81,6 +73,7 @@ namespace VMTDLib
             auto nodeDevice = new VMTDNodeDevice(this, m_settings, -1);
             nodeDevice->fromJson(nodeDevicesArr[i].toObject());
             m_nodeDevices[nodeDevice->id()] = nodeDevice;
+            m_devices[nodeDevice->id()] = nodeDevice;
         }
 
         auto nxApiDevicesArr = jsonObj[VN_ME(m_nxApiDevices)].toArray();
@@ -90,18 +83,28 @@ namespace VMTDLib
             auto nxApiDevice = new VMTDNxApiDevice(this, m_settings, -1);
             nxApiDevice->fromJson(nxApiDevicesArr[i].toObject());
             m_nxApiDevices[nxApiDevice->id()] = nxApiDevice;
+            m_devices[nxApiDevice->id()] = nxApiDevice;
         }
     }
 
-    const QMap<int, VMTDNodeDevice *> &VMTDNet::nodeDevices() const
+    const QMap<int, VMTDDevice *> &VMTDDeviceManager::devices() const
+    {
+        return m_devices;
+    }
+    VMTDDevice *VMTDDeviceManager::device(int id) const
+    {
+        return m_devices.value(id, nullptr);
+    }
+
+    const QMap<int, VMTDNodeDevice *> &VMTDDeviceManager::nodeDevices() const
     {
         return m_nodeDevices;
     }
-    VMTDNodeDevice *VMTDNet::nodeDevice(int id) const
+    VMTDNodeDevice *VMTDDeviceManager::nodeDevice(int id) const
     {
         return m_nodeDevices.value(id, nullptr);
     }
-    VMTDNodeDevice *VMTDNet::nodeDevice(const QString &ip) const
+    VMTDNodeDevice *VMTDDeviceManager::nodeDevice(const QString &ip) const
     {
         // *INDENT-OFF*
         auto res = std::find_if(m_nodeDevices.begin(), m_nodeDevices.end(),
@@ -116,37 +119,40 @@ namespace VMTDLib
 
         return *res;
     }
-    bool VMTDNet::addNodeDevice()
+    bool VMTDDeviceManager::addNodeDevice()
     {
         const auto id = m_settings->generateId();
 
         if (!m_nodeDevices.contains(id))
         {
-            m_nodeDevices[id] = new VMTDNodeDevice(this, m_settings, id);
+            auto nodeDevice = new VMTDNodeDevice(this, m_settings, id);;
+            m_nodeDevices[id] = nodeDevice;
+            m_devices[id] = nodeDevice;
             return true;
         }
 
         return false;
     }
-    bool VMTDNet::removeNodeDevice(int id)
+    bool VMTDDeviceManager::removeNodeDevice(int id)
     {
         if (!m_nodeDevices.contains(id))
             return false;
 
         delete m_nodeDevices[id];
         m_nodeDevices.remove(id);
+        m_devices.remove(id);
         return true;
     }
 
-    const QMap<int, VMTDNxApiDevice *> &VMTDNet::nxApiDevices() const
+    const QMap<int, VMTDNxApiDevice *> &VMTDDeviceManager::nxApiDevices() const
     {
         return m_nxApiDevices;
     }
-    VMTDNxApiDevice *VMTDNet::nxApiDevice(int id) const
+    VMTDNxApiDevice *VMTDDeviceManager::nxApiDevice(int id) const
     {
         return m_nxApiDevices.value(id, nullptr);
     }
-    VMTDNxApiDevice *VMTDNet::nxApiDevice(const QUrl &url) const
+    VMTDNxApiDevice *VMTDDeviceManager::nxApiDevice(const QUrl &url) const
     {
         // *INDENT-OFF*
         auto res = std::find_if(m_nxApiDevices.begin(), m_nxApiDevices.end(),
@@ -162,32 +168,35 @@ namespace VMTDLib
 
         return *res;
     }
-    bool VMTDNet::addNxApiDevice()
+    bool VMTDDeviceManager::addNxApiDevice()
     {
         const auto id = m_settings->generateId();
 
         if (!m_nxApiDevices.contains(id))
         {
-            m_nxApiDevices[id] = new VMTDNxApiDevice(this, m_settings, id);
+            auto nxApiDevice = new VMTDNxApiDevice(this, m_settings, id);
+            m_nxApiDevices[id] = nxApiDevice;
+            m_devices[id] = nxApiDevice;
             return true;
         }
 
         return false;
     }
-    bool VMTDNet::removeNxApiDevice(int id)
+    bool VMTDDeviceManager::removeNxApiDevice(int id)
     {
         if (!m_nxApiDevices.contains(id))
             return false;
 
         delete m_nxApiDevices[id];
         m_nxApiDevices.remove(id);
+        m_devices.remove(id);
         return true;
     }
 
-    void VMTDNet::showFormSlot(QWidget *parent)
+    void VMTDDeviceManager::showFormSlot(QWidget *parent)
     {
         if (m_form == nullptr)
-            m_form = new VMTDNetForm(parent, this);
+            m_form = new VMTDDeviceManagerForm(parent, this);
         else
             m_form->setParent(parent);
 
@@ -196,13 +205,13 @@ namespace VMTDLib
         m_form->activateWindow();
     }
 
-    void VMTDNet::saveSlot()
+    void VMTDDeviceManager::saveSlot()
     {
-        m_settings->setNetObj(toJson());
+        m_settings->setDeviceManagerObj(toJson());
         m_settings->save();
     }
-    void VMTDNet::loadSlot()
+    void VMTDDeviceManager::loadSlot()
     {
-        fromJson(m_settings->netObj());
+        fromJson(m_settings->deviceManagerObj());
     }
 }

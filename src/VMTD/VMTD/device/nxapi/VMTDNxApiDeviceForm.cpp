@@ -67,7 +67,7 @@ namespace VMTDLib
     void VMTDNxApiDeviceForm::initializeView()
     {
         connect(ui->pbInterfaces, &QPushButton::clicked,
-                m_device->interfaces(), &VMTDInterfaces::showFormSlot);
+                m_device->interfaceManager(), &VMTDInterfaceManager::showFormSlot);
 
         connect(ui->pbChange, &QPushButton::clicked, this, &VMTDNxApiDeviceForm::pbChangeClicked);
         connect(ui->pbAccept, &QPushButton::clicked, this, &VMTDNxApiDeviceForm::pbAcceptClicked);

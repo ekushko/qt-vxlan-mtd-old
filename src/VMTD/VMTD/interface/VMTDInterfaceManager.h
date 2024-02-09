@@ -6,16 +6,16 @@
 
 namespace VMTDLib
 {
-    class VMTDInterfacesForm;
+    class VMTDInterfaceManagerForm;
 
-    class VMTD_SHARED VMTDInterfaces : public QObject
+    class VMTD_SHARED VMTDInterfaceManager : public QObject
     {
         Q_OBJECT
 
     public:
 
-        VMTDInterfaces(QObject *parent, VMTDSettings *settings);
-        ~VMTDInterfaces();
+        VMTDInterfaceManager(QObject *parent, VMTDSettings *settings);
+        ~VMTDInterfaceManager();
 
         VMTDSettings *settings() const;
 
@@ -24,6 +24,8 @@ namespace VMTDLib
 
         bool    onlyOneMode() const;
         void setOnlyOneMode(bool onlyOneMode);
+
+        bool contains(VMTDInterface *interface) const;
 
         const QMap<int, VMTDInterface *> &interfaces() const;
         VMTDInterface *interface(int id) const;
@@ -41,7 +43,7 @@ namespace VMTDLib
 
     private:
 
-        QPointer<VMTDInterfacesForm> m_form;
+        QPointer<VMTDInterfaceManagerForm> m_form;
 
         VMTDSettings *m_settings;
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>VMTDInterfacesForm</class>
- <widget class="QWidget" name="VMTDInterfacesForm">
+ <class>VMTDInterfaceManagerForm</class>
+ <widget class="QWidget" name="VMTDInterfaceManagerForm">
   <property name="geometry">
    <rect>
     <x>0</x>

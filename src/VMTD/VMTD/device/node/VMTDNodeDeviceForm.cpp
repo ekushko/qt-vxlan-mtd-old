@@ -66,7 +66,7 @@ namespace VMTDLib
         CB_FILL_MAP(ui->cbRole, VMTDNodeDevice::enRoleToL());
 
         connect(ui->pbInterfaces, &QPushButton::clicked,
-                m_device->interfaces(), &VMTDInterfaces::showFormSlot);
+                m_device->interfaceManager(), &VMTDInterfaceManager::showFormSlot);
 
         connect(ui->pbChange, &QPushButton::clicked, this, &VMTDNodeDeviceForm::pbChangeClicked);
         connect(ui->pbAccept, &QPushButton::clicked, this, &VMTDNodeDeviceForm::pbAcceptClicked);

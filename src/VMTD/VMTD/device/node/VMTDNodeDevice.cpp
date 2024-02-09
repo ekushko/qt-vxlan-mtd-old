@@ -6,14 +6,11 @@
 namespace VMTDLib
 {
     VMTDNodeDevice::VMTDNodeDevice(QObject *parent, VMTDSettings *settings, int id)
-        : QObject(parent)
-        , m_settings(settings)
-        , m_id(id)
+        : VMTDDevice(parent, settings, EnType::NODE, id)
     {
         m_settings->debugOut(VN_S(VMTDNodeDevice) + " | Constructor called");
 
-        m_interfaces = new VMTDInterfaces(this, m_settings);
-        m_interfaces->setOnlyOneMode(true);
+        // do nothing
 
         m_settings->debugOut(VN_S(VMTDNodeDevice) + " | Constructor finished");
     }
@@ -26,11 +23,6 @@ namespace VMTDLib
             m_form->deleteLater();
 
         m_settings->debugOut(VN_S(VMTDNodeDevice) + " | Destructor finished");
-    }
-
-    VMTDSettings *VMTDNodeDevice::settings() const
-    {
-        return m_settings;
     }
 
     const QString &VMTDNodeDevice::enRoleToS(const EnRole &role)
@@ -52,12 +44,10 @@ namespace VMTDLib
 
     QJsonObject VMTDNodeDevice::toJson() const
     {
-        QJsonObject jsonObj;
+        auto jsonObj = VMTDDevice::toJson();
 
-        jsonObj[VN_ME(m_id)] = m_id;
         jsonObj[VN_ME(m_ip)] = m_ip;
         jsonObj[VN_ME(m_role)] = (int)m_role;
-        jsonObj[VN_ME(m_interfaces)] = m_interfaces->toJson();
 
         return jsonObj;
     }
@@ -66,24 +56,10 @@ namespace VMTDLib
         if (jsonObj.isEmpty())
             return;
 
-        m_id = jsonObj[VN_ME(m_id)].toInt(m_id);
+        VMTDDevice::fromJson(jsonObj);
+
         m_ip = jsonObj[VN_ME(m_ip)].toString();
         m_role = (EnRole)jsonObj[VN_ME(m_role)].toInt();
-        m_interfaces->fromJson(jsonObj[VN_ME(m_interfaces)].toObject());
-    }
-
-    bool VMTDNodeDevice::isOnline() const
-    {
-        return m_isOnline;
-    }
-    void VMTDNodeDevice::setOnline(bool isOnline)
-    {
-        m_isOnline = isOnline;
-    }
-
-    int VMTDNodeDevice::id() const
-    {
-        return m_id;
     }
 
     QString VMTDNodeDevice::name() const
@@ -109,11 +85,6 @@ namespace VMTDLib
     void VMTDNodeDevice::setRole(EnRole role)
     {
         m_role = role;
-    }
-
-    VMTDInterfaces *VMTDNodeDevice::interfaces() const
-    {
-        return m_interfaces;
     }
 
     void VMTDNodeDevice::showFormSlot()

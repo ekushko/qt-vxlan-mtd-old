@@ -1,38 +1,38 @@
-#include "VMTDInterfaces.h"
-#include "VMTDInterfacesForm.h"
+#include "VMTDInterfaceManager.h"
+#include "VMTDInterfaceManagerForm.h"
 
-#include "../../VMTDRepo.h"
+#include "../VMTDRepo.h"
 
 #include <QJsonArray>
 
 namespace VMTDLib
 {
-    VMTDInterfaces::VMTDInterfaces(QObject *parent, VMTDSettings *settings)
+    VMTDInterfaceManager::VMTDInterfaceManager(QObject *parent, VMTDSettings *settings)
         : QObject(parent)
         , m_settings(settings)
     {
-        m_settings->debugOut(VN_S(VMTDInterfaces) + " | Constructor called");
+        m_settings->debugOut(VN_S(VMTDInterfaceManager) + " | Constructor called");
 
         // do nothing
 
-        m_settings->debugOut(VN_S(VMTDInterfaces) + " | Constructor finished");
+        m_settings->debugOut(VN_S(VMTDInterfaceManager) + " | Constructor finished");
     }
 
-    VMTDInterfaces::~VMTDInterfaces()
+    VMTDInterfaceManager::~VMTDInterfaceManager()
     {
-        m_settings->debugOut(VN_S(VMTDInterfaces) + " | Destructor called");
+        m_settings->debugOut(VN_S(VMTDInterfaceManager) + " | Destructor called");
 
         // do nothing
 
-        m_settings->debugOut(VN_S(VMTDInterfaces) + " | Destructor finished");
+        m_settings->debugOut(VN_S(VMTDInterfaceManager) + " | Destructor finished");
     }
 
-    VMTDSettings *VMTDInterfaces::settings() const
+    VMTDSettings *VMTDInterfaceManager::settings() const
     {
         return m_settings;
     }
 
-    QJsonObject VMTDInterfaces::toJson() const
+    QJsonObject VMTDInterfaceManager::toJson() const
     {
         QJsonObject jsonObj;
 
@@ -47,7 +47,7 @@ namespace VMTDLib
 
         return jsonObj;
     }
-    void VMTDInterfaces::fromJson(const QJsonObject &jsonObj)
+    void VMTDInterfaceManager::fromJson(const QJsonObject &jsonObj)
     {
         if (jsonObj.isEmpty())
             return;
@@ -66,27 +66,35 @@ namespace VMTDLib
 
             if (!m_interfaces.contains(interface->id()))
                 m_interfaces[interface->id()] = interface;
+
+            if (m_onlyOneMode)
+                break;
         }
     }
 
-    bool VMTDInterfaces::onlyOneMode() const
+    bool VMTDInterfaceManager::onlyOneMode() const
     {
         return m_onlyOneMode;
     }
-    void VMTDInterfaces::setOnlyOneMode(bool onlyOneMode)
+    void VMTDInterfaceManager::setOnlyOneMode(bool onlyOneMode)
     {
         m_onlyOneMode = onlyOneMode;
     }
 
-    const QMap<int, VMTDInterface *> &VMTDInterfaces::interfaces() const
+    bool VMTDInterfaceManager::contains(VMTDInterface *interface) const
+    {
+        return m_interfaces.values().contains(interface);
+    }
+
+    const QMap<int, VMTDInterface *> &VMTDInterfaceManager::interfaces() const
     {
         return m_interfaces;
     }
-    VMTDInterface *VMTDInterfaces::interface(int id) const
+    VMTDInterface *VMTDInterfaceManager::interface(int id) const
     {
         return m_interfaces.value(id, nullptr);
     }
-    bool VMTDInterfaces::addInterface()
+    bool VMTDInterfaceManager::addInterface()
     {
         const auto id = m_settings->generateId();
 
@@ -99,7 +107,7 @@ namespace VMTDLib
 
         return false;
     }
-    bool VMTDInterfaces::removeInterface(int id)
+    bool VMTDInterfaceManager::removeInterface(int id)
     {
         if (!m_interfaces.contains(id))
             return false;
@@ -110,10 +118,10 @@ namespace VMTDLib
         return true;
     }
 
-    void VMTDInterfaces::showFormSlot()
+    void VMTDInterfaceManager::showFormSlot()
     {
         if (m_form == nullptr)
-            m_form = new VMTDInterfacesForm(nullptr, this);
+            m_form = new VMTDInterfaceManagerForm(nullptr, this);
 
         m_form->show();
         m_form->raise();

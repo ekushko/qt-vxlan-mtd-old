@@ -34,11 +34,12 @@ namespace VMTDLib
 
         enum class EnTab
         {
-            NET          = 0,
-            PROTOCOL     = 1,
-            NODE_CLIENT  = 2,
-            NODE_SERVER  = 3,
-            NXAPI_SERVER = 4
+            DEVICE_MANAGER = 0,
+            CONN_MANAGER   = 1,
+            PROTOCOL       = 2,
+            NODE_CLIENT    = 3,
+            NODE_SERVER    = 4,
+            NXAPI_SERVER   = 5
         };
 
         QMap<EnTab, QWidget *> m_tabWidgets;

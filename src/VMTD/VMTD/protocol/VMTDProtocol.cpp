@@ -5,7 +5,7 @@
 
 namespace VMTDLib
 {
-    VMTDProtocol::VMTDProtocol(QObject *parent, VMTDNet *net)
+    VMTDProtocol::VMTDProtocol(QObject *parent, VMTDDeviceManager *net)
         : QObject(parent)
         , m_net(net)
         , m_settings(net->settings())

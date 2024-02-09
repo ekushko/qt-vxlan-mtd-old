@@ -1,7 +1,7 @@
 #include    "VMTDInterfaceForm.h"
 #include "ui_VMTDInterfaceForm.h"
 
-#include "../../VMTDRepo.h"
+#include "../VMTDRepo.h"
 
 namespace VMTDLib
 {

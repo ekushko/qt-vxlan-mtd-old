@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../VMTDSettings.h"
-#include "../net/VMTDNet.h"
+#include "../device/VMTDDeviceManager.h"
 
 #include <QQueue>
 #include <QTimer>

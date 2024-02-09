@@ -65,7 +65,7 @@ namespace VMTDLib
             return;
         }
 
-        const auto modelObj = m_settings->netObj();
+        const auto modelObj = m_settings->deviceManagerObj();
 
         const auto nxApiDevicesArr = modelObj["nxApiDevices"].toArray();
 

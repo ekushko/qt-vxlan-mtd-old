@@ -1,25 +1,25 @@
 #pragma once
 
-#include "VMTDInterfaces.h"
+#include "VMTDInterfaceManager.h"
 #include "VMTDInterfaceForm.h"
 
 #include <QWidget>
 
 namespace Ui
 {
-    class VMTDInterfacesForm;
+    class VMTDInterfaceManagerForm;
 }
 
 namespace VMTDLib
 {
-    class VMTDInterfacesForm : public QWidget
+    class VMTDInterfaceManagerForm : public QWidget
     {
         Q_OBJECT
 
     public:
 
-        VMTDInterfacesForm(QWidget *parent, VMTDInterfaces *interfaces);
-        ~VMTDInterfacesForm();
+        VMTDInterfaceManagerForm(QWidget *parent, VMTDInterfaceManager *manager);
+        ~VMTDInterfaceManagerForm();
 
         void setEditMode(bool isEditMode);
         void updateView();
@@ -30,9 +30,9 @@ namespace VMTDLib
 
         void initializeView();
 
-        Ui::VMTDInterfacesForm *ui;
+        Ui::VMTDInterfaceManagerForm *ui;
 
-        VMTDInterfaces *m_interfaces;
+        VMTDInterfaceManager *m_manager;
         VMTDSettings *m_settings;
 
         QVector<VMTDInterfaceForm *> m_interfaceForms;

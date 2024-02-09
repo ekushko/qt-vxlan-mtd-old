@@ -1,22 +1,20 @@
 #pragma once
 
-#include "../VMTDSettings.h"
-
 #include "node/VMTDNodeDevice.h"
 #include "nxapi/VMTDNxApiDevice.h"
 
 namespace VMTDLib
 {
-    class VMTDNetForm;
+    class VMTDDeviceManagerForm;
 
-    class VMTD_SHARED VMTDNet : public QObject
+    class VMTD_SHARED VMTDDeviceManager : public QObject
     {
         Q_OBJECT
 
     public:
 
-        VMTDNet(QObject *parent, VMTDSettings *settings);
-        ~VMTDNet();
+        VMTDDeviceManager(QObject *parent, VMTDSettings *settings);
+        ~VMTDDeviceManager();
 
         VMTDSettings *settings() const;
 
@@ -26,6 +24,9 @@ namespace VMTDLib
         void      fromJson(const QJsonObject &jsonObj);
 
         // ДАННЫЕ
+
+        const QMap<int, VMTDDevice *> &devices() const;
+        VMTDDevice *device(int id) const;
 
         const QMap<int, VMTDNodeDevice *> &nodeDevices() const;
         VMTDNodeDevice *nodeDevice(int id) const;
@@ -39,10 +40,6 @@ namespace VMTDLib
         bool          addNxApiDevice();
         bool       removeNxApiDevice(int id);
 
-    signals:
-
-        void applySignal();
-
     public slots:
 
         void showFormSlot(QWidget *parent = nullptr);
@@ -52,11 +49,12 @@ namespace VMTDLib
 
     private:
 
-        QPointer<VMTDNetForm> m_form;
+        QPointer<VMTDDeviceManagerForm> m_form;
 
         VMTDSettings *m_settings;
 
-        QMap<int, VMTDNodeDevice *> m_nodeDevices;
+        QMap<int, VMTDDevice *>           m_devices;
+        QMap<int, VMTDNodeDevice *>   m_nodeDevices;
         QMap<int, VMTDNxApiDevice *> m_nxApiDevices;
     };
 }

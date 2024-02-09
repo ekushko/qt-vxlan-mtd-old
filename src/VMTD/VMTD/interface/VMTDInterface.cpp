@@ -1,6 +1,6 @@
 #include "VMTDInterface.h"
 
-#include "../../VMTDRepo.h"
+#include "../VMTDRepo.h"
 
 namespace VMTDLib
 {
@@ -11,7 +11,8 @@ namespace VMTDLib
     {
         m_settings->debugOut(VN_S(VMTDInterface) + " | Constructor called");
 
-        // do nothing
+        m_name = QString("eth%1").arg(m_id);
+        m_ip = "127.0.0.1";
 
         m_settings->debugOut(VN_S(VMTDInterface) + " | Constructor finished");
     }

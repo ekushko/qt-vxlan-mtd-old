@@ -1,17 +1,17 @@
-#include    "VMTDNetForm.h"
-#include "ui_VMTDNetForm.h"
+#include    "VMTDDeviceManagerForm.h"
+#include "ui_VMTDDeviceManagerForm.h"
 
 #include "../VMTDRepo.h"
 
 namespace VMTDLib
 {
-    VMTDNetForm::VMTDNetForm(QWidget *parent, VMTDNet *net) :
+    VMTDDeviceManagerForm::VMTDDeviceManagerForm(QWidget *parent, VMTDDeviceManager *net) :
         QWidget(parent),
-        ui(new Ui::VMTDNetForm),
+        ui(new Ui::VMTDDeviceManagerForm),
         m_net(net),
         m_settings(net->settings())
     {
-        m_settings->debugOut(VN_S(VMTDNetForm) + " | Constructor called");
+        m_settings->debugOut(VN_S(VMTDDeviceManagerForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -19,44 +19,44 @@ namespace VMTDLib
             parent->layout()->addWidget(this);
 
         connect(ui->pbSave, &QPushButton::clicked,
-                m_net, &VMTDNet::saveSlot);
+                m_net, &VMTDDeviceManager::saveSlot);
         connect(ui->pbLoad, &QPushButton::clicked,
-                m_net, &VMTDNet::loadSlot);
+                m_net, &VMTDDeviceManager::loadSlot);
 
         connect(ui->pbAddNxApiDevice, &QPushButton::clicked,
-                this, &VMTDNetForm::pbAddNxApiDeviceClicked);
+                this, &VMTDDeviceManagerForm::pbAddNxApiDeviceClicked);
         connect(ui->pbRemoveNxApiDevice, &QPushButton::clicked,
-                this, &VMTDNetForm::pbRemoveNxApiDeviceClicked);
+                this, &VMTDDeviceManagerForm::pbRemoveNxApiDeviceClicked);
         connect(ui->lwNxApiDevices, &QListWidget::itemClicked,
-                this, &VMTDNetForm::lwNxApiDevicesItemClicked);
+                this, &VMTDDeviceManagerForm::lwNxApiDevicesItemClicked);
         connect(ui->lwNxApiDevices, &QListWidget::itemDoubleClicked,
-                this, &VMTDNetForm::lwNxApiDevicesItemDoubleClicked);
+                this, &VMTDDeviceManagerForm::lwNxApiDevicesItemDoubleClicked);
 
         connect(ui->pbAddNodeDevice, &QPushButton::clicked,
-                this, &VMTDNetForm::pbAddNodeDeviceClicked);
+                this, &VMTDDeviceManagerForm::pbAddNodeDeviceClicked);
         connect(ui->pbRemoveNodeDevice, &QPushButton::clicked,
-                this, &VMTDNetForm::pbRemoveNodeDeviceClicked);
+                this, &VMTDDeviceManagerForm::pbRemoveNodeDeviceClicked);
         connect(ui->lwNodeDevices, &QListWidget::itemClicked,
-                this, &VMTDNetForm::lwNodeDevicesItemClicked);
+                this, &VMTDDeviceManagerForm::lwNodeDevicesItemClicked);
         connect(ui->lwNodeDevices, &QListWidget::itemDoubleClicked,
-                this, &VMTDNetForm::lwNodeDevicesItemDoubleClicked);
+                this, &VMTDDeviceManagerForm::lwNodeDevicesItemDoubleClicked);
 
         updateNxApiDevicesList();
         updateNodeDevicesList();
 
-        m_settings->debugOut(VN_S(VMTDNetForm) + " | Constructor finished");
+        m_settings->debugOut(VN_S(VMTDDeviceManagerForm) + " | Constructor finished");
     }
 
-    VMTDNetForm::~VMTDNetForm()
+    VMTDDeviceManagerForm::~VMTDDeviceManagerForm()
     {
-        m_settings->debugOut(VN_S(VMTDNetForm) + " | Destructor called");
+        m_settings->debugOut(VN_S(VMTDDeviceManagerForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDNetForm) + " | Destructor finished");
+        m_settings->debugOut(VN_S(VMTDDeviceManagerForm) + " | Destructor finished");
     }
 
-    void VMTDNetForm::updateNxApiDevicesList()
+    void VMTDDeviceManagerForm::updateNxApiDevicesList()
     {
         ui->lwNxApiDevices->clear();
 
@@ -64,7 +64,7 @@ namespace VMTDLib
             ui->lwNxApiDevices->addItem(nxApiDevice->name());
     }
 
-    void VMTDNetForm::updateNodeDevicesList()
+    void VMTDDeviceManagerForm::updateNodeDevicesList()
     {
         ui->lwNodeDevices->clear();
 
@@ -77,7 +77,7 @@ namespace VMTDLib
         }
     }
 
-    void VMTDNetForm::lwNxApiDevicesItemClicked(QListWidgetItem *item)
+    void VMTDDeviceManagerForm::lwNxApiDevicesItemClicked(QListWidgetItem *item)
     {
         const auto label = item->text();
 
@@ -86,25 +86,25 @@ namespace VMTDLib
 
         m_currentNxApiDeviceId = label.mid(firstSpacePos + 1, secondSpacePos - (firstSpacePos + 1)).toInt();
     }
-    void VMTDNetForm::lwNxApiDevicesItemDoubleClicked(QListWidgetItem *item)
+    void VMTDDeviceManagerForm::lwNxApiDevicesItemDoubleClicked(QListWidgetItem *item)
     {
         lwNxApiDevicesItemClicked(item);
 
         auto nxApiDevice = m_net->nxApiDevice(m_currentNxApiDeviceId);
         nxApiDevice->showFormSlot();
     }
-    void VMTDNetForm::pbAddNxApiDeviceClicked()
+    void VMTDDeviceManagerForm::pbAddNxApiDeviceClicked()
     {
         if (m_net->addNxApiDevice())
             updateNxApiDevicesList();
     }
-    void VMTDNetForm::pbRemoveNxApiDeviceClicked()
+    void VMTDDeviceManagerForm::pbRemoveNxApiDeviceClicked()
     {
         if (m_net->removeNxApiDevice(m_currentNxApiDeviceId))
             updateNxApiDevicesList();
     }
 
-    void VMTDNetForm::lwNodeDevicesItemClicked(QListWidgetItem *item)
+    void VMTDDeviceManagerForm::lwNodeDevicesItemClicked(QListWidgetItem *item)
     {
         const auto label = item->text();
 
@@ -113,19 +113,19 @@ namespace VMTDLib
 
         m_currentNodeDeviceId = label.mid(firstSpacePos + 1, secondSpacePos - (firstSpacePos + 1)).toInt();
     }
-    void VMTDNetForm::lwNodeDevicesItemDoubleClicked(QListWidgetItem *item)
+    void VMTDDeviceManagerForm::lwNodeDevicesItemDoubleClicked(QListWidgetItem *item)
     {
         lwNodeDevicesItemClicked(item);
 
         auto nodeDevice = m_net->nodeDevice(m_currentNodeDeviceId);
         nodeDevice->showFormSlot();
     }
-    void VMTDNetForm::pbAddNodeDeviceClicked()
+    void VMTDDeviceManagerForm::pbAddNodeDeviceClicked()
     {
         if (m_net->addNodeDevice())
             updateNodeDevicesList();
     }
-    void VMTDNetForm::pbRemoveNodeDeviceClicked()
+    void VMTDDeviceManagerForm::pbRemoveNodeDeviceClicked()
     {
         if (m_net->removeNodeDevice(m_currentNodeDeviceId))
             updateNodeDevicesList();

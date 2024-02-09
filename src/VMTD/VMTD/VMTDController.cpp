@@ -18,7 +18,8 @@ namespace VMTDLib
         connect(this, &VMTDController::started, this, &VMTDController::startedSlot);
         connect(this, &VMTDController::finished, this, &VMTDController::finishedSlot);
 
-        m_net = new VMTDNet(this, m_settings);
+        m_deviceManager = new VMTDDeviceManager(this, m_settings);
+        m_connectionManager = new VMTDConnectionManager(this, m_deviceManager);
 
         m_settings->debugOut(VN_S(VMTDController) + " | Constructor finished");
     }
@@ -33,7 +34,8 @@ namespace VMTDLib
         if (m_form != nullptr)
             delete m_form;
 
-        delete m_net;
+        delete m_connectionManager;
+        delete m_deviceManager;
 
         m_settings->debugOut(VN_S(VMTDController) + " | Destructor finished");
 
@@ -65,9 +67,14 @@ namespace VMTDLib
         return m_protocol;
     }
 
-    VMTDNet *VMTDController::net() const
+    VMTDDeviceManager *VMTDController::deviceManager() const
     {
-        return m_net;
+        return m_deviceManager;
+    }
+
+    VMTDConnectionManager *VMTDController::connectionManager() const
+    {
+        return m_connectionManager;
     }
 
     void VMTDController::showFormSlot()
@@ -98,7 +105,7 @@ namespace VMTDLib
     {
         m_nodeType = m_settings->nodeType();
 
-        m_protocol = new VMTDProtocol(nullptr, m_net);
+        m_protocol = new VMTDProtocol(nullptr, m_deviceManager);
         connect(this, &VMTDController::finished, m_protocol, &VMTDProtocol::deleteLater);
 
         if (m_nodeType == VMTDNodeType::CLIENT)

@@ -21,7 +21,7 @@ namespace VMTDLib
 
         initializeView();
 
-        tbwPartitionCurrentChangedSlot((int)EnTab::NET);
+        tbwPartitionCurrentChangedSlot((int)EnTab::DEVICE_MANAGER);
 
         m_uiTimer.setParent(this);
         connect(&m_uiTimer, &QTimer::timeout, this, &VMTDControllerForm::uiTimerTickSlot);
@@ -57,7 +57,8 @@ namespace VMTDLib
         connect(ui->pbStopController, &QPushButton::clicked,
                 m_controller, &VMTDController::stopController);
 
-        m_tabWidgets[EnTab::NET] = ui->tbwPartition->widget((int)EnTab::NET);
+        m_tabWidgets[EnTab::DEVICE_MANAGER] = ui->tbwPartition->widget((int)EnTab::DEVICE_MANAGER);
+        m_tabWidgets[EnTab::CONN_MANAGER] = ui->tbwPartition->widget((int)EnTab::CONN_MANAGER);
         m_tabWidgets[EnTab::PROTOCOL] = ui->tbwPartition->widget((int)EnTab::PROTOCOL);
         m_tabWidgets[EnTab::NODE_CLIENT] = ui->tbwPartition->widget((int)EnTab::NODE_CLIENT);
         m_tabWidgets[EnTab::NODE_SERVER] = ui->tbwPartition->widget((int)EnTab::NODE_SERVER);
@@ -91,9 +92,13 @@ namespace VMTDLib
         const auto isRunning = m_controller->isRunning();
         const auto nodeType = m_settings->nodeType();
 
-        if (index == (int)EnTab::NET)
+        if (index == (int)EnTab::DEVICE_MANAGER)
         {
-            m_controller->net()->showFormSlot(ui->wNet);
+            m_controller->deviceManager()->showFormSlot(ui->wDevices);
+        }
+        else if (index == (int)EnTab::CONN_MANAGER)
+        {
+            m_controller->connectionManager()->showFormSlot(ui->wConnections);
         }
         else if (index == (int)EnTab::PROTOCOL && isRunning)
         {

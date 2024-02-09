@@ -6,14 +6,9 @@
 namespace VMTDLib
 {
     VMTDNxApiDevice::VMTDNxApiDevice(QObject *parent, VMTDSettings *settings, int id)
-        : QObject(parent)
-        , m_settings(settings)
-        , m_id(id)
+        : VMTDDevice(parent, settings, EnType::NX_API, id)
     {
         m_settings->debugOut(VN_S(VMTDNxApiDevice) + " | Constructor called");
-
-        m_interfaces = new VMTDInterfaces(this, m_settings);
-        m_interfaces->setOnlyOneMode(false);
 
         m_url.setUserName(QString());
         m_url.setPassword(QString());
@@ -31,20 +26,13 @@ namespace VMTDLib
         m_settings->debugOut(VN_S(VMTDNxApiDevice) + " | Destructor finished");
     }
 
-    VMTDSettings *VMTDNxApiDevice::settings() const
-    {
-        return m_settings;
-    }
-
     QJsonObject VMTDNxApiDevice::toJson() const
     {
-        QJsonObject jsonObj;
+        auto jsonObj = VMTDDevice::toJson();
 
-        jsonObj[VN_ME(m_id)] = m_id;
         jsonObj[VN_ME(m_url)] = m_url.toString(QUrl::RemoveUserInfo);
         jsonObj[VN_MT_REF(m_url.userName())] = m_url.userName();
         jsonObj[VN_MT_REF(m_url.password())] = m_url.password();
-        jsonObj[VN_ME(m_interfaces)] = m_interfaces->toJson();
 
         return jsonObj;
     }
@@ -53,25 +41,11 @@ namespace VMTDLib
         if (jsonObj.isEmpty())
             return;
 
-        m_id = jsonObj[VN_ME(m_id)].toInt(m_id);
+        VMTDDevice::fromJson(jsonObj);
+
         m_url = QUrl(jsonObj[VN_ME(m_url)].toString(m_url.toString()));
         m_url.setUserName(jsonObj["userName"].toString(m_url.userName()));
         m_url.setPassword(jsonObj["password"].toString(m_url.password()));
-        m_interfaces->fromJson(jsonObj[VN_ME(m_interfaces)].toObject());
-    }
-
-    bool VMTDNxApiDevice::isOnline() const
-    {
-        return m_isOnline;
-    }
-    void VMTDNxApiDevice::setOnline(bool isOnline)
-    {
-        m_isOnline = isOnline;
-    }
-
-    int VMTDNxApiDevice::id() const
-    {
-        return m_id;
     }
 
     QString VMTDNxApiDevice::name() const
@@ -88,11 +62,6 @@ namespace VMTDLib
     void VMTDNxApiDevice::setUrl(const QUrl &url)
     {
         m_url = url;
-    }
-
-    VMTDInterfaces *VMTDNxApiDevice::interfaces() const
-    {
-        return m_interfaces;
     }
 
     void VMTDNxApiDevice::showFormSlot()

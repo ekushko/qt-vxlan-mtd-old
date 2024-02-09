@@ -1,34 +1,34 @@
 #pragma once
 
-#include "VMTDNet.h"
+#include "VMTDDeviceManager.h"
 
 #include <QWidget>
 #include <QListWidgetItem>
 
 namespace Ui
 {
-    class VMTDNetForm;
+    class VMTDDeviceManagerForm;
 }
 
 namespace VMTDLib
 {
-    class VMTDNetForm : public QWidget
+    class VMTDDeviceManagerForm : public QWidget
     {
         Q_OBJECT
 
     public:
 
-        VMTDNetForm(QWidget *parent, VMTDNet *net);
-        ~VMTDNetForm();
+        VMTDDeviceManagerForm(QWidget *parent, VMTDDeviceManager *net);
+        ~VMTDDeviceManagerForm();
 
     private:
 
         void updateNxApiDevicesList();
         void updateNodeDevicesList();
 
-        Ui::VMTDNetForm *ui;
+        Ui::VMTDDeviceManagerForm *ui;
 
-        VMTDNet *m_net;
+        VMTDDeviceManager *m_net;
         VMTDSettings *m_settings;
 
         int m_currentNxApiDeviceId;

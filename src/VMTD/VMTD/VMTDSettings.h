@@ -95,10 +95,15 @@ namespace VMTDLib
         int     checkQueueInterval() const;
         void setCheckQueueInterval(int checkQueueInterval);
 
-        // МОДЕЛЬ СЕТИ
+        // УСТРОЙСТВА
 
-        QJsonObject netObj() const;
-        void     setNetObj(const QJsonObject &netObj);
+        QJsonObject deviceManagerObj() const;
+        void     setDeviceManagerObj(const QJsonObject &deviceManagerObj);
+
+        // ПОДКЛЮЧЕНИЯ
+
+        QJsonObject connectionManagerObj() const;
+        void     setConnectionManagerObj(const QJsonObject &connectionManagerObj);
 
     signals:
 
@@ -135,7 +140,8 @@ namespace VMTDLib
         int m_ticketTimeoutInterval;
         int m_checkQueueInterval;
 
-        QJsonObject m_netObj;
+        QJsonObject m_deviceManagerObj;
+        QJsonObject m_connectionManagerObj;
 
         int m_idCounter;
 

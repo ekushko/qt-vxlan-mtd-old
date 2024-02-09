@@ -118,9 +118,9 @@
            <property name="currentIndex">
             <number>0</number>
            </property>
-           <widget class="QWidget" name="tabNet">
+           <widget class="QWidget" name="tabDevices">
             <attribute name="title">
-             <string>NET</string>
+             <string>Devices</string>
             </attribute>
             <layout class="QVBoxLayout" name="verticalLayout_2">
              <property name="spacing">
@@ -139,7 +139,7 @@
               <number>0</number>
              </property>
              <item>
-              <widget class="QFrame" name="wNet">
+              <widget class="QFrame" name="wDevices">
                <property name="styleSheet">
                 <string notr="true"/>
                </property>
@@ -150,6 +150,46 @@
                 <enum>QFrame::Plain</enum>
                </property>
                <layout class="QVBoxLayout" name="verticalLayout_3">
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="tabConnections">
+            <attribute name="title">
+             <string>Connections</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout_12">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QWidget" name="wConnections" native="true">
+               <layout class="QVBoxLayout" name="verticalLayout_13">
                 <property name="leftMargin">
                  <number>0</number>
                 </property>

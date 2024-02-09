@@ -130,9 +130,13 @@ namespace VMTDLib
         jsonObj[VN_ME(m_checkQueueInterval)] = m_checkQueueInterval;
         jsonObj[VN_ME(m_ticketTimeoutInterval)] = m_ticketTimeoutInterval;
 
-        // модель сети
+        // устройства
 
-        jsonObj[VN_ME(m_netObj)] = m_netObj;
+        jsonObj[VN_ME(m_deviceManagerObj)] = m_deviceManagerObj;
+
+        // подключения
+
+        jsonObj[VN_ME(m_connectionManagerObj)] = m_connectionManagerObj;
 
         // прочее
 
@@ -173,9 +177,13 @@ namespace VMTDLib
         m_ticketTimeoutInterval = jsonObj[VN_ME(m_ticketTimeoutInterval)]
                                   .toInt(m_ticketTimeoutInterval);
 
-        // модель сети
+        // устройства
 
-        m_netObj = jsonObj[VN_ME(m_netObj)].toObject();
+        m_deviceManagerObj = jsonObj[VN_ME(m_deviceManagerObj)].toObject();
+
+        // подключения
+
+        m_connectionManagerObj = jsonObj[VN_ME(m_connectionManagerObj)].toObject();
 
         // прочее
 
@@ -370,13 +378,22 @@ namespace VMTDLib
     }
 
 
-    QJsonObject VMTDSettings::netObj() const
+    QJsonObject VMTDSettings::deviceManagerObj() const
     {
-        return m_netObj;
+        return m_deviceManagerObj;
     }
-    void VMTDSettings::setNetObj(const QJsonObject &netObj)
+    void VMTDSettings::setDeviceManagerObj(const QJsonObject &deviceManagerObj)
     {
-        m_netObj = netObj;
+        m_deviceManagerObj = deviceManagerObj;
+    }
+
+    QJsonObject VMTDSettings::connectionManagerObj() const
+    {
+        return m_connectionManagerObj;
+    }
+    void VMTDSettings::setConnectionManagerObj(const QJsonObject &connectionManagerObj)
+    {
+        m_connectionManagerObj = connectionManagerObj;
     }
 
 

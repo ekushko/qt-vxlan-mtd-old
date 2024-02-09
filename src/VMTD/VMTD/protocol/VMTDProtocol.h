@@ -17,7 +17,7 @@ namespace VMTDLib
 
     public:
 
-        VMTDProtocol(QObject *parent, VMTDNet *net);
+        VMTDProtocol(QObject *parent, VMTDDeviceManager *net);
         ~VMTDProtocol();
 
         VMTDSettings *settings() const;
@@ -44,7 +44,7 @@ namespace VMTDLib
 
         QPointer<VMTDProtocolForm> m_form;
 
-        VMTDNet *m_net;
+        VMTDDeviceManager *m_net;
 
         VMTDSettings *m_settings;
 
