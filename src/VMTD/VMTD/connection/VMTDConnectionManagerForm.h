@@ -24,7 +24,8 @@ namespace VMTDLib
 
     private:
 
-        void initializeView();
+        void   initializeView();
+        void reinitializeView();
 
         void fillDevices(QComboBox *cb);
         void fillInterfaces(QComboBox *cb, VMTDDevice *device);
@@ -40,6 +41,10 @@ namespace VMTDLib
     private slots:
 
         void removeSlot();
+
+        void pbCreateClicked();
+
+        void pbReloadClicked();
 
         void cbDeviceCurrentIndexChanged(int index);
         void cbDeviceCurrentIndexChanged_1(int index);

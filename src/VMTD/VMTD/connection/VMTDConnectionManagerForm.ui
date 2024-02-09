@@ -20,6 +20,13 @@
       <number>0</number>
      </property>
      <item>
+      <widget class="QPushButton" name="pbReload">
+       <property name="text">
+        <string>Reload</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="_10">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

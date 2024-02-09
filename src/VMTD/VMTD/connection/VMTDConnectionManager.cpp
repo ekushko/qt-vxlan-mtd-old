@@ -85,7 +85,16 @@ namespace VMTDLib
     void VMTDConnectionManager::createConnection(VMTDDevice *device_1, VMTDInterface *interface_1,
                                                  VMTDDevice *device_2, VMTDInterface *interface_2)
     {
-        auto isValid = device_1 != device_2;
+        auto isValid = device_1 != nullptr && interface_1 != nullptr
+                       && device_2 != nullptr && interface_2 != nullptr;
+
+        if (!isValid)
+        {
+            m_settings->debugOut(VN_S(VMTDConnectionManager) + " | Nullptr is in args!");
+            return;
+        }
+
+        isValid = device_1 != device_2;
 
         if (!isValid)
         {
@@ -120,6 +129,15 @@ namespace VMTDLib
     void VMTDConnectionManager::removeConnection(VMTDDevice *device_1, VMTDInterface *interface_1,
                                                  VMTDDevice *device_2, VMTDInterface *interface_2)
     {
+        auto isValid = device_1 != nullptr && interface_1 != nullptr
+                       && device_2 != nullptr && interface_2 != nullptr;
+
+        if (!isValid)
+        {
+            m_settings->debugOut(VN_S(VMTDConnectionManager) + " | Nullptr is in args!");
+            return;
+        }
+
         auto pair_1 = qMakePair(device_1->id(), interface_1->id());
         auto pair_2 = qMakePair(device_2->id(), interface_2->id());
         m_connections.remove(pair_1);
