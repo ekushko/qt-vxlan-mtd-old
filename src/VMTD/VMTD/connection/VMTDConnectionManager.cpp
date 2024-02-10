@@ -122,6 +122,11 @@ namespace VMTDLib
 
         auto pair_1 = qMakePair(device_1->id(), interface_1->id());
         auto pair_2 = qMakePair(device_2->id(), interface_2->id());
+        auto pair_1_old = m_connections[pair_1];
+        auto pair_2_old = m_connections[pair_2];
+
+        m_connections.remove(pair_1_old);
+        m_connections.remove(pair_2_old);
         m_connections[pair_1] = pair_2;
         m_connections[pair_2] = pair_1;
     }
@@ -144,27 +149,66 @@ namespace VMTDLib
         m_connections.remove(pair_2);
     }
 
-    VMTDDevice *VMTDConnectionManager::connectedDevice(VMTDDevice *device,
-                                                       VMTDInterface *interface)
+    QPair<VMTDDevice *, VMTDInterface *> VMTDConnectionManager::connectedDeviceInterface(
+        VMTDDevice *device, VMTDInterface *interface)
     {
         const auto pair = qMakePair(device->id(), interface->id());
 
         if (!m_connections.contains(pair))
-            return nullptr;
+        {
+            m_settings->debugOut(QString("%1 | Connection for device %2 interface id: %3 [%4] not found!")
+                                 .arg(VN_S(VMTDConnectionManager))
+                                 .arg(device->name())
+                                 .arg(interface->id())
+                                 .arg(interface->name()));
+            return QPair<VMTDDevice *, VMTDInterface *>();
+        }
 
-        return m_deviceManager->nxApiDevice(m_connections[pair].first);
-    }
-    VMTDInterface *VMTDConnectionManager::connectedInterface(VMTDDevice *device,
-                                                             VMTDInterface *interface)
-    {
-        auto _connectedDevice = connectedDevice(device, interface);
+        auto _connectedDevice = m_deviceManager->device(m_connections[pair].first);
 
         if (_connectedDevice == nullptr)
-            return nullptr;
+        {
+            m_settings->debugOut(QString("%1 | Connected device for device %2 interface id: %3 [%4] not found!")
+                                 .arg(VN_S(VMTDConnectionManager))
+                                 .arg(device->name())
+                                 .arg(interface->id())
+                                 .arg(interface->name()));
+        }
+        else
+        {
+            m_settings->debugOut(QString("%1 | Connected device %2 for device %3 interface id: %4 [%5]")
+                                 .arg(VN_S(VMTDConnectionManager))
+                                 .arg(_connectedDevice->name())
+                                 .arg(device->name())
+                                 .arg(interface->id())
+                                 .arg(interface->name()));
+        }
 
-        const auto pair = qMakePair(device->id(), interface->id());
+        auto _connectedInterface = _connectedDevice->interfaceManager()->interface(
+                                           m_connections[pair].second);
 
-        return _connectedDevice->interfaceManager()->interface(m_connections[pair].second);
+        if (_connectedInterface == nullptr)
+        {
+            m_settings->debugOut(
+                QString("%1 | Connected interface for device %2 interface id: %3 [%4] not found!")
+                .arg(VN_S(VMTDConnectionManager))
+                .arg(device->name())
+                .arg(interface->id())
+                .arg(interface->name()));
+        }
+        else
+        {
+            m_settings->debugOut(
+                QString("%1 | Connected interface id: %2 [%3] for device %4 interface id: %5 [%6]")
+                .arg(VN_S(VMTDConnectionManager))
+                .arg(_connectedInterface->id())
+                .arg(_connectedInterface->name())
+                .arg(device->name())
+                .arg(interface->id())
+                .arg(interface->name()));
+        }
+
+        return qMakePair(_connectedDevice, _connectedInterface);
     }
 
     void VMTDConnectionManager::showFormSlot(QWidget *parent)

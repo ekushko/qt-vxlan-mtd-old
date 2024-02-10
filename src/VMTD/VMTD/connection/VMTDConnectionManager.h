@@ -31,8 +31,8 @@ namespace VMTDLib
 
         // ДАННЫЕ
 
-        VMTDDevice    *connectedDevice(VMTDDevice *device, VMTDInterface *interface);
-        VMTDInterface *connectedInterface(VMTDDevice *device, VMTDInterface *interface);
+        QPair<VMTDDevice *, VMTDInterface *> connectedDeviceInterface(VMTDDevice *device,
+                                                                      VMTDInterface *interface);
 
     public slots:
 

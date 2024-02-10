@@ -56,16 +56,13 @@
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="hl_2">
      <item>
       <widget class="QGroupBox" name="gbDevice">
        <property name="title">
         <string>Device</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="1">
-         <widget class="QComboBox" name="cbDevice"/>
-        </item>
         <item row="0" column="0">
          <widget class="QLabel" name="_6">
           <property name="text">
@@ -73,12 +70,8 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
-         <widget class="QPushButton" name="pbShow">
-          <property name="text">
-           <string>Show</string>
-          </property>
-         </widget>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="cbDevice"/>
         </item>
        </layout>
       </widget>
@@ -156,46 +149,98 @@
    </item>
    <item>
     <widget class="QGroupBox" name="gbConnections">
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="title">
       <string>Connections</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
       <item>
        <widget class="QScrollArea" name="scrollArea">
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <property name="frameShape">
          <enum>QFrame::NoFrame</enum>
         </property>
         <property name="frameShadow">
-         <enum>QFrame::Sunken</enum>
+         <enum>QFrame::Raised</enum>
         </property>
         <property name="widgetResizable">
          <bool>true</bool>
         </property>
-        <widget class="QWidget" name="wConnections">
+        <widget class="QWidget" name="w_1">
          <property name="geometry">
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>580</width>
-           <height>331</height>
+           <width>598</width>
+           <height>349</height>
           </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: #f5f5f5;</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_3">
           <property name="spacing">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="leftMargin">
-           <number>0</number>
+           <number>9</number>
           </property>
           <property name="topMargin">
-           <number>0</number>
+           <number>9</number>
           </property>
           <property name="rightMargin">
-           <number>0</number>
+           <number>9</number>
           </property>
           <property name="bottomMargin">
-           <number>0</number>
+           <number>9</number>
           </property>
+          <item>
+           <widget class="QFrame" name="wConnections">
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <spacer name="_7">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>40</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
          </layout>
         </widget>
        </widget>

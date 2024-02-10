@@ -42,9 +42,8 @@ namespace VMTDLib
 
         void removeSlot();
 
-        void pbCreateClicked();
-
         void pbReloadClicked();
+        void pbCreateClicked();
 
         void cbDeviceCurrentIndexChanged(int index);
         void cbDeviceCurrentIndexChanged_1(int index);

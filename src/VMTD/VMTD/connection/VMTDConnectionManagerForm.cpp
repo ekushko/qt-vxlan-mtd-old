@@ -45,6 +45,8 @@ namespace VMTDLib
 
         connect(ui->pbReload, &QPushButton::clicked,
                 this, &VMTDConnectionManagerForm::pbReloadClicked);
+        connect(ui->pbCreate, &QPushButton::clicked,
+                this, &VMTDConnectionManagerForm::pbCreateClicked);
 
         connect(ui->cbDevice, QOverload<int>::of(&QComboBox::currentIndexChanged),
                 this, &VMTDConnectionManagerForm::cbDeviceCurrentIndexChanged);
@@ -98,8 +100,9 @@ namespace VMTDLib
         for (auto it = interfaces.begin(); it != interfaces.end(); ++it)
         {
             auto interface = *it;
-            auto connectedDevice = m_manager->connectedDevice(device, interface);
-            auto connectedInterface = m_manager->connectedInterface(device, interface);
+            auto connectedDeviceInterface = m_manager->connectedDeviceInterface(device, interface);
+            auto connectedDevice = connectedDeviceInterface.first;
+            auto connectedInterface = connectedDeviceInterface.second;
 
             if (connectedDevice != nullptr && connectedInterface != nullptr)
             {
@@ -124,25 +127,26 @@ namespace VMTDLib
         cbDeviceCurrentIndexChanged(ui->cbDevice->currentIndex());
     }
 
-    void VMTDConnectionManagerForm::pbCreateClicked()
-    {
-        const auto deviceId_1 = ui->cbDevice_1->currentData().toInt();
-        const auto interfaceId_1 = ui->cbInterface_1->currentData().toInt();
-
-        const auto deviceId_2 = ui->cbDevice_2->currentData().toInt();
-        const auto interfaceId_2 = ui->cbInterface_2->currentData().toInt();
-
-        // TODO
-        // Создание и удаление соединений
-
-        //m_manager->removeConnection()
-    }
-
     void VMTDConnectionManagerForm::pbReloadClicked()
     {
         fillDevices(ui->cbDevice);
         fillDevices(ui->cbDevice_1);
         fillDevices(ui->cbDevice_2);
+    }
+
+    void VMTDConnectionManagerForm::pbCreateClicked()
+    {
+        auto device_1 = m_manager->deviceManager()->device(ui->cbDevice_1->currentData().toInt());
+        auto interface_1 = device_1->interfaceManager()->interface(
+                                   ui->cbInterface_1->currentData().toInt());
+
+        auto device_2 = m_manager->deviceManager()->device(ui->cbDevice_2->currentData().toInt());
+        auto interface_2 = device_2->interfaceManager()->interface(
+                                   ui->cbInterface_2->currentData().toInt());
+
+        m_manager->createConnection(device_1, interface_1, device_2, interface_2);
+
+        cbDeviceCurrentIndexChanged(ui->cbDevice->currentIndex());
     }
 
     void VMTDConnectionManagerForm::cbDeviceCurrentIndexChanged(int index)

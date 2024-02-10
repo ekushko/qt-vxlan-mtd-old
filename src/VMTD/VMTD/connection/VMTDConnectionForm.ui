@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>565</width>
-    <height>26</height>
+    <width>334</width>
+    <height>48</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,42 +30,13 @@
     <number>0</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="hl_1">
-     <item>
-      <widget class="QLabel" name="lbDevice_1">
-       <property name="minimumSize">
-        <size>
-         <width>200</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>TextLabel</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="_2">
-       <property name="minimumSize">
-        <size>
-         <width>25</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="text">
-        <string>&lt;-&gt;</string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
+    <layout class="QGridLayout" name="gl_1">
+     <item row="1" column="0">
       <widget class="QLabel" name="lbDevice_2">
        <property name="minimumSize">
         <size>
          <width>200</width>
-         <height>0</height>
+         <height>20</height>
         </size>
        </property>
        <property name="text">
@@ -73,7 +44,20 @@
        </property>
       </widget>
      </item>
-     <item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="lbDevice_1">
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>20</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="2" rowspan="2">
       <spacer name="_1">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -86,7 +70,7 @@
        </property>
       </spacer>
      </item>
-     <item>
+     <item row="0" column="3" rowspan="2">
       <widget class="QPushButton" name="pbRemove">
        <property name="text">
         <string>Remove</string>

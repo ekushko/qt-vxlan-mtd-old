@@ -57,12 +57,12 @@ namespace VMTDLib
 
     void VMTDConnectionForm::initializeView()
     {
-        ui->lbDevice_1->setText(QString("%1 iface id: %1 [%2]")
+        ui->lbDevice_1->setText(QString("Device %1 interface id: %2 [%3]")
                                 .arg(m_device_1->name())
                                 .arg(m_interface_1->id())
                                 .arg(m_interface_1->name()));
 
-        ui->lbDevice_2->setText(QString("%1 iface id: %1 [%2]")
+        ui->lbDevice_2->setText(QString("Device %1 interface id: %2 [%3]")
                                 .arg(m_device_2->name())
                                 .arg(m_interface_2->id())
                                 .arg(m_interface_2->name()));
