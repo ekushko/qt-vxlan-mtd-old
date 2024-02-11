@@ -9,21 +9,21 @@ namespace VMTDLib
         , m_settings(settings)
         , m_id(id)
     {
-        m_settings->debugOut(VN_S(VMTDInterface) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDInterface) + " | Constructor called");
 
         m_name = QString("eth%1").arg(m_id);
         m_ip = "127.0.0.1";
 
-        m_settings->debugOut(VN_S(VMTDInterface) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDInterface) + " | Constructor finished");
     }
 
     VMTDInterface::~VMTDInterface()
     {
-        m_settings->debugOut(VN_S(VMTDInterface) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDInterface) + " | Destructor called");
 
         // do nothing
 
-        m_settings->debugOut(VN_S(VMTDInterface) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDInterface) + " | Destructor finished");
     }
 
     VMTDSettings *VMTDInterface::settings() const

@@ -11,7 +11,7 @@ namespace VMTDLib
         m_interface(interface),
         m_settings(interface->settings())
     {
-        m_settings->debugOut(VN_S(VMTDInterfaceForm) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDInterfaceForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -20,16 +20,16 @@ namespace VMTDLib
 
         updateView();
 
-        m_settings->debugOut(VN_S(VMTDInterfaceForm) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDInterfaceForm) + " | Constructor finished");
     }
 
     VMTDInterfaceForm::~VMTDInterfaceForm()
     {
-        m_settings->debugOut(VN_S(VMTDInterfaceForm) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDInterfaceForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDInterfaceForm) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDInterfaceForm) + " | Destructor finished");
     }
 
     int VMTDInterfaceForm::id() const

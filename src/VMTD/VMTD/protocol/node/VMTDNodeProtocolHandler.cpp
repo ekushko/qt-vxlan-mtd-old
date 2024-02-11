@@ -12,21 +12,21 @@ namespace VMTDLib
         , m_device(device)
         , m_socket(socket)
     {
-        m_settings->debugOut(VN_S(VMTDNodeProtocolHandler) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDNodeProtocolHandler) + " | Constructor called");
 
         // do nothing
 
-        m_settings->debugOut(VN_S(VMTDNodeProtocolHandler) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDNodeProtocolHandler) + " | Constructor finished");
     }
 
     VMTDNodeProtocolHandler::~VMTDNodeProtocolHandler()
     {
-        m_settings->debugOut(VN_S(VMTDNodeProtocolHandler) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDNodeProtocolHandler) + " | Destructor called");
 
         if (m_form != nullptr)
             m_form->deleteLater();
 
-        m_settings->debugOut(VN_S(VMTDNodeProtocolHandler) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDNodeProtocolHandler) + " | Destructor finished");
     }
 
     const QString &VMTDNodeProtocolHandler::enErrorToS(const EnError &error)

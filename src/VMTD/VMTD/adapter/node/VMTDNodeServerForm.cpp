@@ -11,7 +11,7 @@ namespace VMTDLib
         m_server(server),
         m_settings(server->settings())
     {
-        m_settings->debugOut(VN_S(VMTDNodeServerForm) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDNodeServerForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -43,16 +43,16 @@ namespace VMTDLib
                 this, &VMTDNodeServerForm::uiTimerTickSlot);
         m_uiTimer.start(500);
 
-        m_settings->debugOut(VN_S(VMTDNodeServerForm) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDNodeServerForm) + " | Constructor finished");
     }
 
     VMTDNodeServerForm::~VMTDNodeServerForm()
     {
-        m_settings->debugOut(VN_S(VMTDNodeServerForm) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDNodeServerForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDNodeServerForm) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDNodeServerForm) + " | Destructor finished");
     }
 
     void VMTDNodeServerForm::showDebugSlot(QWebSocket *socket, const QTime &time, const QString &text)

@@ -12,7 +12,7 @@ namespace VMTDLib
         m_controller(controller),
         m_settings(controller->settings())
     {
-        m_settings->debugOut(VN_S(VMTDControllerForm) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDControllerForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -29,16 +29,16 @@ namespace VMTDLib
 
         uiTimerTickSlot();
 
-        m_settings->debugOut(VN_S(VMTDControllerForm) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDControllerForm) + " | Constructor finished");
     }
 
     VMTDControllerForm::~VMTDControllerForm()
     {
-        m_settings->debugOut(VN_S(VMTDControllerForm) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDControllerForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDControllerForm) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDControllerForm) + " | Destructor finished");
     }
 
     void VMTDControllerForm::initializeView()

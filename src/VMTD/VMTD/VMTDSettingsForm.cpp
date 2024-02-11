@@ -10,7 +10,7 @@ namespace VMTDLib
         ui(new Ui::VMTDSettingsForm),
         m_settings(settings)
     {
-        m_settings->debugOut(VN_S(VMTDSettingsForm) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDSettingsForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -29,16 +29,16 @@ namespace VMTDLib
         setEditMode(false);
         updateView();
 
-        m_settings->debugOut(VN_S(VMTDSettingsForm) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDSettingsForm) + " | Constructor finished");
     }
 
     VMTDSettingsForm::~VMTDSettingsForm()
     {
-        m_settings->debugOut(VN_S(VMTDSettingsForm) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDSettingsForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDSettingsForm) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDSettingsForm) + " | Destructor finished");
     }
 
     void VMTDSettingsForm::setEditMode(bool isEditMode)
@@ -57,6 +57,7 @@ namespace VMTDLib
         ui->lbSystemName->setText(m_settings->systemName());
         ui->leDebugName->setText(m_settings->debugName());
         ui->chbShouldShowDebug->setChecked(m_settings->shouldShowDebug());
+        ui->chbShouldShowDebugCreation->setChecked(m_settings->shouldShowDebugCreation());
 
         ui->sbLocalPort->setValue(m_settings->localPort());
 
@@ -76,6 +77,7 @@ namespace VMTDLib
         m_settings->setNodeType(CB_DATA_TOE(ui->cbNodeType, VMTDNodeType));
         m_settings->setDebugName(ui->leDebugName->text());
         m_settings->setShouldShowDebug(ui->chbShouldShowDebug->isChecked());
+        m_settings->setShouldShowDebugCreation(ui->chbShouldShowDebugCreation->isChecked());
 
         m_settings->setLocalPort(ui->sbLocalPort->value());
 

@@ -13,7 +13,7 @@ namespace VMTDLib
         m_settings = new VMTDSettings(this, systemName);
         connect(m_settings, &VMTDSettings::restartSignal, this, &VMTDController::restartSlot);
 
-        m_settings->debugOut(VN_S(VMTDController) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDController) + " | Constructor called");
 
         connect(this, &VMTDController::started, this, &VMTDController::startedSlot);
         connect(this, &VMTDController::finished, this, &VMTDController::finishedSlot);
@@ -21,12 +21,12 @@ namespace VMTDLib
         m_deviceManager = new VMTDDeviceManager(this, m_settings);
         m_connectionManager = new VMTDConnectionManager(this, m_deviceManager);
 
-        m_settings->debugOut(VN_S(VMTDController) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDController) + " | Constructor finished");
     }
 
     VMTDController::~VMTDController()
     {
-        m_settings->debugOut(VN_S(VMTDController) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDController) + " | Destructor called");
 
         if (isRunning())
             stopController();
@@ -37,7 +37,7 @@ namespace VMTDLib
         delete m_connectionManager;
         delete m_deviceManager;
 
-        m_settings->debugOut(VN_S(VMTDController) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDController) + " | Destructor finished");
 
         delete m_settings;
     }

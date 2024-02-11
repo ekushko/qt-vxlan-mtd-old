@@ -18,6 +18,7 @@ namespace VMTDLib
         m_nodeType = EnNodeType::CLIENT;
         m_debugName = "VMTD";
         m_shouldShowDebug = true;
+        m_shouldShowDebugCreation = false;
 
         // параметры сервера
 
@@ -42,7 +43,7 @@ namespace VMTDLib
         m_idCounter = 0;
         m_shouldBeRestarted = false;
 
-        debugOut(VN_S(VMTDSettings) + " | Constructor called");
+        creationOut(VN_S(VMTDSettings) + " | Constructor called");
 
         connect(this, &VMTDSettings::saveSignal, this, &VMTDSettings::saveSlot);
         connect(this, &VMTDSettings::loadSignal, this, &VMTDSettings::loadSlot);
@@ -58,17 +59,17 @@ namespace VMTDLib
 
         load();
 
-        debugOut(VN_S(VMTDSettings) + " | Constructor finished");
+        creationOut(VN_S(VMTDSettings) + " | Constructor finished");
     }
 
     VMTDSettings::~VMTDSettings()
     {
-        debugOut(VN_S(VMTDSettings) + " | Destructor called");
+        creationOut(VN_S(VMTDSettings) + " | Destructor called");
 
         if (m_form != nullptr)
             delete m_form;
 
-        debugOut(VN_S(VMTDSettings) + " | Destructor finished");
+        creationOut(VN_S(VMTDSettings) + " | Destructor finished");
     }
 
     const QString &VMTDSettings::enNodeTypeToS(const EnNodeType &nodeType)
@@ -100,6 +101,11 @@ namespace VMTDLib
         if (m_shouldShowDebug)
             qDebug() << m_debugName +  " | " + text;
     }
+    void VMTDSettings::creationOut(const QString &text)
+    {
+        if (m_shouldShowDebugCreation)
+            qDebug() << m_debugName +  " | " + text;
+    }
 
     QJsonObject VMTDSettings::toJson() const
     {
@@ -111,6 +117,7 @@ namespace VMTDLib
         jsonObj[VN_ME(m_systemName)] = m_systemName;
         jsonObj[VN_ME(m_debugName)] = m_debugName;
         jsonObj[VN_ME(m_shouldShowDebug)] = m_shouldShowDebug;
+        jsonObj[VN_ME(m_shouldShowDebugCreation)] = m_shouldShowDebugCreation;
 
         // параметры сервера
 
@@ -154,6 +161,8 @@ namespace VMTDLib
         m_nodeType = (EnNodeType)jsonObj[VN_ME(m_nodeType)].toInt((int)m_nodeType);
         m_debugName = jsonObj[VN_ME(m_debugName)].toString(m_debugName);
         m_shouldShowDebug = jsonObj[VN_ME(m_shouldShowDebug)].toBool(m_shouldShowDebug);
+        m_shouldShowDebugCreation = jsonObj[VN_ME(m_shouldShowDebugCreation)]
+                                    .toBool(m_shouldShowDebugCreation);
 
         // параметры сервера
 
@@ -256,6 +265,15 @@ namespace VMTDLib
     void VMTDSettings::setShouldShowDebug(bool shouldShowDebug)
     {
         m_shouldShowDebug = shouldShowDebug;
+    }
+
+    bool VMTDSettings::shouldShowDebugCreation() const
+    {
+        return m_shouldShowDebugCreation;
+    }
+    void VMTDSettings::setShouldShowDebugCreation(bool shouldShowDebugCreation)
+    {
+        m_shouldShowDebugCreation = shouldShowDebugCreation;
     }
 
 

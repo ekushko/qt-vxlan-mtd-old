@@ -11,7 +11,7 @@ namespace VMTDLib
         m_device(device),
         m_settings(device->settings())
     {
-        m_settings->debugOut(VN_S(VMTDNodeDeviceForm) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDNodeDeviceForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -24,16 +24,16 @@ namespace VMTDLib
         setEditMode(false);
         updateView();
 
-        m_settings->debugOut(VN_S(VMTDNodeDeviceForm) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDNodeDeviceForm) + " | Constructor finished");
     }
 
     VMTDNodeDeviceForm::~VMTDNodeDeviceForm()
     {
-        m_settings->debugOut(VN_S(VMTDNodeDeviceForm) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDNodeDeviceForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDNodeDeviceForm) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDNodeDeviceForm) + " | Destructor finished");
     }
 
     void VMTDNodeDeviceForm::setEditMode(bool isEditMode)

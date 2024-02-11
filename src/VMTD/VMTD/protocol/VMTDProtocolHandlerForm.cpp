@@ -11,7 +11,7 @@ namespace VMTDLib
         m_handler(handler),
         m_settings(handler->settings())
     {
-        m_settings->debugOut(VN_S(VMTDProtocolHandlerForm) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDProtocolHandlerForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -32,16 +32,16 @@ namespace VMTDLib
             ui->lbQueueLength->hide();
         }
 
-        m_settings->debugOut(VN_S(VMTDProtocolHandlerForm) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDProtocolHandlerForm) + " | Constructor finished");
     }
 
     VMTDProtocolHandlerForm::~VMTDProtocolHandlerForm()
     {
-        m_settings->debugOut(VN_S(VMTDProtocolHandlerForm) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDProtocolHandlerForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDProtocolHandlerForm) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDProtocolHandlerForm) + " | Destructor finished");
     }
 
     void VMTDProtocolHandlerForm::updateView()

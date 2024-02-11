@@ -11,7 +11,7 @@ namespace VMTDLib
         m_client(client),
         m_settings(client->settings())
     {
-        m_settings->debugOut(VN_S(VMTDNodeClientForm) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDNodeClientForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -37,16 +37,16 @@ namespace VMTDLib
         connect(&m_uiTimer, &QTimer::timeout, this, &VMTDNodeClientForm::uiTimerTickSlot);
         m_uiTimer.start(500);
 
-        m_settings->debugOut(VN_S(VMTDNodeClientForm) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDNodeClientForm) + " | Constructor finished");
     }
 
     VMTDNodeClientForm::~VMTDNodeClientForm()
     {
-        m_settings->debugOut(VN_S(VMTDNodeClientForm) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDNodeClientForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDNodeClientForm) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDNodeClientForm) + " | Destructor finished");
     }
 
     void VMTDNodeClientForm::initializeView()

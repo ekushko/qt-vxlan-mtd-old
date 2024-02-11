@@ -12,23 +12,23 @@ namespace VMTDLib
         , m_deviceManager(deviceManager)
         , m_settings(deviceManager->settings())
     {
-        m_settings->debugOut(VN_S(VMTDConnectionManager) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDConnectionManager) + " | Constructor called");
 
         if (m_settings->nodeType() == VMTDNodeType::SERVER)
         {
             loadSlot();
         }
 
-        m_settings->debugOut(VN_S(VMTDConnectionManager) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDConnectionManager) + " | Constructor finished");
     }
 
     VMTDConnectionManager::~VMTDConnectionManager()
     {
-        m_settings->debugOut(VN_S(VMTDConnectionManager) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDConnectionManager) + " | Destructor called");
 
         // do nothing
 
-        m_settings->debugOut(VN_S(VMTDConnectionManager) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDConnectionManager) + " | Destructor finished");
     }
 
     VMTDDeviceManager *VMTDConnectionManager::deviceManager() const

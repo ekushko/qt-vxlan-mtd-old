@@ -11,20 +11,20 @@ namespace VMTDLib
         : QObject(parent)
         , m_settings(settings)
     {
-        m_settings->debugOut(VN_S(VMTDInterfaceManager) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDInterfaceManager) + " | Constructor called");
 
         // do nothing
 
-        m_settings->debugOut(VN_S(VMTDInterfaceManager) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDInterfaceManager) + " | Constructor finished");
     }
 
     VMTDInterfaceManager::~VMTDInterfaceManager()
     {
-        m_settings->debugOut(VN_S(VMTDInterfaceManager) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDInterfaceManager) + " | Destructor called");
 
         // do nothing
 
-        m_settings->debugOut(VN_S(VMTDInterfaceManager) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDInterfaceManager) + " | Destructor finished");
     }
 
     VMTDSettings *VMTDInterfaceManager::settings() const

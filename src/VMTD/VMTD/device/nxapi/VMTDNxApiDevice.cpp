@@ -8,22 +8,22 @@ namespace VMTDLib
     VMTDNxApiDevice::VMTDNxApiDevice(QObject *parent, VMTDSettings *settings, int id)
         : VMTDDevice(parent, settings, EnType::NX_API, id)
     {
-        m_settings->debugOut(VN_S(VMTDNxApiDevice) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDNxApiDevice) + " | Constructor called");
 
         m_url.setUserName(QString());
         m_url.setPassword(QString());
 
-        m_settings->debugOut(VN_S(VMTDNxApiDevice) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDNxApiDevice) + " | Constructor finished");
     }
 
     VMTDNxApiDevice::~VMTDNxApiDevice()
     {
-        m_settings->debugOut(VN_S(VMTDNxApiDevice) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDNxApiDevice) + " | Destructor called");
 
         if (m_form != nullptr)
             m_form->deleteLater();
 
-        m_settings->debugOut(VN_S(VMTDNxApiDevice) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDNxApiDevice) + " | Destructor finished");
     }
 
     QJsonObject VMTDNxApiDevice::toJson() const

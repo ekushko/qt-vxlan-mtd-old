@@ -13,23 +13,23 @@ namespace VMTDLib
         : QObject(parent)
         , m_settings(settings)
     {
-        m_settings->debugOut(VN_S(VMTDDeviceManager) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDDeviceManager) + " | Constructor called");
 
         if (m_settings->nodeType() == VMTDNodeType::SERVER)
         {
             loadSlot();
         }
 
-        m_settings->debugOut(VN_S(VMTDDeviceManager) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDDeviceManager) + " | Constructor finished");
     }
 
     VMTDDeviceManager::~VMTDDeviceManager()
     {
-        m_settings->debugOut(VN_S(VMTDDeviceManager) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDDeviceManager) + " | Destructor called");
 
         // do nothing
 
-        m_settings->debugOut(VN_S(VMTDDeviceManager) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDDeviceManager) + " | Destructor finished");
     }
 
     VMTDSettings *VMTDDeviceManager::settings() const

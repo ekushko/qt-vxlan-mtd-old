@@ -12,7 +12,7 @@ namespace VMTDLib
         : QObject(parent)
         , m_settings(settings)
     {
-        m_settings->debugOut(VN_S(VMTDNodeClient) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDNodeClient) + " | Constructor called");
 
         m_socket = new QWebSocket(m_settings->debugName(), QWebSocketProtocol::VersionLatest, this);
         connect(m_socket, &QWebSocket::textMessageReceived,
@@ -29,12 +29,12 @@ namespace VMTDLib
         if (m_settings->shouldReconnect())
             m_reconnectTimer.start(m_settings->reconnectInterval());
 
-        m_settings->debugOut(VN_S(VMTDNodeClient) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDNodeClient) + " | Constructor finished");
     }
 
     VMTDNodeClient::~VMTDNodeClient()
     {
-        m_settings->debugOut(VN_S(VMTDNodeClient) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDNodeClient) + " | Destructor called");
 
         if (m_form != nullptr)
             m_form->deleteLater();
@@ -43,7 +43,7 @@ namespace VMTDLib
 
         m_socket->deleteLater();
 
-        m_settings->debugOut(VN_S(VMTDNodeClient) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDNodeClient) + " | Destructor finished");
     }
 
     VMTDSettings *VMTDNodeClient::settings() const

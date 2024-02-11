@@ -16,7 +16,7 @@ namespace VMTDLib
         m_device_2(device_2),
         m_interface_2(interface_2)
     {
-        m_settings->debugOut(VN_S(VMTDConnectionForm) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDConnectionForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -25,16 +25,16 @@ namespace VMTDLib
 
         initializeView();
 
-        m_settings->debugOut(VN_S(VMTDConnectionForm) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDConnectionForm) + " | Constructor finished");
     }
 
     VMTDConnectionForm::~VMTDConnectionForm()
     {
-        m_settings->debugOut(VN_S(VMTDConnectionForm) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDConnectionForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDConnectionForm) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDConnectionForm) + " | Destructor finished");
     }
 
     VMTDDevice *VMTDConnectionForm::device_1() const

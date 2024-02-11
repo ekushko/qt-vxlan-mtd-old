@@ -13,7 +13,7 @@ namespace VMTDLib
         m_protocol(protocol),
         m_settings(protocol->settings())
     {
-        m_settings->debugOut(VN_S(VMTDProtocolForm) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDProtocolForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -36,7 +36,7 @@ namespace VMTDLib
         for (auto handler : m_protocol->handlers())
             handlerCreatedSlot(handler);
 
-        m_settings->debugOut(VN_S(VMTDProtocolForm) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDProtocolForm) + " | Constructor finished");
     }
 
     VMTDProtocolForm::~VMTDProtocolForm()

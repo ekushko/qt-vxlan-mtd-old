@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>364</width>
-    <height>699</height>
+    <height>727</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -101,16 +101,20 @@
            <string>System</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
-           <item row="2" column="0">
-            <widget class="QLabel" name="_8">
-             <property name="minimumSize">
-              <size>
-               <width>166</width>
-               <height>0</height>
-              </size>
-             </property>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="cbNodeType"/>
+           </item>
+           <item row="3" column="0" colspan="2">
+            <widget class="QCheckBox" name="chbShouldShowDebug">
              <property name="text">
-              <string>Debug name:</string>
+              <string>Should show debug</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="_7">
+             <property name="text">
+              <string>System name:</string>
              </property>
             </widget>
            </item>
@@ -127,20 +131,19 @@
              </property>
             </widget>
            </item>
-           <item row="3" column="0" colspan="2">
-            <widget class="QCheckBox" name="chbShouldShowDebug">
-             <property name="text">
-              <string>Should show debug</string>
-             </property>
-            </widget>
-           </item>
            <item row="2" column="1">
             <widget class="QLineEdit" name="leDebugName"/>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="_7">
+           <item row="2" column="0">
+            <widget class="QLabel" name="_8">
+             <property name="minimumSize">
+              <size>
+               <width>166</width>
+               <height>0</height>
+              </size>
+             </property>
              <property name="text">
-              <string>System name:</string>
+              <string>Debug name:</string>
              </property>
             </widget>
            </item>
@@ -151,8 +154,12 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
-            <widget class="QComboBox" name="cbNodeType"/>
+           <item row="4" column="0" colspan="2">
+            <widget class="QCheckBox" name="chbShouldShowDebugCreation">
+             <property name="text">
+              <string>Should show debug creation</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>

@@ -17,24 +17,22 @@ namespace VMTDLib
         , m_netManager(netManager)
         , m_url("https://127.0.0.1/ins")
     {
-        m_settings->debugOut(VN_S(VMTDNxApiAdapter) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDNxApiAdapter) + " | Constructor called");
 
         connect(m_netManager, &QNetworkAccessManager::finished,
                 this, &VMTDNxApiAdapter::replyFinishedSlot);
 
-        m_settings->debugOut(VN_S(VMTDNxApiAdapter) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDNxApiAdapter) + " | Constructor finished");
     }
 
     VMTDNxApiAdapter::~VMTDNxApiAdapter()
     {
-        m_settings->debugOut(VN_S(VMTDNxApiAdapter) + QString("(%1) | Destructor called")
-                             .arg(m_url.toString(QUrl::RemoveUserInfo)));
+        m_settings->creationOut(VN_S(VMTDNxApiAdapter) + " | Destructor called");
 
         if (m_form != nullptr)
             m_form->deleteLater();
 
-        m_settings->debugOut(VN_S(VMTDNxApiAdapter) + QString("(%1) | Destructor finished")
-                             .arg(m_url.toString(QUrl::RemoveUserInfo)));
+        m_settings->creationOut(VN_S(VMTDNxApiAdapter) + " | Destructor finished");
     }
 
     QJsonObject VMTDNxApiAdapter::toJson() const

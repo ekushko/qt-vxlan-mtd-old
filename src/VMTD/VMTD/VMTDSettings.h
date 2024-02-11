@@ -37,7 +37,8 @@ namespace VMTDLib
 
         int generateId();
 
-        void debugOut(const QString &text);
+        void    debugOut(const QString &text);
+        void creationOut(const QString &text);
 
         QJsonObject toJson() const;
         void      fromJson(const QJsonObject &jsonObj);
@@ -61,6 +62,9 @@ namespace VMTDLib
 
         bool    shouldShowDebug() const;
         void setShouldShowDebug(bool shouldShowDebug);
+
+        bool    shouldShowDebugCreation() const;
+        void setShouldShowDebugCreation(bool shouldShowDebugCreation);
 
         // ПАРАМЕТРЫ СЕРВЕРА
 
@@ -127,6 +131,7 @@ namespace VMTDLib
         const QString m_systemName;
         QString m_debugName;
         bool m_shouldShowDebug;
+        bool m_shouldShowDebugCreation;
 
         QString m_serverIp;
         int     m_serverPort;

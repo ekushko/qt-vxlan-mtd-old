@@ -11,7 +11,7 @@ namespace VMTDLib
         m_net(net),
         m_settings(net->settings())
     {
-        m_settings->debugOut(VN_S(VMTDDeviceManagerForm) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDDeviceManagerForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -44,16 +44,16 @@ namespace VMTDLib
         updateNxApiDevicesList();
         updateNodeDevicesList();
 
-        m_settings->debugOut(VN_S(VMTDDeviceManagerForm) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDDeviceManagerForm) + " | Constructor finished");
     }
 
     VMTDDeviceManagerForm::~VMTDDeviceManagerForm()
     {
-        m_settings->debugOut(VN_S(VMTDDeviceManagerForm) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDDeviceManagerForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDDeviceManagerForm) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDDeviceManagerForm) + " | Destructor finished");
     }
 
     void VMTDDeviceManagerForm::updateNxApiDevicesList()

@@ -15,7 +15,7 @@ namespace VMTDLib
         m_adapter(adapter),
         m_settings(adapter->settings())
     {
-        m_settings->debugOut(VN_S(VMTDNxApiAdapterForm) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDNxApiAdapterForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -32,7 +32,7 @@ namespace VMTDLib
         initializeView();
         updateView();
 
-        m_settings->debugOut(VN_S(VMTDNxApiAdapterForm) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDNxApiAdapterForm) + " | Constructor finished");
     }
 
     VMTDNxApiAdapterForm::~VMTDNxApiAdapterForm()

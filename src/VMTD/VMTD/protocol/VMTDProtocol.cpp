@@ -10,7 +10,7 @@ namespace VMTDLib
         , m_net(net)
         , m_settings(net->settings())
     {
-        m_settings->debugOut(VN_S(VMTDProtocol) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDProtocol) + " | Constructor called");
 
         m_checkConnectionTimer.setParent(this);
         m_checkConnectionTimer.setInterval(m_settings->checkConnectionInterval());
@@ -21,17 +21,17 @@ namespace VMTDLib
             && m_settings->shouldCheckConnection())
             m_checkConnectionTimer.start();
 
-        m_settings->debugOut(VN_S(VMTDProtocol) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDProtocol) + " | Constructor finished");
     }
 
     VMTDProtocol::~VMTDProtocol()
     {
-        m_settings->debugOut(VN_S(VMTDProtocol) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDProtocol) + " | Destructor called");
 
         if (m_form != nullptr)
             m_form->deleteLater();
 
-        m_settings->debugOut(VN_S(VMTDProtocol) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDProtocol) + " | Destructor finished");
     }
 
     VMTDSettings *VMTDProtocol::settings() const

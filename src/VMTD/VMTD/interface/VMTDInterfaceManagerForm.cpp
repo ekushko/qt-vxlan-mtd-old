@@ -13,7 +13,7 @@ namespace VMTDLib
         m_manager(manager),
         m_settings(manager->settings())
     {
-        m_settings->debugOut(VN_S(VMTDInterfaceManagerForm) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDInterfaceManagerForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -28,7 +28,7 @@ namespace VMTDLib
         setEditMode(false);
         updateView();
 
-        m_settings->debugOut(VN_S(VMTDInterfaceManagerForm) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDInterfaceManagerForm) + " | Constructor finished");
     }
 
     VMTDInterfaceManagerForm::~VMTDInterfaceManagerForm()

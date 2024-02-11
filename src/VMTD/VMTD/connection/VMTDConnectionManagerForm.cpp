@@ -12,7 +12,7 @@ namespace VMTDLib
         m_manager(manager),
         m_settings(manager->settings())
     {
-        m_settings->debugOut(VN_S(VMTDConnectionManagerForm) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDConnectionManagerForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -24,16 +24,16 @@ namespace VMTDLib
 
         initializeView();
 
-        m_settings->debugOut(VN_S(VMTDConnectionManagerForm) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDConnectionManagerForm) + " | Constructor finished");
     }
 
     VMTDConnectionManagerForm::~VMTDConnectionManagerForm()
     {
-        m_settings->debugOut(VN_S(VMTDConnectionManagerForm) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDConnectionManagerForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDConnectionManagerForm) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDConnectionManagerForm) + " | Destructor finished");
     }
 
     void VMTDConnectionManagerForm::initializeView()

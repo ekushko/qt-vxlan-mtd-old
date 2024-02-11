@@ -8,21 +8,21 @@ namespace VMTDLib
     VMTDNodeDevice::VMTDNodeDevice(QObject *parent, VMTDSettings *settings, int id)
         : VMTDDevice(parent, settings, EnType::NODE, id)
     {
-        m_settings->debugOut(VN_S(VMTDNodeDevice) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDNodeDevice) + " | Constructor called");
 
         // do nothing
 
-        m_settings->debugOut(VN_S(VMTDNodeDevice) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDNodeDevice) + " | Constructor finished");
     }
 
     VMTDNodeDevice::~VMTDNodeDevice()
     {
-        m_settings->debugOut(VN_S(VMTDNodeDevice) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDNodeDevice) + " | Destructor called");
 
         if (m_form != nullptr)
             m_form->deleteLater();
 
-        m_settings->debugOut(VN_S(VMTDNodeDevice) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDNodeDevice) + " | Destructor finished");
     }
 
     const QString &VMTDNodeDevice::enRoleToS(const EnRole &role)

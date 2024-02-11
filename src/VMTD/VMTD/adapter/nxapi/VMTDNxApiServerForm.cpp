@@ -11,7 +11,7 @@ namespace VMTDLib
         m_server(server),
         m_settings(server->settings())
     {
-        m_settings->debugOut(VN_S(VMTDNxApiServerForm) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDNxApiServerForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -50,16 +50,16 @@ namespace VMTDLib
 
         uiTimerTickSlot();
 
-        m_settings->debugOut(VN_S(VMTDNxApiServerForm) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDNxApiServerForm) + " | Constructor finished");
     }
 
     VMTDNxApiServerForm::~VMTDNxApiServerForm()
     {
-        m_settings->debugOut(VN_S(VMTDNxApiServerForm) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDNxApiServerForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDNxApiServerForm) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDNxApiServerForm) + " | Destructor finished");
     }
 
     void VMTDNxApiServerForm::uiTimerTickSlot()

@@ -13,21 +13,21 @@ namespace VMTDLib
         : QObject(parent)
         , m_settings(settings)
     {
-        m_settings->debugOut(VN_S(VMTDNxApiServer) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDNxApiServer) + " | Constructor called");
 
         m_netManager = new QNetworkAccessManager(this);
 
-        m_settings->debugOut(VN_S(VMTDNxApiServer) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDNxApiServer) + " | Constructor finished");
     }
 
     VMTDNxApiServer::~VMTDNxApiServer()
     {
-        m_settings->debugOut(VN_S(VMTDNxApiServer) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDNxApiServer) + " | Destructor called");
 
         if (m_form != nullptr)
             m_form->deleteLater();
 
-        m_settings->debugOut(VN_S(VMTDNxApiServer) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDNxApiServer) + " | Destructor finished");
     }
 
     VMTDSettings *VMTDNxApiServer::settings() const

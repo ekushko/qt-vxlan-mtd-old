@@ -12,7 +12,7 @@ namespace VMTDLib
         m_handler(handler),
         m_settings(handler->settings())
     {
-        m_settings->debugOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Constructor called");
 
         ui->setupUi(this);
 
@@ -38,16 +38,16 @@ namespace VMTDLib
         connect(&m_uiTimer, &QTimer::timeout, this, &VMTDNodeProtocolHandlerForm::uiTimerTickSlot);
         m_uiTimer.start(200);
 
-        m_settings->debugOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Constructor finished");
     }
 
     VMTDNodeProtocolHandlerForm::~VMTDNodeProtocolHandlerForm()
     {
-        m_settings->debugOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDNodeProtocolHandlerForm) + " | Destructor finished");
     }
 
     void VMTDNodeProtocolHandlerForm::uiTimerTickSlot()

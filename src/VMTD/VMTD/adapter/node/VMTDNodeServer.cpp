@@ -11,26 +11,27 @@ namespace VMTDLib
         : QObject(parent)
         , m_settings(settings)
     {
-        m_settings->debugOut(VN_S(VMTDNodeServer) + " | Constructor called");
+        m_settings->creationOut(VN_S(VMTDNodeServer) + " | Constructor called");
 
         m_wsServer = new QWebSocketServer("VMTDNodeServer", QWebSocketServer::NonSecureMode, this);
         connect(m_wsServer, &QWebSocketServer::newConnection, this, &VMTDNodeServer::newConnectionSlot);
 
-        m_settings->debugOut(VN_S(VMTDNodeServer) + " | Constructor finished");
+        m_settings->creationOut(VN_S(VMTDNodeServer) + " | Constructor finished");
     }
 
     VMTDNodeServer::~VMTDNodeServer()
     {
-        m_settings->debugOut(VN_S(VMTDNodeServer) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDNodeServer) + " | Destructor called");
 
         if (m_form != nullptr)
             m_form->deleteLater();
 
-        stopListenSlot();
+        if (m_wsServer->isListening())
+            stopListenSlot();
 
         delete m_wsServer;
 
-        m_settings->debugOut(VN_S(VMTDNodeServer) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDNodeServer) + " | Destructor finished");
     }
 
     VMTDSettings *VMTDNodeServer::settings() const
