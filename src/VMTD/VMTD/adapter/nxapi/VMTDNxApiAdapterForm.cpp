@@ -46,7 +46,7 @@ namespace VMTDLib
 
     void VMTDNxApiAdapterForm::updateView()
     {
-        ui->lbUrl->setText(m_adapter->url().toString());
+        // do nothing
     }
 
     void VMTDNxApiAdapterForm::showDebugSlot(const QTime &time, const QString &text)

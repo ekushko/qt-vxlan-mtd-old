@@ -1,7 +1,8 @@
 #pragma once
 
 #include "VMTDProtocol.h"
-#include "VMTDProtocolHandlerForm.h"
+#include "nxapi/VMTDNxApiProtocolHandlerForm.h"
+#include "node/VMTDNodeProtocolHandlerForm.h"
 
 #include <QWidget>
 #include <QListWidgetItem>
@@ -29,14 +30,12 @@ namespace VMTDLib
         VMTDProtocol *m_protocol;
         VMTDSettings *m_settings;
 
-        QMap<VMTDProtocolHandler *, VMTDProtocolHandlerForm *> m_handlerForms;
+        QMap<VMTDNxApiProtocolHandler *, VMTDNxApiProtocolHandlerForm *> m_nxApiHandlerForms;
+        QMap<VMTDNodeProtocolHandler *, VMTDNodeProtocolHandlerForm *> m_nodeHandlerForms;
 
     private slots:
 
         void handlerCreatedSlot(VMTDProtocolHandler *handler);
         void handlerRemovedSlot(VMTDProtocolHandler *handler);
-
-        void lwNxApiDoubleClicked(QListWidgetItem *item);
-        void lwNodeDoubleClicked(QListWidgetItem *item);
     };
 }
