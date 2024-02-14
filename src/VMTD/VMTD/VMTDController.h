@@ -10,6 +10,8 @@
 #include "device/VMTDDeviceManager.h"
 #include "connection/VMTDConnectionManager.h"
 
+#include "engine/VMTDEngine.h"
+
 #include <QThread>
 
 namespace VMTDLib
@@ -38,6 +40,8 @@ namespace VMTDLib
         VMTDDeviceManager *deviceManager() const;
 
         VMTDConnectionManager *connectionManager() const;
+
+        VMTDEngine *engine() const;
 
     public slots:
 
@@ -69,6 +73,8 @@ namespace VMTDLib
         VMTDDeviceManager *m_deviceManager;
 
         VMTDConnectionManager *m_connectionManager;
+
+        VMTDEngine *m_engine;
 
     private slots:
 

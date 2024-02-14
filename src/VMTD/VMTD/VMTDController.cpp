@@ -77,6 +77,11 @@ namespace VMTDLib
         return m_connectionManager;
     }
 
+    VMTDEngine *VMTDController::engine() const
+    {
+        return m_engine;
+    }
+
     void VMTDController::showFormSlot()
     {
         if (m_form == nullptr)
@@ -127,6 +132,10 @@ namespace VMTDLib
             m_protocol->setNodeServer(m_nodeServer);
             m_nodeServer->startListenSlot();
         }
+
+        m_engine = new VMTDEngine(nullptr, m_deviceManager, m_connectionManager, m_protocol);
+        connect(this, &VMTDController::finished, m_engine, &VMTDEngine::deleteLater);
+        m_engine->startSlot();
 
         exec();
 

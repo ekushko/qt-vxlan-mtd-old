@@ -123,6 +123,7 @@ equals( TEMPLATE, "lib" ) {
         device \
         device/node \
         device/nxapi \
+        engine \
         interface \
         protocol \
         protocol/node \
@@ -180,6 +181,12 @@ SOURCES += \
     VMTD/device/node/VMTDNodeDeviceForm.cpp \
     VMTD/device/nxapi/VMTDNxApiDevice.cpp \
     VMTD/device/nxapi/VMTDNxApiDeviceForm.cpp \
+    VMTD/engine/VMTDBridge.cpp \
+    VMTD/engine/VMTDEngine.cpp \
+    VMTD/engine/VMTDEngineForm.cpp \
+    VMTD/engine/VMTDGroup.cpp \
+    VMTD/engine/VMTDParticipant.cpp \
+    VMTD/engine/VMTDParticipantForm.cpp \
     VMTD/interface/VMTDInterface.cpp \
     VMTD/interface/VMTDInterfaceForm.cpp \
     VMTD/interface/VMTDInterfaceManager.cpp \
@@ -222,6 +229,12 @@ HEADERS += \
     VMTD/device/node/VMTDNodeDeviceForm.h \
     VMTD/device/nxapi/VMTDNxApiDevice.h \
     VMTD/device/nxapi/VMTDNxApiDeviceForm.h \
+    VMTD/engine/VMTDBridge.h \
+    VMTD/engine/VMTDEngine.h \
+    VMTD/engine/VMTDEngineForm.h \
+    VMTD/engine/VMTDGroup.h \
+    VMTD/engine/VMTDParticipant.h \
+    VMTD/engine/VMTDParticipantForm.h \
     VMTD/interface/VMTDInterface.h \
     VMTD/interface/VMTDInterfaceForm.h \
     VMTD/interface/VMTDInterfaceManager.h \
@@ -250,6 +263,8 @@ FORMS += \
     VMTD/device/VMTDDeviceManagerForm.ui \
     VMTD/device/node/VMTDNodeDeviceForm.ui \
     VMTD/device/nxapi/VMTDNxApiDeviceForm.ui \
+    VMTD/engine/VMTDEngineForm.ui \
+    VMTD/engine/VMTDParticipantForm.ui \
     VMTD/interface/VMTDInterfaceForm.ui \
     VMTD/interface/VMTDInterfaceManagerForm.ui \
     VMTD/protocol/VMTDProtocolForm.ui \
