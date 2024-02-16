@@ -39,19 +39,19 @@ namespace VMTDLib
     {
         if (!canAddParticipant())
         {
-            m_settings->debugOut(QString("%1 | Group_%2 is crowded! Participant %3 not added!")
+            m_settings->debugOut(QString("%1 | Group %2 is crowded! Participant %3 not added!")
                                  .arg(VN_S(VMTDGroup))
-                                 .arg(m_index)
-                                 .arg(participant->nodeDevice()->name()));
+                                 .arg(name())
+                                 .arg(participant->name_1()));
             return;
         }
 
         if (m_participants.contains(participant))
         {
-            m_settings->debugOut(QString("%1 | Participant %2 is already in group_%3! ")
+            m_settings->debugOut(QString("%1 | Participant %2 is already in group %3! ")
                                  .arg(VN_S(VMTDGroup))
-                                 .arg(participant->nodeDevice()->name())
-                                 .arg(m_index));
+                                 .arg(participant->name_1())
+                                 .arg(name()));
             return;
         }
 
@@ -63,10 +63,10 @@ namespace VMTDLib
         participant->setVlanId_1(m_vlanId);
         m_participants.append(participant);
 
-        m_settings->debugOut(QString("%1 | Participant %2 was added in group_%3! ")
+        m_settings->debugOut(QString("%1 | Participant %2 was added in group %3! ")
                              .arg(VN_S(VMTDGroup))
-                             .arg(participant->nodeDevice()->name())
-                             .arg(m_index));
+                             .arg(participant->name_1())
+                             .arg(name()));
     }
     void VMTDGroup::clearParticipants()
     {
@@ -85,19 +85,19 @@ namespace VMTDLib
     {
         if (!canAddGateway())
         {
-            m_settings->debugOut(QString("%1 | Group_%2 is crowded! Gateway %3 not added!")
+            m_settings->debugOut(QString("%1 | Group %2 is crowded! Gateway %3 not added!")
                                  .arg(VN_S(VMTDGroup))
-                                 .arg(m_index)
-                                 .arg(gateway->nodeDevice()->name()));
+                                 .arg(name())
+                                 .arg(gateway->name_2()));
             return;
         }
 
         if (m_gateways.contains(gateway))
         {
-            m_settings->debugOut(QString("%1 | Gateway %2 is already in group_%3! ")
+            m_settings->debugOut(QString("%1 | Gateway %2 is already in group %3! ")
                                  .arg(VN_S(VMTDGroup))
-                                 .arg(gateway->nodeDevice()->name())
-                                 .arg(m_index));
+                                 .arg(gateway->name_2())
+                                 .arg(name()));
             return;
         }
 
@@ -109,14 +109,21 @@ namespace VMTDLib
         gateway->setVlanId_2(m_vlanId);
         m_gateways.append(gateway);
 
-        m_settings->debugOut(QString("%1 | Gateway %2 was added in group_%3! ")
+        m_settings->debugOut(QString("%1 | Gateway %2 was added in group %3! ")
                              .arg(VN_S(VMTDGroup))
-                             .arg(gateway->nodeDevice()->name())
-                             .arg(m_index));
+                             .arg(gateway->name_2())
+                             .arg(name()));
     }
     void VMTDGroup::clearGateways()
     {
         m_gateways.clear();
+    }
+
+    QString VMTDGroup::name() const
+    {
+        return QString("%1 [VLAN ID: %2]")
+               .arg(m_network)
+               .arg(m_vlanId);
     }
 
     int VMTDGroup::index() const

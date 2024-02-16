@@ -45,6 +45,8 @@ namespace VMTDLib
 
         // ОСНОВНОЙ ИНТЕРФЕЙС
 
+        QString name_1() const;
+
         int     groupIndex_1();
         void setGroupIndex_1(int groupIndex_1);
 
@@ -58,6 +60,8 @@ namespace VMTDLib
         void setVlanId_1(int vlanId_1);
 
         // ДОПОЛНИТЕЛЬНЫЙ ИНТЕРФЕЙС
+
+        QString name_2() const;
 
         int     groupIndex_2();
         void setGroupIndex_2(int groupIndex_2);

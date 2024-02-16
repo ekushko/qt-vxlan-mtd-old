@@ -55,18 +55,21 @@ namespace VMTDLib
         for (auto group : m_engine->groups())
         {
             auto groupItem = new QTreeWidgetItem(ui->trwGroups);
-            groupItem->setText(0, QString("No. %1 VLAN ID: %2 ")
-                               .arg(group->index())
-                               .arg(group->vlanId()));
+            groupItem->setText(0, group->name());
 
 
             auto participantItem = new QTreeWidgetItem(groupItem);
             participantItem->setText(0, "Participants");
 
-            for (auto participant : m_engine->participants())
+            for (auto participant : group->participants())
             {
+                QString label = participant->name_1();
+
+                if (participant->role() == VMTDParticipant::EnRole::GATEWAY)
+                    label += "  <--->  " + participant->name_2();
+
                 auto childItem = new QTreeWidgetItem(participantItem);
-                childItem->setText(0, participant->nodeDevice()->name());
+                childItem->setText(0, label);
                 childItem->setText(1, QString::number(participant->index_1()));
             }
 
@@ -77,10 +80,10 @@ namespace VMTDLib
             {
                 auto gateway = group->gateways().at(i);
 
-                auto childItem = new QTreeWidgetItem(participantItem);
-                childItem->setText(0, QString("%1 VLAN ID: %2")
-                                   .arg(gateway->nodeDevice()->name())
-                                   .arg(gateway->vlanId_1()));
+                QString label = gateway->name_2() + "  <--->  " + gateway->name_1();
+
+                auto childItem = new QTreeWidgetItem(gatewayItem);
+                childItem->setText(0, label);
                 childItem->setText(1, QString::number(gateway->index_2()));
             }
 

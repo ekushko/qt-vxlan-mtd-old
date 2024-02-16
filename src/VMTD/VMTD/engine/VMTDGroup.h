@@ -27,6 +27,8 @@ namespace VMTDLib
 
         // МЕТАДАННЫЕ
 
+        QString name() const;
+
         int     index() const;
         void setIndex(int index);
 

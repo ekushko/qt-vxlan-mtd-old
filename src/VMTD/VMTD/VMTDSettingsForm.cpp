@@ -70,6 +70,8 @@ namespace VMTDLib
         ui->sbCheckConnectionInterval->setValue(m_settings->checkConnectionInterval());
         ui->sbCheckQueueInterval->setValue(m_settings->checkQueueInterval());
         ui->sbTicketTimeoutInterval->setValue(m_settings->ticketTimeoutInterval());
+
+        ui->chbShouldCheckOnline->setChecked(m_settings->shouldCheckOnline());
     }
 
     void VMTDSettingsForm::updateData()
@@ -90,6 +92,8 @@ namespace VMTDLib
         m_settings->setCheckConnectionInterval(ui->sbCheckConnectionInterval->value());
         m_settings->setCheckQueueInterval(ui->sbCheckQueueInterval->value());
         m_settings->setTicketTimeoutInterval(ui->sbTicketTimeoutInterval->value());
+
+        m_settings->setShouldCheckOnline(ui->chbShouldCheckOnline->isChecked());
     }
 
     void VMTDSettingsForm::pbSaveClicked()

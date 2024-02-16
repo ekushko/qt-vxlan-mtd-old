@@ -341,6 +341,22 @@
           </layout>
          </widget>
         </item>
+        <item>
+         <widget class="QGroupBox" name="gbEngine">
+          <property name="title">
+           <string>Engine</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="0" column="0">
+            <widget class="QCheckBox" name="chbShouldCheckOnline">
+             <property name="text">
+              <string>Should check online</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>

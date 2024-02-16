@@ -25,12 +25,6 @@ namespace VMTDLib
 
         VMTDSettings *settings() const;
 
-        // ЛОГИКА
-
-        void start();
-
-        void mix();
-
         // ДАННЫЕ
 
         const QVector<VMTDBridge *> &bridges() const;
@@ -72,5 +66,6 @@ namespace VMTDLib
         QVector<VMTDParticipant *> m_participants;
         QVector<VMTDGroup *> m_groups;
         QVector<VMTDParticipant *> m_gateways;
+        QSet<int> m_vlanIds;
     };
 }

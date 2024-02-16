@@ -69,9 +69,16 @@ namespace VMTDLib
     {
         clearAll();
 
-        createGroups();
-        createGateways();
-        createRoutes();
+        if (m_participants.size() < 2)
+        {
+            m_settings->debugOut(VN_S(VMTDEngine) + " | Count of participants is not enough!");
+        }
+        else
+        {
+            createGroups();
+            createGateways();
+            createRoutes();
+        }
 
         emit mixedSignal();
     }
@@ -90,7 +97,6 @@ namespace VMTDLib
 
     void VMTDEngine::clearAll()
     {
-        qDeleteAll(m_gateways);
         m_gateways.clear();
 
         qDeleteAll(m_groups);
@@ -105,13 +111,13 @@ namespace VMTDLib
         {
             auto nxApiDevice = it.value();
 
-//            if (!nxApiDevice->isOnline())
-//            {
-//                m_settings->debugOut(QString("%1 | Device %2 is offline!")
-//                                     .arg(VN_S(VMTDEngine))
-//                                     .arg(nxApiDevice->name()));
-//                continue;
-//            }
+            if (m_settings->shouldCheckOnline() && !nxApiDevice->isOnline())
+            {
+                m_settings->debugOut(QString("%1 | Device %2 is offline!")
+                                     .arg(VN_S(VMTDEngine))
+                                     .arg(nxApiDevice->name()));
+                continue;
+            }
 
             const auto &interfaces = it.value()->interfaceManager()->interfaces();
 
@@ -143,15 +149,15 @@ namespace VMTDLib
                 }
                 else if (connectedDevice->type() == VMTDDevice::EnType::NODE)
                 {
-//                    if (!connectedDevice->isOnline())
-//                    {
-//                        m_settings->debugOut(QString("%1 | Node is offline! Device %2 interface id: %3 [%4]")
-//                                             .arg(VN_S(VMTDEngine))
-//                                             .arg(connectedDevice->name())
-//                                             .arg(connectedInterface->id())
-//                                             .arg(connectedInterface->name()));
-//                        continue;
-//                    }
+                    if (m_settings->shouldCheckOnline() && !connectedDevice->isOnline())
+                    {
+                        m_settings->debugOut(QString("%1 | Node is offline! Device %2 interface id: %3 [%4]")
+                                             .arg(VN_S(VMTDEngine))
+                                             .arg(connectedDevice->name())
+                                             .arg(connectedInterface->id())
+                                             .arg(connectedInterface->name()));
+                        continue;
+                    }
 
                     auto participant = new VMTDParticipant(this, dynamic_cast<VMTDNodeDevice *>(connectedDevice));
                     participant->setIndex_1(m_participants.size());
@@ -172,15 +178,62 @@ namespace VMTDLib
                              .arg(VN_S(VMTDEngine))
                              .arg(groupCount));
 
+        QSet<int> _octets;
+        m_vlanIds.clear();
+
         for (int i = 0; i < groupCount; ++i)
         {
             auto group = new VMTDGroup(this, m_settings);
+
+            // индекс
+
             group->setIndex(i);
 
-            if (i == 0 && groupCount % m_participants.size() != 0)
-                group->setMaxParticipantCount((groupCount / 2) + (groupCount % 2));
+            // vlan id
+
+            const int minVlanId = 2, maxVlanId = 1000;
+
+            int vlanId = 0;
+
+            do
+            {
+                vlanId = qrand()
+                         % (maxVlanId - minVlanId + 1) + minVlanId;
+                group->setVlanId(vlanId);
+            }
+            while (m_vlanIds.contains(vlanId));
+
+            m_vlanIds.insert(vlanId);
+
+            // сеть
+
+            const int minThirdOctet = 2, maxThirdOctet = 254;
+
+            int thirdOctet = 0;
+
+            do
+            {
+                thirdOctet = qrand()
+                             % (maxThirdOctet - minThirdOctet + 1) + minThirdOctet;
+                group->setNetwork(QString("192.168.%1.0").arg(thirdOctet));
+            }
+            while (_octets.contains(thirdOctet));
+
+            _octets.insert(thirdOctet);
+
+            // маска
+
+            group->setMask("255.255.255.0");
+
+            // максимальное число участников
+
+            const auto whole = m_participants.size() / groupCount;
+            const auto remainder = m_participants.size() % groupCount;
+
+            if (i == 0 && remainder != 0)
+                group->setMaxParticipantCount(whole + remainder);
             else
-                group->setMaxParticipantCount(groupCount / 2);
+                group->setMaxParticipantCount(whole);
 
             m_groups.append(group);
         }
@@ -221,10 +274,10 @@ namespace VMTDLib
             gateway->setRole(VMTDParticipant::EnRole::GATEWAY);
             m_gateways.append(gateway);
 
-            m_settings->debugOut(QString("%1 | Participant %2 was choosen as gateway in group_%3")
+            m_settings->debugOut(QString("%1 | Participant %2 was choosen as gateway in group %3")
                                  .arg(VN_S(VMTDEngine))
-                                 .arg(gateway->nodeDevice()->name())
-                                 .arg(group->index()));
+                                 .arg(gateway->name_1())
+                                 .arg(group->name()));
 
             for (int i = 0; i < group->participants().size(); ++i)
             {
@@ -239,26 +292,35 @@ namespace VMTDLib
         std::random_device randomDevice;
         std::mt19937 generator(randomDevice());
 
+        for (auto participant : m_participants)
+            participant->clearRoutes();
+
         QVector<VMTDParticipant *> _gateways(m_gateways.begin(), m_gateways.end());
 
         std::shuffle(_gateways.begin(), _gateways.end(), generator);
 
-        for (auto it = _gateways.begin(), jt = it; it != _gateways.end(); ++it)
+        for (auto it = _gateways.begin(); it != _gateways.end(); ++it)
         {
             auto participant = *it;
+            auto group = m_groups.at(participant->groupIndex_1());
 
-            if (std::distance(it, _gateways.end()) <= 2)
-                return;
+            const auto distance = std::distance(it, _gateways.end());
+
+            if (distance <= 1)
+                break;
 
             auto gateway = *std::next(it);
+            group->addGateway(gateway);
 
+            if (distance <= 2)
+                break;
+
+            auto jt = it;
             std::advance(jt, 2);
-
-            participant->clearRoutes();
 
             while (jt != _gateways.end())
             {
-                auto remoteParticipant = *jt;
+                auto remoteParticipant = *jt++;
                 auto remoteGroup = m_groups.at(remoteParticipant->groupIndex_1());
 
                 const auto route = QString("%1 %2 %3")
@@ -267,27 +329,38 @@ namespace VMTDLib
                                    .arg(gateway->ip_1());
                 participant->addRoute(route);
 
-                m_settings->debugOut(QString("%1 | Route [%2] was added to gateway %3 in group_%4")
+                auto group = m_groups.at(gateway->groupIndex_1());
+
+                m_settings->debugOut(QString("%1 | Route [%2] was added to gateway %3 in group %4")
                                      .arg(VN_S(VMTDEngine))
                                      .arg(route)
-                                     .arg(gateway->nodeDevice()->name())
-                                     .arg(gateway->groupIndex_1()));
+                                     .arg(gateway->name_1())
+                                     .arg(group->name()));
             }
         }
 
-        for (auto it = _gateways.rbegin(), jt = it; it != _gateways.rend(); ++it)
+        for (auto it = _gateways.rbegin(); it != _gateways.rend(); ++it)
         {
             auto participant = *it;
+            auto group = m_groups.at(participant->groupIndex_1());
 
-            if (std::distance(it, _gateways.rend()) <= 2)
-                return;
+            const auto distance = std::distance(it, _gateways.rend());
+
+            if (distance <= 1)
+                break;
 
             auto gateway = *std::next(it);
+            group->addGateway(gateway);
+
+            if (distance <= 2)
+                break;
+
+            auto jt = it;
             std::advance(jt, 2);
 
             while (jt != _gateways.rend())
             {
-                auto remoteParticipant = *jt;
+                auto remoteParticipant = *jt++;
                 auto remoteGroup = m_groups.at(remoteParticipant->groupIndex_1());
 
                 const auto route = QString("%1 %2 %3")
@@ -296,11 +369,11 @@ namespace VMTDLib
                                    .arg(gateway->ip_1());
                 participant->addRoute(route);
 
-                m_settings->debugOut(QString("%1 | Route [%2] was added to gateway %3 in group_%4")
+                m_settings->debugOut(QString("%1 | Route [%2] was added to gateway %3 in group %4")
                                      .arg(VN_S(VMTDEngine))
                                      .arg(route)
-                                     .arg(gateway->nodeDevice()->name())
-                                     .arg(gateway->groupIndex_1()));
+                                     .arg(gateway->name_1())
+                                     .arg(group->name()));
             }
         }
     }

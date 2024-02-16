@@ -48,16 +48,17 @@ namespace VMTDLib
     void VMTDParticipantForm::updateView()
     {
         ui->lbRole->setText(VMTDParticipant::enRoleToS(m_participant->role()));
+        ui->lbNodeDevice->setText(m_participant->nodeDevice()->name());
 
         ui->lbGroupIndex_1->setText(QString::number(m_participant->groupIndex_1()));
         ui->lbIp_1->setText(m_participant->ip_1());
         ui->lbMask_1->setText(m_participant->mask_1());
         ui->lbVlanId_1->setText(QString::number(m_participant->vlanId_1()));
 
-        ui->lbGroupIndex_2->setText(QString::number(m_participant->groupIndex_1()));
-        ui->lbIp_2->setText(m_participant->ip_1());
-        ui->lbMask_2->setText(m_participant->mask_1());
-        ui->lbVlanId_2->setText(QString::number(m_participant->vlanId_1()));
+        ui->lbGroupIndex_2->setText(QString::number(m_participant->groupIndex_2()));
+        ui->lbIp_2->setText(m_participant->ip_2());
+        ui->lbMask_2->setText(m_participant->mask_2());
+        ui->lbVlanId_2->setText(QString::number(m_participant->vlanId_2()));
 
         ui->lbGateway->setText(m_participant->gateway());
 

@@ -38,6 +38,10 @@ namespace VMTDLib
         m_checkQueueInterval = 100;
         m_ticketTimeoutInterval = 3000;
 
+        // параметры движителя
+
+        m_shouldCheckOnline = false;
+
         // прочее
 
         m_idCounter = 0;
@@ -137,6 +141,10 @@ namespace VMTDLib
         jsonObj[VN_ME(m_checkQueueInterval)] = m_checkQueueInterval;
         jsonObj[VN_ME(m_ticketTimeoutInterval)] = m_ticketTimeoutInterval;
 
+        // параметры движителя
+
+        jsonObj[VN_ME(m_shouldCheckOnline)] = m_shouldCheckOnline;
+
         // устройства
 
         jsonObj[VN_ME(m_deviceManagerObj)] = m_deviceManagerObj;
@@ -185,6 +193,10 @@ namespace VMTDLib
                                .toInt(m_checkQueueInterval);
         m_ticketTimeoutInterval = jsonObj[VN_ME(m_ticketTimeoutInterval)]
                                   .toInt(m_ticketTimeoutInterval);
+
+        // параметры движителя
+
+        m_shouldCheckOnline = jsonObj[VN_ME(m_shouldCheckOnline)].toBool(m_shouldCheckOnline);
 
         // устройства
 
@@ -393,6 +405,15 @@ namespace VMTDLib
 
             m_shouldBeRestarted = true;
         }
+    }
+
+    bool VMTDSettings::shouldCheckOnline() const
+    {
+        return m_shouldCheckOnline;
+    }
+    void VMTDSettings::setShouldCheckOnline(bool shouldCheckOnline)
+    {
+        m_shouldCheckOnline = shouldCheckOnline;
     }
 
 

@@ -82,6 +82,9 @@ namespace VMTDLib
         bool    shouldReconnect() const;
         void setShouldReconnect(bool shouldReconnect);
 
+        int     reconnectInterval() const;
+        void setReconnectInterval(int reconnectInterval);
+
         // ПАРАМЕТРЫ ПРОТОКОЛА
 
         bool    shouldCheckConnection() const;
@@ -90,14 +93,16 @@ namespace VMTDLib
         int     checkConnectionInterval() const;
         void setCheckConnectionInterval(int checkConnectionInterval);
 
-        int     reconnectInterval() const;
-        void setReconnectInterval(int reconnectInterval);
-
         int     ticketTimeoutInterval() const;
         void setTicketTimeoutInterval(int ticketTimeoutInterval);
 
         int     checkQueueInterval() const;
         void setCheckQueueInterval(int checkQueueInterval);
+
+        // ПАРАМЕТРЫ ДВИЖИТЕЛЯ
+
+        bool    shouldCheckOnline() const;
+        void setShouldCheckOnline(bool shouldCheckOnline);
 
         // УСТРОЙСТВА
 
@@ -139,11 +144,13 @@ namespace VMTDLib
         int m_reconnectInterval;
 
         int m_localPort;
+
         bool m_shouldCheckConnection;
         int m_checkConnectionInterval;
-
         int m_ticketTimeoutInterval;
         int m_checkQueueInterval;
+
+        bool m_shouldCheckOnline;
 
         QJsonObject m_deviceManagerObj;
         QJsonObject m_connectionManagerObj;

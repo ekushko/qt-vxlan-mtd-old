@@ -97,6 +97,13 @@ namespace VMTDLib
         m_role = role;
     }
 
+    QString VMTDParticipant::name_1() const
+    {
+        return QString("%1 [VLAN ID: %2]")
+               .arg(m_ip_1)
+               .arg(m_vlanId_1);
+    }
+
     int VMTDParticipant::groupIndex_1()
     {
         return m_groupIndex_1;
@@ -131,6 +138,13 @@ namespace VMTDLib
     void VMTDParticipant::setVlanId_1(int vlanId_1)
     {
         m_vlanId_1 = vlanId_1;
+    }
+
+    QString VMTDParticipant::name_2() const
+    {
+        return QString("%1 [VLAN ID: %2]")
+               .arg(m_ip_2)
+               .arg(m_vlanId_2);
     }
 
     int VMTDParticipant::groupIndex_2()
