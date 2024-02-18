@@ -78,6 +78,8 @@ namespace VMTDLib
             createGroups();
             createGateways();
             createRoutes();
+            createHosts();
+            setup();
         }
 
         emit mixedSignal();
@@ -376,5 +378,38 @@ namespace VMTDLib
                                      .arg(group->name()));
             }
         }
+    }
+
+    void VMTDEngine::createHosts()
+    {
+        QStringList hosts;
+
+        for (auto participant : m_participants)
+        {
+            const auto domainName = participant->nodeDevice()->domainName();
+
+            if (domainName.isEmpty())
+                continue;
+
+            hosts.append(QString("%1 %2")
+                         .arg(participant->ip_1())
+                         .arg(domainName));
+
+            if (participant->role() == VMTDParticipant::EnRole::GATEWAY)
+            {
+                hosts.append(QString("%1 %2")
+                             .arg(participant->ip_2())
+                             .arg(domainName));
+            }
+        }
+
+        for (auto participant : m_participants)
+            participant->setHosts(hosts);
+    }
+
+    void VMTDEngine::setup()
+    {
+        for (auto participant : m_participants)
+            participant->setup();
     }
 }

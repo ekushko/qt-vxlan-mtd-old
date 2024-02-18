@@ -35,6 +35,7 @@ namespace VMTDLib
         QTimer m_uiTimer;
 
         QList<QLabel *> m_routeForms;
+        QList<QLabel *> m_hostForms;
 
     private slots:
 

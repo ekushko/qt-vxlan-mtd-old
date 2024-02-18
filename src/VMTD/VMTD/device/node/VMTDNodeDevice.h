@@ -41,6 +41,13 @@ namespace VMTDLib
         EnRole  role() const;
         void setRole(EnRole role);
 
+        QString domainName() const;
+        void setDomainName(const QString &domainName);
+
+    signals:
+
+        void appendRequestsSignal(const QList<QPair<QString, QJsonObject>> &requests);
+
     public slots:
 
         void showFormSlot() override;
@@ -49,7 +56,8 @@ namespace VMTDLib
 
         QPointer<VMTDNodeDeviceForm> m_form;
 
-        QString m_ip = "127.0.0.1";
-        EnRole m_role = EnRole::ENDPOINT;
+        QString m_ip;
+        EnRole m_role;
+        QString m_domainName;
     };
 }

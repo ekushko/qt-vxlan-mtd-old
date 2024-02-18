@@ -3,6 +3,8 @@
 
 #include "../VMTDRepo.h"
 
+#include <QJsonArray>
+
 namespace VMTDLib
 {
     VMTDParticipant::VMTDParticipant(QObject *parent, VMTDNodeDevice *nodeDevice)
@@ -28,6 +30,9 @@ namespace VMTDLib
         m_vlanId_1 = 2;
 
         m_gateway = "192.168.250.1";
+
+        connect(this, &VMTDParticipant::appendRequestsSignal,
+                m_nodeDevice, &VMTDNodeDevice::appendRequestsSignal);
 
         m_settings->creationOut(VN_S(VMTDParticipant) + " | Constructor finished");
     }
@@ -63,6 +68,11 @@ namespace VMTDLib
     const QMap<int, QString> &VMTDParticipant::enRoleToL()
     {
         RETURN_MAP(EnRole, enRoleToS);
+    }
+
+    void VMTDParticipant::setup()
+    {
+        emit appendRequestsSignal(buildRequests());
     }
 
     int VMTDParticipant::index_1()
@@ -209,6 +219,23 @@ namespace VMTDLib
         m_routes.append(route);
     }
 
+    const QStringList &VMTDParticipant::hosts() const
+    {
+        return m_hosts;
+    }
+    void VMTDParticipant::setHosts(const QStringList &hosts)
+    {
+        m_hosts = hosts;
+    }
+    void VMTDParticipant::clearHosts()
+    {
+        m_hosts.clear();
+    }
+    void VMTDParticipant::addHost(const QString &host)
+    {
+        m_hosts.append(host);
+    }
+
     void VMTDParticipant::showFormSlot(QWidget *parent)
     {
         if (m_form == nullptr)
@@ -219,5 +246,117 @@ namespace VMTDLib
         m_form->show();
         m_form->raise();
         m_form->activateWindow();
+    }
+
+    QList<QPair<QString, QJsonObject> > VMTDParticipant::buildRequests()
+    {
+        QList<QPair<QString, QJsonObject>> requests;
+
+        if (m_role == EnRole::ENDPOINT)
+        {
+            if ("Interface 1")
+            {
+                QJsonObject jsonObj;
+
+                jsonObj["name"] = "vmtd1";
+                jsonObj["ip"] = m_ip_1;
+                jsonObj["mask"] = m_mask_1;
+                jsonObj["vlanId"] = m_vlanId_1;
+                jsonObj["gateway"] = m_gateway;
+
+                requests.append(qMakePair(QString("setupInterface"), jsonObj));
+            }
+
+            if ("Interface 2")
+            {
+                QJsonObject jsonObj;
+
+                jsonObj["name"] = "vmtd2";
+
+                requests.append(qMakePair(QString("clearInterface"), jsonObj));
+            }
+
+            if ("Routes")
+            {
+                QJsonObject jsonObj;
+
+                requests.append(qMakePair(QString("clearRoutes"), jsonObj));
+            }
+        }
+        else if (m_role == EnRole::GATEWAY)
+        {
+            if ("Interface 1")
+            {
+                QJsonObject jsonObj;
+
+                jsonObj["name"] = "vmtd1";
+                jsonObj["ip"] = m_ip_1;
+                jsonObj["mask"] = m_mask_1;
+                jsonObj["vlanId"] = m_vlanId_1;
+                jsonObj["gateway"] = m_gateway;
+
+                requests.append(qMakePair(QString("setupInterface"), jsonObj));
+            }
+
+            if ("Interface 2")
+            {
+                QJsonObject jsonObj;
+
+                jsonObj["name"] = "vmtd2";
+                jsonObj["ip"] = m_ip_2;
+                jsonObj["mask"] = m_mask_2;
+                jsonObj["vlanId"] = m_vlanId_2;
+                jsonObj["gateway"] = m_gateway;
+
+                requests.append(qMakePair(QString("setupInterface"), jsonObj));
+            }
+
+            if ("Routes")
+            {
+                QJsonObject jsonObj;
+                QJsonArray jsonArr;
+
+                for (const auto &route : m_routes)
+                {
+                    QJsonObject routeObj;
+
+                    const auto splittedRoute = route.split(' ');
+
+                    routeObj["network"] = splittedRoute[0];
+                    routeObj["mask"] = splittedRoute[1];
+                    routeObj["gateway"] = splittedRoute[2];
+
+                    jsonArr.append(routeObj);
+                }
+
+                jsonObj["routes"] = jsonArr;
+
+                requests.append(qMakePair(QString("setupRoutes"), jsonObj));
+            }
+        }
+
+        if ("Hosts")
+        {
+            QJsonObject jsonObj;
+            QJsonArray jsonArr;
+
+            for (const auto &host : m_hosts)
+            {
+                QJsonObject hostObj;
+
+                const auto splittedRoute = host.split(' ');
+
+                hostObj["ip"] = splittedRoute[0];
+                hostObj["domainName"] = splittedRoute[1];
+
+                jsonArr.append(hostObj);
+            }
+
+            jsonObj["hosts"] = jsonArr;
+
+            requests.append(qMakePair(QString("setupHosts"), jsonObj));
+        }
+
+        return requests;
     }
 }

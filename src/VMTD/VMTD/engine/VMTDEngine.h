@@ -54,6 +54,8 @@ namespace VMTDLib
         void createGroups();
         void createGateways();
         void createRoutes();
+        void createHosts();
+        void setup();
 
         QPointer<VMTDEngineForm> m_form;
 

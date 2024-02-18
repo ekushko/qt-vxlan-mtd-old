@@ -26,8 +26,8 @@ namespace VMTDLib
 
         connect(ui->pbCheckConnection, &QPushButton::clicked,
                 m_handler, &VMTDNodeProtocolHandler::checkConnectionSlot);
-        connect(this, &VMTDNodeProtocolHandlerForm::appendRequestSignal,
-                m_handler, &VMTDNodeProtocolHandler::appendRequestSlot);
+        connect(this, &VMTDNodeProtocolHandlerForm::appendRequestsSignal,
+                m_handler, &VMTDNodeProtocolHandler::appendRequestsSlot);
         connect(ui->pbSend, &QPushButton::clicked,
                 this, &VMTDNodeProtocolHandlerForm::pbSendClicked);
 
@@ -60,6 +60,8 @@ namespace VMTDLib
         const auto text = ui->pteParams->toPlainText();
         const auto jsonDoc = QJsonDocument::fromJson(text.toUtf8());
 
-        emit appendRequestSignal(ui->leMethod->text(), jsonDoc.object());
+        QList<QPair<QString, QJsonObject>> requests;
+        requests.append(qMakePair(ui->leMethod->text(), jsonDoc.object()));
+        emit appendRequestsSignal(requests);
     }
 }

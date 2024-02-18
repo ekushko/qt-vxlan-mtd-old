@@ -29,12 +29,15 @@
       <property name="bottomMargin">
        <number>0</number>
       </property>
-      <item row="2" column="0">
-       <widget class="QLabel" name="_7">
+      <item row="1" column="0">
+       <widget class="QLabel" name="_5">
         <property name="text">
-         <string>Role:</string>
+         <string>ID:</string>
         </property>
        </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QComboBox" name="cbRole"/>
       </item>
       <item row="1" column="1">
        <widget class="QLabel" name="lbId">
@@ -43,10 +46,13 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="_6">
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="leIp"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="_7">
         <property name="text">
-         <string>IP:</string>
+         <string>Role:</string>
         </property>
        </widget>
       </item>
@@ -57,15 +63,12 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="_5">
+      <item row="3" column="0">
+       <widget class="QLabel" name="_6">
         <property name="text">
-         <string>ID:</string>
+         <string>IP:</string>
         </property>
        </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="leIp"/>
       </item>
       <item row="0" column="1">
        <widget class="QLabel" name="lbOnline">
@@ -80,8 +83,15 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QComboBox" name="cbRole"/>
+      <item row="4" column="0">
+       <widget class="QLabel" name="_10">
+        <property name="text">
+         <string>Domain name:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="leDomainName"/>
       </item>
      </layout>
     </widget>

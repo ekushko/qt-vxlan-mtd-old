@@ -10,7 +10,8 @@ namespace VMTDLib
     {
         m_settings->creationOut(VN_S(VMTDNodeDevice) + " | Constructor called");
 
-        // do nothing
+        m_ip = "127.0.0.1";
+        m_role = EnRole::ENDPOINT;
 
         m_settings->creationOut(VN_S(VMTDNodeDevice) + " | Constructor finished");
     }
@@ -48,6 +49,7 @@ namespace VMTDLib
 
         jsonObj[VN_ME(m_ip)] = m_ip;
         jsonObj[VN_ME(m_role)] = (int)m_role;
+        jsonObj[VN_ME(m_domainName)] = m_domainName;
 
         return jsonObj;
     }
@@ -58,8 +60,9 @@ namespace VMTDLib
 
         VMTDDevice::fromJson(jsonObj);
 
-        m_ip = jsonObj[VN_ME(m_ip)].toString();
-        m_role = (EnRole)jsonObj[VN_ME(m_role)].toInt();
+        m_ip = jsonObj[VN_ME(m_ip)].toString(m_ip);
+        m_role = (EnRole)jsonObj[VN_ME(m_role)].toInt((int)m_role);
+        m_domainName = jsonObj[VN_ME(m_domainName)].toString(m_domainName);
     }
 
     QString VMTDNodeDevice::name() const
@@ -85,6 +88,15 @@ namespace VMTDLib
     void VMTDNodeDevice::setRole(EnRole role)
     {
         m_role = role;
+    }
+
+    QString VMTDNodeDevice::domainName() const
+    {
+        return m_domainName;
+    }
+    void VMTDNodeDevice::setDomainName(const QString &domainName)
+    {
+        m_domainName = domainName;
     }
 
     void VMTDNodeDevice::showFormSlot()

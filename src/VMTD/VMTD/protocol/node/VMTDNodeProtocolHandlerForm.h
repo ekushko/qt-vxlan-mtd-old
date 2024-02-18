@@ -23,7 +23,7 @@ namespace VMTDLib
 
     signals:
 
-        void appendRequestSignal(const QString &method, const QJsonObject &params);
+        void appendRequestsSignal(const QList<QPair<QString, QJsonObject>> &requests);
 
     private:
 

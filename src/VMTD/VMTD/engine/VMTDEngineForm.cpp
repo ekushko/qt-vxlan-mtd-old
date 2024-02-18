@@ -105,9 +105,9 @@ namespace VMTDLib
 
         const auto index = item->text(1).toInt();
 
-        if (item->text(0).contains(QString("VLAN")))
+        if (item->parent()->text(0) == "Gateways")
             m_engine->gateways().at(index)->showFormSlot();
-        else
+        else if (item->parent()->text(0) == "Participants")
             m_engine->participants().at(index)->showFormSlot();
     }
 }

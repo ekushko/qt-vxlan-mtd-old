@@ -72,6 +72,17 @@ namespace VMTDLib
 
             ui->wRoutes->layout()->addWidget(lb);
         }
+
+        qDeleteAll(m_hostForms);
+        m_hostForms.clear();
+
+        for (const auto &host : m_participant->hosts())
+        {
+            auto lb = new QLabel(host, ui->wHosts);
+            m_hostForms.append(lb);
+
+            ui->wHosts->layout()->addWidget(lb);
+        }
     }
 
     void VMTDParticipantForm::uiTimerTickSlot()

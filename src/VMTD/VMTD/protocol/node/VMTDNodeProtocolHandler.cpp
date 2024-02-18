@@ -14,7 +14,8 @@ namespace VMTDLib
     {
         m_settings->creationOut(VN_S(VMTDNodeProtocolHandler) + " | Constructor called");
 
-        // do nothing
+        connect(m_device, &VMTDNodeDevice::appendRequestsSignal,
+                this, &VMTDNodeProtocolHandler::appendRequestsSlot);
 
         m_settings->creationOut(VN_S(VMTDNodeProtocolHandler) + " | Constructor finished");
     }
@@ -78,10 +79,37 @@ namespace VMTDLib
         m_form->activateWindow();
     }
 
-    void VMTDNodeProtocolHandler::appendRequestSlot(const QString &method, const QJsonObject &params)
+    void VMTDNodeProtocolHandler::registerMethodSlot(const QString &method, const QStringList &params)
     {
-        if (m_settings->nodeType() == VMTDNodeType::SERVER)
-            m_messages.append(buildRequest(method, params));
+        m_methods[method] = params;
+    }
+
+    void VMTDNodeProtocolHandler::appendRequestsSlot(const QList<QPair<QString, QJsonObject>> &requests)
+    {
+        if (m_settings->nodeType() != VMTDNodeType::SERVER)
+            return;
+
+        QJsonDocument jsonDoc;
+
+        if (requests.size() > 1)
+        {
+            QJsonArray jsonArr;
+
+            for (const auto &p : requests)
+            {
+                jsonArr.append(buildRequest(p.first, p.second));
+            }
+
+            jsonDoc.setArray(jsonArr);
+            m_messages.append(jsonDoc);
+        }
+        else if (requests.size() == 1)
+        {
+            const auto &p = requests.at(0);
+
+            jsonDoc.setObject(buildRequest(p.first, p.second));
+            m_messages.append(jsonDoc);
+        }
     }
 
     void VMTDNodeProtocolHandler::receiveMessageSlot(QWebSocket *socket, const QString &data)
@@ -188,7 +216,7 @@ namespace VMTDLib
 
         isValid &= request.size() >= 2;
         isValid &= request.contains("jsonrpc") && request["jsonrpc"].toString() == "2.0";
-        isValid &= request.contains("method") && !request["method"].isNull();
+        isValid &= request.contains("method") && request["method"].isString();
 
         return isValid;
     }
@@ -292,14 +320,49 @@ namespace VMTDLib
         }
         else
         {
-            // в разработке
+            const auto method = request["method"].toString();
 
-            const auto error = EnError::METHOD_NOT_FOUND;
+            if (!m_methods.contains(method))
+            {
+                const auto error = EnError::METHOD_NOT_FOUND;
 
-            emit showDebugSignal(QTime::currentTime(), QString("Handling request error: %1\n")
-                                 .arg(enErrorToS(error)));
+                emit showDebugSignal(QTime::currentTime(), QString("Handling request error: %1\n")
+                                     .arg(enErrorToS(error)));
 
-            response = buildError(request["id"], (int)error, enErrorToS(error));
+                response = buildError(request["id"], (int)error, enErrorToS(error));
+            }
+            else
+            {
+                auto params = request["params"].toObject();
+
+                bool isValid = true;
+
+                for (const auto &waitedParam : m_methods[method])
+                {
+                    if (!params.contains(waitedParam) || params[waitedParam].isUndefined())
+                    {
+                        const auto error = EnError::INVALID_PARAMS;
+
+                        emit showDebugSignal(QTime::currentTime(), QString("Handling request error: %1\n")
+                                             .arg(enErrorToS(error)));
+
+                        response = buildError(request["id"], (int)error, enErrorToS(error));
+
+                        isValid = false;
+
+                        break;
+                    }
+                }
+
+                if (isValid)
+                {
+                    QJsonObject result;
+
+                    emit handleMethodSignal(method, params, result);
+
+                    response = buildResponse(request["id"], result);
+                }
+            }
         }
     }
 
@@ -311,10 +374,7 @@ namespace VMTDLib
 
         m_queueState = EnQueueState::WAIT_FOR_TICKET;
 
-        m_currentMessage = m_messages.dequeue();
-
-        QJsonDocument outputDoc;
-        outputDoc.setObject(m_currentMessage);
+        QJsonDocument outputDoc = m_messages.dequeue();
 
         emit showDebugSignal(QTime::currentTime(), QString("Message sent:\n")
                              + outputDoc.toJson(QJsonDocument::JsonFormat::Indented));
@@ -325,7 +385,6 @@ namespace VMTDLib
 
     void VMTDNodeProtocolHandler::ticketTimeoutSlot()
     {
-        m_currentMessage = QJsonObject();
         m_queueState = EnQueueState::READY_TO_SEND;
 
         if (m_device != nullptr)

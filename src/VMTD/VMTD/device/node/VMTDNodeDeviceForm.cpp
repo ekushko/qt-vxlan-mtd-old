@@ -53,12 +53,14 @@ namespace VMTDLib
         ui->lbId->setText(QString::number(m_device->id()));
         CB_SELECT(ui->cbRole, m_device->role());
         ui->leIp->setText(m_device->ip());
+        ui->leDomainName->setText(m_device->domainName());
     }
 
     void VMTDNodeDeviceForm::updateData()
     {
         m_device->setRole(CB_DATA_TOE(ui->cbRole, VMTDNodeDevice::EnRole));
         m_device->setIp(ui->leIp->text());
+        m_device->setDomainName(ui->leDomainName->text());
     }
 
     void VMTDNodeDeviceForm::initializeView()

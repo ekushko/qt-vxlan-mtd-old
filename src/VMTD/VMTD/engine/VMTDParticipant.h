@@ -28,6 +28,10 @@ namespace VMTDLib
         static const QString            &enRoleToS(const EnRole &role);
         static const QMap<int, QString> &enRoleToL();
 
+        // ЛОГИКА
+
+        void setup();
+
         // МЕТАДАННЫЕ
 
         int     index_1();
@@ -85,11 +89,22 @@ namespace VMTDLib
         void          clearRoutes();
         void            addRoute(const QString &route);
 
+        const QStringList &hosts() const;
+        void            setHosts(const QStringList &hosts);
+        void          clearHosts();
+        void            addHost(const QString &host);
+
+    signals:
+
+        void appendRequestsSignal(const QList<QPair<QString, QJsonObject>> &requests);
+
     public slots:
 
         void showFormSlot(QWidget *parent = nullptr);
 
     private:
+
+        QList<QPair<QString, QJsonObject>> buildRequests();
 
         QPointer<VMTDParticipantForm> m_form;
 
@@ -113,7 +128,7 @@ namespace VMTDLib
         int m_vlanId_2;
 
         QString m_gateway;
-
         QStringList m_routes;
+        QStringList m_hosts;
     };
 }
