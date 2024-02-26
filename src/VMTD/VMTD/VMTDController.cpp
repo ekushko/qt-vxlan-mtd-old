@@ -15,6 +15,8 @@ namespace VMTDLib
 
         m_settings->creationOut(VN_S(VMTDController) + " | Constructor called");
 
+        qRegisterMetaType<QList<QPair<QString, QJsonObject>>>("QList<QPair<QString, QJsonObject>>");
+
         connect(this, &VMTDController::started, this, &VMTDController::startedSlot);
         connect(this, &VMTDController::finished, this, &VMTDController::finishedSlot);
 
@@ -82,6 +84,11 @@ namespace VMTDLib
         return m_engine;
     }
 
+    VMTDConfigurator *VMTDController::configurator() const
+    {
+        return m_configurator;
+    }
+
     void VMTDController::showFormSlot()
     {
         if (m_form == nullptr)
@@ -119,6 +126,11 @@ namespace VMTDLib
             connect(this, &VMTDController::finished, m_nodeClient, &VMTDNodeClient::deleteLater);
             m_protocol->setNodeClient(m_nodeClient);
             m_nodeClient->connectSocketSlot();
+
+            m_configurator = new VMTDConfigurator(nullptr, m_settings);
+            connect(this, &VMTDController::finished, m_configurator, &VMTDConfigurator::deleteLater);
+            connect(m_protocol->nodeHandlers().at(0), &VMTDNodeProtocolHandler::handleMethodSignal,
+                    m_configurator, &VMTDConfigurator::handleMethodSlot);
         }
         else if (m_nodeType == VMTDNodeType::SERVER)
         {
@@ -131,11 +143,11 @@ namespace VMTDLib
             connect(this, &VMTDController::finished, m_nodeServer, &VMTDNodeServer::deleteLater);
             m_protocol->setNodeServer(m_nodeServer);
             m_nodeServer->startListenSlot();
-        }
 
-        m_engine = new VMTDEngine(nullptr, m_deviceManager, m_connectionManager, m_protocol);
-        connect(this, &VMTDController::finished, m_engine, &VMTDEngine::deleteLater);
-        m_engine->startSlot();
+            m_engine = new VMTDEngine(nullptr, m_deviceManager, m_connectionManager, m_protocol);
+            connect(this, &VMTDController::finished, m_engine, &VMTDEngine::deleteLater);
+            m_engine->startSlot();
+        }
 
         exec();
 

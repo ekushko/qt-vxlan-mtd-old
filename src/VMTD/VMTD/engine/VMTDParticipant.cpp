@@ -258,29 +258,26 @@ namespace VMTDLib
             {
                 QJsonObject jsonObj;
 
-                jsonObj["name"] = "vmtd1";
-                jsonObj["ip"] = m_ip_1;
-                jsonObj["mask"] = m_mask_1;
-                jsonObj["vlanId"] = m_vlanId_1;
-                jsonObj["gateway"] = m_gateway;
+                jsonObj[PRM_INTERFACE] = "vmtd1";
+                jsonObj[PRM_IP] = m_ip_1;
+                jsonObj[PRM_MASK] = m_mask_1;
+                jsonObj[PRM_GATEWAY] = m_gateway;
 
-                requests.append(qMakePair(QString("setupInterface"), jsonObj));
+                requests.append(qMakePair(MTH_SETUP_INTERFACE_1, jsonObj));
             }
 
             if ("Interface 2")
             {
                 QJsonObject jsonObj;
 
-                jsonObj["name"] = "vmtd2";
-
-                requests.append(qMakePair(QString("clearInterface"), jsonObj));
+                requests.append(qMakePair(MTH_CLEAR_INTERFACE_2, jsonObj));
             }
 
             if ("Routes")
             {
                 QJsonObject jsonObj;
 
-                requests.append(qMakePair(QString("clearRoutes"), jsonObj));
+                requests.append(qMakePair(MTH_CLEAR_ROUTES, jsonObj));
             }
         }
         else if (m_role == EnRole::GATEWAY)
@@ -289,26 +286,24 @@ namespace VMTDLib
             {
                 QJsonObject jsonObj;
 
-                jsonObj["name"] = "vmtd1";
-                jsonObj["ip"] = m_ip_1;
-                jsonObj["mask"] = m_mask_1;
-                jsonObj["vlanId"] = m_vlanId_1;
-                jsonObj["gateway"] = m_gateway;
+                jsonObj[PRM_INTERFACE] = "vmtd1";
+                jsonObj[PRM_IP] = m_ip_1;
+                jsonObj[PRM_MASK] = m_mask_1;
+                jsonObj[PRM_VLAN_ID] = m_vlanId_1;
 
-                requests.append(qMakePair(QString("setupInterface"), jsonObj));
+                requests.append(qMakePair(MTH_SETUP_INTERFACE_1_VLAN, jsonObj));
             }
 
             if ("Interface 2")
             {
                 QJsonObject jsonObj;
 
-                jsonObj["name"] = "vmtd2";
-                jsonObj["ip"] = m_ip_2;
-                jsonObj["mask"] = m_mask_2;
-                jsonObj["vlanId"] = m_vlanId_2;
-                jsonObj["gateway"] = m_gateway;
+                jsonObj[PRM_INTERFACE] = "vmtd2";
+                jsonObj[PRM_IP] = m_ip_2;
+                jsonObj[PRM_MASK] = m_mask_2;
+                jsonObj[PRM_VLAN_ID] = m_vlanId_2;
 
-                requests.append(qMakePair(QString("setupInterface"), jsonObj));
+                requests.append(qMakePair(MTH_SETUP_INTERFACE_2_VLAN, jsonObj));
             }
 
             if ("Routes")
@@ -322,16 +317,16 @@ namespace VMTDLib
 
                     const auto splittedRoute = route.split(' ');
 
-                    routeObj["network"] = splittedRoute[0];
-                    routeObj["mask"] = splittedRoute[1];
-                    routeObj["gateway"] = splittedRoute[2];
+                    routeObj[PRM_NETWORK] = splittedRoute[0];
+                    routeObj[PRM_MASK] = splittedRoute[1];
+                    routeObj[PRM_GATEWAY] = splittedRoute[2];
 
                     jsonArr.append(routeObj);
                 }
 
-                jsonObj["routes"] = jsonArr;
+                jsonObj[PRM_ROUTES] = jsonArr;
 
-                requests.append(qMakePair(QString("setupRoutes"), jsonObj));
+                requests.append(qMakePair(MTH_SETUP_ROUTES, jsonObj));
             }
         }
 
@@ -346,15 +341,15 @@ namespace VMTDLib
 
                 const auto splittedRoute = host.split(' ');
 
-                hostObj["ip"] = splittedRoute[0];
-                hostObj["domainName"] = splittedRoute[1];
+                hostObj[PRM_IP] = splittedRoute[0];
+                hostObj[PRM_DOMAIN_NAME] = splittedRoute[1];
 
                 jsonArr.append(hostObj);
             }
 
-            jsonObj["hosts"] = jsonArr;
+            jsonObj[PRM_HOSTS] = jsonArr;
 
-            requests.append(qMakePair(QString("setupHosts"), jsonObj));
+            requests.append(qMakePair(MTH_SETUP_HOSTS, jsonObj));
         }
 
         return requests;

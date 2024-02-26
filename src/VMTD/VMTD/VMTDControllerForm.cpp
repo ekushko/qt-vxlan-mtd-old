@@ -60,6 +60,7 @@ namespace VMTDLib
         m_tabWidgets[EnTab::DEVICE_MANAGER] = ui->tbwPartition->widget((int)EnTab::DEVICE_MANAGER);
         m_tabWidgets[EnTab::CONN_MANAGER] = ui->tbwPartition->widget((int)EnTab::CONN_MANAGER);
         m_tabWidgets[EnTab::ENGINE] = ui->tbwPartition->widget((int)EnTab::ENGINE);
+        m_tabWidgets[EnTab::CONFIGURATOR] = ui->tbwPartition->widget((int)EnTab::CONFIGURATOR);
         m_tabWidgets[EnTab::PROTOCOL] = ui->tbwPartition->widget((int)EnTab::PROTOCOL);
         m_tabWidgets[EnTab::NODE_CLIENT] = ui->tbwPartition->widget((int)EnTab::NODE_CLIENT);
         m_tabWidgets[EnTab::NODE_SERVER] = ui->tbwPartition->widget((int)EnTab::NODE_SERVER);
@@ -80,6 +81,8 @@ namespace VMTDLib
 
         ui->tbwPartition->setTabEnabled((int)EnTab::ENGINE,
                                         isRunning);
+        ui->tbwPartition->setTabEnabled((int)EnTab::CONFIGURATOR,
+                                        isRunning && nodeType == VMTDNodeType::CLIENT);
         ui->tbwPartition->setTabEnabled((int)EnTab::PROTOCOL,
                                         isRunning);
         ui->tbwPartition->setTabEnabled((int)EnTab::NODE_CLIENT,
@@ -102,6 +105,10 @@ namespace VMTDLib
         else if (index == (int)EnTab::CONN_MANAGER)
         {
             m_controller->connectionManager()->showFormSlot(ui->wConnections);
+        }
+        else if (index == (int)EnTab::CONFIGURATOR)
+        {
+            m_controller->configurator()->showFormSlot(ui->wConfigurator);
         }
         else if (index == (int)EnTab::ENGINE)
         {

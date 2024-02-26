@@ -182,6 +182,8 @@ SOURCES += \
     VMTD/device/nxapi/VMTDNxApiDevice.cpp \
     VMTD/device/nxapi/VMTDNxApiDeviceForm.cpp \
     VMTD/engine/VMTDBridge.cpp \
+    VMTD/engine/VMTDConfigurator.cpp \
+    VMTD/engine/VMTDConfiguratorForm.cpp \
     VMTD/engine/VMTDEngine.cpp \
     VMTD/engine/VMTDEngineForm.cpp \
     VMTD/engine/VMTDGroup.cpp \
@@ -230,6 +232,8 @@ HEADERS += \
     VMTD/device/nxapi/VMTDNxApiDevice.h \
     VMTD/device/nxapi/VMTDNxApiDeviceForm.h \
     VMTD/engine/VMTDBridge.h \
+    VMTD/engine/VMTDConfigurator.h \
+    VMTD/engine/VMTDConfiguratorForm.h \
     VMTD/engine/VMTDEngine.h \
     VMTD/engine/VMTDEngineForm.h \
     VMTD/engine/VMTDGroup.h \
@@ -263,6 +267,7 @@ FORMS += \
     VMTD/device/VMTDDeviceManagerForm.ui \
     VMTD/device/node/VMTDNodeDeviceForm.ui \
     VMTD/device/nxapi/VMTDNxApiDeviceForm.ui \
+    VMTD/engine/VMTDConfiguratorForm.ui \
     VMTD/engine/VMTDEngineForm.ui \
     VMTD/engine/VMTDParticipantForm.ui \
     VMTD/interface/VMTDInterfaceForm.ui \

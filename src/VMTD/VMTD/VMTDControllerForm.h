@@ -37,10 +37,11 @@ namespace VMTDLib
             DEVICE_MANAGER = 0,
             CONN_MANAGER   = 1,
             ENGINE         = 2,
-            PROTOCOL       = 3,
-            NODE_CLIENT    = 4,
-            NODE_SERVER    = 5,
-            NXAPI_SERVER   = 6
+            CONFIGURATOR   = 3,
+            PROTOCOL       = 4,
+            NODE_CLIENT    = 5,
+            NODE_SERVER    = 6,
+            NXAPI_SERVER   = 7
         };
 
         QMap<EnTab, QWidget *> m_tabWidgets;

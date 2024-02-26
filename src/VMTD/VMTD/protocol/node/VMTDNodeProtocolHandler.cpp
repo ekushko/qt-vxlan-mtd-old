@@ -52,7 +52,9 @@ namespace VMTDLib
 
     void VMTDNodeProtocolHandler::checkConnection()
     {
-        // в разработке
+        QList<QPair<QString, QJsonObject>> requests;
+        requests.append(qMakePair(QString("checkConnection"), QJsonObject()));
+        appendRequestsSlot(requests);
     }
 
     QString VMTDNodeProtocolHandler::name() const
@@ -77,11 +79,6 @@ namespace VMTDLib
         m_form->show();
         m_form->raise();
         m_form->activateWindow();
-    }
-
-    void VMTDNodeProtocolHandler::registerMethodSlot(const QString &method, const QStringList &params)
-    {
-        m_methods[method] = params;
     }
 
     void VMTDNodeProtocolHandler::appendRequestsSlot(const QList<QPair<QString, QJsonObject>> &requests)
@@ -303,7 +300,17 @@ namespace VMTDLib
             }
             else if (response.contains("result"))
             {
-                // в разработке
+                if (response["result"].isBool())
+                {
+                    bool isOk = response["result"].toBool();
+
+                    emit showDebugSignal(QTime::currentTime(), QString("Request handled %1!")
+                                         .arg(isOk ? "successful" : "with error"));
+                }
+                else
+                {
+                    emit showDebugSignal(QTime::currentTime(), QString("Request handled but result is unknown!"));
+                }
             }
         }
     }
@@ -322,7 +329,7 @@ namespace VMTDLib
         {
             const auto method = request["method"].toString();
 
-            if (!m_methods.contains(method))
+            if (!VMTDMethod::methods().values().contains(method))
             {
                 const auto error = EnError::METHOD_NOT_FOUND;
 
@@ -333,13 +340,18 @@ namespace VMTDLib
             }
             else
             {
-                auto params = request["params"].toObject();
-
                 bool isValid = true;
 
-                for (const auto &waitedParam : m_methods[method])
+                const auto methodName = VMTDMethod::methods().key(method);
+                const auto methodParams = VMTDMethod::methodParams(methodName);
+
+                auto params = request["params"].toObject();
+
+                for (auto methodParam : methodParams)
                 {
-                    if (!params.contains(waitedParam) || params[waitedParam].isUndefined())
+                    auto waitedParam = VMTDMethod::params().value(methodParam);
+
+                    if (!params.contains(waitedParam) || !VMTDMethod::checkParam(methodParam, params[waitedParam]))
                     {
                         const auto error = EnError::INVALID_PARAMS;
 
@@ -356,11 +368,11 @@ namespace VMTDLib
 
                 if (isValid)
                 {
-                    QJsonObject result;
+                    bool result = false;
 
                     emit handleMethodSignal(method, params, result);
 
-                    response = buildResponse(request["id"], result);
+                    response = buildResponse(request["id"], QJsonValue(result));
                 }
             }
         }

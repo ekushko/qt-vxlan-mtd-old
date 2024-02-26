@@ -69,9 +69,13 @@ namespace VMTDLib
                 this, &VMTDProtocol::socketDisconnectedSlot);
     }
 
-    VMTDProtocolHandler *VMTDProtocol::handler(const QString &name) const
+    QList<VMTDNxApiProtocolHandler *> VMTDProtocol::nxApiHandlers() const
     {
-        return m_handlers.value(name);
+        return m_nxApiHandlers.values();
+    }
+    QList<VMTDNodeProtocolHandler *> VMTDProtocol::nodeHandlers() const
+    {
+        return m_nodeHandlers.values();
     }
     QList<VMTDProtocolHandler *> VMTDProtocol::handlers() const
     {

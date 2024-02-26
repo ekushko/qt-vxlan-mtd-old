@@ -11,6 +11,7 @@
 #include "connection/VMTDConnectionManager.h"
 
 #include "engine/VMTDEngine.h"
+#include "engine/VMTDConfigurator.h"
 
 #include <QThread>
 
@@ -42,6 +43,8 @@ namespace VMTDLib
         VMTDConnectionManager *connectionManager() const;
 
         VMTDEngine *engine() const;
+
+        VMTDConfigurator *configurator() const;
 
     public slots:
 
@@ -75,6 +78,8 @@ namespace VMTDLib
         VMTDConnectionManager *m_connectionManager;
 
         VMTDEngine *m_engine;
+
+        VMTDConfigurator *m_configurator;
 
     private slots:
 

@@ -51,13 +51,11 @@ namespace VMTDLib
 
         void sendMessageSignal(QWebSocket *socket, const QString &data);
 
-        void handleMethodSignal(const QString &method, const QJsonObject &params, QJsonObject &result);
+        void handleMethodSignal(const QString &method, const QJsonObject &params, bool &result);
 
     public slots:
 
         void showFormSlot(QWidget *parent = nullptr) override;
-
-        void registerMethodSlot(const QString &method, const QStringList &params);
 
         void appendRequestsSlot(const QList<QPair<QString, QJsonObject>> &requests);
 
@@ -86,8 +84,6 @@ namespace VMTDLib
         int m_commandCounter = 0;
 
         QQueue<QJsonDocument> m_messages;
-
-        QMap<QString, QStringList> m_methods;
 
     private slots:
 
