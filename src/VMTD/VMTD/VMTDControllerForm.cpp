@@ -16,18 +16,17 @@ namespace VMTDLib
 
         ui->setupUi(this);
 
-        setWindowTitle(m_settings->systemName());
+        setWindowTitle("Main");
         setAttribute(Qt::WA_DeleteOnClose, true);
 
         initializeView();
 
-        tbwPartitionCurrentChangedSlot((int)EnTab::DEVICE_MANAGER);
+        connect(m_controller, &VMTDController::restartedSignal,
+                this, &VMTDControllerForm::restartedSlot);
 
         m_uiTimer.setParent(this);
         connect(&m_uiTimer, &QTimer::timeout, this, &VMTDControllerForm::uiTimerTickSlot);
-        m_uiTimer.start(100);
-
-        uiTimerTickSlot();
+        m_uiTimer.start(1000);
 
         m_settings->creationOut(VN_S(VMTDControllerForm) + " | Constructor finished");
     }
@@ -49,89 +48,97 @@ namespace VMTDLib
                                .arg(VMTDBuildInfo::dateTime()
                                     .toString("dd-MM-yyyy hh:mm:ss")));
 
-        connect(ui->pbSettings, &QPushButton::clicked,
-                m_controller->settings(), &VMTDSettings::showFormSlot);
+        if (m_settings->nodeType() == VMTDNodeType::SERVER)
+            ui->wClient->hide();
+        else
+            ui->wServer->hide();
 
-        connect(ui->pbStartController, &QPushButton::clicked,
-                m_controller, &VMTDController::startController);
-        connect(ui->pbStopController, &QPushButton::clicked,
-                m_controller, &VMTDController::stopController);
+        connect(ui->pbDevices, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbDevicesClicked);
+        connect(ui->pbConnections, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbConnectionsClicked);
+        connect(ui->pbProtocol_2, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbProtocolClicked);
+        connect(ui->pbEngine, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbEngineClicked);
+        connect(ui->pbNxApiServer, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbNxApiServerClicked);
+        connect(ui->pbNodeServer, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbNodeServerClicked);
+        connect(ui->pbSettings_2, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbSettingsClicked);
 
-        m_tabWidgets[EnTab::DEVICE_MANAGER] = ui->tbwPartition->widget((int)EnTab::DEVICE_MANAGER);
-        m_tabWidgets[EnTab::CONN_MANAGER] = ui->tbwPartition->widget((int)EnTab::CONN_MANAGER);
-        m_tabWidgets[EnTab::ENGINE] = ui->tbwPartition->widget((int)EnTab::ENGINE);
-        m_tabWidgets[EnTab::CONFIGURATOR] = ui->tbwPartition->widget((int)EnTab::CONFIGURATOR);
-        m_tabWidgets[EnTab::PROTOCOL] = ui->tbwPartition->widget((int)EnTab::PROTOCOL);
-        m_tabWidgets[EnTab::NODE_CLIENT] = ui->tbwPartition->widget((int)EnTab::NODE_CLIENT);
-        m_tabWidgets[EnTab::NODE_SERVER] = ui->tbwPartition->widget((int)EnTab::NODE_SERVER);
-        m_tabWidgets[EnTab::NXAPI_SERVER] = ui->tbwPartition->widget((int)EnTab::NXAPI_SERVER);
-
-        connect(ui->tbwPartition, &QTabWidget::currentChanged,
-                this, &VMTDControllerForm::tbwPartitionCurrentChangedSlot);
+        connect(ui->pbProtocol_1, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbProtocolClicked);
+        connect(ui->pbConfigurator, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbConfiguratorClicked);
+        connect(ui->pbNodeClient, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbNodeClientClicked);
+        connect(ui->pbSettings_1, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbSettingsClicked);
     }
 
     void VMTDControllerForm::uiTimerTickSlot()
     {
         const auto isRunning = m_controller->isRunning();
 
-        ui->pbStartController->setEnabled(!isRunning);
-        ui->pbStopController->setEnabled(isRunning);
-
-        const auto nodeType = m_settings->nodeType();
-
-        ui->tbwPartition->setTabEnabled((int)EnTab::ENGINE,
-                                        isRunning);
-        ui->tbwPartition->setTabEnabled((int)EnTab::CONFIGURATOR,
-                                        isRunning && nodeType == VMTDNodeType::CLIENT);
-        ui->tbwPartition->setTabEnabled((int)EnTab::PROTOCOL,
-                                        isRunning);
-        ui->tbwPartition->setTabEnabled((int)EnTab::NODE_CLIENT,
-                                        isRunning && nodeType == VMTDNodeType::CLIENT);
-        ui->tbwPartition->setTabEnabled((int)EnTab::NODE_SERVER,
-                                        isRunning && nodeType == VMTDNodeType::SERVER);
-        ui->tbwPartition->setTabEnabled((int)EnTab::NXAPI_SERVER,
-                                        isRunning && nodeType == VMTDNodeType::SERVER);
+        ui->pbProtocol_1->setEnabled(isRunning);
+        ui->pbProtocol_2->setEnabled(isRunning);
+        ui->pbNxApiServer->setEnabled(isRunning);
+        ui->pbNodeServer->setEnabled(isRunning);
+        ui->pbNodeClient->setEnabled(isRunning);
     }
 
-    void VMTDControllerForm::tbwPartitionCurrentChangedSlot(int index)
+    void VMTDControllerForm::restartedSlot()
     {
-        const auto isRunning = m_controller->isRunning();
-        const auto nodeType = m_settings->nodeType();
+        initializeView();
+    }
 
-        if (index == (int)EnTab::DEVICE_MANAGER)
-        {
-            m_controller->deviceManager()->showFormSlot(ui->wDevices);
-        }
-        else if (index == (int)EnTab::CONN_MANAGER)
-        {
-            m_controller->connectionManager()->showFormSlot(ui->wConnections);
-        }
-        else if (index == (int)EnTab::CONFIGURATOR)
-        {
-            m_controller->configurator()->showFormSlot(ui->wConfigurator);
-        }
-        else if (index == (int)EnTab::ENGINE)
-        {
-            m_controller->engine()->showFormSlot(ui->wEngine);
-        }
-        else if (index == (int)EnTab::PROTOCOL && isRunning)
-        {
-            if (nodeType == VMTDNodeType::SERVER)
-                m_controller->protocol()->showFormSlot(ui->wProtocol);
-            else if (nodeType == VMTDNodeType::CLIENT)
-                m_controller->protocol()->handlers().at(0)->showFormSlot(ui->wProtocol);
-        }
-        else if (index == (int)EnTab::NODE_CLIENT && isRunning && nodeType == VMTDNodeType::CLIENT)
-        {
-            m_controller->nodeClient()->showFormSlot(ui->wNodeClient);
-        }
-        else if (index == (int)EnTab::NODE_SERVER && isRunning && nodeType == VMTDNodeType::SERVER)
-        {
-            m_controller->nodeServer()->showFormSlot(ui->wNodeServer);
-        }
-        else if (index == (int)EnTab::NXAPI_SERVER && isRunning && nodeType == VMTDNodeType::SERVER)
-        {
-            m_controller->nxApiServer()->showFormSlot(ui->wNxApiServer);
-        }
+    void VMTDControllerForm::pbDevicesClicked()
+    {
+        m_controller->deviceManager()->showFormSlot();
+    }
+
+    void VMTDControllerForm::pbConnectionsClicked()
+    {
+        m_controller->connectionManager()->showFormSlot();
+    }
+
+    void VMTDControllerForm::pbSettingsClicked()
+    {
+        m_controller->settings()->showFormSlot();
+    }
+
+    void VMTDControllerForm::pbProtocolClicked()
+    {
+        if (m_settings->nodeType() == VMTDNodeType::SERVER)
+            m_controller->protocol()->showFormSlot();
+        else
+            m_controller->protocol()->handlers().at(0)->showFormSlot();
+    }
+
+    void VMTDControllerForm::pbEngineClicked()
+    {
+        m_controller->engine()->showFormSlot();
+    }
+
+    void VMTDControllerForm::pbConfiguratorClicked()
+    {
+        m_controller->configurator()->showFormSlot();
+    }
+
+    void VMTDControllerForm::pbNxApiServerClicked()
+    {
+        m_controller->nxApiServer()->showFormSlot();
+    }
+
+    void VMTDControllerForm::pbNodeServerClicked()
+    {
+        m_controller->nodeServer()->showFormSlot();
+    }
+
+    void VMTDControllerForm::pbNodeClientClicked()
+    {
+        m_controller->nodeClient()->showFormSlot();
     }
 }

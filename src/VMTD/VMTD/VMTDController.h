@@ -46,6 +46,10 @@ namespace VMTDLib
 
         VMTDConfigurator *configurator() const;
 
+    signals:
+
+        void restartedSignal();
+
     public slots:
 
         void showFormSlot();

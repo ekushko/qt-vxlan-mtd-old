@@ -32,24 +32,20 @@ namespace VMTDLib
 
         QTimer m_uiTimer;
 
-        enum class EnTab
-        {
-            DEVICE_MANAGER = 0,
-            CONN_MANAGER   = 1,
-            ENGINE         = 2,
-            CONFIGURATOR   = 3,
-            PROTOCOL       = 4,
-            NODE_CLIENT    = 5,
-            NODE_SERVER    = 6,
-            NXAPI_SERVER   = 7
-        };
-
-        QMap<EnTab, QWidget *> m_tabWidgets;
-
     private slots:
 
         void uiTimerTickSlot();
 
-        void tbwPartitionCurrentChangedSlot(int index);
+        void restartedSlot();
+
+        void pbDevicesClicked();
+        void pbConnectionsClicked();
+        void pbSettingsClicked();
+        void pbProtocolClicked();
+        void pbEngineClicked();
+        void pbConfiguratorClicked();
+        void pbNxApiServerClicked();
+        void pbNodeServerClicked();
+        void pbNodeClientClicked();
     };
 }

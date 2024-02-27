@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>icons/Connections.svg</file>
+        <file>icons/Devices.svg</file>
+        <file>icons/Node-client.svg</file>
+        <file>icons/Node-protocol.svg</file>
+        <file>icons/Node-server.svg</file>
+        <file>icons/NxApi-protocol.svg</file>
+        <file>icons/NxApi-server.svg</file>
+        <file>icons/Configurator.svg</file>
+        <file>icons/Engine.svg</file>
+        <file>icons/Settings.svg</file>
+    </qresource>
+</RCC>

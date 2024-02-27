@@ -277,6 +277,9 @@ FORMS += \
     VMTD/protocol/node/VMTDNodeProtocolHandlerForm.ui \
     VMTD/protocol/nxapi/VMTDNxApiProtocolHandlerForm.ui
 
+RESOURCES += \
+    resources/VMTDResources.qrc
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

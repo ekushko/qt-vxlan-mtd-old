@@ -170,6 +170,8 @@ namespace VMTDLib
         if (shouldBeStarted)
             stopController();
 
+        emit restartedSignal();
+
         if (shouldBeStarted)
             startController();
     }
