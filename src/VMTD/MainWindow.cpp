@@ -4,11 +4,16 @@
 #include "VMTD/VMTDBuildInfo.h"
 using namespace VMTDLib;
 
-MainWindow::MainWindow(QWidget *parent, bool quickStart)
+MainWindow::MainWindow(QWidget *parent, EnRunType runType)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , m_runType(runType)
 {
     ui->setupUi(this);
+
+    Q_INIT_RESOURCE(VMTDResources);
+
+    setWindowTitle("Launcher");
 
     qDebug() << QString("Library %1: %2 from %3")
              .arg(VMTDBuildInfo::filename())
@@ -31,12 +36,16 @@ MainWindow::MainWindow(QWidget *parent, bool quickStart)
     connect(&m_uiTimer, &QTimer::timeout, this, &MainWindow::uiTimerTickSlot);
     m_uiTimer.start(100);
 
-    if (quickStart)
+    if (m_runType == EnRunType::QUICK_START
+        || m_runType == EnRunType::TRAY_MODE)
         pbQuickStartClicked();
 }
 
 MainWindow::~MainWindow()
 {
+    if (m_tray != nullptr)
+        delete m_tray;
+
     delete m_controller;
 
     delete ui;
@@ -67,7 +76,9 @@ void MainWindow::pbQuickStartClicked()
 
     pbCreateClicked();
     m_controller->startController();
-    m_controller->showFormSlot();
+
+    if (m_runType == EnRunType::QUICK_START)
+        m_controller->showFormSlot();
 
     QTimer::singleShot(500, [this]()
     {
@@ -89,6 +100,12 @@ void MainWindow::pbCreateClicked()
             m_controller.data(), &VMTDController::showFormSlot);
     connect(ui->pbSettings, &QPushButton::clicked,
             m_controller->settings(), &VMTDSettings::showFormSlot);
+
+    if (m_runType == EnRunType::TRAY_MODE)
+    {
+        m_tray = new VMTDTray(nullptr, m_controller);
+        m_tray->show();
+    }
 
 }
 void MainWindow::pbDeleteClicked()

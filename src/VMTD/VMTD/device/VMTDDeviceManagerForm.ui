@@ -6,217 +6,308 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>462</width>
-    <height>323</height>
+    <width>436</width>
+    <height>470</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_3">
+  <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <property name="spacing">
+    <number>0</number>
+   </property>
    <property name="leftMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <property name="topMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="hl_1">
+    <spacer name="_6">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>4</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="vl_1">
+     <property name="spacing">
+      <number>0</number>
+     </property>
      <property name="topMargin">
       <number>0</number>
      </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
      <item>
-      <widget class="QPushButton" name="pbApply">
-       <property name="text">
-        <string>Apply</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="_10">
+      <spacer name="_9">
        <property name="orientation">
-        <enum>Qt::Horizontal</enum>
+        <enum>Qt::Vertical</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
-         <height>20</height>
+         <width>20</width>
+         <height>40</height>
         </size>
        </property>
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pbSave">
-       <property name="text">
-        <string>Save</string>
+      <widget class="QWidget" name="wMain" native="true">
+       <property name="maximumSize">
+        <size>
+         <width>434</width>
+         <height>16777215</height>
+        </size>
        </property>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QGroupBox" name="gbManage">
+          <property name="title">
+           <string>Manage</string>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QPushButton" name="pbApply">
+             <property name="text">
+              <string>Apply</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="_5">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pbSave">
+             <property name="text">
+              <string>Save</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pbLoad">
+             <property name="text">
+              <string>Load</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="hl_1">
+          <property name="spacing">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <item>
+           <widget class="QGroupBox" name="gbNxApiDevices">
+            <property name="maximumSize">
+             <size>
+              <width>204</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="title">
+             <string>NX-API</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QListWidget" name="lwNxApiDevices">
+               <property name="minimumSize">
+                <size>
+                 <width>180</width>
+                 <height>300</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="hl_3">
+               <item>
+                <spacer name="_3">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pbAddNxApiDevice">
+                 <property name="text">
+                  <string>Add</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pbRemoveNxApiDevice">
+                 <property name="text">
+                  <string>Remove</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="_4">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="gbNodeDevices">
+            <property name="maximumSize">
+             <size>
+              <width>204</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="title">
+             <string>Node</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <widget class="QListWidget" name="lwNodeDevices">
+               <property name="minimumSize">
+                <size>
+                 <width>180</width>
+                 <height>300</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="hl_2">
+               <item>
+                <spacer name="_1">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pbAddNodeDevice">
+                 <property name="text">
+                  <string>Add</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pbRemoveNodeDevice">
+                 <property name="text">
+                  <string>Remove</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="_2">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pbLoad">
-       <property name="text">
-        <string>Load</string>
+      <spacer name="_8">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
        </property>
-      </widget>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="_1">
-     <property name="spacing">
-      <number>0</number>
+    <spacer name="_7">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <item>
-      <widget class="QWidget" name="wNxApiDevices" native="true">
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>3</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QLabel" name="_5">
-          <property name="text">
-           <string>NX-API devices:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QListWidget" name="lwNxApiDevices"/>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="_2">
-          <item>
-           <spacer name="_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pbAddNxApiDevice">
-            <property name="text">
-             <string>Add</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pbRemoveNxApiDevice">
-            <property name="text">
-             <string>Remove</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QWidget" name="wNodeDevices" native="true">
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <property name="leftMargin">
-         <number>3</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <item>
-         <widget class="QLabel" name="_9">
-          <property name="text">
-           <string>Node devices:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QListWidget" name="lwNodeDevices"/>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="_6">
-          <item>
-           <spacer name="_7">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pbAddNodeDevice">
-            <property name="text">
-             <string>Add</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pbRemoveNodeDevice">
-            <property name="text">
-             <string>Remove</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="_8">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>40</width>
-              <height>20</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </item>
-       </layout>
-      </widget>
-     </item>
-    </layout>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>4</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
   </layout>
  </widget>

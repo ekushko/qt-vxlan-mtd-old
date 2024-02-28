@@ -56,8 +56,6 @@ namespace VMTDLib
     {
         if (m_form == nullptr)
             m_form = new VMTDNxApiProtocolHandlerForm(parent, this);
-        else
-            m_form->setParent(parent);
 
         m_form->show();
         m_form->raise();

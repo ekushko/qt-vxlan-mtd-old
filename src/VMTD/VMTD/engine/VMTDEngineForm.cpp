@@ -106,8 +106,8 @@ namespace VMTDLib
         const auto index = item->text(1).toInt();
 
         if (item->parent()->text(0) == "Gateways")
-            m_engine->gateways().at(index)->showFormSlot();
+            m_engine->gateways().at(index)->showFormSlot(nullptr);
         else if (item->parent()->text(0) == "Participants")
-            m_engine->participants().at(index)->showFormSlot();
+            m_engine->participants().at(index)->showFormSlot(nullptr);
     }
 }

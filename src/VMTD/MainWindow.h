@@ -1,6 +1,6 @@
 #pragma once
 
-#include "VMTD/VMTDController.h"
+#include "VMTD/VMTDTray.h"
 
 #include <QMainWindow>
 
@@ -13,13 +13,20 @@ namespace Ui
 
 QT_END_NAMESPACE
 
+enum class EnRunType
+{
+    STANDARD,
+    QUICK_START,
+    TRAY_MODE
+};
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
 
-    explicit MainWindow(QWidget *parent = nullptr, bool quickStart = false);
+    explicit MainWindow(QWidget *parent = nullptr, EnRunType runType = EnRunType::STANDARD);
     ~MainWindow();
 
 private:
@@ -28,7 +35,9 @@ private:
 
     QTimer m_uiTimer;
 
+    const EnRunType m_runType;
     const QString m_systemName = "_vmtd";
+    QPointer<VMTDLib::VMTDTray> m_tray;
     QPointer<VMTDLib::VMTDController> m_controller;
 
 private slots:

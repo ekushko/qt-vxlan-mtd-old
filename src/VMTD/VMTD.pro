@@ -7,7 +7,7 @@
 NAME = VMTD
 
 TEMPLATE  = app
-TEMPLATE  = lib
+#TEMPLATE  = lib
 
 CONFIG += debug_and_release
 CONFIG += build_all
@@ -18,7 +18,7 @@ QMAKE_TARGET_PRODUCT      = Moving Target Defense by VXLAN
 QMAKE_TARGET_DESCRIPTION  = Moving Target Defense by VXLAN
 QMAKE_TARGET_COMPANY      = Kushko E.A.
 QMAKE_TARGET_COPYRIGHT    = (C) Kushko E.A.
-#RC_ICONS                = resources/favicon.ico
+RC_ICONS                  = resources/favicon.ico
 
 #
 ###-----Директивы---------------------------------------------------------------------------
@@ -161,6 +161,7 @@ SOURCES += \
     VMTD/VMTDRepo.cpp \
     VMTD/VMTDSettings.cpp \
     VMTD/VMTDSettingsForm.cpp \
+    VMTD/VMTDTray.cpp \
     VMTD/adapter/VMTDAdapterForm.cpp \
     VMTD/adapter/node/VMTDNodeAdapterForm.cpp \
     VMTD/adapter/node/VMTDNodeClient.cpp \
@@ -211,6 +212,7 @@ HEADERS += \
     VMTD/VMTDRepo.h \
     VMTD/VMTDSettings.h \
     VMTD/VMTDSettingsForm.h \
+    VMTD/VMTDTray.h \
     VMTD/adapter/VMTDAdapterForm.h \
     VMTD/adapter/node/VMTDNodeAdapterForm.h \
     VMTD/adapter/node/VMTDNodeClient.h \

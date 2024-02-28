@@ -18,6 +18,10 @@ namespace VMTDLib
         if (parent != nullptr && parent->layout() != nullptr)
             parent->layout()->addWidget(this);
 
+        setAttribute(Qt::WA_DeleteOnClose, true);
+        setWindowTitle("Device Manager");
+        //setWindowIcon(QIcon("qrc://icons/Devices.svg"));
+
         connect(ui->pbSave, &QPushButton::clicked,
                 m_net, &VMTDDeviceManager::saveSlot);
         connect(ui->pbLoad, &QPushButton::clicked,

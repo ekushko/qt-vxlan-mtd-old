@@ -11,4 +11,8 @@
         <file>icons/Engine.svg</file>
         <file>icons/Settings.svg</file>
     </qresource>
+    <qresource prefix="/">
+        <file>favicon.ico</file>
+        <file>favicon-tray.png</file>
+    </qresource>
 </RCC>

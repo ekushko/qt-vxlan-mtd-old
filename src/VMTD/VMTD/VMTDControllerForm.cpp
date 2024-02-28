@@ -16,7 +16,7 @@ namespace VMTDLib
 
         ui->setupUi(this);
 
-        setWindowTitle("Main");
+        setWindowTitle("Menu");
         setAttribute(Qt::WA_DeleteOnClose, true);
 
         initializeView();
@@ -96,12 +96,12 @@ namespace VMTDLib
 
     void VMTDControllerForm::pbDevicesClicked()
     {
-        m_controller->deviceManager()->showFormSlot();
+        m_controller->deviceManager()->showFormSlot(nullptr);
     }
 
     void VMTDControllerForm::pbConnectionsClicked()
     {
-        m_controller->connectionManager()->showFormSlot();
+        m_controller->connectionManager()->showFormSlot(nullptr);
     }
 
     void VMTDControllerForm::pbSettingsClicked()
@@ -112,33 +112,33 @@ namespace VMTDLib
     void VMTDControllerForm::pbProtocolClicked()
     {
         if (m_settings->nodeType() == VMTDNodeType::SERVER)
-            m_controller->protocol()->showFormSlot();
+            m_controller->protocol()->showFormSlot(nullptr);
         else
-            m_controller->protocol()->handlers().at(0)->showFormSlot();
+            m_controller->protocol()->handlers().at(0)->showFormSlot(nullptr);
     }
 
     void VMTDControllerForm::pbEngineClicked()
     {
-        m_controller->engine()->showFormSlot();
+        m_controller->engine()->showFormSlot(nullptr);
     }
 
     void VMTDControllerForm::pbConfiguratorClicked()
     {
-        m_controller->configurator()->showFormSlot();
+        m_controller->configurator()->showFormSlot(nullptr);
     }
 
     void VMTDControllerForm::pbNxApiServerClicked()
     {
-        m_controller->nxApiServer()->showFormSlot();
+        m_controller->nxApiServer()->showFormSlot(nullptr);
     }
 
     void VMTDControllerForm::pbNodeServerClicked()
     {
-        m_controller->nodeServer()->showFormSlot();
+        m_controller->nodeServer()->showFormSlot(nullptr);
     }
 
     void VMTDControllerForm::pbNodeClientClicked()
     {
-        m_controller->nodeClient()->showFormSlot();
+        m_controller->nodeClient()->showFormSlot(nullptr);
     }
 }
