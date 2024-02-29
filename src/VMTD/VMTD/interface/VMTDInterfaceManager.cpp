@@ -38,6 +38,8 @@ namespace VMTDLib
 
         jsonObj[VN_ME(m_onlyOneMode)] = m_onlyOneMode;
 
+        jsonObj[VN_ME(m_idCounter)] = m_idCounter;
+
         QJsonArray jsonArr;
 
         for (auto interface : m_interfaces)
@@ -52,7 +54,9 @@ namespace VMTDLib
         if (jsonObj.isEmpty())
             return;
 
-        m_onlyOneMode = jsonObj[VN_ME(m_onlyOneMode)].toBool();
+        m_onlyOneMode = jsonObj[VN_ME(m_onlyOneMode)].toBool(m_onlyOneMode);
+
+        m_idCounter = jsonObj[VN_ME(m_idCounter)].toInt(m_idCounter);
 
         const auto jsonArr = jsonObj[VN_ME(m_interfaces)].toArray();
 
@@ -61,8 +65,11 @@ namespace VMTDLib
 
         for (int i = 0; i < jsonArr.size(); ++i)
         {
-            auto interface = new VMTDInterface(this, m_settings, VMTDRepo::generateId());
+            auto interface = new VMTDInterface(this, m_settings, -1);
             interface->fromJson(jsonArr.at(i).toObject());
+
+            if (interface->id() == -1)
+                interface->setId(++m_idCounter);
 
             if (!m_interfaces.contains(interface->id()))
                 m_interfaces[interface->id()] = interface;
@@ -96,7 +103,7 @@ namespace VMTDLib
     }
     bool VMTDInterfaceManager::addInterface()
     {
-        const auto id = m_settings->generateId();
+        const auto id = ++m_idCounter;
 
         if (!m_onlyOneMode || m_interfaces.size() == 0)
         {

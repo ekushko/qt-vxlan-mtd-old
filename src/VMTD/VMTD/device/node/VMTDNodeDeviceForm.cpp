@@ -16,7 +16,7 @@ namespace VMTDLib
         ui->setupUi(this);
 
         setAttribute(Qt::WA_DeleteOnClose, true);
-        setWindowTitle(QString("Node Device (%1)")
+        setWindowTitle(QString("Node Device | %1")
                        .arg(m_device->name()));
 
         initializeView();
@@ -51,22 +51,18 @@ namespace VMTDLib
     {
         ui->lbOnline->setText(m_device->isOnline() ? "Yes" : "No");
         ui->lbId->setText(QString::number(m_device->id()));
-        CB_SELECT(ui->cbRole, m_device->role());
         ui->leIp->setText(m_device->ip());
         ui->leDomainName->setText(m_device->domainName());
     }
 
     void VMTDNodeDeviceForm::updateData()
     {
-        m_device->setRole(CB_DATA_TOE(ui->cbRole, VMTDNodeDevice::EnRole));
         m_device->setIp(ui->leIp->text());
         m_device->setDomainName(ui->leDomainName->text());
     }
 
     void VMTDNodeDeviceForm::initializeView()
     {
-        CB_FILL_MAP(ui->cbRole, VMTDNodeDevice::enRoleToL());
-
         connect(ui->pbInterfaces, &QPushButton::clicked,
                 m_device->interfaceManager(), &VMTDInterfaceManager::showFormSlot);
 

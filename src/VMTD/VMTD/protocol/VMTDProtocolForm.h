@@ -25,17 +25,22 @@ namespace VMTDLib
 
     private:
 
+        void initializeView();
+
+        void updateNxApiHandlerList();
+        void updateNodeHandlerList();
+
         Ui::VMTDProtocolForm *ui;
 
         VMTDProtocol *m_protocol;
         VMTDSettings *m_settings;
 
-        QMap<VMTDNxApiProtocolHandler *, VMTDNxApiProtocolHandlerForm *> m_nxApiHandlerForms;
-        QMap<VMTDNodeProtocolHandler *, VMTDNodeProtocolHandlerForm *> m_nodeHandlerForms;
-
     private slots:
 
         void handlerCreatedSlot(VMTDProtocolHandler *handler);
         void handlerRemovedSlot(VMTDProtocolHandler *handler);
+
+        void lwNxApiHandlersItemDoubleClicked(QListWidgetItem *item);
+        void lwNodeHandlersItemDoubleClicked(QListWidgetItem *item);
     };
 }

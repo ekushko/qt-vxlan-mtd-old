@@ -23,6 +23,8 @@ namespace VMTDLib
         setAttribute(Qt::WA_DeleteOnClose, true);
         setWindowTitle("Protocol");
 
+        initializeView();
+
         connect(m_protocol, &VMTDProtocol::handlerCreatedSignal,
                 this, &VMTDProtocolForm::handlerCreatedSlot);
         connect(m_protocol, &VMTDProtocol::handlerRemovedSignal,
@@ -36,11 +38,36 @@ namespace VMTDLib
 
     VMTDProtocolForm::~VMTDProtocolForm()
     {
-        m_settings->debugOut(VN_S(VMTDProtocolForm) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDProtocolForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDProtocolForm) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDProtocolForm) + " | Destructor finished");
+    }
+
+    void VMTDProtocolForm::initializeView()
+    {
+        connect(ui->lwNxApiHandlers, &QListWidget::itemDoubleClicked,
+                this, &VMTDProtocolForm::lwNxApiHandlersItemDoubleClicked);
+
+        connect(ui->lwNodeHandlers, &QListWidget::itemDoubleClicked,
+                this, &VMTDProtocolForm::lwNodeHandlersItemDoubleClicked);
+    }
+
+    void VMTDProtocolForm::updateNxApiHandlerList()
+    {
+        ui->lwNxApiHandlers->clear();
+
+        for (auto handler : m_protocol->nxApiHandlers())
+            ui->lwNxApiHandlers->addItem(handler->name());
+    }
+
+    void VMTDProtocolForm::updateNodeHandlerList()
+    {
+        ui->lwNodeHandlers->clear();
+
+        for (auto handler : m_protocol->nodeHandlers())
+            ui->lwNodeHandlers->addItem(handler->name());
     }
 
     void VMTDProtocolForm::handlerCreatedSlot(VMTDProtocolHandler *handler)
@@ -49,56 +76,34 @@ namespace VMTDLib
             return;
 
         if (handler->type() == VMTDProtocolHandler::EnType::NX_API)
-        {
-            auto nxApiHandler = dynamic_cast<VMTDNxApiProtocolHandler *>(handler);
-            auto form = new VMTDNxApiProtocolHandlerForm(ui->tbwNxApi, nxApiHandler);
-            ui->tbwNxApi->addTab(form, nxApiHandler->name());
-            m_nxApiHandlerForms[nxApiHandler] = form;
-        }
+            updateNxApiHandlerList();
         else if (handler->type() == VMTDProtocolHandler::EnType::NODE)
-        {
-            auto nodeHandler = dynamic_cast<VMTDNodeProtocolHandler *>(handler);
-            auto form = new VMTDNodeProtocolHandlerForm(ui->tbwNode, nodeHandler);
-            ui->tbwNode->addTab(form, nodeHandler->name());
-            m_nodeHandlerForms[nodeHandler] = form;
-        }
+            updateNodeHandlerList();
     }
     void VMTDProtocolForm::handlerRemovedSlot(VMTDProtocolHandler *handler)
     {
-        if (handler == nullptr)
+        Q_UNUSED(handler)
+
+        updateNxApiHandlerList();
+        updateNodeHandlerList();
+    }
+
+    void VMTDProtocolForm::lwNxApiHandlersItemDoubleClicked(QListWidgetItem *item)
+    {
+        auto index = ui->lwNxApiHandlers->row(item);
+
+        if (index >= m_protocol->nxApiHandlers().size())
             return;
 
-        if (handler->type() == VMTDProtocolHandler::EnType::NX_API)
-        {
-            auto nxApiHandler = dynamic_cast<VMTDNxApiProtocolHandler *>(handler);
+        m_protocol->nxApiHandlers().at(index)->showFormSlot(nullptr);
+    }
+    void VMTDProtocolForm::lwNodeHandlersItemDoubleClicked(QListWidgetItem *item)
+    {
+        auto index = ui->lwNodeHandlers->row(item);
 
-            delete m_nxApiHandlerForms[nxApiHandler];
-            m_nxApiHandlerForms.remove(nxApiHandler);
+        if (index >= m_protocol->nodeHandlers().size())
+            return;
 
-            for (int i = 0; ui->tbwNxApi->tabBar()->count(); ++i)
-            {
-                if (ui->tbwNxApi->tabBar()->tabText(i) == nxApiHandler->name())
-                {
-                    ui->tbwNxApi->removeTab(i);
-                    break;
-                }
-            }
-        }
-        else if (handler->type() == VMTDProtocolHandler::EnType::NODE)
-        {
-            auto nodeHandler = dynamic_cast<VMTDNodeProtocolHandler *>(handler);
-
-            delete m_nodeHandlerForms[nodeHandler];
-            m_nodeHandlerForms.remove(nodeHandler);
-
-            for (int i = 0; ui->tbwNode->tabBar()->count(); ++i)
-            {
-                if (ui->tbwNode->tabBar()->tabText(i) == nodeHandler->name())
-                {
-                    ui->tbwNode->removeTab(i);
-                    break;
-                }
-            }
-        }
+        m_protocol->nodeHandlers().at(index)->showFormSlot(nullptr);
     }
 }

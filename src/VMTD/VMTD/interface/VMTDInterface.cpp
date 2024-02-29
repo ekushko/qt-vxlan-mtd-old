@@ -55,6 +55,10 @@ namespace VMTDLib
     {
         return m_id;
     }
+    void VMTDInterface::setId(int id)
+    {
+        m_id = id;
+    }
 
     QString VMTDInterface::name() const
     {

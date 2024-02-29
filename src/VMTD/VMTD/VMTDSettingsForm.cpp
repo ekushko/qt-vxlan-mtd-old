@@ -44,7 +44,8 @@ namespace VMTDLib
     void VMTDSettingsForm::setEditMode(bool isEditMode)
     {
         ui->wFile->setEnabled(!isEditMode);
-        ui->wMain->setEnabled(isEditMode);
+        ui->wLeft->setEnabled(isEditMode);
+        ui->wRight->setEnabled(isEditMode);
 
         ui->pbChange->setEnabled(!isEditMode);
         ui->pbAccept->setEnabled(isEditMode);

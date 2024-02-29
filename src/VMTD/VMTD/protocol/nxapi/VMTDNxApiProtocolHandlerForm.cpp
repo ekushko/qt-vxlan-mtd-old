@@ -22,7 +22,7 @@ namespace VMTDLib
         setAttribute(Qt::WA_DeleteOnClose, true);
         setWindowTitle("Protocol " + m_handler->name());
 
-        m_handlerForm = new VMTDProtocolHandlerForm(ui->wProtocolHandler, m_handler);
+        m_handlerForm = new VMTDProtocolHandlerForm(ui->gbProtocolHandler, m_handler);
 
         connect(ui->pbCheckConnection, &QPushButton::clicked,
                 m_handler, &VMTDNxApiProtocolHandler::checkConnectionSlot);

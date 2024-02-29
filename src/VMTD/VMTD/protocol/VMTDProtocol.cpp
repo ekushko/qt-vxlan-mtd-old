@@ -113,7 +113,7 @@ namespace VMTDLib
                                                     m_net->nxApiDevice(adapter->url()),
                                                     adapter);
         m_nxApiHandlers[adapter] = handler;
-        m_handlers[handler->name()] = handler;
+        m_handlers[handler->id()] = handler;
 
         connect(handler, &VMTDNxApiProtocolHandler::sendCommandSignal,
                 adapter, &VMTDNxApiAdapter::sendCommandSlot);
@@ -136,10 +136,9 @@ namespace VMTDLib
 
         auto handler = m_nxApiHandlers[adapter];
 
-        emit handlerRemovedSignal(handler);
-
         m_nxApiHandlers.remove(adapter);
-        m_handlers.remove(handler->name());
+        m_handlers.remove(handler->id());
+        emit handlerRemovedSignal(handler);
         delete handler;
 
         m_settings->debugOut(VN_S(VMTDProtocol) + " | NX-API handler removed!");
@@ -166,7 +165,7 @@ namespace VMTDLib
                                                    m_net->nodeDevice(socket->peerAddress().toString()),
                                                    socket);
         m_nodeHandlers[socket] = handler;
-        m_handlers[handler->name()] = handler;
+        m_handlers[handler->id()] = handler;
 
         connect(handler, &VMTDNodeProtocolHandler::sendMessageSignal,
                 m_nodeServer, &VMTDNodeServer::sendMessageSlot);
@@ -188,11 +187,9 @@ namespace VMTDLib
         }
 
         auto handler = m_nodeHandlers[socket];
-
-        emit handlerRemovedSignal(handler);
-
-        m_handlers.remove(handler->name());
         m_nodeHandlers.remove(socket);
+        m_handlers.remove(handler->id());
+        emit handlerRemovedSignal(handler);
         delete handler;
 
         m_settings->debugOut(VN_S(VMTDProtocol) + " | Node handler removed!");
@@ -219,7 +216,7 @@ namespace VMTDLib
         m_nodeHandler = new VMTDNodeProtocolHandler(this, m_settings,
                                                     m_net->nodeDevice(m_settings->serverIp()),
                                                     m_socket);
-        m_handlers[m_nodeHandler->name()] = m_nodeHandler;
+        m_handlers[m_nodeHandler->id()] = m_nodeHandler;
 
         connect(m_nodeHandler, &VMTDNodeProtocolHandler::sendMessageSignal,
                 m_nodeClient, &VMTDNodeClient::sendDataSlot);
@@ -242,7 +239,7 @@ namespace VMTDLib
 
         m_socket = nullptr;
 
-        m_handlers.remove(m_nodeHandler->name());
+        m_handlers.remove(m_nodeHandler->id());
         delete m_nodeHandler;
 
         m_settings->debugOut(VN_S(VMTDProtocol) + " | Node handler removed!");

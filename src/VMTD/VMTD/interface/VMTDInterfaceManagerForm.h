@@ -3,8 +3,6 @@
 #include "VMTDInterfaceManager.h"
 #include "VMTDInterfaceForm.h"
 
-#include <QWidget>
-
 namespace Ui
 {
     class VMTDInterfaceManagerForm;
@@ -35,7 +33,7 @@ namespace VMTDLib
         VMTDInterfaceManager *m_manager;
         VMTDSettings *m_settings;
 
-        QVector<VMTDInterfaceForm *> m_interfaceForms;
+        QMap<int, VMTDInterfaceForm *> m_interfaceForms;
 
     private slots:
 

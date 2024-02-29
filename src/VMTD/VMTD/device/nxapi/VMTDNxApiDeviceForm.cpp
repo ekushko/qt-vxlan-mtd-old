@@ -16,7 +16,7 @@ namespace VMTDLib
         ui->setupUi(this);
 
         setAttribute(Qt::WA_DeleteOnClose, true);
-        setWindowTitle(QString("NX-API Device (%1)")
+        setWindowTitle(QString("NX-API Device | %1")
                        .arg(m_device->name()));
 
         initializeView();

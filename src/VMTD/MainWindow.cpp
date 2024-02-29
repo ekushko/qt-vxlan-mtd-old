@@ -11,8 +11,6 @@ MainWindow::MainWindow(QWidget *parent, EnRunType runType)
 {
     ui->setupUi(this);
 
-    Q_INIT_RESOURCE(VMTDResources);
-
     setWindowTitle("Launcher");
 
     qDebug() << QString("Library %1: %2 from %3")
@@ -77,7 +75,7 @@ void MainWindow::pbQuickStartClicked()
     pbCreateClicked();
     m_controller->startController();
 
-    if (m_runType == EnRunType::QUICK_START)
+    if (m_runType != EnRunType::TRAY_MODE)
         m_controller->showFormSlot();
 
     QTimer::singleShot(500, [this]()

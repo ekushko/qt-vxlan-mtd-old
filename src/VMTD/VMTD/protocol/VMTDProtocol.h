@@ -59,7 +59,7 @@ namespace VMTDLib
         VMTDNodeClient *m_nodeClient;
         VMTDNodeProtocolHandler *m_nodeHandler;
 
-        QMap<QString, VMTDProtocolHandler *> m_handlers;
+        QMap<int, VMTDProtocolHandler *> m_handlers;
         QTimer m_checkConnectionTimer;
 
     private slots:

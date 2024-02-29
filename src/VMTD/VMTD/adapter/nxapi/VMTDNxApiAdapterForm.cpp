@@ -37,11 +37,11 @@ namespace VMTDLib
 
     VMTDNxApiAdapterForm::~VMTDNxApiAdapterForm()
     {
-        m_settings->debugOut(VN_S(VMTDNxApiAdapterForm) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDNxApiAdapterForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDNxApiAdapterForm) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDNxApiAdapterForm) + " | Destructor finished");
     }
 
     void VMTDNxApiAdapterForm::updateView()

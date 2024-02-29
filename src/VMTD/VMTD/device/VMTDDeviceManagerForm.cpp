@@ -20,7 +20,6 @@ namespace VMTDLib
 
         setAttribute(Qt::WA_DeleteOnClose, true);
         setWindowTitle("Device Manager");
-        //setWindowIcon(QIcon("qrc://icons/Devices.svg"));
 
         connect(ui->pbSave, &QPushButton::clicked,
                 m_net, &VMTDDeviceManager::saveSlot);

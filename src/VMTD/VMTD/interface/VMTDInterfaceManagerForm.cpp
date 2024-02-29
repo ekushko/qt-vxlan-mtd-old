@@ -3,8 +3,6 @@
 
 #include "../VMTDRepo.h"
 
-#include <algorithm>
-
 namespace VMTDLib
 {
     VMTDInterfaceManagerForm::VMTDInterfaceManagerForm(QWidget *parent, VMTDInterfaceManager *manager) :
@@ -33,18 +31,18 @@ namespace VMTDLib
 
     VMTDInterfaceManagerForm::~VMTDInterfaceManagerForm()
     {
-        m_settings->debugOut(VN_S(VMTDInterfaceManagerForm) + " | Destructor called");
+        m_settings->creationOut(VN_S(VMTDInterfaceManagerForm) + " | Destructor called");
 
         delete ui;
 
-        m_settings->debugOut(VN_S(VMTDInterfaceManagerForm) + " | Destructor finished");
+        m_settings->creationOut(VN_S(VMTDInterfaceManagerForm) + " | Destructor finished");
     }
 
     void VMTDInterfaceManagerForm::setEditMode(bool isEditMode)
     {
         ui->wInterfaces->setEnabled(isEditMode);
 
-        ui->wEdit->setEnabled(isEditMode);
+        ui->wEdit->setEnabled(!isEditMode);
 
         ui->pbChange->setEnabled(!isEditMode);
         ui->pbAccept->setEnabled(isEditMode);
@@ -68,7 +66,7 @@ namespace VMTDLib
         for (auto interface : m_manager->interfaces())
         {
             auto form = new VMTDInterfaceForm(ui->wInterfaces, interface);
-            m_interfaceForms.append(form);
+            m_interfaceForms[form->id()] = form;
         }
 
         connect(m_manager, &VMTDInterfaceManager::interfaceCreatedSignal,
@@ -87,26 +85,21 @@ namespace VMTDLib
     void VMTDInterfaceManagerForm::interfaceCreatedSlot(int id)
     {
         auto form = new VMTDInterfaceForm(ui->wInterfaces, m_manager->interface(id));
-        m_interfaceForms.append(form);
+        m_interfaceForms[form->id()] = form;
 
         ui->pbAdd->setEnabled(!m_manager->onlyOneMode() || m_manager->interfaces().size() == 0);
+        ui->pbRemove->setEnabled(m_manager->interfaces().size() > 0);
     }
     void VMTDInterfaceManagerForm::interfaceRemovedSlot(int id)
     {
-        auto res = std::find_if(m_interfaceForms.begin(), m_interfaceForms.end(),
-                                [id](VMTDInterfaceForm * form)
-        {
-            return form->id() == id;
-        });
+        if (!m_interfaceForms.contains(id))
+            return;
 
-        if (res != m_interfaceForms.end())
-        {
-            delete *res;
-            m_interfaceForms.erase(res);
-        }
+        delete m_interfaceForms[id];
+        m_interfaceForms.remove(id);
 
-        ui->pbRemove->setEnabled(m_manager->interfaces().size() != 0);
-        ui->pbAdd->setEnabled(m_manager->interfaces().size() == 0);
+        ui->pbAdd->setEnabled(!m_manager->onlyOneMode() || m_manager->interfaces().size() == 0);
+        ui->pbRemove->setEnabled(m_manager->interfaces().size() > 1);
     }
 
     void VMTDInterfaceManagerForm::pbAddClicked()
@@ -115,6 +108,9 @@ namespace VMTDLib
     }
     void VMTDInterfaceManagerForm::pbRemoveClicked()
     {
+        if (m_interfaceForms.isEmpty())
+            return;
+
         m_manager->removeInterface(m_interfaceForms.last()->id());
     }
 

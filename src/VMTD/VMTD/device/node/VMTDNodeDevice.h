@@ -15,17 +15,6 @@ namespace VMTDLib
         VMTDNodeDevice(QObject *parent, VMTDSettings *settings, int id);
         ~VMTDNodeDevice();
 
-        // КОНСТАНТЫ
-
-        enum class EnRole
-        {
-            ENDPOINT,
-            GATEWAY
-        };
-        Q_ENUM(EnRole)
-        static const QString            &enRoleToS(const EnRole &role);
-        static const QMap<int, QString> &enRoleToL();
-
         // ЛОГИКА
 
         QJsonObject toJson() const override;
@@ -37,9 +26,6 @@ namespace VMTDLib
 
         QString ip() const;
         void setIp(const QString &ip);
-
-        EnRole  role() const;
-        void setRole(EnRole role);
 
         QString domainName() const;
         void setDomainName(const QString &domainName);
@@ -57,7 +43,6 @@ namespace VMTDLib
         QPointer<VMTDNodeDeviceForm> m_form;
 
         QString m_ip;
-        EnRole m_role;
         QString m_domainName;
     };
 }
