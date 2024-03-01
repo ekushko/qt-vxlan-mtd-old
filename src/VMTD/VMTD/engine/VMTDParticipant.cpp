@@ -75,6 +75,15 @@ namespace VMTDLib
         emit appendRequestsSignal(buildRequests());
     }
 
+    void VMTDParticipant::checkConnection()
+    {
+        QList<QPair<QString, QJsonObject>> requests;
+
+        requests.append(qMakePair(MTH_CHECK_CONNECTION, QJsonObject()));
+
+        emit appendRequestsSignal(requests);
+    }
+
     int VMTDParticipant::index_1()
     {
         return m_index_1;

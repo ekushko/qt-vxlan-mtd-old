@@ -49,6 +49,7 @@ namespace VMTDLib
 #define MTH_CLEAR_INTERFACE_2 VMTDMethod::methods().value(VMTDMethod::EnName::CLEAR_INTERFACE_2)
 #define MTH_CLEAR_ROUTES VMTDMethod::methods().value(VMTDMethod::EnName::CLEAR_ROUTES)
 #define MTH_CLEAR_HOSTS VMTDMethod::methods().value(VMTDMethod::EnName::CLEAR_HOSTS)
+#define MTH_CHECK_CONNECTION VMTDMethod::methods().value(VMTDMethod::EnName::CHECK_CONNECTION)
 
 #define PRM_INTERFACE VMTDMethod::params().value(VMTDMethod::EnParamName::INTERFACE)
 #define PRM_IP VMTDMethod::params().value(VMTDMethod::EnParamName::IP)
@@ -78,7 +79,9 @@ namespace VMTDLib
             CLEAR_INTERFACE_1,
             CLEAR_INTERFACE_2,
             CLEAR_ROUTES,
-            CLEAR_HOSTS
+            CLEAR_HOSTS,
+
+            CHECK_CONNECTION
         };
 
         enum class EnParamName

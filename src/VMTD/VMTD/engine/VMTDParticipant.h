@@ -32,6 +32,8 @@ namespace VMTDLib
 
         void setup();
 
+        void checkConnection();
+
         // МЕТАДАННЫЕ
 
         int     index_1();

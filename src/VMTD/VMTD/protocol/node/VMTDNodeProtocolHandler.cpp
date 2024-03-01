@@ -53,7 +53,9 @@ namespace VMTDLib
     void VMTDNodeProtocolHandler::checkConnection()
     {
         QList<QPair<QString, QJsonObject>> requests;
-        requests.append(qMakePair(QString("checkConnection"), QJsonObject()));
+
+        requests.append(qMakePair(MTH_CHECK_CONNECTION, QJsonObject()));
+
         appendRequestsSlot(requests);
     }
 

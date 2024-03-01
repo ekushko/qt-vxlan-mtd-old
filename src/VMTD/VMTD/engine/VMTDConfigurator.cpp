@@ -80,6 +80,10 @@ namespace VMTDLib
         {
             result = handleClearHosts(params);
         }
+        else if (method == MTH_CHECK_CONNECTION)
+        {
+            result = handleCheckConnection(params);
+        }
         else
         {
             result = false;
@@ -206,6 +210,13 @@ namespace VMTDLib
         Q_UNUSED(params)
 
         m_hosts.clear();
+
+        return true;
+    }
+
+    bool VMTDConfigurator::handleCheckConnection(const QJsonObject &params)
+    {
+        Q_UNUSED(params)
 
         return true;
     }
