@@ -61,6 +61,7 @@ namespace VMTDLib
         ui->leDebugName->setText(m_settings->debugName());
         ui->chbShouldShowDebug->setChecked(m_settings->shouldShowDebug());
         ui->chbShouldShowDebugCreation->setChecked(m_settings->shouldShowDebugCreation());
+        ui->chbShouldShowFullScreen->setChecked(m_settings->shouldShowFullScreen());
 
         ui->sbLocalPort->setValue(m_settings->localPort());
 
@@ -83,6 +84,7 @@ namespace VMTDLib
         m_settings->setDebugName(ui->leDebugName->text());
         m_settings->setShouldShowDebug(ui->chbShouldShowDebug->isChecked());
         m_settings->setShouldShowDebugCreation(ui->chbShouldShowDebugCreation->isChecked());
+        m_settings->setShouldShowFullScreen(ui->chbShouldShowFullScreen->isChecked());
 
         m_settings->setLocalPort(ui->sbLocalPort->value());
 

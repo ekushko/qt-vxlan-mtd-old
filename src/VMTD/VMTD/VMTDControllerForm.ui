@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>444</width>
-    <height>412</height>
+    <width>426</width>
+    <height>508</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,16 +22,16 @@
     <number>0</number>
    </property>
    <property name="leftMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <property name="topMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <property name="rightMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <property name="bottomMargin">
-    <number>9</number>
+    <number>0</number>
    </property>
    <item>
     <spacer name="_1">
@@ -428,12 +428,60 @@
            </item>
           </layout>
          </item>
+         <item row="2" column="3">
+          <layout class="QVBoxLayout" name="vl_7">
+           <item>
+            <widget class="QPushButton" name="pbExit_2">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>18</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../resources/VMTDResources.qrc">
+               <normaloff>:/icons/icons/Exit.svg</normaloff>:/icons/icons/Exit.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>70</width>
+               <height>70</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="_9">
+             <property name="text">
+              <string>Exit</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
         </layout>
        </widget>
       </item>
       <item>
        <widget class="QWidget" name="wClient" native="true">
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <layout class="QGridLayout" name="gridLayout_2">
          <property name="leftMargin">
           <number>0</number>
          </property>
@@ -446,7 +494,55 @@
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         <item>
+         <item row="0" column="3">
+          <layout class="QVBoxLayout" name="vl_3">
+           <item>
+            <widget class="QPushButton" name="pbSettings_1">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>18</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../resources/VMTDResources.qrc">
+               <normaloff>:/icons/icons/Settings.svg</normaloff>:/icons/icons/Settings.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>80</width>
+               <height>80</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="_7">
+             <property name="text">
+              <string>Settings</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="0">
           <layout class="QVBoxLayout" name="vl_1">
            <item>
             <widget class="QPushButton" name="pbProtocol_1">
@@ -494,7 +590,7 @@
            </item>
           </layout>
          </item>
-         <item>
+         <item row="0" column="1">
           <layout class="QVBoxLayout" name="vl_4">
            <item>
             <widget class="QPushButton" name="pbNodeClient">
@@ -542,7 +638,7 @@
            </item>
           </layout>
          </item>
-         <item>
+         <item row="0" column="2">
           <layout class="QVBoxLayout" name="vl_2">
            <item>
             <widget class="QPushButton" name="pbConfigurator">
@@ -590,10 +686,10 @@
            </item>
           </layout>
          </item>
-         <item>
-          <layout class="QVBoxLayout" name="vl_3">
+         <item row="1" column="0">
+          <layout class="QVBoxLayout" name="vl_13">
            <item>
-            <widget class="QPushButton" name="pbSettings_1">
+            <widget class="QPushButton" name="pbExit_1">
              <property name="minimumSize">
               <size>
                <width>100</width>
@@ -616,20 +712,20 @@
              </property>
              <property name="icon">
               <iconset resource="../resources/VMTDResources.qrc">
-               <normaloff>:/icons/icons/Settings.svg</normaloff>:/icons/icons/Settings.svg</iconset>
+               <normaloff>:/icons/icons/Exit.svg</normaloff>:/icons/icons/Exit.svg</iconset>
              </property>
              <property name="iconSize">
               <size>
-               <width>80</width>
-               <height>80</height>
+               <width>70</width>
+               <height>70</height>
               </size>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="_7">
+            <widget class="QLabel" name="_12">
              <property name="text">
-              <string>Settings</string>
+              <string>Exit</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>

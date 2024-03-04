@@ -70,6 +70,9 @@ namespace VMTDLib
         bool    shouldShowDebugCreation() const;
         void setShouldShowDebugCreation(bool shouldShowDebugCreation);
 
+        bool    shouldShowFullScreen() const;
+        void setShouldShowFullScreen(bool shouldShowFullScreen);
+
         // ПАРАМЕТРЫ СЕРВЕРА
 
         int     localPort() const;
@@ -142,6 +145,7 @@ namespace VMTDLib
         QString m_debugName;
         bool m_shouldShowDebug;
         bool m_shouldShowDebugCreation;
+        bool m_shouldShowFullScreen;
 
         QString m_serverIp;
         int     m_serverPort;

@@ -47,5 +47,6 @@ namespace VMTDLib
         void pbNxApiServerClicked();
         void pbNodeServerClicked();
         void pbNodeClientClicked();
+        void pbExitClicked();
     };
 }

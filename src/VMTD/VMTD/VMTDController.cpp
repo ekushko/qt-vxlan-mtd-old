@@ -99,7 +99,11 @@ namespace VMTDLib
         if (m_mainForm == nullptr)
             m_mainForm = new VMTDMainForm(nullptr, this);
 
-        m_mainForm->show();
+        if (m_settings->shouldShowFullScreen())
+            m_mainForm->showFullScreen();
+        else
+            m_mainForm->show();
+
         m_mainForm->raise();
         m_mainForm->activateWindow();
     }

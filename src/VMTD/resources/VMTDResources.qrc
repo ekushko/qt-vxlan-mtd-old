@@ -10,6 +10,7 @@
         <file>icons/Configurator.svg</file>
         <file>icons/Engine.svg</file>
         <file>icons/Settings.svg</file>
+        <file>icons/Exit.svg</file>
     </qresource>
     <qresource prefix="/">
         <file>favicon.ico</file>

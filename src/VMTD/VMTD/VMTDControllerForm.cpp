@@ -61,6 +61,8 @@ namespace VMTDLib
                 this, &VMTDControllerForm::pbNodeServerClicked);
         connect(ui->pbSettings_2, &QPushButton::clicked,
                 this, &VMTDControllerForm::pbSettingsClicked);
+        connect(ui->pbExit_2, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbExitClicked);
 
         connect(ui->pbProtocol_1, &QPushButton::clicked,
                 this, &VMTDControllerForm::pbProtocolClicked);
@@ -70,6 +72,8 @@ namespace VMTDLib
                 this, &VMTDControllerForm::pbNodeClientClicked);
         connect(ui->pbSettings_1, &QPushButton::clicked,
                 this, &VMTDControllerForm::pbSettingsClicked);
+        connect(ui->pbExit_1, &QPushButton::clicked,
+                this, &VMTDControllerForm::pbExitClicked);
     }
 
     void VMTDControllerForm::uiTimerTickSlot()
@@ -134,5 +138,10 @@ namespace VMTDLib
     void VMTDControllerForm::pbNodeClientClicked()
     {
         m_controller->nodeClient()->showFormSlot();
+    }
+
+    void VMTDControllerForm::pbExitClicked()
+    {
+        qApp->exit();
     }
 }

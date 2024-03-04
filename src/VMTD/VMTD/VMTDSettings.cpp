@@ -20,6 +20,7 @@ namespace VMTDLib
         m_debugName = "VMTD";
         m_shouldShowDebug = true;
         m_shouldShowDebugCreation = false;
+        m_shouldShowFullScreen = true;
 
         // параметры сервера
 
@@ -123,6 +124,7 @@ namespace VMTDLib
         jsonObj[VN_ME(m_debugName)] = m_debugName;
         jsonObj[VN_ME(m_shouldShowDebug)] = m_shouldShowDebug;
         jsonObj[VN_ME(m_shouldShowDebugCreation)] = m_shouldShowDebugCreation;
+        jsonObj[VN_ME(m_shouldShowFullScreen)] = m_shouldShowFullScreen;
 
         // параметры сервера
 
@@ -172,6 +174,8 @@ namespace VMTDLib
         m_shouldShowDebug = jsonObj[VN_ME(m_shouldShowDebug)].toBool(m_shouldShowDebug);
         m_shouldShowDebugCreation = jsonObj[VN_ME(m_shouldShowDebugCreation)]
                                     .toBool(m_shouldShowDebugCreation);
+        m_shouldShowFullScreen = jsonObj[VN_ME(m_shouldShowFullScreen)]
+                                 .toBool(m_shouldShowFullScreen);
 
         // параметры сервера
 
@@ -295,6 +299,15 @@ namespace VMTDLib
     void VMTDSettings::setShouldShowDebugCreation(bool shouldShowDebugCreation)
     {
         m_shouldShowDebugCreation = shouldShowDebugCreation;
+    }
+
+    bool VMTDSettings::shouldShowFullScreen() const
+    {
+        return m_shouldShowFullScreen;
+    }
+    void VMTDSettings::setShouldShowFullScreen(bool shouldShowFullScreen)
+    {
+        m_shouldShowFullScreen = shouldShowFullScreen;
     }
 
 
