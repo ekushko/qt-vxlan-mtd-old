@@ -129,8 +129,9 @@ namespace VMTDLib
 
             m_configurator = new VMTDConfigurator(nullptr, m_settings);
             connect(this, &VMTDController::finished, m_configurator, &VMTDConfigurator::deleteLater);
-            connect(m_protocol->nodeHandlers().at(0), &VMTDNodeProtocolHandler::handleMethodSignal,
-                    m_configurator, &VMTDConfigurator::handleMethodSlot);
+            connect(m_protocol, &VMTDProtocol::handleMethodSignal,
+                    m_configurator, &VMTDConfigurator::handleMethodSlot,
+                    Qt::DirectConnection);
         }
         else if (m_nodeType == VMTDNodeType::SERVER)
         {

@@ -17,7 +17,7 @@ namespace VMTDLib
 
     public:
 
-        VMTDProtocol(QObject *parent, VMTDDeviceManager *net);
+        VMTDProtocol(QObject *parent, VMTDDeviceManager *deviceManager);
         ~VMTDProtocol();
 
         VMTDSettings *settings() const;
@@ -34,6 +34,8 @@ namespace VMTDLib
 
     signals:
 
+        void handleMethodSignal(const QString &method, const QJsonObject &params, bool &result);
+
         void handlerCreatedSignal(VMTDProtocolHandler *handler);
         void handlerRemovedSignal(VMTDProtocolHandler *handler);
 
@@ -45,7 +47,7 @@ namespace VMTDLib
 
         QPointer<VMTDProtocolForm> m_form;
 
-        VMTDDeviceManager *m_net;
+        VMTDDeviceManager *m_deviceManager;
 
         VMTDSettings *m_settings;
 

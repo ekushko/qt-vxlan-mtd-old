@@ -20,7 +20,8 @@ namespace VMTDLib
             { EnName::CLEAR_INTERFACE_1,      "clearInterface1" },
             { EnName::CLEAR_INTERFACE_2,      "clearInterface2" },
             { EnName::CLEAR_ROUTES,           "clearRoutes" },
-            { EnName::CLEAR_HOSTS,            "clearHosts" }
+            { EnName::CLEAR_HOSTS,            "clearHosts" },
+            { EnName::CHECK_CONNECTION,       "checkConnection" }
         };
         return map;
     }

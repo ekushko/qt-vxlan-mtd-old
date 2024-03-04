@@ -5,10 +5,10 @@
 
 namespace VMTDLib
 {
-    VMTDProtocol::VMTDProtocol(QObject *parent, VMTDDeviceManager *net)
+    VMTDProtocol::VMTDProtocol(QObject *parent, VMTDDeviceManager *deviceManager)
         : QObject(parent)
-        , m_net(net)
-        , m_settings(net->settings())
+        , m_deviceManager(deviceManager)
+        , m_settings(deviceManager->settings())
     {
         m_settings->creationOut(VN_S(VMTDProtocol) + " | Constructor called");
 
@@ -110,7 +110,7 @@ namespace VMTDLib
         }
 
         auto handler = new VMTDNxApiProtocolHandler(this, m_settings,
-                                                    m_net->nxApiDevice(adapter->url()),
+                                                    m_deviceManager->nxApiDevice(adapter->url()),
                                                     adapter);
         m_nxApiHandlers[adapter] = handler;
         m_handlers[handler->id()] = handler;
@@ -161,8 +161,9 @@ namespace VMTDLib
             return;
         }
 
+        const auto peerAddress = QHostAddress(socket->peerAddress().toIPv4Address()).toString();
         auto handler = new VMTDNodeProtocolHandler(this, m_settings,
-                                                   m_net->nodeDevice(socket->peerAddress().toString()),
+                                                   m_deviceManager->nodeDevice(peerAddress),
                                                    socket);
         m_nodeHandlers[socket] = handler;
         m_handlers[handler->id()] = handler;
@@ -214,7 +215,7 @@ namespace VMTDLib
         m_socket = socket;
 
         m_nodeHandler = new VMTDNodeProtocolHandler(this, m_settings,
-                                                    m_net->nodeDevice(m_settings->serverIp()),
+                                                    m_deviceManager->nodeDevice(m_settings->serverIp()),
                                                     m_socket);
         m_handlers[m_nodeHandler->id()] = m_nodeHandler;
 
@@ -222,6 +223,9 @@ namespace VMTDLib
                 m_nodeClient, &VMTDNodeClient::sendDataSlot);
         connect(m_nodeClient, &VMTDNodeClient::receiveMessageSignal,
                 m_nodeHandler, &VMTDNodeProtocolHandler::receiveMessageSlot);
+        connect(m_nodeHandler, &VMTDNodeProtocolHandler::handleMethodSignal,
+                this, &VMTDProtocol::handleMethodSignal,
+                Qt::DirectConnection);
 
         emit handlerCreatedSignal(m_nodeHandler);
 

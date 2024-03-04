@@ -56,6 +56,10 @@ namespace VMTDLib
                                             const QJsonObject &params,
                                             bool &result)
     {
+        m_settings->debugOut(QString("%1 | Start handling method: %2")
+                             .arg(VN_S(VMTDConfigurator))
+                             .arg(method));
+
         if (method == MTH_SETUP_INTERFACE_1)
         {
             result = handleSetupInterface1(params);
@@ -88,6 +92,11 @@ namespace VMTDLib
         {
             result = false;
         }
+
+        m_settings->debugOut(QString("%1 | Method handled %2: %3")
+                             .arg(VN_S(VMTDConfigurator))
+                             .arg(result ? "successfully" : " with error")
+                             .arg(method));
     }
 
     void VMTDConfigurator::showFormSlot(QWidget *parent)

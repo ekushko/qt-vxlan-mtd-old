@@ -14,8 +14,19 @@ namespace VMTDLib
     {
         m_settings->creationOut(VN_S(VMTDNodeProtocolHandler) + " | Constructor called");
 
-        connect(m_device, &VMTDNodeDevice::appendRequestsSignal,
-                this, &VMTDNodeProtocolHandler::appendRequestsSlot);
+        if (m_device != nullptr)
+        {
+            connect(m_device, &VMTDNodeDevice::appendRequestsSignal,
+                    this, &VMTDNodeProtocolHandler::appendRequestsSlot);
+        }
+        else
+        {
+            m_settings->debugOut(QString("%1 | Device[%2:%3] is not included into %4")
+                                 .arg(VN_S(VMTDNodeProtocolHandler))
+                                 .arg(QHostAddress(socket->peerAddress().toIPv4Address()).toString())
+                                 .arg(socket->peerPort())
+                                 .arg(VN_S(VMTDDeviceManager)));
+        }
 
         m_settings->creationOut(VN_S(VMTDNodeProtocolHandler) + " | Constructor finished");
     }
@@ -61,9 +72,10 @@ namespace VMTDLib
 
     QString VMTDNodeProtocolHandler::name() const
     {
-        return QString("id: %1 [%2]")
+        return QString("id: %1 [%2:%3]")
                .arg(id())
-               .arg(m_socket->peerAddress().toString());
+               .arg(QHostAddress(m_socket->peerAddress().toIPv4Address()).toString())
+               .arg(m_socket->peerPort());
     }
 
     int VMTDNodeProtocolHandler::queueLength() const
@@ -123,9 +135,14 @@ namespace VMTDLib
         {
             if (m_settings->nodeType() == VMTDNodeType::CLIENT)
             {
-                emit showDebugSignal(QTime::currentTime(), QString("Parsing request error (%1): %2\n")
-                                     .arg(parseError.error)
-                                     .arg(parseError.errorString()));
+                const auto debugText = QString("Parsing request error (%1): %2\n")
+                                       .arg(parseError.error)
+                                       .arg(parseError.errorString());
+                emit showDebugSignal(QTime::currentTime(), debugText);
+                m_settings->debugOut(QString("%1 | %2 | %3")
+                                     .arg(VN_S(VMTDNodeProtocolHandler))
+                                     .arg(name())
+                                     .arg(debugText));
 
                 outputDoc.setObject(buildError(QJsonValue(),
                                                (int)EnError::PARSE_ERROR,
@@ -133,21 +150,35 @@ namespace VMTDLib
             }
             else if (m_settings->nodeType() == VMTDNodeType::SERVER)
             {
-                emit showDebugSignal(QTime::currentTime(), QString("Parsing response error: %1\n")
-                                     .arg(parseError.errorString()));
+                const auto debugText = QString("Parsing response error: %1\n").arg(parseError.errorString());
+                emit showDebugSignal(QTime::currentTime(), debugText);
+                m_settings->debugOut(QString("%1 | %2 | %3")
+                                     .arg(VN_S(VMTDNodeProtocolHandler))
+                                     .arg(name())
+                                     .arg(debugText));
             }
         }
         else
         {
             if (m_settings->nodeType() == VMTDNodeType::CLIENT)
             {
-                emit showDebugSignal(QTime::currentTime(), QString("Request received:\n")
-                                     + inputDoc.toJson(QJsonDocument::JsonFormat::Indented));
+                const auto debugText = QString("Request received:\n")
+                                       + inputDoc.toJson(QJsonDocument::JsonFormat::Indented);
+                emit showDebugSignal(QTime::currentTime(), debugText);
+                m_settings->debugOut(QString("%1 | %2 | %3")
+                                     .arg(VN_S(VMTDNodeProtocolHandler))
+                                     .arg(name())
+                                     .arg(debugText));
             }
             else if (m_settings->nodeType() == VMTDNodeType::SERVER)
             {
-                emit showDebugSignal(QTime::currentTime(), QString("Response received:\n")
-                                     + inputDoc.toJson(QJsonDocument::JsonFormat::Indented));
+                const auto debugText = QString("Response received:\n")
+                                       + inputDoc.toJson(QJsonDocument::JsonFormat::Indented);
+                emit showDebugSignal(QTime::currentTime(), debugText);
+                m_settings->debugOut(QString("%1 | %2 | %3")
+                                     .arg(VN_S(VMTDNodeProtocolHandler))
+                                     .arg(name())
+                                     .arg(debugText));
             }
 
             if (inputDoc.isObject())
@@ -197,8 +228,13 @@ namespace VMTDLib
         {
             emit sendMessageSignal(socket, outputDoc.toJson(QJsonDocument::JsonFormat::Indented));
 
-            emit showDebugSignal(QTime::currentTime(), QString("Response sent:\n")
-                                 + outputDoc.toJson(QJsonDocument::JsonFormat::Indented));
+            const auto debugText = QString("Response sent:\n")
+                                   + outputDoc.toJson(QJsonDocument::JsonFormat::Indented);
+            emit showDebugSignal(QTime::currentTime(), debugText);
+            m_settings->debugOut(QString("%1 | %2 | %3")
+                                 .arg(VN_S(VMTDNodeProtocolHandler))
+                                 .arg(name())
+                                 .arg(debugText));
         }
     }
 
@@ -235,9 +271,8 @@ namespace VMTDLib
 
         isValid &= response.size() >= 2;
         isValid &= response.contains("jsonrpc") && response["jsonrpc"].toString() == "2.0";
-        isValid &= response.contains("result") || response.contains("error");
 
-        if (isValid && response.contains("error") && response["error"].isObject())
+        if (response.contains("error") && response["error"].isObject())
         {
             const auto errorObj = response["error"].toObject();
 
@@ -247,9 +282,13 @@ namespace VMTDLib
             isValid &= errorObj.contains("message");
             isValid &= errorObj["message"].isString();
         }
+        else if (response.contains("result"))
+        {
+            isValid = true;
+        }
         else
         {
-            return false;
+            isValid = false;
         }
 
         return isValid;
@@ -285,9 +324,16 @@ namespace VMTDLib
         if (m_device != nullptr)
             m_device->setOnline(true);
 
+        m_ticketTimeoutTimer.stop();
+
         if (!isResponse(response))
         {
-            emit showDebugSignal(QTime::currentTime(), QString("Handling response error: Invalid response\n"));
+            const auto debugText = QString("Handling response error: Invalid response");
+            emit showDebugSignal(QTime::currentTime(), debugText);
+            m_settings->debugOut(QString("%1 | %2 | %3")
+                                 .arg(VN_S(VMTDNodeProtocolHandler))
+                                 .arg(name())
+                                 .arg(debugText));
         }
         else
         {
@@ -295,8 +341,12 @@ namespace VMTDLib
             {
                 const auto errorObj = response["error"].toObject();
 
-                emit showDebugSignal(QTime::currentTime(), QString("Response error: %1\n")
-                                     .arg(errorObj["message"].toString()));
+                const auto debugText = QString("Response error: %1\n").arg(errorObj["message"].toString());
+                emit showDebugSignal(QTime::currentTime(), debugText);
+                m_settings->debugOut(QString("%1 | %2 | %3")
+                                     .arg(VN_S(VMTDNodeProtocolHandler))
+                                     .arg(name())
+                                     .arg(debugText));
             }
             else if (response.contains("result"))
             {
@@ -304,15 +354,26 @@ namespace VMTDLib
                 {
                     bool isOk = response["result"].toBool();
 
-                    emit showDebugSignal(QTime::currentTime(), QString("Request handled %1!")
-                                         .arg(isOk ? "successful" : "with error"));
+                    const auto debugText = QString("Request handled %1!").arg(isOk ? "successful" : "with error");
+                    emit showDebugSignal(QTime::currentTime(), debugText);
+                    m_settings->debugOut(QString("%1 | %2 | %3")
+                                         .arg(VN_S(VMTDNodeProtocolHandler))
+                                         .arg(name())
+                                         .arg(debugText));
                 }
                 else
                 {
-                    emit showDebugSignal(QTime::currentTime(), QString("Request handled but result is unknown!"));
+                    const auto debugText = QString("Request handled but result is unknown!");
+                    emit showDebugSignal(QTime::currentTime(), debugText);
+                    m_settings->debugOut(QString("%1 | %2 | %3")
+                                         .arg(VN_S(VMTDNodeProtocolHandler))
+                                         .arg(name())
+                                         .arg(debugText));
                 }
             }
         }
+
+        m_queueState = EnQueueState::READY_TO_SEND;
     }
     void VMTDNodeProtocolHandler::handleClient(const QJsonObject &request, QJsonObject &response)
     {
@@ -320,8 +381,12 @@ namespace VMTDLib
         {
             const auto error = EnError::INVALID_REQUEST;
 
-            emit showDebugSignal(QTime::currentTime(), QString("Handling request error: %1\n")
-                                 .arg(enErrorToS(error)));
+            const auto debugText = QString("Handling request error: %1\n").arg(enErrorToS(error));
+            emit showDebugSignal(QTime::currentTime(), debugText);
+            m_settings->debugOut(QString("%1 | %2 | %3")
+                                 .arg(VN_S(VMTDNodeProtocolHandler))
+                                 .arg(name())
+                                 .arg(debugText));
 
             response = buildError(request["id"], (int)error, enErrorToS(error));
         }
@@ -333,8 +398,12 @@ namespace VMTDLib
             {
                 const auto error = EnError::METHOD_NOT_FOUND;
 
-                emit showDebugSignal(QTime::currentTime(), QString("Handling request error: %1\n")
-                                     .arg(enErrorToS(error)));
+                const auto debugText = QString("Handling request error: %1\n").arg(enErrorToS(error));
+                emit showDebugSignal(QTime::currentTime(), debugText);
+                m_settings->debugOut(QString("%1 | %2 | %3")
+                                     .arg(VN_S(VMTDNodeProtocolHandler))
+                                     .arg(name())
+                                     .arg(debugText));
 
                 response = buildError(request["id"], (int)error, enErrorToS(error));
             }
@@ -355,8 +424,12 @@ namespace VMTDLib
                     {
                         const auto error = EnError::INVALID_PARAMS;
 
-                        emit showDebugSignal(QTime::currentTime(), QString("Handling request error: %1\n")
-                                             .arg(enErrorToS(error)));
+                        const auto debugText = QString("Handling request error: %1\n").arg(enErrorToS(error));
+                        emit showDebugSignal(QTime::currentTime(), debugText);
+                        m_settings->debugOut(QString("%1 | %2 | %3")
+                                             .arg(VN_S(VMTDNodeProtocolHandler))
+                                             .arg(name())
+                                             .arg(debugText));
 
                         response = buildError(request["id"], (int)error, enErrorToS(error));
 
@@ -369,6 +442,13 @@ namespace VMTDLib
                 if (isValid)
                 {
                     bool result = false;
+
+                    const auto debugText = QString("Method is valid: %1\n").arg(method);
+                    emit showDebugSignal(QTime::currentTime(), debugText);
+                    m_settings->debugOut(QString("%1 | %2 | %3")
+                                         .arg(VN_S(VMTDNodeProtocolHandler))
+                                         .arg(name())
+                                         .arg(debugText));
 
                     emit handleMethodSignal(method, params, result);
 
@@ -388,8 +468,14 @@ namespace VMTDLib
 
         QJsonDocument outputDoc = m_messages.dequeue();
 
-        emit showDebugSignal(QTime::currentTime(), QString("Message sent:\n")
-                             + outputDoc.toJson(QJsonDocument::JsonFormat::Indented));
+        const auto debugText = QString("Message sent:\n")
+                               + outputDoc.toJson(QJsonDocument::JsonFormat::Indented);
+        emit showDebugSignal(QTime::currentTime(), debugText);
+        m_settings->debugOut(QString("%1 | %2 | %3")
+                             .arg(VN_S(VMTDNodeProtocolHandler))
+                             .arg(name())
+                             .arg(debugText));
+
         emit sendMessageSignal(m_socket, outputDoc.toJson(QJsonDocument::JsonFormat::Indented));
 
         m_ticketTimeoutTimer.start();
@@ -402,6 +488,11 @@ namespace VMTDLib
         if (m_device != nullptr)
             m_device->setOnline(false);
 
-        emit showDebugSignal(QTime::currentTime(), "Response not received");
+        const auto debugText = QString("Response not received");
+        emit showDebugSignal(QTime::currentTime(), debugText);
+        m_settings->debugOut(QString("%1 | %2 | %3")
+                             .arg(VN_S(VMTDNodeProtocolHandler))
+                             .arg(name())
+                             .arg(debugText));
     }
 }

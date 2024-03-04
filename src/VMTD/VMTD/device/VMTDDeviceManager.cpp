@@ -106,6 +106,10 @@ namespace VMTDLib
     }
     VMTDNodeDevice *VMTDDeviceManager::nodeDevice(const QString &ip) const
     {
+        m_settings->debugOut(QString("%1 | Finding node device by ip: %2...")
+                             .arg(VN_S(VMTDDeviceManager))
+                             .arg(ip));
+
         // *INDENT-OFF*
         auto res = std::find_if(m_nodeDevices.begin(), m_nodeDevices.end(),
                                 [ip](VMTDNodeDevice *nodeDevice)
@@ -115,8 +119,15 @@ namespace VMTDLib
         // *INDENT-ON*
 
         if (res == m_nodeDevices.end())
+        {
+            m_settings->debugOut(QString("%1 | Node device not found!")
+                                 .arg(VN_S(VMTDDeviceManager)));
             return nullptr;
+        }
 
+        m_settings->debugOut(QString("%1 | Node device was found: %2")
+                             .arg(VN_S(VMTDDeviceManager))
+                             .arg((*res)->name()));
         return *res;
     }
     bool VMTDDeviceManager::addNodeDevice()
@@ -154,6 +165,10 @@ namespace VMTDLib
     }
     VMTDNxApiDevice *VMTDDeviceManager::nxApiDevice(const QUrl &url) const
     {
+        m_settings->debugOut(QString("%1 | Finding NX-API device by url: %2...")
+                             .arg(VN_S(VMTDDeviceManager))
+                             .arg(url.toString(QUrl::RemoveUserInfo)));
+
         // *INDENT-OFF*
         auto res = std::find_if(m_nxApiDevices.begin(), m_nxApiDevices.end(),
                                 [url](VMTDNxApiDevice *nxApiDevice)
@@ -164,8 +179,15 @@ namespace VMTDLib
         // *INDENT-ON*
 
         if (res == m_nxApiDevices.end())
+        {
+            m_settings->debugOut(QString("%1 | NX-API device not found!")
+                                 .arg(VN_S(VMTDDeviceManager)));
             return nullptr;
+        }
 
+        m_settings->debugOut(QString("%1 | NX-API device was found: %2")
+                             .arg(VN_S(VMTDDeviceManager))
+                             .arg((*res)->name()));
         return *res;
     }
     bool VMTDDeviceManager::addNxApiDevice()
