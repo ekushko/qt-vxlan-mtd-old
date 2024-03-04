@@ -82,10 +82,18 @@ namespace VMTDLib
         return m_handlers.values();
     }
 
-    void VMTDProtocol::showFormSlot(QWidget *parent)
+    void VMTDProtocol::showFormSlot()
     {
+        auto mainWidget = m_settings->mainWidget();
+
         if (m_form == nullptr)
-            m_form = new VMTDProtocolForm(parent, this);
+            m_form = new VMTDProtocolForm(mainWidget, this);
+
+        if (mainWidget != nullptr)
+        {
+            mainWidget->addWidget(m_form);
+            mainWidget->setCurrentWidget(m_form);
+        }
 
         m_form->show();
         m_form->raise();

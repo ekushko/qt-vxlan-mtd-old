@@ -76,7 +76,7 @@ void MainWindow::pbQuickStartClicked()
     m_controller->startController();
 
     if (m_runType != EnRunType::TRAY_MODE)
-        m_controller->showFormSlot();
+        m_controller->showMainFormSlot();
 
     QTimer::singleShot(500, [this]()
     {

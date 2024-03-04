@@ -72,8 +72,16 @@ namespace VMTDLib
 
     void VMTDNodeDevice::showFormSlot()
     {
+        auto mainWidget = m_settings->mainWidget();
+
         if (m_form == nullptr)
-            m_form = new VMTDNodeDeviceForm(nullptr, this);
+            m_form = new VMTDNodeDeviceForm(mainWidget, this);
+
+        if (mainWidget != nullptr)
+        {
+            mainWidget->addWidget(m_form);
+            mainWidget->setCurrentWidget(m_form);
+        }
 
         m_form->show();
         m_form->raise();

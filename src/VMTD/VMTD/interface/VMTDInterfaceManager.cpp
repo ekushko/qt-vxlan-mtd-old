@@ -127,8 +127,16 @@ namespace VMTDLib
 
     void VMTDInterfaceManager::showFormSlot()
     {
+        auto mainWidget = m_settings->mainWidget();
+
         if (m_form == nullptr)
-            m_form = new VMTDInterfaceManagerForm(nullptr, this);
+            m_form = new VMTDInterfaceManagerForm(mainWidget, this);
+
+        if (mainWidget != nullptr)
+        {
+            mainWidget->addWidget(m_form);
+            mainWidget->setCurrentWidget(m_form);
+        }
 
         m_form->show();
         m_form->raise();

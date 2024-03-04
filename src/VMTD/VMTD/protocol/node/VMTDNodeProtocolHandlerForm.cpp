@@ -24,6 +24,8 @@ namespace VMTDLib
 
         m_handlerForm = new VMTDProtocolHandlerForm(ui->gbProtocolHandler, m_handler);
 
+        connect(ui->pbClose, &QPushButton::clicked,
+                this, &VMTDNodeProtocolHandlerForm::close);
         connect(ui->pbCheckConnection, &QPushButton::clicked,
                 m_handler, &VMTDNodeProtocolHandler::checkConnectionSlot);
         connect(this, &VMTDNodeProtocolHandlerForm::appendRequestsSignal,

@@ -42,7 +42,8 @@ namespace VMTDLib
 
     void VMTDParticipantForm::initializeView()
     {
-        // do nothing
+        connect(ui->pbClose, &QPushButton::clicked,
+                this, &VMTDParticipantForm::close);
     }
 
     void VMTDParticipantForm::updateView()

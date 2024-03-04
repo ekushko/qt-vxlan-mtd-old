@@ -63,6 +63,9 @@ namespace VMTDLib
 
     void VMTDNodeDeviceForm::initializeView()
     {
+        connect(ui->pbClose, &QPushButton::clicked,
+                this, &VMTDNodeDeviceForm::close);
+
         connect(ui->pbInterfaces, &QPushButton::clicked,
                 m_device->interfaceManager(), &VMTDInterfaceManager::showFormSlot);
 

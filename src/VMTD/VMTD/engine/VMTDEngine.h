@@ -45,7 +45,7 @@ namespace VMTDLib
 
         void mixSlot();
 
-        void showFormSlot(QWidget *parent);
+        void showFormSlot();
 
     private:
 

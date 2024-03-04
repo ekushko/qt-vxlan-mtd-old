@@ -63,6 +63,9 @@ namespace VMTDLib
 
     void VMTDInterfaceManagerForm::initializeView()
     {
+        connect(ui->pbClose, &QPushButton::clicked,
+                this, &VMTDInterfaceManagerForm::close);
+
         for (auto interface : m_manager->interfaces())
         {
             auto form = new VMTDInterfaceForm(ui->wInterfaces, interface);

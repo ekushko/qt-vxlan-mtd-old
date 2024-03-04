@@ -38,6 +38,9 @@ namespace VMTDLib
 
     void VMTDConnectionManagerForm::initializeView()
     {
+        connect(ui->pbClose, &QPushButton::clicked,
+                this, &VMTDConnectionManagerForm::close);
+
         connect(ui->pbSave, &QPushButton::clicked,
                 m_manager, &VMTDConnectionManager::saveSlot);
         connect(ui->pbLoad, &QPushButton::clicked,

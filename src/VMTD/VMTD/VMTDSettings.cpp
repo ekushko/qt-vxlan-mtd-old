@@ -15,6 +15,7 @@ namespace VMTDLib
     {
         // системные параметры
 
+        m_mainWidget = nullptr;
         m_nodeType = EnNodeType::CLIENT;
         m_debugName = "VMTD";
         m_shouldShowDebug = true;
@@ -241,6 +242,14 @@ namespace VMTDLib
         }
     }
 
+    QStackedWidget *VMTDSettings::mainWidget() const
+    {
+        return m_mainWidget;
+    }
+    void VMTDSettings::setMainWidget(QStackedWidget *mainWidget)
+    {
+        m_mainWidget = mainWidget;
+    }
 
     VMTDSettings::EnNodeType VMTDSettings::nodeType() const
     {
@@ -439,7 +448,13 @@ namespace VMTDLib
     void VMTDSettings::showFormSlot()
     {
         if (m_form == nullptr)
-            m_form = new VMTDSettingsForm(nullptr, this);
+            m_form = new VMTDSettingsForm(m_mainWidget, this);
+
+        if (m_mainWidget != nullptr)
+        {
+            m_mainWidget->addWidget(m_form);
+            m_mainWidget->setCurrentWidget(m_form);
+        }
 
         m_form->show();
         m_form->raise();

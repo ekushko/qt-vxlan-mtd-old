@@ -42,7 +42,8 @@ namespace VMTDLib
 
     void VMTDConfiguratorForm::initializeView()
     {
-        // do nothing
+        connect(ui->pbClose, &QPushButton::clicked,
+                this, &VMTDConfiguratorForm::close);
     }
 
     void VMTDConfiguratorForm::updateView()

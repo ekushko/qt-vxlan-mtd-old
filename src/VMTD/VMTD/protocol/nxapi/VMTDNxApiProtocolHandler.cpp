@@ -52,10 +52,18 @@ namespace VMTDLib
         return m_queue.length();
     }
 
-    void VMTDNxApiProtocolHandler::showFormSlot(QWidget *parent)
+    void VMTDNxApiProtocolHandler::showFormSlot()
     {
+        auto mainWidget = m_settings->mainWidget();
+
         if (m_form == nullptr)
-            m_form = new VMTDNxApiProtocolHandlerForm(parent, this);
+            m_form = new VMTDNxApiProtocolHandlerForm(mainWidget, this);
+
+        if (mainWidget != nullptr)
+        {
+            mainWidget->addWidget(m_form);
+            mainWidget->setCurrentWidget(m_form);
+        }
 
         m_form->show();
         m_form->raise();

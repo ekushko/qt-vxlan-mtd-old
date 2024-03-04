@@ -30,7 +30,7 @@ namespace VMTDLib
 
     private slots:
 
-        void showControllerFormSlot();
+        void showMainFormSlot();
         void showSettingsFormSlot();
         void exitSlot();
     };

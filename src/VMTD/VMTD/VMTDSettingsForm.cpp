@@ -19,6 +19,8 @@ namespace VMTDLib
 
         CB_FILL_MAP(ui->cbNodeType, VMTDSettings::enNodeTypeToL());
 
+        connect(ui->pbClose, &QPushButton::clicked, this, &VMTDSettingsForm::close);
+
         connect(ui->pbSave, &QPushButton::clicked, this, &VMTDSettingsForm::pbSaveClicked);
         connect(ui->pbLoad, &QPushButton::clicked, this, &VMTDSettingsForm::pbLoadClicked);
 

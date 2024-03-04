@@ -28,7 +28,7 @@ namespace VMTDLib
 
         void handleMethodSlot(const QString &method, const QJsonObject &params, bool &result);
 
-        void showFormSlot(QWidget *parent = nullptr);
+        void showFormSlot();
 
     private:
 

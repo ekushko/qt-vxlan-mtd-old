@@ -47,6 +47,9 @@ namespace VMTDLib
 
     void VMTDProtocolForm::initializeView()
     {
+        connect(ui->pbClose, &QPushButton::clicked,
+                this, &VMTDProtocolForm::close);
+
         connect(ui->lwNxApiHandlers, &QListWidget::itemDoubleClicked,
                 this, &VMTDProtocolForm::lwNxApiHandlersItemDoubleClicked);
 
@@ -95,7 +98,7 @@ namespace VMTDLib
         if (index >= m_protocol->nxApiHandlers().size())
             return;
 
-        m_protocol->nxApiHandlers().at(index)->showFormSlot(nullptr);
+        m_protocol->nxApiHandlers().at(index)->showFormSlot();
     }
     void VMTDProtocolForm::lwNodeHandlersItemDoubleClicked(QListWidgetItem *item)
     {
@@ -104,6 +107,6 @@ namespace VMTDLib
         if (index >= m_protocol->nodeHandlers().size())
             return;
 
-        m_protocol->nodeHandlers().at(index)->showFormSlot(nullptr);
+        m_protocol->nodeHandlers().at(index)->showFormSlot();
     }
 }

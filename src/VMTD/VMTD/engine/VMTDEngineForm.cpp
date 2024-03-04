@@ -46,6 +46,8 @@ namespace VMTDLib
                 m_engine, &VMTDEngine::mixSlot);
         connect(m_engine, &VMTDEngine::mixedSignal,
                 this, &VMTDEngineForm::mixedSlot);
+        connect(ui->pbClose, &QPushButton::clicked,
+                this, &VMTDEngineForm::close);
     }
 
     void VMTDEngineForm::updateView()
@@ -106,8 +108,8 @@ namespace VMTDLib
         const auto index = item->text(1).toInt();
 
         if (item->parent()->text(0) == "Gateways")
-            m_engine->gateways().at(index)->showFormSlot(nullptr);
+            m_engine->gateways().at(index)->showFormSlot();
         else if (item->parent()->text(0) == "Participants")
-            m_engine->participants().at(index)->showFormSlot(nullptr);
+            m_engine->participants().at(index)->showFormSlot();
     }
 }

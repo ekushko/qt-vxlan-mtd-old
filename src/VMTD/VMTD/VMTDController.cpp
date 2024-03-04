@@ -1,6 +1,8 @@
 #include "VMTDController.h"
 #include "VMTDControllerForm.h"
 
+#include "VMTDMainForm.h"
+
 #include "VMTDRepo.h"
 
 #include <QCoreApplication>
@@ -32,6 +34,9 @@ namespace VMTDLib
 
         if (isRunning())
             stopController();
+
+        if (m_mainForm != nullptr)
+            delete m_mainForm;
 
         if (m_form != nullptr)
             delete m_form;
@@ -89,10 +94,28 @@ namespace VMTDLib
         return m_configurator;
     }
 
+    void VMTDController::showMainFormSlot()
+    {
+        if (m_mainForm == nullptr)
+            m_mainForm = new VMTDMainForm(nullptr, this);
+
+        m_mainForm->show();
+        m_mainForm->raise();
+        m_mainForm->activateWindow();
+    }
+
     void VMTDController::showFormSlot()
     {
+        auto mainWidget = m_settings->mainWidget();
+
         if (m_form == nullptr)
-            m_form = new VMTDControllerForm(nullptr, this);
+            m_form = new VMTDControllerForm(mainWidget, this);
+
+        if (mainWidget != nullptr)
+        {
+            mainWidget->addWidget(m_form);
+            mainWidget->setCurrentWidget(m_form);
+        }
 
         m_form->show();
         m_form->raise();

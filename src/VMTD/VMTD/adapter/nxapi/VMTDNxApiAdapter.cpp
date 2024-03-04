@@ -1,5 +1,4 @@
 #include "VMTDNxApiAdapter.h"
-#include "VMTDNxApiAdapterForm.h"
 
 #include "../../VMTDRepo.h"
 
@@ -29,8 +28,7 @@ namespace VMTDLib
     {
         m_settings->creationOut(VN_S(VMTDNxApiAdapter) + " | Destructor called");
 
-        if (m_form != nullptr)
-            m_form->deleteLater();
+        // do nothing
 
         m_settings->creationOut(VN_S(VMTDNxApiAdapter) + " | Destructor finished");
     }
@@ -67,16 +65,6 @@ namespace VMTDLib
     void VMTDNxApiAdapter::setUrl(const QUrl &url)
     {
         m_url = url;
-    }
-
-    void VMTDNxApiAdapter::showFormSlot()
-    {
-        if (m_form == nullptr)
-            m_form = new VMTDNxApiAdapterForm(nullptr, this);
-
-        m_form->show();
-        m_form->raise();
-        m_form->activateWindow();
     }
 
     void VMTDNxApiAdapter::checkConnectionSlot()

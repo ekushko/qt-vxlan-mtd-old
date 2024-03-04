@@ -45,10 +45,18 @@ namespace VMTDLib
         return m_adapters;
     }
 
-    void VMTDNxApiServer::showFormSlot(QWidget *parent)
+    void VMTDNxApiServer::showFormSlot()
     {
+        auto mainWidget = m_settings->mainWidget();
+
         if (m_form == nullptr)
-            m_form = new VMTDNxApiServerForm(parent, this);
+            m_form = new VMTDNxApiServerForm(mainWidget, this);
+
+        if (mainWidget != nullptr)
+        {
+            mainWidget->addWidget(m_form);
+            mainWidget->setCurrentWidget(m_form);
+        }
 
         m_form->show();
         m_form->raise();

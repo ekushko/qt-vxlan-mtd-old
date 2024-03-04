@@ -42,12 +42,6 @@ namespace VMTDLib
 
     void VMTDControllerForm::initializeView()
     {
-        ui->lbVersion->setText(QString("Library %1: %2 from %3")
-                               .arg(VMTDBuildInfo::filename())
-                               .arg(VMTDBuildInfo::version())
-                               .arg(VMTDBuildInfo::dateTime()
-                                    .toString("dd-MM-yyyy hh:mm:ss")));
-
         if (m_settings->nodeType() == VMTDNodeType::SERVER)
             ui->wClient->hide();
         else
@@ -96,12 +90,12 @@ namespace VMTDLib
 
     void VMTDControllerForm::pbDevicesClicked()
     {
-        m_controller->deviceManager()->showFormSlot(nullptr);
+        m_controller->deviceManager()->showFormSlot();
     }
 
     void VMTDControllerForm::pbConnectionsClicked()
     {
-        m_controller->connectionManager()->showFormSlot(nullptr);
+        m_controller->connectionManager()->showFormSlot();
     }
 
     void VMTDControllerForm::pbSettingsClicked()
@@ -112,33 +106,33 @@ namespace VMTDLib
     void VMTDControllerForm::pbProtocolClicked()
     {
         if (m_settings->nodeType() == VMTDNodeType::SERVER)
-            m_controller->protocol()->showFormSlot(nullptr);
+            m_controller->protocol()->showFormSlot();
         else
-            m_controller->protocol()->handlers().at(0)->showFormSlot(nullptr);
+            m_controller->protocol()->handlers().at(0)->showFormSlot();
     }
 
     void VMTDControllerForm::pbEngineClicked()
     {
-        m_controller->engine()->showFormSlot(nullptr);
+        m_controller->engine()->showFormSlot();
     }
 
     void VMTDControllerForm::pbConfiguratorClicked()
     {
-        m_controller->configurator()->showFormSlot(nullptr);
+        m_controller->configurator()->showFormSlot();
     }
 
     void VMTDControllerForm::pbNxApiServerClicked()
     {
-        m_controller->nxApiServer()->showFormSlot(nullptr);
+        m_controller->nxApiServer()->showFormSlot();
     }
 
     void VMTDControllerForm::pbNodeServerClicked()
     {
-        m_controller->nodeServer()->showFormSlot(nullptr);
+        m_controller->nodeServer()->showFormSlot();
     }
 
     void VMTDControllerForm::pbNodeClientClicked()
     {
-        m_controller->nodeClient()->showFormSlot(nullptr);
+        m_controller->nodeClient()->showFormSlot();
     }
 }

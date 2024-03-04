@@ -20,13 +20,13 @@ namespace VMTDLib
 
         m_trayIconMenu = new QMenu(this);
 
-        auto showFormAction = new QAction("Menu", m_trayIconMenu);
-        connect(showFormAction, &QAction::triggered, this, &VMTDTray::showControllerFormSlot);
-        m_trayIconMenu->addAction(showFormAction);
+        auto showMainFormAction = new QAction("Main", m_trayIconMenu);
+        connect(showMainFormAction, &QAction::triggered, this, &VMTDTray::showMainFormSlot);
+        m_trayIconMenu->addAction(showMainFormAction);
 
-        auto inspectModeAction = new QAction("Settings", m_trayIconMenu);
-        connect(inspectModeAction, &QAction::triggered, this, &VMTDTray::showSettingsFormSlot);
-        m_trayIconMenu->addAction(inspectModeAction);
+        auto settingsFormAction = new QAction("Settings", m_trayIconMenu);
+        connect(settingsFormAction, &QAction::triggered, this, &VMTDTray::showSettingsFormSlot);
+        m_trayIconMenu->addAction(settingsFormAction);
 
         auto quitAction = new QAction("Exit", m_trayIconMenu);
         connect(quitAction, &QAction::triggered, this, &VMTDTray::exitSlot);
@@ -55,9 +55,9 @@ namespace VMTDLib
         m_trayIcon->hide();
     }
 
-    void VMTDTray::showControllerFormSlot()
+    void VMTDTray::showMainFormSlot()
     {
-        m_controller->showFormSlot();
+        m_controller->showMainFormSlot();
     }
 
     void VMTDTray::showSettingsFormSlot()

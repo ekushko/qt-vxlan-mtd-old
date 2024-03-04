@@ -78,7 +78,7 @@
          <height>16777215</height>
         </size>
        </property>
-       <layout class="QHBoxLayout" name="hl_1">
+       <layout class="QVBoxLayout" name="verticalLayout">
         <property name="spacing">
          <number>6</number>
         </property>
@@ -95,66 +95,116 @@
          <number>9</number>
         </property>
         <item>
-         <widget class="QGroupBox" name="gbNxApiHandlers">
-          <property name="maximumSize">
-           <size>
-            <width>204</width>
-            <height>16777215</height>
-           </size>
+         <layout class="QHBoxLayout" name="hl_2">
+          <property name="topMargin">
+           <number>0</number>
           </property>
-          <property name="title">
-           <string>NX-API</string>
+          <property name="rightMargin">
+           <number>0</number>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_3">
-           <item>
-            <widget class="QListWidget" name="lwNxApiHandlers">
-             <property name="minimumSize">
-              <size>
-               <width>180</width>
-               <height>300</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>16777215</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
+          <item>
+           <widget class="QGroupBox" name="gbNxApiHandlers">
+            <property name="maximumSize">
+             <size>
+              <width>204</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="title">
+             <string>NX-API</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_3">
+             <item>
+              <widget class="QListWidget" name="lwNxApiHandlers">
+               <property name="minimumSize">
+                <size>
+                 <width>180</width>
+                 <height>300</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="gbNodeHandlers">
+            <property name="maximumSize">
+             <size>
+              <width>204</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="title">
+             <string>Node</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <widget class="QListWidget" name="lwNodeHandlers">
+               <property name="minimumSize">
+                <size>
+                 <width>180</width>
+                 <height>300</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
-         <widget class="QGroupBox" name="gbNodeHandlers">
-          <property name="maximumSize">
-           <size>
-            <width>204</width>
-            <height>16777215</height>
-           </size>
+         <layout class="QHBoxLayout" name="hl_1">
+          <property name="topMargin">
+           <number>0</number>
           </property>
-          <property name="title">
-           <string>Node</string>
-          </property>
-          <layout class="QVBoxLayout" name="verticalLayout_4">
-           <item>
-            <widget class="QListWidget" name="lwNodeHandlers">
-             <property name="minimumSize">
-              <size>
-               <width>180</width>
-               <height>300</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>16777215</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
+          <item>
+           <spacer name="_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pbClose">
+            <property name="text">
+             <string>Close</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="_6">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>

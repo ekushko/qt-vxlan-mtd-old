@@ -41,8 +41,6 @@ namespace VMTDLib
 
     public slots:
 
-        void showFormSlot();
-
         void checkConnectionSlot();
 
         void sendCommandSlot(const QStringList &command);
@@ -57,8 +55,6 @@ namespace VMTDLib
         VMTDSettings *m_settings;
 
         QNetworkAccessManager *m_netManager;
-
-        QPointer<VMTDNxApiAdapterForm> m_form;
 
         QUrl m_url;
 

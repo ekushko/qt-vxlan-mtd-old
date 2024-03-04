@@ -215,10 +215,18 @@ namespace VMTDLib
         return true;
     }
 
-    void VMTDDeviceManager::showFormSlot(QWidget *parent)
+    void VMTDDeviceManager::showFormSlot()
     {
+        auto mainWidget = m_settings->mainWidget();
+
         if (m_form == nullptr)
-            m_form = new VMTDDeviceManagerForm(parent, this);
+            m_form = new VMTDDeviceManagerForm(mainWidget, this);
+
+        if (mainWidget != nullptr)
+        {
+            mainWidget->addWidget(m_form);
+            mainWidget->setCurrentWidget(m_form);
+        }
 
         m_form->show();
         m_form->raise();

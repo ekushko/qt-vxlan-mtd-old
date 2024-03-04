@@ -17,6 +17,8 @@
 
 namespace VMTDLib
 {
+    class VMTDMainForm;
+
     class VMTDControllerForm;
 
     class VMTDController : public QThread
@@ -52,6 +54,8 @@ namespace VMTDLib
 
     public slots:
 
+        void showMainFormSlot();
+
         void showFormSlot();
 
         void startController();
@@ -63,6 +67,7 @@ namespace VMTDLib
 
     private:
 
+        QPointer<VMTDMainForm> m_mainForm;
         QPointer<VMTDControllerForm> m_form;
 
         VMTDSettings *m_settings;

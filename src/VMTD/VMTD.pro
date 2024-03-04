@@ -158,6 +158,7 @@ SOURCES += \
     VMTD/VMTDBuildInfo.cpp \
     VMTD/VMTDController.cpp \
     VMTD/VMTDControllerForm.cpp \
+    VMTD/VMTDMainForm.cpp \
     VMTD/VMTDRepo.cpp \
     VMTD/VMTDSettings.cpp \
     VMTD/VMTDSettingsForm.cpp \
@@ -209,6 +210,7 @@ HEADERS += \
     VMTD/VMTDController.h \
     VMTD/VMTDControllerForm.h \
     VMTD/VMTDDeclareShared.h \
+    VMTD/VMTDMainForm.h \
     VMTD/VMTDRepo.h \
     VMTD/VMTDSettings.h \
     VMTD/VMTDSettingsForm.h \
@@ -257,6 +259,7 @@ HEADERS += \
 FORMS += \
     MainWindow.ui \
     VMTD/VMTDControllerForm.ui \
+    VMTD/VMTDMainForm.ui \
     VMTD/VMTDSettingsForm.ui \
     VMTD/adapter/VMTDAdapterForm.ui \
     VMTD/adapter/node/VMTDNodeAdapterForm.ui \

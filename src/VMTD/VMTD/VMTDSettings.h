@@ -6,6 +6,7 @@
 #include <QJsonObject>
 #include <QPointer>
 #include <QMutex>
+#include <QStackedWidget>
 
 namespace VMTDLib
 {
@@ -51,6 +52,9 @@ namespace VMTDLib
         void apply();
 
         // СИСТЕМНЫЕ
+
+        QStackedWidget *mainWidget() const;
+        void         setMainWidget(QStackedWidget *mainWidget);
 
         EnNodeType nodeType() const;
         void    setNodeType(const EnNodeType &nodeType);
@@ -132,6 +136,7 @@ namespace VMTDLib
 
         QPointer<VMTDSettingsForm> m_form;
 
+        QStackedWidget *m_mainWidget;
         EnNodeType m_nodeType;
         const QString m_systemName;
         QString m_debugName;

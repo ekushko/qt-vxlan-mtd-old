@@ -21,6 +21,9 @@ namespace VMTDLib
         setAttribute(Qt::WA_DeleteOnClose, true);
         setWindowTitle("Device Manager");
 
+        connect(ui->pbClose, &QPushButton::clicked,
+                this, &VMTDDeviceManagerForm::close);
+
         connect(ui->pbSave, &QPushButton::clicked,
                 m_net, &VMTDDeviceManager::saveSlot);
         connect(ui->pbLoad, &QPushButton::clicked,

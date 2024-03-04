@@ -99,10 +99,18 @@ namespace VMTDLib
                              .arg(method));
     }
 
-    void VMTDConfigurator::showFormSlot(QWidget *parent)
+    void VMTDConfigurator::showFormSlot()
     {
+        auto mainWidget = m_settings->mainWidget();
+
         if (m_form == nullptr)
-            m_form = new VMTDConfiguratorForm(parent, this);
+            m_form = new VMTDConfiguratorForm(mainWidget, this);
+
+        if (mainWidget != nullptr)
+        {
+            mainWidget->addWidget(m_form);
+            mainWidget->setCurrentWidget(m_form);
+        }
 
         m_form->show();
         m_form->raise();

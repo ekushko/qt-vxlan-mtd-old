@@ -245,10 +245,18 @@ namespace VMTDLib
         m_hosts.append(host);
     }
 
-    void VMTDParticipant::showFormSlot(QWidget *parent)
+    void VMTDParticipant::showFormSlot()
     {
+        auto mainWidget = m_settings->mainWidget();
+
         if (m_form == nullptr)
-            m_form = new VMTDParticipantForm(parent, this);
+            m_form = new VMTDParticipantForm(mainWidget, this);
+
+        if (mainWidget != nullptr)
+        {
+            mainWidget->addWidget(m_form);
+            mainWidget->setCurrentWidget(m_form);
+        }
 
         m_form->show();
         m_form->raise();

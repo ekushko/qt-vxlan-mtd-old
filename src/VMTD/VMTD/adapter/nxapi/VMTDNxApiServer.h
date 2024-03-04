@@ -30,7 +30,7 @@ namespace VMTDLib
 
     public slots:
 
-        void showFormSlot(QWidget *parent);
+        void showFormSlot();
 
         void   startListenSlot();
         void    stopListenSlot();

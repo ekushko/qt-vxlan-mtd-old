@@ -211,10 +211,18 @@ namespace VMTDLib
         return qMakePair(_connectedDevice, _connectedInterface);
     }
 
-    void VMTDConnectionManager::showFormSlot(QWidget *parent)
+    void VMTDConnectionManager::showFormSlot()
     {
+        auto mainWidget = m_settings->mainWidget();
+
         if (m_form == nullptr)
-            m_form = new VMTDConnectionManagerForm(parent, this);
+            m_form = new VMTDConnectionManagerForm(mainWidget, this);
+
+        if (mainWidget != nullptr)
+        {
+            mainWidget->addWidget(m_form);
+            mainWidget->setCurrentWidget(m_form);
+        }
 
         m_form->show();
         m_form->raise();
