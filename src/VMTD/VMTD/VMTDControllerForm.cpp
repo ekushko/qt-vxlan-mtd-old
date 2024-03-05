@@ -140,6 +140,9 @@ namespace VMTDLib
 
     void VMTDControllerForm::pbExitClicked()
     {
-        qApp->exit();
+        if (!m_settings->isTrayMode())
+            qApp->exit();
+        else
+            close();
     }
 }

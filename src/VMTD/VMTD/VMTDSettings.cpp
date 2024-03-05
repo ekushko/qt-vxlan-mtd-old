@@ -21,6 +21,7 @@ namespace VMTDLib
         m_shouldShowDebug = true;
         m_shouldShowDebugCreation = false;
         m_shouldShowFullScreen = true;
+        m_isTrayMode = false;
 
         // параметры сервера
 
@@ -308,6 +309,15 @@ namespace VMTDLib
     void VMTDSettings::setShouldShowFullScreen(bool shouldShowFullScreen)
     {
         m_shouldShowFullScreen = shouldShowFullScreen;
+    }
+
+    bool VMTDSettings::isTrayMode() const
+    {
+        return m_isTrayMode;
+    }
+    void VMTDSettings::setTrayMode(bool isTrayMode)
+    {
+        m_isTrayMode = isTrayMode;
     }
 
 

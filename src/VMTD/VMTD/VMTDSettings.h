@@ -73,6 +73,9 @@ namespace VMTDLib
         bool    shouldShowFullScreen() const;
         void setShouldShowFullScreen(bool shouldShowFullScreen);
 
+        bool  isTrayMode() const;
+        void setTrayMode(bool isTrayMode);
+
         // ПАРАМЕТРЫ СЕРВЕРА
 
         int     localPort() const;
@@ -146,6 +149,7 @@ namespace VMTDLib
         bool m_shouldShowDebug;
         bool m_shouldShowDebugCreation;
         bool m_shouldShowFullScreen;
+        bool m_isTrayMode;
 
         QString m_serverIp;
         int     m_serverPort;

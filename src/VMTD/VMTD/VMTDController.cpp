@@ -49,6 +49,11 @@ namespace VMTDLib
         delete m_settings;
     }
 
+    QWidget *VMTDController::form() const
+    {
+        return m_form;
+    }
+
     VMTDSettings *VMTDController::settings() const
     {
         return m_settings;

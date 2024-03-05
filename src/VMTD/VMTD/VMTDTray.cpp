@@ -15,6 +15,8 @@ namespace VMTDLib
     {
         m_settings->creationOut(VN_S(VMTDTray) + " | Constructor called");
 
+        m_settings->setTrayMode(true);
+
         m_trayIcon = new QSystemTrayIcon(this);
         m_trayIcon->setIcon(QPixmap(":/favicon-tray.png"));
 

@@ -30,6 +30,8 @@ namespace VMTDLib
         VMTDController(QObject *parent, const QString &systemName);
         ~VMTDController();
 
+        QWidget *form() const;
+
         VMTDSettings *settings() const;
 
         VMTDNxApiServer *nxApiServer() const;

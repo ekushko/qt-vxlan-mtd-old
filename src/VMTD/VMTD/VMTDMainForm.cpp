@@ -18,6 +18,9 @@ namespace VMTDLib
         m_controller->settings()->setMainWidget(ui->stackedWidget);
         m_controller->showFormSlot();
 
+        connect(m_controller->form(), &QWidget::destroyed,
+                this, &VMTDMainForm::close);
+
         ui->lbVersion->setText(QString("Library %1: %2 from %3")
                                .arg(VMTDBuildInfo::filename())
                                .arg(VMTDBuildInfo::version())
