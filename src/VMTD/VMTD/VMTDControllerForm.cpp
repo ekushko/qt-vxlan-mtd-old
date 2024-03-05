@@ -42,10 +42,8 @@ namespace VMTDLib
 
     void VMTDControllerForm::initializeView()
     {
-        if (m_settings->nodeType() == VMTDNodeType::SERVER)
-            ui->wClient->hide();
-        else
-            ui->wServer->hide();
+        ui->wClient->setVisible(m_settings->nodeType() == VMTDNodeType::CLIENT);
+        ui->wServer->setVisible(m_settings->nodeType() == VMTDNodeType::SERVER);
 
         connect(ui->pbDevices, &QPushButton::clicked,
                 this, &VMTDControllerForm::pbDevicesClicked);

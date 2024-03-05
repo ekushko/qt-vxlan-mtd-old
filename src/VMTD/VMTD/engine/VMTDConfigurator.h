@@ -39,7 +39,8 @@ namespace VMTDLib
         bool handleSetupRoutes(const QJsonObject &params);
         bool handleSetupHosts(const QJsonObject &params);
 
-        bool handleClearInterface(const QJsonObject &params);
+        bool handleClearInterface1(const QJsonObject &params);
+        bool handleClearInterface2(const QJsonObject &params);
         bool handleClearRoutes(const QJsonObject &params);
         bool handleClearHosts(const QJsonObject &params);
 

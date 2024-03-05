@@ -64,6 +64,18 @@ namespace VMTDLib
         {
             result = handleSetupInterface1(params);
         }
+        else if (method == MTH_SETUP_INTERFACE_1_VLAN)
+        {
+            result = handleSetupInterface1Vlan(params);
+        }
+        else if (method == MTH_SETUP_INTERFACE_2)
+        {
+            result = handleSetupInterface2(params);
+        }
+        else if (method == MTH_SETUP_INTERFACE_2_VLAN)
+        {
+            result = handleSetupInterface2Vlan(params);
+        }
         else if (method == MTH_SETUP_ROUTES)
         {
             result = handleSetupRoutes(params);
@@ -74,7 +86,11 @@ namespace VMTDLib
         }
         else if (method == MTH_CLEAR_INTERFACE_1)
         {
-            result = handleClearInterface(params);
+            result = handleClearInterface1(params);
+        }
+        else if (method == MTH_CLEAR_INTERFACE_2)
+        {
+            result = handleClearInterface2(params);
         }
         else if (method == MTH_CLEAR_ROUTES)
         {
@@ -95,7 +111,7 @@ namespace VMTDLib
 
         m_settings->debugOut(QString("%1 | Method handled %2: %3")
                              .arg(VN_S(VMTDConfigurator))
-                             .arg(result ? "successfully" : " with error")
+                             .arg(result ? "successfully" : "with error")
                              .arg(method));
     }
 
@@ -119,7 +135,7 @@ namespace VMTDLib
 
     bool VMTDConfigurator::handleSetupInterface1(const QJsonObject &params)
     {
-        m_interface_1 = QString("auto %1"
+        m_interface_1 = QString("auto %1\n"
                                 "iface %1 inet static\n"
                                 "address %2\n"
                                 "netmask %3\n"
@@ -132,7 +148,7 @@ namespace VMTDLib
     }
     bool VMTDConfigurator::handleSetupInterface2(const QJsonObject &params)
     {
-        m_interface_2 = QString("auto %1"
+        m_interface_2 = QString("auto %1\n"
                                 "iface %1 inet static\n"
                                 "address %2\n"
                                 "netmask %3\n"
@@ -145,7 +161,7 @@ namespace VMTDLib
     }
     bool VMTDConfigurator::handleSetupInterface1Vlan(const QJsonObject &params)
     {
-        m_interface_1 = QString("auto %1.%2"
+        m_interface_1 = QString("auto %1.%2\n"
                                 "iface %1 inet static\n"
                                 "address %3\n"
                                 "netmask %4\n"
@@ -158,7 +174,7 @@ namespace VMTDLib
     }
     bool VMTDConfigurator::handleSetupInterface2Vlan(const QJsonObject &params)
     {
-        m_interface_2 = QString("auto %1.%2"
+        m_interface_2 = QString("auto %1.%2\n"
                                 "iface %1 inet static\n"
                                 "address %3\n"
                                 "netmask %4\n"
@@ -173,14 +189,19 @@ namespace VMTDLib
     {
         m_routes.clear();
 
-        for (auto jsonVal : params[PRM_ROUTES].toArray())
-        {
-            const auto jsonObj = jsonVal.toObject();
+        const auto &jsonArr = params[PRM_ROUTES].toArray();
 
-            m_routes.append(QString("%1 %2 via %3\n")
-                            .arg(PRM_NETWORK)
-                            .arg(PRM_MASK)
-                            .arg(PRM_GATEWAY));
+        if (!jsonArr.isEmpty())
+        {
+            for (auto jsonVal : params[PRM_ROUTES].toArray())
+            {
+                const auto jsonObj = jsonVal.toObject();
+
+                m_routes.append(QString("%1 %2 via %3\n")
+                                .arg(params[PRM_NETWORK].toString())
+                                .arg(params[PRM_MASK].toString())
+                                .arg(params[PRM_GATEWAY].toString()));
+            }
         }
 
         return true;
@@ -189,28 +210,36 @@ namespace VMTDLib
     {
         m_hosts.clear();
 
-        for (auto jsonVal : params[PRM_HOSTS].toArray())
-        {
-            const auto jsonObj = jsonVal.toObject();
+        const auto &jsonArr = params[PRM_HOSTS].toArray();
 
-            m_hosts.append(QString("%1 %2\n")
-                           .arg(PRM_IP)
-                           .arg(PRM_DOMAIN_NAME));
+        if (!jsonArr.isEmpty())
+        {
+            for (auto jsonVal : params[PRM_HOSTS].toArray())
+            {
+                const auto jsonObj = jsonVal.toObject();
+
+                m_hosts.append(QString("%1 %2\n")
+                               .arg(params[PRM_IP].toString())
+                               .arg(params[PRM_DOMAIN_NAME].toString()));
+            }
         }
 
         return true;
     }
 
-    bool VMTDConfigurator::handleClearInterface(const QJsonObject &params)
+    bool VMTDConfigurator::handleClearInterface1(const QJsonObject &params)
     {
-        if (params[PRM_INTERFACE] == "vmtd1")
-        {
-            m_interface_1.clear();
-        }
-        else if (params[PRM_INTERFACE] == "vmtd2")
-        {
-            m_interface_2.clear();
-        }
+        Q_UNUSED(params)
+
+        m_interface_1.clear();
+
+        return true;
+    }
+    bool VMTDConfigurator::handleClearInterface2(const QJsonObject &params)
+    {
+        Q_UNUSED(params)
+
+        m_interface_2.clear();
 
         return true;
     }
