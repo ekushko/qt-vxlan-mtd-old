@@ -47,4 +47,5 @@ Makefile*
 # QtCtreator CMake
 CMakeLists.txt.user*
 
+# Not ignore data folder
 !data/**/*
