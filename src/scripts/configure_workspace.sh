@@ -21,7 +21,7 @@ apt-get update && apt-get upgrade -y
 
 echo -e "\n\n------------SSH ENABLE-------------\n\n"
 
-apt-get install ssh
+apt-get install -y ssh
 
 ufw allow ssh
 
@@ -38,7 +38,7 @@ apt-get install -y net-tools iperf vlan wireshark
 
 echo -e "\n\n-------INSTALL QT LIBRARIES--------\n\n"
 
-apt-get install -y qtbase5-dev qt5-qmake libqt5websockets5 libqt5websockets5-dev
+apt-get install -y make cmake gcc g++ qtbase5-dev qt5-qmake libqt5websockets5 libqt5websockets5-dev
 
 # Скачивание проекта из репозитория
 
@@ -54,7 +54,7 @@ cp -R bin/VMTD ../
 
 echo -e "\n\n-----------INSTALL DAQ-------------\n\n"
 
-apt-get install -y build-essential gcc libpcre3-dev zlib1g-dev libluajit-5.1-dev libpcap-dev openssl libssl-dev libnfnetlink-dev libmnl-dev libnet1-dev libnetfilter-queue-dev libnghttp2-dev bison flex libdumbnet-dev liblzma-dev libntirpc-dev autotools-dev checkinstall cmake cpputest autoconf libtool pkg-config
+apt-get install -y build-essential libpcre3-dev zlib1g-dev libluajit-5.1-dev libpcap-dev openssl libssl-dev libnfnetlink-dev libmnl-dev libnet1-dev libnetfilter-queue-dev libnghttp2-dev bison flex libdumbnet-dev liblzma-dev libntirpc-dev autotools-dev checkinstall cpputest autoconf libtool pkg-config
 
 cp -R /usr/include/ntirpc/* /usr/include/rpc/
 cp -R /usr/include/ntirpc/rpc/* /usr/include/rpc/
