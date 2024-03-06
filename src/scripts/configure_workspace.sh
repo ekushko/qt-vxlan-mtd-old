@@ -23,6 +23,8 @@ echo -e "\n\n------------SSH ENABLE-------------\n\n"
 
 apt-get install ssh
 
+ufw allow ssh
+
 systemctl enable ssh
 systemctl start ssh
 
@@ -90,8 +92,6 @@ mkdir /etc/snort
 mkdir /usr/local/lib/snort_dynamicrules
 
 cp -R configuration/* /etc/snort/
-
-touch /etc/snort/sid-msg.map
 
 mkdir /var/log/snort
 mkdir /var/log/snort/archived_logs
