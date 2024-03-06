@@ -15,7 +15,7 @@ echo "Root rights found!"
 
 echo -e "\n\n------APT UPDATE AND UPGRADE-------\n\n"
 
-apt-get update && apt-get upgrade
+apt-get update && apt-get upgrade -y 
 
 # Установка SSH
 
@@ -32,13 +32,13 @@ systemctl start ssh
 
 echo -e "\n\n--------INSTALL NET TOOLS----------\n\n"
 
-apt-get install net-tools iperf vlan wireshark
+apt-get install -y net-tools iperf vlan wireshark
 
 # Установка Qt-библиотек
 
 echo -e "\n\n-------INSTALL QT LIBRARIES--------\n\n"
 
-apt-get install qtbase5-dev qt5-qmake libqt5websockets5 libqt5websockets5-dev
+apt-get install -y qtbase5-dev qt5-qmake libqt5websockets5 libqt5websockets5-dev
 
 # Скачивание проекта из репозитория
 
