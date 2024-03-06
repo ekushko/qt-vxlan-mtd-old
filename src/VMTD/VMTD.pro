@@ -12,7 +12,7 @@ TEMPLATE  = app
 CONFIG += debug_and_release
 CONFIG += build_all
 
-VERSION  = 0.0.0.1
+VERSION  = 0.0.0.2
 
 QMAKE_TARGET_PRODUCT      = Moving Target Defense by VXLAN
 QMAKE_TARGET_DESCRIPTION  = Moving Target Defense by VXLAN
