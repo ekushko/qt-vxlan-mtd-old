@@ -32,7 +32,7 @@ systemctl start ssh
 
 echo -e "\n\n--------INSTALL NET TOOLS----------\n\n"
 
-apt-get install -y net-tools iperf vlan wireshark
+apt-get install -y net-tools iperf vlan wireshark nmap
 
 # Установка Qt-библиотек
 
