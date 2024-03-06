@@ -52,7 +52,14 @@ cp -R bin/VMTD ../
 
 echo -e "\n\n-----------INSTALL DAQ-------------\n\n"
 
-apt-get install -y build-essential gcc libpcre3-dev zlib1g-dev libluajit-5.1-dev libpcap-dev openssl libssl-dev libnfnetlink-dev libmnl-dev libnet1-dev libnetfilter-queue-dev libnghttp2-dev bison flex libdumbnet-dev liblzma-dev autotools-dev checkinstall cmake cpputest autoconf libtool pkg-config
+apt-get install -y build-essential gcc libpcre3-dev zlib1g-dev libluajit-5.1-dev libpcap-dev openssl libssl-dev libnfnetlink-dev libmnl-dev libnet1-dev libnetfilter-queue-dev libnghttp2-dev bison flex libdumbnet-dev liblzma-dev libntirpc-dev autotools-dev checkinstall cmake cpputest autoconf libtool pkg-config
+
+cp -R /usr/include/ntirpc/* /usr/include/rpc/
+cp -R /usr/include/ntirpc/rpc/* /usr/include/rpc/
+cp -R /usr/include/ntirpc/misc/* /usr/include/misc/
+cp /usr/include/ntirpc/netconfig.h /usr/include/
+cp /usr/include/ntirpc/intrinsic.h /usr/include/
+cp /usr/include/ntirpc/reentrant.h /usr/include/
 
 cd data/daq-2.0.7
 
@@ -82,7 +89,7 @@ useradd snort -r -s /sbin/nologin -c SNORT_IDS -g snort
 mkdir /etc/snort
 mkdir /usr/local/lib/snort_dynamicrules
 
-cp configuration/* /etc/snort/
+cp -R configuration/* /etc/snort/
 
 touch /etc/snort/sid-msg.map
 
