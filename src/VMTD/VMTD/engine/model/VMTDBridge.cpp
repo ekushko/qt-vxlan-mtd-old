@@ -1,6 +1,6 @@
 #include "VMTDBridge.h"
 
-#include "../VMTDRepo.h"
+#include "../../VMTDRepo.h"
 
 namespace VMTDLib
 {

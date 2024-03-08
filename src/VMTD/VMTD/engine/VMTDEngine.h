@@ -4,8 +4,8 @@
 #include "../connection/VMTDConnectionManager.h"
 #include "../protocol/VMTDProtocol.h"
 
-#include "VMTDBridge.h"
-#include "VMTDGroup.h"
+#include "model/VMTDBridge.h"
+#include "model/VMTDGroup.h"
 
 namespace VMTDLib
 {

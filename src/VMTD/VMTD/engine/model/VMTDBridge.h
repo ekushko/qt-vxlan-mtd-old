@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../device/nxapi/VMTDNxApiDevice.h"
+#include "../../device/nxapi/VMTDNxApiDevice.h"
 
 namespace VMTDLib
 {

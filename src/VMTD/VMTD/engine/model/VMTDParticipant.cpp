@@ -1,7 +1,7 @@
 #include "VMTDParticipant.h"
 #include "VMTDParticipantForm.h"
 
-#include "../VMTDRepo.h"
+#include "../../VMTDRepo.h"
 
 #include <QJsonArray>
 

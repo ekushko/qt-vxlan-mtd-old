@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../device/node/VMTDNodeDevice.h"
+#include "../../device/node/VMTDNodeDevice.h"
 
 namespace VMTDLib
 {

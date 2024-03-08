@@ -39,6 +39,31 @@ namespace VMTDLib
         }
     };
 
+    static const QString VLAN_HEADER_TEMPLATE =
+    {
+        "vlans:\n"
+    };
+
+    static const QString VLAN_TEMPLATE =
+    {
+        "  vlan.%1:\n"
+        "    id: %1\n"
+        "    link: %2\n"
+        "    addresses: [%3/%4]\n"
+    };
+
+    static const QString ROUTE_HEADER_TEMPLATE =
+    {
+        "    routes:\n"
+    };
+
+    static const QString ROUTE_TEMPLATE =
+    {
+        "      - to: %1/%2\n"
+        "        via: %3\n"
+        "        metric: 100\n"
+    };
+
 #define MTH_SETUP_INTERFACE_1 VMTDMethod::methods().value(VMTDMethod::EnName::SETUP_INTERFACE_1)
 #define MTH_SETUP_INTERFACE_2 VMTDMethod::methods().value(VMTDMethod::EnName::SETUP_INTERFACE_2)
 #define MTH_SETUP_INTERFACE_1_VLAN VMTDMethod::methods().value(VMTDMethod::EnName::SETUP_INTERFACE_1_VLAN)

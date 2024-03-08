@@ -1,7 +1,7 @@
 #include    "VMTDParticipantForm.h"
 #include "ui_VMTDParticipantForm.h"
 
-#include "../VMTDRepo.h"
+#include "../../VMTDRepo.h"
 
 namespace VMTDLib
 {
