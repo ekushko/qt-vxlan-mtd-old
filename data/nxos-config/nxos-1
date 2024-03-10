@@ -1,0 +1,86 @@
+config t
+
+hostname NXOS01
+username admin password admin role network-admin
+
+boot nxos bootflash:nxos.9.3.10.bin
+
+int m0
+  ip address 172.16.138.201/24
+  no shutdown
+  
+vrf context management
+  ip route 0/0 172.16.138.254
+  
+feature nxapi
+
+feature ospf
+feature nv overlay
+feature vn-segment-vlan-based
+system jumbomtu 9216
+
+router ospf 10
+
+interface e1/1
+ no switchport
+ ip address 100.1.1.1/30
+ ip router ospf 10 area 0
+ no shutdown
+ 
+interface l0
+ ip address 10.10.10.10/32
+ ip router ospf 10 area 0
+
+vlan 2
+ vn-segment 200
+
+vlan 50
+ vn-segment 5000
+ 
+vlan 60
+ vn-segment 6000
+
+vlan 70
+ vn-segment 7000
+
+interface e1/2
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 2,50
+  no shutdown
+
+interface e1/3
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 2,50,60
+  no shutdown
+  
+interface e1/4
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 2,60,70
+  no shutdown
+
+interface e1/5
+  switchport
+  switchport mode trunk
+  switchport trunk allowed vlan 2,70
+  no shutdown
+
+interface nve 1
+  no shutdown
+  source-interface loopback 0
+  member vni 200
+   ingress-replication protocol static
+     peer-ip 20.20.20.20
+  member vni 5000
+   ingress-replication protocol static
+     peer-ip 20.20.20.20
+  member vni 6000
+   ingress-replication protocol static
+     peer-ip 20.20.20.20
+  member vni 7000
+   ingress-replication protocol static
+     peer-ip 20.20.20.20
+     
+copy running-config startup-config
