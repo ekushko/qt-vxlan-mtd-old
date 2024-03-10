@@ -61,18 +61,19 @@ namespace VMTDLib
     {
         "      - to: %1/%2\n"
         "        via: %3\n"
-        "        metric: 100\n"
+        "        metric: %4\n"
+    };
+
+    static const QString NETWORK_TEMPLATE =
+    {
+        "100.100.%1.%2"
     };
 
 #define MTH_SETUP_INTERFACE_1 VMTDMethod::methods().value(VMTDMethod::EnName::SETUP_INTERFACE_1)
 #define MTH_SETUP_INTERFACE_2 VMTDMethod::methods().value(VMTDMethod::EnName::SETUP_INTERFACE_2)
-#define MTH_SETUP_INTERFACE_1_VLAN VMTDMethod::methods().value(VMTDMethod::EnName::SETUP_INTERFACE_1_VLAN)
-#define MTH_SETUP_INTERFACE_2_VLAN VMTDMethod::methods().value(VMTDMethod::EnName::SETUP_INTERFACE_2_VLAN)
-#define MTH_SETUP_ROUTES VMTDMethod::methods().value(VMTDMethod::EnName::SETUP_ROUTES)
 #define MTH_SETUP_HOSTS VMTDMethod::methods().value(VMTDMethod::EnName::SETUP_HOSTS)
 #define MTH_CLEAR_INTERFACE_1 VMTDMethod::methods().value(VMTDMethod::EnName::CLEAR_INTERFACE_1)
 #define MTH_CLEAR_INTERFACE_2 VMTDMethod::methods().value(VMTDMethod::EnName::CLEAR_INTERFACE_2)
-#define MTH_CLEAR_ROUTES VMTDMethod::methods().value(VMTDMethod::EnName::CLEAR_ROUTES)
 #define MTH_CLEAR_HOSTS VMTDMethod::methods().value(VMTDMethod::EnName::CLEAR_HOSTS)
 #define MTH_CHECK_CONNECTION VMTDMethod::methods().value(VMTDMethod::EnName::CHECK_CONNECTION)
 
@@ -83,6 +84,7 @@ namespace VMTDLib
 #define PRM_VLAN_ID VMTDMethod::params().value(VMTDMethod::EnParamName::VLAN_ID)
 #define PRM_NETWORK VMTDMethod::params().value(VMTDMethod::EnParamName::NETWORK)
 #define PRM_DOMAIN_NAME VMTDMethod::params().value(VMTDMethod::EnParamName::DOMAIN_NAME)
+#define PRM_METRIC VMTDMethod::params().value(VMTDMethod::EnParamName::METRIC)
 #define PRM_ROUTES VMTDMethod::params().value(VMTDMethod::EnParamName::ROUTES)
 #define PRM_HOSTS VMTDMethod::params().value(VMTDMethod::EnParamName::HOSTS)
 
@@ -95,15 +97,11 @@ namespace VMTDLib
         enum class EnName
         {
             SETUP_INTERFACE_1,
-            SETUP_INTERFACE_1_VLAN,
             SETUP_INTERFACE_2,
-            SETUP_INTERFACE_2_VLAN,
-            SETUP_ROUTES,
             SETUP_HOSTS,
 
             CLEAR_INTERFACE_1,
             CLEAR_INTERFACE_2,
-            CLEAR_ROUTES,
             CLEAR_HOSTS,
 
             CHECK_CONNECTION
@@ -118,6 +116,7 @@ namespace VMTDLib
             VLAN_ID,
             NETWORK,
             DOMAIN_NAME,
+            METRIC,
             ROUTES,
             HOSTS
         };

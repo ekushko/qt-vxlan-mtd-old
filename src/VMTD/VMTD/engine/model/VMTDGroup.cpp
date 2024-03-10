@@ -13,6 +13,7 @@ namespace VMTDLib
         m_index = -1;
         m_maxParticipantCount = 2;
         m_network = QString("192.168.250.0");
+        m_mask = 24;
         m_vlanId = 1;
 
         m_settings->creationOut(VN_S(VMTDGroup) + " | Constructor finished");
@@ -42,7 +43,7 @@ namespace VMTDLib
             m_settings->debugOut(QString("%1 | Group %2 is crowded! Participant %3 not added!")
                                  .arg(VN_S(VMTDGroup))
                                  .arg(name())
-                                 .arg(participant->name_1()));
+                                 .arg(participant->vInterface1()->name()));
             return;
         }
 
@@ -50,22 +51,22 @@ namespace VMTDLib
         {
             m_settings->debugOut(QString("%1 | Participant %2 is already in group %3! ")
                                  .arg(VN_S(VMTDGroup))
-                                 .arg(participant->name_1())
+                                 .arg(participant->vInterface1()->name())
                                  .arg(name()));
             return;
         }
 
-        participant->setGroupIndex_1(m_index);
-        participant->setIp_1(QString("%1.%2")
-                             .arg(m_network.left(m_network.lastIndexOf('.')))
-                             .arg(m_participants.size() + 1));
-        participant->setMask_1(m_mask);
-        participant->setVlanId_1(m_vlanId);
+        participant->vInterface1()->setGroupIndex(m_index);
+        participant->vInterface1()->setIp(QString("%1.%2")
+                                          .arg(m_network.left(m_network.lastIndexOf('.')))
+                                          .arg(m_participants.size() + 1));
+        participant->vInterface1()->setMask(m_mask);
+        participant->vInterface1()->setVlanId(m_vlanId);
         m_participants.append(participant);
 
         m_settings->debugOut(QString("%1 | Participant %2 was added in group %3! ")
                              .arg(VN_S(VMTDGroup))
-                             .arg(participant->name_1())
+                             .arg(participant->vInterface1()->name())
                              .arg(name()));
     }
     void VMTDGroup::clearParticipants()
@@ -73,50 +74,25 @@ namespace VMTDLib
         m_participants.clear();
     }
 
-    const QVector<VMTDParticipant *> &VMTDGroup::gateways() const
+    VMTDParticipant *VMTDGroup::gateway() const
     {
-        return m_gateways;
+        return m_gateway;
     }
-    bool VMTDGroup::canAddGateway() const
+    void VMTDGroup::setGateway(VMTDParticipant *gateway)
     {
-        return m_gateways.size() < maxGatewayCount();
-    }
-    void VMTDGroup::addGateway(VMTDParticipant *gateway)
-    {
-        if (!canAddGateway())
-        {
-            m_settings->debugOut(QString("%1 | Group %2 is crowded! Gateway %3 not added!")
-                                 .arg(VN_S(VMTDGroup))
-                                 .arg(name())
-                                 .arg(gateway->name_2()));
-            return;
-        }
+        gateway->vInterface2()->setGroupIndex(m_index);
+        gateway->vInterface2()->setIp(QString("%1.254")
+                                      .arg(m_network.left(m_network.lastIndexOf('.'))));
+        gateway->vInterface2()->setMask(m_mask);
+        gateway->vInterface2()->setVlanId(m_vlanId);
 
-        if (m_gateways.contains(gateway))
-        {
-            m_settings->debugOut(QString("%1 | Gateway %2 is already in group %3! ")
-                                 .arg(VN_S(VMTDGroup))
-                                 .arg(gateway->name_2())
-                                 .arg(name()));
-            return;
-        }
-
-        gateway->setGroupIndex_2(m_index);
-        gateway->setIp_2(QString("%1.%2")
-                         .arg(m_network.left(m_network.lastIndexOf('.')))
-                         .arg(254 - m_gateways.size()));
-        gateway->setMask_2(m_mask);
-        gateway->setVlanId_2(m_vlanId);
-        m_gateways.append(gateway);
 
         m_settings->debugOut(QString("%1 | Gateway %2 was added in group %3! ")
                              .arg(VN_S(VMTDGroup))
-                             .arg(gateway->name_2())
+                             .arg(gateway->vInterface2()->name())
                              .arg(name()));
-    }
-    void VMTDGroup::clearGateways()
-    {
-        m_gateways.clear();
+
+        m_gateway = gateway;
     }
 
     QString VMTDGroup::name() const
@@ -148,15 +124,6 @@ namespace VMTDLib
         m_maxParticipantCount = maxParticipantCount;
     }
 
-    int VMTDGroup::minGatewayCount() const
-    {
-        return 1;
-    }
-    int VMTDGroup::maxGatewayCount() const
-    {
-        return 2;
-    }
-
     QString VMTDGroup::network() const
     {
         return m_network;
@@ -166,11 +133,11 @@ namespace VMTDLib
         m_network = network;
     }
 
-    QString VMTDGroup::mask() const
+    uchar VMTDGroup::mask() const
     {
         return m_mask;
     }
-    void VMTDGroup::setMask(const QString &mask)
+    void VMTDGroup::setMask(uchar mask)
     {
         m_mask = mask;
     }

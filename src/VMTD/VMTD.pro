@@ -192,6 +192,8 @@ SOURCES += \
     VMTD/engine/model/VMTDGroup.cpp \
     VMTD/engine/model/VMTDParticipant.cpp \
     VMTD/engine/model/VMTDParticipantForm.cpp \
+    VMTD/engine/model/VMTDVInterface.cpp \
+    VMTD/engine/model/VMTDVRoute.cpp \
     VMTD/interface/VMTDInterface.cpp \
     VMTD/interface/VMTDInterfaceForm.cpp \
     VMTD/interface/VMTDInterfaceManager.cpp \
@@ -244,6 +246,8 @@ HEADERS += \
     VMTD/engine/model/VMTDGroup.h \
     VMTD/engine/model/VMTDParticipant.h \
     VMTD/engine/model/VMTDParticipantForm.h \
+    VMTD/engine/model/VMTDVInterface.h \
+    VMTD/engine/model/VMTDVRoute.h \
     VMTD/interface/VMTDInterface.h \
     VMTD/interface/VMTDInterfaceForm.h \
     VMTD/interface/VMTDInterfaceManager.h \

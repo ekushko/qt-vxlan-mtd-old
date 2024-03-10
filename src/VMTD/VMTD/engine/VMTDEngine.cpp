@@ -168,7 +168,7 @@ namespace VMTDLib
                     }
 
                     auto participant = new VMTDParticipant(this, dynamic_cast<VMTDNodeDevice *>(connectedDevice));
-                    participant->setIndex_1(m_participants.size());
+                    participant->vInterface1()->setIndex(m_participants.size());
                     participant->setRole(VMTDParticipant::EnRole::ENDPOINT);
                     m_participants.append(participant);
                 }
@@ -223,7 +223,7 @@ namespace VMTDLib
             {
                 thirdOctet = qrand()
                              % (maxThirdOctet - minThirdOctet + 1) + minThirdOctet;
-                group->setNetwork(QString("192.168.%1.0").arg(thirdOctet));
+                group->setNetwork(QString(NETWORK_TEMPLATE).arg(thirdOctet).arg(0));
             }
             while (_octets.contains(thirdOctet));
 
@@ -231,7 +231,7 @@ namespace VMTDLib
 
             // маска
 
-            group->setMask("255.255.255.0");
+            group->setMask(24);
 
             // максимальное число участников
 
@@ -278,19 +278,20 @@ namespace VMTDLib
             const auto index = qrand() % group->participants().size();
 
             auto gateway = group->participants().at(index);
-            gateway->setIndex_2(m_gateways.size());
+            gateway->vInterface2()->setIndex(m_gateways.size());
             gateway->setRole(VMTDParticipant::EnRole::GATEWAY);
             m_gateways.append(gateway);
 
             m_settings->debugOut(QString("%1 | Participant %2 was choosen as gateway in group %3")
                                  .arg(VN_S(VMTDEngine))
-                                 .arg(gateway->name_1())
+                                 .arg(gateway->vInterface1()->name())
                                  .arg(group->name()));
 
             for (int i = 0; i < group->participants().size(); ++i)
             {
                 auto participant = group->participants().at(i);
-                participant->setGateway(gateway->ip_1());
+                participant->vInterface1()->addRoute(QString(NETWORK_TEMPLATE).arg(0).arg(0), 16,
+                                                     gateway->vInterface1()->ip(), 100);
             }
         }
     }
@@ -301,7 +302,10 @@ namespace VMTDLib
         std::mt19937 generator(randomDevice());
 
         for (auto participant : m_participants)
-            participant->clearRoutes();
+        {
+            participant->vInterface1()->clearRoutes();
+            participant->vInterface2()->clearRoutes();
+        }
 
         QVector<VMTDParticipant *> _gateways(m_gateways.begin(), m_gateways.end());
 
@@ -310,7 +314,7 @@ namespace VMTDLib
         for (auto it = _gateways.begin(); it != _gateways.end(); ++it)
         {
             auto participant = *it;
-            auto group = m_groups.at(participant->groupIndex_1());
+            auto group = m_groups.at(participant->vInterface1()->groupIndex());
 
             const auto distance = std::distance(it, _gateways.end());
 
@@ -318,7 +322,7 @@ namespace VMTDLib
                 break;
 
             auto gateway = *std::next(it);
-            group->addGateway(gateway);
+            group->setGateway(gateway);
 
             if (distance <= 2)
                 break;
@@ -329,20 +333,17 @@ namespace VMTDLib
             while (jt != _gateways.end())
             {
                 auto remoteParticipant = *jt++;
-                auto remoteGroup = m_groups.at(remoteParticipant->groupIndex_1());
+                auto remoteGroup = m_groups.at(remoteParticipant->vInterface1()->groupIndex());
 
-                const auto route = QString("%1 %2 %3")
-                                   .arg(remoteGroup->network())
-                                   .arg(remoteGroup->mask())
-                                   .arg(gateway->ip_1());
-                participant->addRoute(route);
+                participant->vInterface2()->addRoute(remoteGroup->network(), remoteGroup->mask(),
+                                                     gateway->vInterface1()->ip(), 100);
 
-                auto group = m_groups.at(gateway->groupIndex_1());
+                auto group = m_groups.at(gateway->vInterface1()->groupIndex());
 
                 m_settings->debugOut(QString("%1 | Route [%2] was added to gateway %3 in group %4")
                                      .arg(VN_S(VMTDEngine))
-                                     .arg(route)
-                                     .arg(gateway->name_1())
+                                     .arg(participant->vInterface2()->routes().last().toString())
+                                     .arg(gateway->vInterface1()->name())
                                      .arg(group->name()));
             }
         }
@@ -350,7 +351,7 @@ namespace VMTDLib
         for (auto it = _gateways.rbegin(); it != _gateways.rend(); ++it)
         {
             auto participant = *it;
-            auto group = m_groups.at(participant->groupIndex_1());
+            auto group = m_groups.at(participant->vInterface1()->groupIndex());
 
             const auto distance = std::distance(it, _gateways.rend());
 
@@ -358,7 +359,6 @@ namespace VMTDLib
                 break;
 
             auto gateway = *std::next(it);
-            group->addGateway(gateway);
 
             if (distance <= 2)
                 break;
@@ -369,19 +369,34 @@ namespace VMTDLib
             while (jt != _gateways.rend())
             {
                 auto remoteParticipant = *jt++;
-                auto remoteGroup = m_groups.at(remoteParticipant->groupIndex_1());
+                auto remoteGroup = m_groups.at(remoteParticipant->vInterface1()->groupIndex());
 
-                const auto route = QString("%1 %2 %3")
-                                   .arg(remoteGroup->network())
-                                   .arg(remoteGroup->mask())
-                                   .arg(gateway->ip_1());
-                participant->addRoute(route);
+                participant->vInterface1()->addRoute(remoteGroup->network(), remoteGroup->mask(),
+                                                     gateway->vInterface1()->ip(), 100);
 
                 m_settings->debugOut(QString("%1 | Route [%2] was added to gateway %3 in group %4")
                                      .arg(VN_S(VMTDEngine))
-                                     .arg(route)
-                                     .arg(gateway->name_1())
+                                     .arg(participant->vInterface1()->routes().last().toString())
+                                     .arg(gateway->vInterface1()->name())
                                      .arg(group->name()));
+            }
+        }
+
+        {
+            auto firstGateway = _gateways.first();
+            auto group = m_groups.at(firstGateway->vInterface1()->groupIndex());
+
+            firstGateway->setRole(VMTDParticipant::EnRole::ENDPOINT);
+
+            for (int i = 0; i < group->participants().size(); ++i)
+            {
+                auto participant = group->participants().at(i);
+
+                participant->vInterface1()->clearRoutes();
+                participant->vInterface2()->clearRoutes();
+
+                participant->vInterface1()->addRoute(QString(NETWORK_TEMPLATE).arg(0).arg(0), 16,
+                                                     group->gateway()->vInterface2()->ip(), 100);
             }
         }
     }
@@ -398,13 +413,13 @@ namespace VMTDLib
                 continue;
 
             hosts.append(QString("%1 %2")
-                         .arg(participant->ip_1())
+                         .arg(participant->vInterface1()->ip())
                          .arg(domainName));
 
             if (participant->role() == VMTDParticipant::EnRole::GATEWAY)
             {
                 hosts.append(QString("%1 %2")
-                             .arg(participant->ip_2())
+                             .arg(participant->vInterface2()->ip())
                              .arg(domainName));
             }
         }

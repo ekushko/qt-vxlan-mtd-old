@@ -20,10 +20,8 @@ namespace VMTDLib
         void    addParticipant(VMTDParticipant *participant);
         void  clearParticipants();
 
-        const QVector<VMTDParticipant *> &gateways() const;
-        bool canAddGateway() const;
-        void    addGateway(VMTDParticipant *gateway);
-        void  clearGateways();
+        VMTDParticipant *gateway() const;
+        void          setGateway(VMTDParticipant *gateway);
 
         // МЕТАДАННЫЕ
 
@@ -36,16 +34,13 @@ namespace VMTDLib
         int     maxParticipantCount() const;
         void setMaxParticipantCount(int maxParticipantCount);
 
-        int minGatewayCount() const;
-        int maxGatewayCount() const;
-
         // ДАННЫЕ
 
         QString network() const;
         void setNetwork(const QString &network);
 
-        QString mask() const;
-        void setMask(const QString &mask);
+        uchar   mask() const;
+        void setMask(uchar mask);
 
         int     vlanId() const;
         void setVlanId(int vlanId);
@@ -59,10 +54,11 @@ namespace VMTDLib
         int m_maxParticipantCount;
 
         QString m_network;
-        QString m_mask;
+        uchar m_mask;
         int m_vlanId;
 
         QVector<VMTDParticipant *> m_participants;
-        QVector<VMTDParticipant *> m_gateways;
+
+        VMTDParticipant *m_gateway = nullptr;
     };
 }

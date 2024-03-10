@@ -51,39 +51,53 @@ namespace VMTDLib
         ui->lbRole->setText(VMTDParticipant::enRoleToS(m_participant->role()));
         ui->lbNodeDevice->setText(m_participant->nodeDevice()->name());
 
-        ui->lbGroupIndex_1->setText(QString::number(m_participant->groupIndex_1()));
-        ui->lbIp_1->setText(m_participant->ip_1());
-        ui->lbMask_1->setText(m_participant->mask_1());
-        ui->lbVlanId_1->setText(QString::number(m_participant->vlanId_1()));
+        ui->lbInterface_1->setText(m_participant->vInterface1()->toString());
+        ui->lbInterface_2->setText(m_participant->vInterface2()->toString());
 
-        ui->lbGroupIndex_2->setText(QString::number(m_participant->groupIndex_2()));
-        ui->lbIp_2->setText(m_participant->ip_2());
-        ui->lbMask_2->setText(m_participant->mask_2());
-        ui->lbVlanId_2->setText(QString::number(m_participant->vlanId_2()));
+        bool isFirst;
 
-        ui->lbGateway->setText(m_participant->gateway());
+        QString routesStr, hostsStr;
 
-        qDeleteAll(m_routeForms);
-        m_routeForms.clear();
+        isFirst = true;
 
-        for (const auto &route : m_participant->routes())
+        for (const auto &route : m_participant->vInterface1()->routes())
         {
-            auto lb = new QLabel(route, ui->wRoutes);
-            m_routeForms.append(lb);
+            if (isFirst)
+                isFirst = false;
+            else
+                routesStr += "\n";
 
-            ui->wRoutes->layout()->addWidget(lb);
+            routesStr += route.toString();
         }
 
-        qDeleteAll(m_hostForms);
-        m_hostForms.clear();
+
+        isFirst = true;
+
+        for (const auto &route : m_participant->vInterface2()->routes())
+        {
+            if (isFirst)
+                isFirst = false;
+            else
+                routesStr += "\n";
+
+            routesStr += route.toString();
+        }
+
+
+        isFirst = true;
 
         for (const auto &host : m_participant->hosts())
         {
-            auto lb = new QLabel(host, ui->wHosts);
-            m_hostForms.append(lb);
+            if (isFirst)
+                isFirst = false;
+            else
+                hostsStr += "\n";
 
-            ui->wHosts->layout()->addWidget(lb);
+            hostsStr += host;
         }
+
+        ui->lbRoutes->setText(routesStr.isEmpty() ? "Empty" : routesStr);
+        ui->lbHosts->setText(hostsStr.isEmpty() ? "Empty" : hostsStr);
     }
 
     void VMTDParticipantForm::uiTimerTickSlot()

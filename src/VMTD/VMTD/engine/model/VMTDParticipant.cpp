@@ -14,22 +14,15 @@ namespace VMTDLib
     {
         m_settings->creationOut(VN_S(VMTDParticipant) + " | Constructor called");
 
-        m_index_1 = -1;
-        m_index_2 = -1;
-
         m_role = EnRole::ENDPOINT;
 
-        m_groupIndex_1 = -1;
-        m_ip_1 = "192.168.250.250";
-        m_mask_1 = "255.255.255.0";
-        m_vlanId_1 = 1;
+        QString interfaceName;
 
-        m_groupIndex_2 = -1;
-        m_ip_2 = "192.168.251.250";
-        m_mask_2 = "255.255.255.0";
-        m_vlanId_1 = 2;
+        if (m_nodeDevice->interfaceManager()->interfaces().size() > 0)
+            interfaceName = m_nodeDevice->interfaceManager()->interfaces().first()->name();
 
-        m_gateway = "192.168.250.1";
+        m_vInterface1 = new VMTDVInterface(this, m_settings, interfaceName);
+        m_vInterface2 = new VMTDVInterface(this, m_settings, interfaceName);
 
         connect(this, &VMTDParticipant::appendRequestsSignal,
                 m_nodeDevice, &VMTDNodeDevice::appendRequestsSignal);
@@ -84,24 +77,6 @@ namespace VMTDLib
         emit appendRequestsSignal(requests);
     }
 
-    int VMTDParticipant::index_1()
-    {
-        return m_index_1;
-    }
-    void VMTDParticipant::setIndex_1(int index_1)
-    {
-        m_index_1 = index_1;
-    }
-
-    int VMTDParticipant::index_2()
-    {
-        return m_index_2;
-    }
-    void VMTDParticipant::setIndex_2(int index_2)
-    {
-        m_index_2 = index_2;
-    }
-
     VMTDNodeDevice *VMTDParticipant::nodeDevice() const
     {
         return m_nodeDevice;
@@ -116,116 +91,14 @@ namespace VMTDLib
         m_role = role;
     }
 
-    QString VMTDParticipant::name_1() const
+    VMTDVInterface *VMTDParticipant::vInterface1() const
     {
-        return QString("%1 [VLAN ID: %2]")
-               .arg(m_ip_1)
-               .arg(m_vlanId_1);
+        return m_vInterface1;
     }
 
-    int VMTDParticipant::groupIndex_1()
+    VMTDVInterface *VMTDParticipant::vInterface2() const
     {
-        return m_groupIndex_1;
-    }
-    void VMTDParticipant::setGroupIndex_1(int groupIndex_1)
-    {
-        m_groupIndex_1 = groupIndex_1;
-    }
-
-    QString VMTDParticipant::ip_1() const
-    {
-        return m_ip_1;
-    }
-    void VMTDParticipant::setIp_1(const QString &ip_1)
-    {
-        m_ip_1 = ip_1;
-    }
-
-    QString VMTDParticipant::mask_1() const
-    {
-        return m_mask_1;
-    }
-    void VMTDParticipant::setMask_1(const QString &mask_1)
-    {
-        m_mask_1 = mask_1;
-    }
-
-    int VMTDParticipant::vlanId_1() const
-    {
-        return m_vlanId_1;
-    }
-    void VMTDParticipant::setVlanId_1(int vlanId_1)
-    {
-        m_vlanId_1 = vlanId_1;
-    }
-
-    QString VMTDParticipant::name_2() const
-    {
-        return QString("%1 [VLAN ID: %2]")
-               .arg(m_ip_2)
-               .arg(m_vlanId_2);
-    }
-
-    int VMTDParticipant::groupIndex_2()
-    {
-        return m_groupIndex_2;
-    }
-    void VMTDParticipant::setGroupIndex_2(int groupIndex_2)
-    {
-        m_groupIndex_2 = groupIndex_2;
-    }
-
-    QString VMTDParticipant::ip_2() const
-    {
-        return m_ip_2;
-    }
-    void VMTDParticipant::setIp_2(const QString &ip_2)
-    {
-        m_ip_2 = ip_2;
-    }
-
-    QString VMTDParticipant::mask_2() const
-    {
-        return m_mask_2;
-    }
-    void VMTDParticipant::setMask_2(const QString &mask_2)
-    {
-        m_mask_2 = mask_2;
-    }
-
-    int VMTDParticipant::vlanId_2() const
-    {
-        return m_vlanId_2;
-    }
-    void VMTDParticipant::setVlanId_2(int vlanId_2)
-    {
-        m_vlanId_2 = vlanId_2;
-    }
-
-    QString VMTDParticipant::gateway() const
-    {
-        return m_gateway;
-    }
-    void VMTDParticipant::setGateway(const QString &gateway)
-    {
-        m_gateway = gateway;
-    }
-
-    const QStringList &VMTDParticipant::routes() const
-    {
-        return m_routes;
-    }
-    void VMTDParticipant::setRoutes(const QStringList &routes)
-    {
-        m_routes = routes;
-    }
-    void VMTDParticipant::clearRoutes()
-    {
-        m_routes.clear();
-    }
-    void VMTDParticipant::addRoute(const QString &route)
-    {
-        m_routes.append(route);
+        return m_vInterface2;
     }
 
     const QStringList &VMTDParticipant::hosts() const
@@ -263,89 +136,80 @@ namespace VMTDLib
         m_form->activateWindow();
     }
 
-    QList<QPair<QString, QJsonObject> > VMTDParticipant::buildRequests()
+    QList<QPair<QString, QJsonObject>> VMTDParticipant::buildRequests()
     {
         QList<QPair<QString, QJsonObject>> requests;
 
-        if (m_role == EnRole::ENDPOINT)
+        // INTERFACE 1
         {
-            if ("Interface 1")
+            QJsonObject jsonObj;
+
+            if (m_role == EnRole::ENDPOINT
+                || m_role == EnRole::GATEWAY)
             {
-                QJsonObject jsonObj;
+                jsonObj[PRM_INTERFACE] = m_vInterface1->interfaceName();
+                jsonObj[PRM_IP] = m_vInterface1->ip();
+                jsonObj[PRM_MASK] = m_vInterface1->mask();
 
-                jsonObj[PRM_INTERFACE] = "vmtd1";
-                jsonObj[PRM_IP] = m_ip_1;
-                jsonObj[PRM_MASK] = m_mask_1;
-                jsonObj[PRM_GATEWAY] = m_gateway;
-
-                requests.append(qMakePair(MTH_SETUP_INTERFACE_1, jsonObj));
-            }
-
-            if ("Interface 2")
-            {
-                QJsonObject jsonObj;
-
-                requests.append(qMakePair(MTH_CLEAR_INTERFACE_2, jsonObj));
-            }
-
-            if ("Routes")
-            {
-                QJsonObject jsonObj;
-
-                requests.append(qMakePair(MTH_CLEAR_ROUTES, jsonObj));
-            }
-        }
-        else if (m_role == EnRole::GATEWAY)
-        {
-            if ("Interface 1")
-            {
-                QJsonObject jsonObj;
-
-                jsonObj[PRM_INTERFACE] = "vmtd1";
-                jsonObj[PRM_IP] = m_ip_1;
-                jsonObj[PRM_MASK] = m_mask_1;
-                jsonObj[PRM_VLAN_ID] = m_vlanId_1;
-
-                requests.append(qMakePair(MTH_SETUP_INTERFACE_1_VLAN, jsonObj));
-            }
-
-            if ("Interface 2")
-            {
-                QJsonObject jsonObj;
-
-                jsonObj[PRM_INTERFACE] = "vmtd2";
-                jsonObj[PRM_IP] = m_ip_2;
-                jsonObj[PRM_MASK] = m_mask_2;
-                jsonObj[PRM_VLAN_ID] = m_vlanId_2;
-
-                requests.append(qMakePair(MTH_SETUP_INTERFACE_2_VLAN, jsonObj));
-            }
-
-            if ("Routes")
-            {
-                QJsonObject jsonObj;
                 QJsonArray jsonArr;
 
-                for (const auto &route : m_routes)
+                for (const auto &route : m_vInterface1->routes())
                 {
                     QJsonObject routeObj;
 
-                    const auto splittedRoute = route.split(' ');
-
-                    routeObj[PRM_NETWORK] = splittedRoute[0];
-                    routeObj[PRM_MASK] = splittedRoute[1];
-                    routeObj[PRM_GATEWAY] = splittedRoute[2];
+                    routeObj[PRM_NETWORK] = route.network();
+                    routeObj[PRM_MASK] = route.mask();
+                    routeObj[PRM_GATEWAY] = route.gateway();
+                    routeObj[PRM_METRIC] = route.metric();
 
                     jsonArr.append(routeObj);
                 }
 
                 jsonObj[PRM_ROUTES] = jsonArr;
 
-                requests.append(qMakePair(MTH_SETUP_ROUTES, jsonObj));
+                requests.append(qMakePair(MTH_SETUP_INTERFACE_1, jsonObj));
+            }
+            else
+            {
+                requests.append(qMakePair(MTH_CLEAR_INTERFACE_1, jsonObj));
             }
         }
 
-        if ("Hosts")
+        // INTERFACE 2
+        {
+            QJsonObject jsonObj;
+
+            if (m_role == EnRole::GATEWAY)
+            {
+                jsonObj[PRM_INTERFACE] = m_vInterface2->interfaceName();
+                jsonObj[PRM_IP] = m_vInterface2->ip();
+                jsonObj[PRM_MASK] = m_vInterface2->mask();
+
+                QJsonArray jsonArr;
+
+                for (const auto &route : m_vInterface2->routes())
+                {
+                    QJsonObject routeObj;
+
+                    routeObj[PRM_NETWORK] = route.network();
+                    routeObj[PRM_MASK] = route.mask();
+                    routeObj[PRM_GATEWAY] = route.gateway();
+                    routeObj[PRM_METRIC] = route.metric();
+
+                    jsonArr.append(routeObj);
+                }
+
+                jsonObj[PRM_ROUTES] = jsonArr;
+
+                requests.append(qMakePair(MTH_SETUP_INTERFACE_2, jsonObj));
+            }
+            else
+            {
+                requests.append(qMakePair(MTH_CLEAR_INTERFACE_2, jsonObj));
+            }
+        }
+
+        // HOSTS
         {
             QJsonObject jsonObj;
             QJsonArray jsonArr;

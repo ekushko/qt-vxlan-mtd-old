@@ -65,31 +65,29 @@ namespace VMTDLib
 
             for (auto participant : group->participants())
             {
-                QString label = participant->name_1();
+                QString label = participant->vInterface1()->name();
 
-                if (participant->role() == VMTDParticipant::EnRole::GATEWAY)
-                    label += "  <--->  " + participant->name_2();
+//                if (participant->role() == VMTDParticipant::EnRole::GATEWAY)
+//                    label += "  <--->  " + participant->vInterface2()->name();
 
                 auto childItem = new QTreeWidgetItem(participantItem);
                 childItem->setText(0, label);
-                childItem->setText(1, QString::number(participant->index_1()));
+                childItem->setText(1, QString::number(participant->vInterface1()->index()));
             }
 
-            auto gatewayItem = new QTreeWidgetItem(groupItem);
-            gatewayItem->setText(0, "Gateways");
-
-            for (int i = 0; i < group->gateways().size(); ++i)
             {
-                auto gateway = group->gateways().at(i);
+                auto gateway = group->gateway();
 
-                QString label = gateway->name_2() + "  <--->  " + gateway->name_1();
+                if (gateway != nullptr)
+                {
+                    QString label = gateway->vInterface2()->name()
+                                    /*+ "  <--->  " + gateway->vInterface1()->name()*/;
 
-                auto childItem = new QTreeWidgetItem(gatewayItem);
-                childItem->setText(0, label);
-                childItem->setText(1, QString::number(gateway->index_2()));
+                    auto childItem = new QTreeWidgetItem(participantItem);
+                    childItem->setText(0, label);
+                    childItem->setText(1, QString::number(gateway->vInterface1()->index()));
+                }
             }
-
-            ui->trwGroups->addTopLevelItem(groupItem);
         }
     }
 
@@ -106,10 +104,6 @@ namespace VMTDLib
             return;
 
         const auto index = item->text(1).toInt();
-
-        if (item->parent()->text(0) == "Gateways")
-            m_engine->gateways().at(index)->showFormSlot();
-        else if (item->parent()->text(0) == "Participants")
-            m_engine->participants().at(index)->showFormSlot();
+        m_engine->participants().at(index)->showFormSlot();
     }
 }

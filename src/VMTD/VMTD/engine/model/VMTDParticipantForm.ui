@@ -7,14 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>402</width>
-    <height>376</height>
+    <height>302</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../resources/VMTDResources.qrc">
+   <iconset resource="../../../resources/VMTDResources.qrc">
     <normaloff>:/favicon.ico</normaloff>:/favicon.ico</iconset>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
@@ -97,18 +97,24 @@
            <string>Main</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_3">
+           <property name="leftMargin">
+            <number>6</number>
+           </property>
+           <property name="topMargin">
+            <number>6</number>
+           </property>
+           <property name="rightMargin">
+            <number>6</number>
+           </property>
+           <property name="bottomMargin">
+            <number>6</number>
+           </property>
            <item row="0" column="3">
-            <spacer name="_2">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
+            <widget class="QLabel" name="_15">
+             <property name="text">
+              <string>Node device:</string>
              </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
+            </widget>
            </item>
            <item row="0" column="1">
             <widget class="QLabel" name="_3">
@@ -124,14 +130,7 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="1">
-            <widget class="QLabel" name="_15">
-             <property name="text">
-              <string>Node device:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
+           <item row="0" column="4">
             <widget class="QLabel" name="lbNodeDevice">
              <property name="text">
               <string>TextLabel</string>
@@ -148,79 +147,28 @@
             <property name="title">
              <string>Interface 1</string>
             </property>
-            <layout class="QGridLayout" name="gridLayout">
-             <item row="5" column="1">
-              <widget class="QLabel" name="lbGateway">
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <property name="leftMargin">
+              <number>6</number>
+             </property>
+             <property name="topMargin">
+              <number>6</number>
+             </property>
+             <property name="rightMargin">
+              <number>6</number>
+             </property>
+             <property name="bottomMargin">
+              <number>6</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="lbInterface_1">
                <property name="text">
-                <string>TextLabel</string>
+                <string/>
                </property>
               </widget>
              </item>
-             <item row="5" column="0">
-              <widget class="QLabel" name="_6">
-               <property name="text">
-                <string>Gateway:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="_7">
-               <property name="text">
-                <string>IP:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLabel" name="lbGroupIndex_1">
-               <property name="text">
-                <string>TextLabel</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QLabel" name="lbMask_1">
-               <property name="text">
-                <string>TextLabel</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="_8">
-               <property name="text">
-                <string>Mask:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="_9">
-               <property name="text">
-                <string>VLAN ID:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QLabel" name="lbIp_1">
-               <property name="text">
-                <string>TextLabel</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="1">
-              <widget class="QLabel" name="lbVlanId_1">
-               <property name="text">
-                <string>TextLabel</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="_5">
-               <property name="text">
-                <string>Group Index:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="0" colspan="2">
-              <spacer name="verticalSpacer">
+             <item>
+              <spacer name="_5">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
@@ -240,65 +188,28 @@
             <property name="title">
              <string>Interface 2</string>
             </property>
-            <layout class="QGridLayout" name="gridLayout_2">
-             <item row="2" column="1">
-              <widget class="QLabel" name="lbMask_2">
+            <layout class="QVBoxLayout" name="verticalLayout_2">
+             <property name="leftMargin">
+              <number>6</number>
+             </property>
+             <property name="topMargin">
+              <number>6</number>
+             </property>
+             <property name="rightMargin">
+              <number>6</number>
+             </property>
+             <property name="bottomMargin">
+              <number>6</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="lbInterface_2">
                <property name="text">
-                <string>TextLabel</string>
+                <string/>
                </property>
               </widget>
              </item>
-             <item row="0" column="1">
-              <widget class="QLabel" name="lbGroupIndex_2">
-               <property name="text">
-                <string>TextLabel</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QLabel" name="lbIp_2">
-               <property name="text">
-                <string>TextLabel</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="_13">
-               <property name="text">
-                <string>VLAN ID:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QLabel" name="lbVlanId_2">
-               <property name="text">
-                <string>TextLabel</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="_11">
-               <property name="text">
-                <string>Mask:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="_12">
-               <property name="text">
-                <string>IP:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0">
-              <widget class="QLabel" name="_10">
-               <property name="text">
-                <string>Group Index:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="4" column="0" colspan="2">
-              <spacer name="_14">
+             <item>
+              <spacer name="_4">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
@@ -317,36 +228,31 @@
         </item>
         <item>
          <widget class="QGroupBox" name="gbRoutes">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>1</verstretch>
-           </sizepolicy>
-          </property>
           <property name="title">
            <string>Routes</string>
           </property>
-          <layout class="QVBoxLayout" name="verticalLayout_2">
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <property name="leftMargin">
+            <number>6</number>
+           </property>
+           <property name="topMargin">
+            <number>6</number>
+           </property>
+           <property name="rightMargin">
+            <number>6</number>
+           </property>
+           <property name="bottomMargin">
+            <number>6</number>
+           </property>
            <item>
-            <widget class="QWidget" name="wRoutes" native="true">
-             <layout class="QVBoxLayout" name="verticalLayout_3">
-              <property name="leftMargin">
-               <number>0</number>
-              </property>
-              <property name="topMargin">
-               <number>0</number>
-              </property>
-              <property name="rightMargin">
-               <number>0</number>
-              </property>
-              <property name="bottomMargin">
-               <number>0</number>
-              </property>
-             </layout>
+            <widget class="QLabel" name="lbRoutes">
+             <property name="text">
+              <string/>
+             </property>
             </widget>
            </item>
            <item>
-            <spacer name="_4">
+            <spacer name="_2">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
              </property>
@@ -373,22 +279,23 @@
            <string>Hosts</string>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_4">
+           <property name="leftMargin">
+            <number>6</number>
+           </property>
+           <property name="topMargin">
+            <number>6</number>
+           </property>
+           <property name="rightMargin">
+            <number>6</number>
+           </property>
+           <property name="bottomMargin">
+            <number>6</number>
+           </property>
            <item>
-            <widget class="QWidget" name="wHosts" native="true">
-             <layout class="QVBoxLayout" name="verticalLayout_5">
-              <property name="leftMargin">
-               <number>0</number>
-              </property>
-              <property name="topMargin">
-               <number>0</number>
-              </property>
-              <property name="rightMargin">
-               <number>0</number>
-              </property>
-              <property name="bottomMargin">
-               <number>0</number>
-              </property>
-             </layout>
+            <widget class="QLabel" name="lbHosts">
+             <property name="text">
+              <string/>
+             </property>
             </widget>
            </item>
            <item>
@@ -481,7 +388,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="../../resources/VMTDResources.qrc"/>
+  <include location="../../../resources/VMTDResources.qrc"/>
  </resources>
  <connections/>
 </ui>

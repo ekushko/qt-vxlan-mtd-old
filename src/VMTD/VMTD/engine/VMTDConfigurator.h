@@ -50,8 +50,8 @@ namespace VMTDLib
 
         VMTDSettings *m_settings;
 
-        QString m_interface_1;
-        QString m_interface_2;
+        QString m_netplan1;
+        QString m_netplan2;
         QString m_routes;
         QString m_hosts;
     };

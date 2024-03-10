@@ -12,14 +12,10 @@ namespace VMTDLib
         static const QMap<EnName, QString> map
         {
             { EnName::SETUP_INTERFACE_1,      "setupInterface1" },
-            { EnName::SETUP_INTERFACE_1_VLAN, "setupInterface1Vlan" },
             { EnName::SETUP_INTERFACE_2,      "setupInterface2" },
-            { EnName::SETUP_INTERFACE_2_VLAN, "setupInterface2Vlan" },
-            { EnName::SETUP_ROUTES,           "setupRoutes" },
             { EnName::SETUP_HOSTS,            "setupHosts" },
             { EnName::CLEAR_INTERFACE_1,      "clearInterface1" },
             { EnName::CLEAR_INTERFACE_2,      "clearInterface2" },
-            { EnName::CLEAR_ROUTES,           "clearRoutes" },
             { EnName::CLEAR_HOSTS,            "clearHosts" },
             { EnName::CHECK_CONNECTION,       "checkConnection" }
         };
@@ -53,26 +49,7 @@ namespace VMTDLib
                 EnParamName::INTERFACE,
                 EnParamName::IP,
                 EnParamName::MASK,
-                EnParamName::GATEWAY
-            };
-            return list;
-        }
-        else if (methodName == EnName::SETUP_INTERFACE_1_VLAN
-                 || methodName == EnName::SETUP_INTERFACE_2_VLAN)
-        {
-            static const QList<EnParamName> list
-            {
-                EnParamName::INTERFACE,
-                EnParamName::IP,
-                EnParamName::MASK,
-                EnParamName::VLAN_ID
-            };
-            return list;
-        }
-        else if (methodName == EnName::SETUP_ROUTES)
-        {
-            static const QList<EnParamName> list
-            {
+                EnParamName::VLAN_ID,
                 EnParamName::ROUTES
             };
             return list;
@@ -101,11 +78,12 @@ namespace VMTDLib
             {
                 EnParamName::IP,
                 EnParamName::MASK,
-                EnParamName::GATEWAY
+                EnParamName::GATEWAY,
+                EnParamName::METRIC
             };
             return list;
         }
-        else if (paramName == EnParamName::ROUTES)
+        else if (paramName == EnParamName::HOSTS)
         {
             static const QList<EnParamName> list
             {
