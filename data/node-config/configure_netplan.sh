@@ -36,3 +36,6 @@ network:
       link: ens3
       addresses: [ "100.100.2.$node_index/24" ]
 EOT
+
+netplan apply
+
