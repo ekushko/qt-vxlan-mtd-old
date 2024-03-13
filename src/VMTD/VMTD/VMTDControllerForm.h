@@ -41,7 +41,8 @@ namespace VMTDLib
         void pbDevicesClicked();
         void pbConnectionsClicked();
         void pbSettingsClicked();
-        void pbProtocolClicked();
+        void pbServerProtocolClicked();
+        void pbClientProtocolClicked();
         void pbEngineClicked();
         void pbConfiguratorClicked();
         void pbNxApiServerClicked();

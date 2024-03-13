@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>676</width>
-    <height>508</height>
+    <height>620</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -72,13 +72,13 @@
        <property name="minimumSize">
         <size>
          <width>674</width>
-         <height>506</height>
+         <height>538</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
          <width>674</width>
-         <height>506</height>
+         <height>538</height>
         </size>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -274,15 +274,28 @@
                    <property name="bottomMargin">
                     <number>6</number>
                    </property>
-                   <item row="0" column="0">
+                   <item row="1" column="0">
+                    <widget class="QLabel" name="_21">
+                     <property name="minimumSize">
+                      <size>
+                       <width>166</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="text">
+                      <string>Netplan 1:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="0" column="0" colspan="2">
                     <widget class="QCheckBox" name="chbShouldCheckOnline">
                      <property name="text">
                       <string>Should check online</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="1" column="0">
-                    <spacer name="verticalSpacer">
+                   <item row="3" column="0">
+                    <spacer name="_20">
                      <property name="orientation">
                       <enum>Qt::Vertical</enum>
                      </property>
@@ -293,6 +306,19 @@
                       </size>
                      </property>
                     </spacer>
+                   </item>
+                   <item row="1" column="1">
+                    <widget class="QLineEdit" name="leNetplan1FilePath"/>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="_22">
+                     <property name="text">
+                      <string>Netplan 2:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="1">
+                    <widget class="QLineEdit" name="leNetplan2FilePath"/>
                    </item>
                   </layout>
                  </widget>

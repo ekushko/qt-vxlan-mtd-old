@@ -152,20 +152,18 @@ namespace VMTDLib
         m_protocol = new VMTDProtocol(nullptr, m_deviceManager);
         connect(this, &VMTDController::finished, m_protocol, &VMTDProtocol::deleteLater);
 
-        if (m_nodeType == VMTDNodeType::CLIENT)
-        {
-            m_nodeClient = new VMTDNodeClient(nullptr, m_settings);
-            connect(this, &VMTDController::finished, m_nodeClient, &VMTDNodeClient::deleteLater);
-            m_protocol->setNodeClient(m_nodeClient);
-            m_nodeClient->connectSocketSlot();
+        m_nodeClient = new VMTDNodeClient(nullptr, m_settings);
+        connect(this, &VMTDController::finished, m_nodeClient, &VMTDNodeClient::deleteLater);
+        m_protocol->setNodeClient(m_nodeClient);
+        m_nodeClient->connectSocketSlot();
 
-            m_configurator = new VMTDConfigurator(nullptr, m_settings);
-            connect(this, &VMTDController::finished, m_configurator, &VMTDConfigurator::deleteLater);
-            connect(m_protocol, &VMTDProtocol::handleMethodSignal,
-                    m_configurator, &VMTDConfigurator::handleMethodSlot,
-                    Qt::DirectConnection);
-        }
-        else if (m_nodeType == VMTDNodeType::SERVER)
+        m_configurator = new VMTDConfigurator(nullptr, m_settings);
+        connect(this, &VMTDController::finished, m_configurator, &VMTDConfigurator::deleteLater);
+        connect(m_protocol, &VMTDProtocol::handleMethodSignal,
+                m_configurator, &VMTDConfigurator::handleMethodSlot,
+                Qt::DirectConnection);
+
+        if (m_nodeType == VMTDNodeType::SERVER)
         {
             m_nxApiServer = new VMTDNxApiServer(nullptr, m_settings);
             connect(this, &VMTDController::finished, m_nxApiServer, &VMTDNxApiServer::deleteLater);
@@ -184,11 +182,9 @@ namespace VMTDLib
 
         exec();
 
-        if (m_nodeType == VMTDNodeType::CLIENT)
-        {
-            m_nodeClient->disconnectSocketSlot();
-        }
-        else if (m_nodeType == VMTDNodeType::SERVER)
+        m_nodeClient->disconnectSocketSlot();
+
+        if (m_nodeType == VMTDNodeType::SERVER)
         {
             m_nxApiServer->stopListenSlot();
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>426</width>
-    <height>508</height>
+    <height>638</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -92,6 +92,54 @@
          <property name="bottomMargin">
           <number>0</number>
          </property>
+         <item row="2" column="2">
+          <layout class="QVBoxLayout" name="vl_14">
+           <item>
+            <widget class="QPushButton" name="pbNodeClient_2">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>18</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../resources/VMTDResources.qrc">
+               <normaloff>:/icons/icons/Node-client.svg</normaloff>:/icons/icons/Node-client.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>80</width>
+               <height>80</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="_18">
+             <property name="text">
+              <string>Node Client</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
          <item row="2" column="0">
           <layout class="QVBoxLayout" name="vl_9">
            <item>
@@ -140,58 +188,10 @@
            </item>
           </layout>
          </item>
-         <item row="0" column="0">
-          <layout class="QVBoxLayout" name="vl_5">
-           <item>
-            <widget class="QPushButton" name="pbDevices">
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>100</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>100</width>
-               <height>100</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>18</pointsize>
-              </font>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-             <property name="icon">
-              <iconset resource="../resources/VMTDResources.qrc">
-               <normaloff>:/icons/icons/Devices.svg</normaloff>:/icons/icons/Devices.svg</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>90</width>
-               <height>90</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="_10">
-             <property name="text">
-              <string>Devices</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignCenter</set>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
          <item row="0" column="3">
           <layout class="QVBoxLayout" name="vl_8">
            <item>
-            <widget class="QPushButton" name="pbProtocol_2">
+            <widget class="QPushButton" name="pbServerProtocol">
              <property name="minimumSize">
               <size>
                <width>100</width>
@@ -227,7 +227,7 @@
            <item>
             <widget class="QLabel" name="_13">
              <property name="text">
-              <string>Protocol</string>
+              <string>Server Protocol</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -276,6 +276,54 @@
             <widget class="QLabel" name="_11">
              <property name="text">
               <string>Connections</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="0">
+          <layout class="QVBoxLayout" name="vl_5">
+           <item>
+            <widget class="QPushButton" name="pbDevices">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>18</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../resources/VMTDResources.qrc">
+               <normaloff>:/icons/icons/Devices.svg</normaloff>:/icons/icons/Devices.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>90</width>
+               <height>90</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="_10">
+             <property name="text">
+              <string>Devices</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -380,7 +428,7 @@
            </item>
           </layout>
          </item>
-         <item row="2" column="2">
+         <item row="3" column="0">
           <layout class="QVBoxLayout" name="vl_11">
            <item>
             <widget class="QPushButton" name="pbEngine">
@@ -428,7 +476,55 @@
            </item>
           </layout>
          </item>
-         <item row="2" column="3">
+         <item row="3" column="1">
+          <layout class="QVBoxLayout" name="vl_15">
+           <item>
+            <widget class="QPushButton" name="pbConfigurator_2">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>18</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../resources/VMTDResources.qrc">
+               <normaloff>:/icons/icons/Configurator.svg</normaloff>:/icons/icons/Configurator.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>70</width>
+               <height>70</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="_19">
+             <property name="text">
+              <string>Configurator</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="3" column="3">
           <layout class="QVBoxLayout" name="vl_7">
            <item>
             <widget class="QPushButton" name="pbExit_2">
@@ -468,6 +564,54 @@
             <widget class="QLabel" name="_9">
              <property name="text">
               <string>Exit</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="2" column="3">
+          <layout class="QVBoxLayout" name="vl_16">
+           <item>
+            <widget class="QPushButton" name="pbClientProtocol_2">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>100</width>
+               <height>100</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>18</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+             <property name="icon">
+              <iconset resource="../resources/VMTDResources.qrc">
+               <normaloff>:/icons/icons/Node-protocol.svg</normaloff>:/icons/icons/Node-protocol.svg</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>80</width>
+               <height>80</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="_20">
+             <property name="text">
+              <string>Client Protocol</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -545,7 +689,7 @@
          <item row="0" column="0">
           <layout class="QVBoxLayout" name="vl_1">
            <item>
-            <widget class="QPushButton" name="pbProtocol_1">
+            <widget class="QPushButton" name="pbClientProtocol_1">
              <property name="minimumSize">
               <size>
                <width>100</width>
@@ -581,7 +725,7 @@
            <item>
             <widget class="QLabel" name="_5">
              <property name="text">
-              <string>Protocol</string>
+              <string>Client Protocol</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -593,7 +737,7 @@
          <item row="0" column="1">
           <layout class="QVBoxLayout" name="vl_4">
            <item>
-            <widget class="QPushButton" name="pbNodeClient">
+            <widget class="QPushButton" name="pbNodeClient_1">
              <property name="minimumSize">
               <size>
                <width>100</width>
@@ -641,7 +785,7 @@
          <item row="0" column="2">
           <layout class="QVBoxLayout" name="vl_2">
            <item>
-            <widget class="QPushButton" name="pbConfigurator">
+            <widget class="QPushButton" name="pbConfigurator_1">
              <property name="minimumSize">
               <size>
                <width>100</width>
@@ -686,7 +830,7 @@
            </item>
           </layout>
          </item>
-         <item row="1" column="0">
+         <item row="1" column="3">
           <layout class="QVBoxLayout" name="vl_13">
            <item>
             <widget class="QPushButton" name="pbExit_1">

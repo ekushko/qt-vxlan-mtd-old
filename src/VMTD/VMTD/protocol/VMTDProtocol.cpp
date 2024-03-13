@@ -69,6 +69,10 @@ namespace VMTDLib
                 this, &VMTDProtocol::socketDisconnectedSlot);
     }
 
+    VMTDNodeProtocolHandler *VMTDProtocol::clientNodeHandler() const
+    {
+        return m_nodeHandler;
+    }
     QList<VMTDNxApiProtocolHandler *> VMTDProtocol::nxApiHandlers() const
     {
         return m_nxApiHandlers.values();
@@ -170,7 +174,7 @@ namespace VMTDLib
         }
 
         const auto peerAddress = QHostAddress(socket->peerAddress().toIPv4Address()).toString();
-        auto handler = new VMTDNodeProtocolHandler(this, m_settings,
+        auto handler = new VMTDNodeProtocolHandler(this, m_settings, VMTDProtocolHandler::EnSide::SERVER,
                                                    m_deviceManager->nodeDevice(peerAddress),
                                                    socket);
         m_nodeHandlers[socket] = handler;
@@ -222,10 +226,9 @@ namespace VMTDLib
 
         m_socket = socket;
 
-        m_nodeHandler = new VMTDNodeProtocolHandler(this, m_settings,
+        m_nodeHandler = new VMTDNodeProtocolHandler(this, m_settings, VMTDProtocolHandler::EnSide::CLIENT,
                                                     m_deviceManager->nodeDevice(m_settings->serverIp()),
                                                     m_socket);
-        m_handlers[m_nodeHandler->id()] = m_nodeHandler;
 
         connect(m_nodeHandler, &VMTDNodeProtocolHandler::sendMessageSignal,
                 m_nodeClient, &VMTDNodeClient::sendDataSlot);
@@ -251,7 +254,6 @@ namespace VMTDLib
 
         m_socket = nullptr;
 
-        m_handlers.remove(m_nodeHandler->id());
         delete m_nodeHandler;
 
         m_settings->debugOut(VN_S(VMTDProtocol) + " | Node handler removed!");

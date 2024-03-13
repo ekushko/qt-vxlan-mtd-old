@@ -16,7 +16,9 @@ namespace VMTDLib
 
         enum class EnType;
 
-        VMTDProtocolHandler(QObject *parent, VMTDSettings *settings, EnType type);
+        enum class EnSide;
+
+        VMTDProtocolHandler(QObject *parent, VMTDSettings *settings, EnType type, EnSide side);
 
         // КОНСТАНТЫ
 
@@ -26,6 +28,13 @@ namespace VMTDLib
             NODE
         };
         Q_ENUM(EnType)
+
+        enum class EnSide
+        {
+            SERVER,
+            CLIENT
+        };
+        Q_ENUM(EnSide)
 
         enum class EnQueueState
         {
@@ -50,6 +59,8 @@ namespace VMTDLib
 
         EnType type() const;
 
+        EnSide side() const;
+
         virtual QString name() const = 0;
 
         virtual int queueLength() const = 0;
@@ -73,6 +84,8 @@ namespace VMTDLib
         int m_id;
 
         EnType m_type;
+
+        EnSide m_side;
 
         EnQueueState m_queueState;
 

@@ -5,10 +5,11 @@
 
 namespace VMTDLib
 {
-    VMTDNodeProtocolHandler::VMTDNodeProtocolHandler(QObject *parent, VMTDSettings *settings,
+    VMTDNodeProtocolHandler::VMTDNodeProtocolHandler(QObject *parent,
+                                                     VMTDSettings *settings, EnSide side,
                                                      VMTDNodeDevice *device,
                                                      QWebSocket *socket)
-        : VMTDProtocolHandler(parent, settings, EnType::NODE)
+        : VMTDProtocolHandler(parent, settings, EnType::NODE, side)
         , m_device(device)
         , m_socket(socket)
     {
@@ -141,7 +142,7 @@ namespace VMTDLib
 
         if (parseError.error != QJsonParseError::NoError)
         {
-            if (m_settings->nodeType() == VMTDNodeType::CLIENT)
+            if (m_side == EnSide::CLIENT)
             {
                 const auto debugText = QString("Parsing request error (%1): %2\n")
                                        .arg(parseError.error)
@@ -156,7 +157,7 @@ namespace VMTDLib
                                                (int)EnError::PARSE_ERROR,
                                                enErrorToS(EnError::PARSE_ERROR)));
             }
-            else if (m_settings->nodeType() == VMTDNodeType::SERVER)
+            else if (m_side == EnSide::SERVER)
             {
                 const auto debugText = QString("Parsing response error: %1\n").arg(parseError.errorString());
                 emit showDebugSignal(QTime::currentTime(), debugText);
@@ -168,7 +169,7 @@ namespace VMTDLib
         }
         else
         {
-            if (m_settings->nodeType() == VMTDNodeType::CLIENT)
+            if (m_side == EnSide::CLIENT)
             {
                 const auto debugText = QString("Request received:\n")
                                        + inputDoc.toJson(QJsonDocument::JsonFormat::Indented);
@@ -178,7 +179,7 @@ namespace VMTDLib
                                      .arg(name())
                                      .arg(debugText));
             }
-            else if (m_settings->nodeType() == VMTDNodeType::SERVER)
+            else if (m_side == EnSide::SERVER)
             {
                 const auto debugText = QString("Response received:\n")
                                        + inputDoc.toJson(QJsonDocument::JsonFormat::Indented);
@@ -191,7 +192,7 @@ namespace VMTDLib
 
             if (inputDoc.isObject())
             {
-                if (m_settings->nodeType() == VMTDNodeType::CLIENT)
+                if (m_side == EnSide::CLIENT)
                 {
                     QJsonObject jsonObj;
 
@@ -200,7 +201,7 @@ namespace VMTDLib
                     if (!jsonObj.isEmpty())
                         outputDoc.setObject(jsonObj);
                 }
-                else if (m_settings->nodeType() == VMTDNodeType::SERVER)
+                else if (m_side == EnSide::SERVER)
                 {
                     handleServer(inputDoc.object());
                 }
@@ -214,25 +215,25 @@ namespace VMTDLib
                 {
                     QJsonObject jsonObj;
 
-                    if (m_settings->nodeType() == VMTDNodeType::CLIENT)
+                    if (m_side == EnSide::CLIENT)
                     {
                         handleClient(inputDoc.array().at(i).toObject(), jsonObj);
 
                         if (!jsonObj.isEmpty())
                             jsonArr.append(jsonObj);
                     }
-                    else if (m_settings->nodeType() == VMTDNodeType::SERVER)
+                    else if (m_side == EnSide::SERVER)
                     {
                         handleServer(inputDoc.array().at(i).toObject());
                     }
                 }
 
-                if (m_settings->nodeType() == VMTDNodeType::CLIENT && !jsonArr.isEmpty())
+                if (m_side == EnSide::CLIENT && !jsonArr.isEmpty())
                     outputDoc.setArray(jsonArr);
             }
         }
 
-        if (m_settings->nodeType() == VMTDNodeType::CLIENT && !outputDoc.isEmpty())
+        if (m_side == EnSide::CLIENT && !outputDoc.isEmpty())
         {
             emit sendMessageSignal(socket, outputDoc.toJson(QJsonDocument::JsonFormat::Indented));
 

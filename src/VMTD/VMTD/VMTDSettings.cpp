@@ -44,6 +44,10 @@ namespace VMTDLib
         // параметры движителя
 
         m_shouldCheckOnline = false;
+        m_netplan1FilePath = QString("%1etc%1netplan%102-vmtd-1.yaml")
+                             .arg(QDir::separator());
+        m_netplan2FilePath = QString("%1etc%1netplan%103-vmtd-2.yaml")
+                             .arg(QDir::separator());
 
         // прочее
 
@@ -446,6 +450,24 @@ namespace VMTDLib
     void VMTDSettings::setShouldCheckOnline(bool shouldCheckOnline)
     {
         m_shouldCheckOnline = shouldCheckOnline;
+    }
+
+    QString VMTDSettings::netplan1FilePath() const
+    {
+        return m_netplan1FilePath;
+    }
+    void VMTDSettings::setNetplan1FilePath(const QString &netplan1FilePath)
+    {
+        m_netplan1FilePath = netplan1FilePath;
+    }
+
+    QString VMTDSettings::netplan2FilePath() const
+    {
+        return m_netplan2FilePath;
+    }
+    void VMTDSettings::setNetplan2FilePath(const QString &netplan2FilePath)
+    {
+        m_netplan2FilePath = netplan2FilePath;
     }
 
 

@@ -28,6 +28,7 @@ namespace VMTDLib
 
         void setNodeClient(VMTDNodeClient *nodeClient);
 
+        VMTDNodeProtocolHandler *clientNodeHandler() const;
         QList<VMTDNxApiProtocolHandler *> nxApiHandlers() const;
         QList<VMTDNodeProtocolHandler *> nodeHandlers() const;
         QList<VMTDProtocolHandler *> handlers() const;

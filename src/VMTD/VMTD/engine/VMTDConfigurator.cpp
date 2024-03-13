@@ -35,17 +35,13 @@ namespace VMTDLib
         return m_settings;
     }
 
-    const QString &VMTDConfigurator::interface1() const
+    const QString &VMTDConfigurator::netplan1() const
     {
         return m_netplan1;
     }
-    const QString &VMTDConfigurator::interface2() const
+    const QString &VMTDConfigurator::netplan2() const
     {
         return m_netplan2;
-    }
-    const QString &VMTDConfigurator::routes() const
-    {
-        return m_routes;
     }
     const QString &VMTDConfigurator::hosts() const
     {

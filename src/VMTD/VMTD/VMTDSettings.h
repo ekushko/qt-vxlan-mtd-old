@@ -114,6 +114,12 @@ namespace VMTDLib
         bool    shouldCheckOnline() const;
         void setShouldCheckOnline(bool shouldCheckOnline);
 
+        QString netplan1FilePath() const;
+        void setNetplan1FilePath(const QString &netplan1FilePath);
+
+        QString netplan2FilePath() const;
+        void setNetplan2FilePath(const QString &netplan2FilePath);
+
         // УСТРОЙСТВА
 
         QJsonObject deviceManagerObj() const;
@@ -164,6 +170,8 @@ namespace VMTDLib
         int m_checkQueueInterval;
 
         bool m_shouldCheckOnline;
+        QString m_netplan1FilePath;
+        QString m_netplan2FilePath;
 
         QJsonObject m_deviceManagerObj;
         QJsonObject m_connectionManagerObj;

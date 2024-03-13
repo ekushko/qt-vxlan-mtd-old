@@ -8,7 +8,7 @@ namespace VMTDLib
     VMTDNxApiProtocolHandler::VMTDNxApiProtocolHandler(QObject *parent, VMTDSettings *settings,
                                                        VMTDNxApiDevice *device,
                                                        VMTDNxApiAdapter *adapter)
-        : VMTDProtocolHandler(parent, settings, EnType::NX_API)
+        : VMTDProtocolHandler(parent, settings, EnType::NX_API, EnSide::SERVER)
         , m_device(device)
         , m_adapter(adapter)
     {

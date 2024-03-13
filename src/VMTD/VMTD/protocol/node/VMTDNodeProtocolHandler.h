@@ -17,7 +17,8 @@ namespace VMTDLib
 
     public:
 
-        VMTDNodeProtocolHandler(QObject *parent, VMTDSettings *settings,
+        VMTDNodeProtocolHandler(QObject *parent,
+                                VMTDSettings *settings, EnSide side,
                                 VMTDNodeDevice *device,
                                 QWebSocket *socket);
         ~VMTDNodeProtocolHandler();

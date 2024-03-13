@@ -19,9 +19,8 @@ namespace VMTDLib
 
         VMTDSettings *settings() const;
 
-        const QString &interface1() const;
-        const QString &interface2() const;
-        const QString &routes() const;
+        const QString &netplan1() const;
+        const QString &netplan2() const;
         const QString &hosts() const;
 
     public slots:
@@ -34,9 +33,6 @@ namespace VMTDLib
 
         bool handleSetupInterface1(const QJsonObject &params);
         bool handleSetupInterface2(const QJsonObject &params);
-        bool handleSetupInterface1Vlan(const QJsonObject &params);
-        bool handleSetupInterface2Vlan(const QJsonObject &params);
-        bool handleSetupRoutes(const QJsonObject &params);
         bool handleSetupHosts(const QJsonObject &params);
 
         bool handleClearInterface1(const QJsonObject &params);
@@ -52,7 +48,6 @@ namespace VMTDLib
 
         QString m_netplan1;
         QString m_netplan2;
-        QString m_routes;
         QString m_hosts;
     };
 }

@@ -48,9 +48,8 @@ namespace VMTDLib
 
     void VMTDConfiguratorForm::updateView()
     {
-        ui->lbInterface1->setText(m_configurator->interface1());
-        ui->lbInterface2->setText(m_configurator->interface2());
-        ui->lbRoutes->setText(m_configurator->routes());
+        ui->lbNetplan1->setText(m_configurator->netplan1());
+        ui->lbNetplan2->setText(m_configurator->netplan2());
         ui->lbHosts->setText(m_configurator->hosts());
     }
 

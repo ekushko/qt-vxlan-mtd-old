@@ -2,10 +2,12 @@
 
 namespace VMTDLib
 {
-    VMTDProtocolHandler::VMTDProtocolHandler(QObject *parent, VMTDSettings *settings, EnType type)
+    VMTDProtocolHandler::VMTDProtocolHandler(QObject *parent, VMTDSettings *settings,
+                                             EnType type, EnSide side)
         : QObject(parent)
         , m_settings(settings)
         , m_type(type)
+        , m_side(side)
     {
         m_id = m_settings->generateId();
 
@@ -16,7 +18,7 @@ namespace VMTDLib
         connect(&m_checkQueueTimer, &QTimer::timeout,
                 this, &VMTDProtocolHandler::checkQueueTimerSlot);
 
-        if (m_settings->nodeType() == VMTDNodeType::SERVER)
+        if (m_side == EnSide::SERVER)
             m_checkQueueTimer.start();
 
         m_ticketTimeoutTimer.setParent(this);
@@ -44,6 +46,11 @@ namespace VMTDLib
     VMTDProtocolHandler::EnType VMTDProtocolHandler::type() const
     {
         return m_type;
+    }
+
+    VMTDProtocolHandler::EnSide VMTDProtocolHandler::side() const
+    {
+        return m_side;
     }
 
     void VMTDProtocolHandler::checkConnectionSlot()
