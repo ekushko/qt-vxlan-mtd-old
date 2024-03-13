@@ -50,6 +50,8 @@ qmake VMTD.pro && make
 
 cp -R bin/VMTD ../
 
+chown -R eve:eve ../VMTD
+
 # Установка DAQ
 
 echo -e "\n\n-----------INSTALL DAQ-------------\n\n"
