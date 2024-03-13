@@ -21,7 +21,7 @@ apt-get update && apt-get upgrade -y
 
 echo -e "\n\n------------SSH ENABLE-------------\n\n"
 
-apt-get install -y ssh
+apt-get install -y ssh sshpass
 
 ufw allow ssh
 
