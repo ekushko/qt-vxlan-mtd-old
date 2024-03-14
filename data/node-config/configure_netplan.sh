@@ -31,10 +31,10 @@ network:
         - to: default
           via: 192.168.1.1
   vlans:
-    vlan.2:
-      id: 2
+    vlan.19:
+      id: 19
       link: ens3
-      addresses: [ "100.100.2.$node_index/24" ]
+      addresses: [ "100.100.19.$node_index/24" ]
 EOT
 
 netplan apply
