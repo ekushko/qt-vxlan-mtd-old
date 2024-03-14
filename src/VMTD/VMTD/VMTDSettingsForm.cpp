@@ -78,6 +78,8 @@ namespace VMTDLib
         ui->chbShouldCheckOnline->setChecked(m_settings->shouldCheckOnline());
         ui->leNetplan1FilePath->setText(m_settings->netplan1FilePath());
         ui->leNetplan2FilePath->setText(m_settings->netplan2FilePath());
+        ui->sbMinVlanId->setValue(m_settings->minVlanId());
+        ui->sbMaxVlanId->setValue(m_settings->maxVlanId());
     }
 
     void VMTDSettingsForm::updateData()
@@ -103,6 +105,8 @@ namespace VMTDLib
         m_settings->setShouldCheckOnline(ui->chbShouldCheckOnline->isChecked());
         m_settings->setNetplan1FilePath(ui->leNetplan1FilePath->text());
         m_settings->setNetplan2FilePath(ui->leNetplan2FilePath->text());
+        m_settings->setMinVlanId(ui->sbMinVlanId->value());
+        m_settings->setMaxVlanId(ui->sbMaxVlanId->value());
     }
 
     void VMTDSettingsForm::pbSaveClicked()

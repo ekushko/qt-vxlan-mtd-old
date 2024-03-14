@@ -199,7 +199,7 @@ namespace VMTDLib
 
             // vlan id
 
-            const int minVlanId = 2, maxVlanId = 1000;
+            const int minVlanId = m_settings->minVlanId(), maxVlanId = m_settings->maxVlanId();
 
             int vlanId = 0;
 

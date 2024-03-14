@@ -120,6 +120,12 @@ namespace VMTDLib
         QString netplan2FilePath() const;
         void setNetplan2FilePath(const QString &netplan2FilePath);
 
+        int     minVlanId() const;
+        void setMinVlanId(int minVlanId);
+
+        int     maxVlanId() const;
+        void setMaxVlanId(int maxVlanId);
+
         // УСТРОЙСТВА
 
         QJsonObject deviceManagerObj() const;
@@ -172,6 +178,8 @@ namespace VMTDLib
         bool m_shouldCheckOnline;
         QString m_netplan1FilePath;
         QString m_netplan2FilePath;
+        int m_minVlanId;
+        int m_maxVlanId;
 
         QJsonObject m_deviceManagerObj;
         QJsonObject m_connectionManagerObj;

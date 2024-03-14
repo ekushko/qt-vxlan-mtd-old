@@ -48,6 +48,8 @@ namespace VMTDLib
                              .arg(QDir::separator());
         m_netplan2FilePath = QString("%1etc%1netplan%103-vmtd-2.yaml")
                              .arg(QDir::separator());
+        m_minVlanId = 20;
+        m_maxVlanId = 50;
 
         // прочее
 
@@ -152,6 +154,10 @@ namespace VMTDLib
         // параметры движителя
 
         jsonObj[VN_ME(m_shouldCheckOnline)] = m_shouldCheckOnline;
+        jsonObj[VN_ME(m_netplan1FilePath)] = m_netplan1FilePath;
+        jsonObj[VN_ME(m_netplan2FilePath)] = m_netplan2FilePath;
+        jsonObj[VN_ME(m_minVlanId)] = m_minVlanId;
+        jsonObj[VN_ME(m_maxVlanId)] = m_maxVlanId;
 
         // устройства
 
@@ -207,6 +213,10 @@ namespace VMTDLib
         // параметры движителя
 
         m_shouldCheckOnline = jsonObj[VN_ME(m_shouldCheckOnline)].toBool(m_shouldCheckOnline);
+        m_netplan1FilePath = jsonObj[VN_ME(m_netplan1FilePath)].toString(m_netplan1FilePath);
+        m_netplan2FilePath = jsonObj[VN_ME(m_netplan2FilePath)].toString(m_netplan2FilePath);
+        m_minVlanId = jsonObj[VN_ME(m_minVlanId)].toInt(m_minVlanId);
+        m_maxVlanId = jsonObj[VN_ME(m_maxVlanId)].toInt(m_maxVlanId);
 
         // устройства
 
@@ -468,6 +478,24 @@ namespace VMTDLib
     void VMTDSettings::setNetplan2FilePath(const QString &netplan2FilePath)
     {
         m_netplan2FilePath = netplan2FilePath;
+    }
+
+    int VMTDSettings::minVlanId() const
+    {
+        return m_minVlanId;
+    }
+    void VMTDSettings::setMinVlanId(int minVlanId)
+    {
+        m_minVlanId = minVlanId;
+    }
+
+    int VMTDSettings::maxVlanId() const
+    {
+        return m_maxVlanId;
+    }
+    void VMTDSettings::setMaxVlanId(int maxVlanId)
+    {
+        m_maxVlanId = maxVlanId;
     }
 
 

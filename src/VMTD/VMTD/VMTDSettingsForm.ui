@@ -274,6 +274,40 @@
                    <property name="bottomMargin">
                     <number>6</number>
                    </property>
+                   <item row="5" column="0">
+                    <spacer name="_20">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>20</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                   <item row="0" column="0" colspan="2">
+                    <widget class="QCheckBox" name="chbShouldCheckOnline">
+                     <property name="text">
+                      <string>Should check online</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QLabel" name="_22">
+                     <property name="text">
+                      <string>Netplan 2:</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="3" column="0">
+                    <widget class="QLabel" name="_23">
+                     <property name="text">
+                      <string>Min VLAN ID:</string>
+                     </property>
+                    </widget>
+                   </item>
                    <item row="1" column="0">
                     <widget class="QLabel" name="_21">
                      <property name="minimumSize">
@@ -287,38 +321,38 @@
                      </property>
                     </widget>
                    </item>
-                   <item row="0" column="0" colspan="2">
-                    <widget class="QCheckBox" name="chbShouldCheckOnline">
-                     <property name="text">
-                      <string>Should check online</string>
+                   <item row="2" column="1">
+                    <widget class="QLineEdit" name="leNetplan2FilePath"/>
+                   </item>
+                   <item row="3" column="1">
+                    <widget class="QSpinBox" name="sbMinVlanId">
+                     <property name="minimum">
+                      <number>16</number>
+                     </property>
+                     <property name="maximum">
+                      <number>4096</number>
                      </property>
                     </widget>
-                   </item>
-                   <item row="3" column="0">
-                    <spacer name="_20">
-                     <property name="orientation">
-                      <enum>Qt::Vertical</enum>
-                     </property>
-                     <property name="sizeHint" stdset="0">
-                      <size>
-                       <width>20</width>
-                       <height>40</height>
-                      </size>
-                     </property>
-                    </spacer>
                    </item>
                    <item row="1" column="1">
                     <widget class="QLineEdit" name="leNetplan1FilePath"/>
                    </item>
-                   <item row="2" column="0">
-                    <widget class="QLabel" name="_22">
+                   <item row="4" column="0">
+                    <widget class="QLabel" name="_24">
                      <property name="text">
-                      <string>Netplan 2:</string>
+                      <string>Max VLAN ID:</string>
                      </property>
                     </widget>
                    </item>
-                   <item row="2" column="1">
-                    <widget class="QLineEdit" name="leNetplan2FilePath"/>
+                   <item row="4" column="1">
+                    <widget class="QSpinBox" name="sbMaxVlanId">
+                     <property name="minimum">
+                      <number>16</number>
+                     </property>
+                     <property name="maximum">
+                      <number>4096</number>
+                     </property>
+                    </widget>
                    </item>
                   </layout>
                  </widget>
